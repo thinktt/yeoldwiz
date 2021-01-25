@@ -1,7 +1,8 @@
-const spawn = require('child_process').spawn;
 const exec = require('child_process').exec
-// const child = exec('C:/Users/Toby/code/yeoldwiz/InBetween.exe')
-const child = spawn('C:/Users/Toby/code/yeoldwiz/TheKing350noOpk.exe');
+const child = exec('C:/Users/Toby/code/yeoldwiz/InBetween.exe')
+child.stdout.on('data', (data) => {
+  process.stdout.write(`${data}`);
+});
 
 child.stdin.write('xboard\n')
 child.stdin.write('post\n')
@@ -16,28 +17,47 @@ child.stdin.write('cm_parm opcc=162 opmob=175 opks=93 oppp=137 oppw=100\n')
 child.stdin.write('cm_parm cfd=300 sop=30 avd=-45 rnd=12 sel=6 md=99\n')
 child.stdin.write('cm_parm tts=16777216\n')
 
-// to set a start position
-// child.stdin.write('setboard r3k3/ppppp3/8/8/8/8/PPPPP3/R3K3 b Qq - 0 1\n')
+//get's engine to move in about 10 seconds
+child.stdin.write('time 40000\n')
+child.stdin.write('otim 40000\n')
 
-child.stdin.write('hard\n')
+// don't ponder (for now) prepare to take move list
+child.stdin.write('easy\n')
 child.stdin.write('force\n')
-child.stdin.write('e2e4\n')
-// child.stdin.write('go\n')
 
 
-child.stdout.on('data', (data) => {
-  process.stdout.write(`${data}`);
-});
+const moves = [
+  'e2e3', 'd7d5', 'f2f3', 'c7c5', 'f1a6',
+  'b7a6', 'd1e2', 'c8f5', 'g1h3', 'f5d3',
+  'g2g4', 'd3e2', 'c2c4', 'e2c4', 'h3g1',
+  'd8d6', 'e3e4', 'd5e4', 'g4g5', 'e4f3',
+  'e1f2', 'h7h5', 'g1e2', 'h5h4', 'h1f1',
+  'd6d4', 'e2d4', 'c5d4', 'f2f3', 'c4f1',
+  'b1c3', 'd4c3', 'b2b3', 'c3c2', 'f3f4',
+  'e7e5', 'f4e4', 'f8c5', 'g5g6', 'f7g6',
+  'e4f3', 'g8f6', 'a2a3', 'h4h3', 'a1b1',
+  'h8h5', 'b1a1', 'h5f5', 'f3g3', 'f6h5',
+  'g3h4', 'g6g5', 'h4g4', 'f1e2', 'g4h3',
+  'h5f4'
+]
+
+for (const move of moves) {
+  child.stdin.write(`${move}\n`)
+}
+child.stdin.write('go\n')
+child.stdin.write('quit\n') 
 
 
-child.stderr.on('data', (data) => {
-  console.log(`err: ${data}`);
-});
 
 
 
-
-
+// const child = spawn('C:/Users/Toby/code/yeoldwiz/TheKing350noOpk.exe')
+// child.stdout.on('data', (data) => {
+//   process.stdout.write(`${data}`);
+// });
+// child.stderr.on('data', (data) => {
+//   console.log(`err: ${data}`);
+// });
 
 
 
@@ -47,15 +67,6 @@ child.stderr.on('data', (data) => {
 
 // child.stdin.setEncoding('utf-8');
 // child.stdout.pipe(process.stdout);
-
-
-
-
-
-
-
-
-
 
 // child.on('close', function (code) {
 //     console.log('process exit code ' + code);
