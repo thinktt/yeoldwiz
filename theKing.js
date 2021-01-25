@@ -1,7 +1,12 @@
-const exec = require('child_process').exec
-const child = exec('C:/Users/Toby/code/yeoldwiz/InBetween.exe')
+const { exec } = require('child_process')
+// const cmd = 'C:/Users/Toby/code/yeoldwiz/InBetween.exe'
+const cmd = 'C:/Users/Toby/code/yeoldwiz/TheKing350noOpk.exe'
+const child = exec(cmd)
 child.stdout.on('data', (data) => {
-  process.stdout.write(`${data}`);
+  if (data.toString().includes('move')) {
+    process.stdout.write(`${data}`);
+    child.stdin.write('quit\n')
+  }
 });
 
 child.stdin.write('xboard\n')
@@ -29,23 +34,14 @@ child.stdin.write('force\n')
 const moves = [
   'e2e3', 'd7d5', 'f2f3', 'c7c5', 'f1a6',
   'b7a6', 'd1e2', 'c8f5', 'g1h3', 'f5d3',
-  'g2g4', 'd3e2', 'c2c4', 'e2c4', 'h3g1',
-  'd8d6', 'e3e4', 'd5e4', 'g4g5', 'e4f3',
-  'e1f2', 'h7h5', 'g1e2', 'h5h4', 'h1f1',
-  'd6d4', 'e2d4', 'c5d4', 'f2f3', 'c4f1',
-  'b1c3', 'd4c3', 'b2b3', 'c3c2', 'f3f4',
-  'e7e5', 'f4e4', 'f8c5', 'g5g6', 'f7g6',
-  'e4f3', 'g8f6', 'a2a3', 'h4h3', 'a1b1',
-  'h8h5', 'b1a1', 'h5f5', 'f3g3', 'f6h5',
-  'g3h4', 'g6g5', 'h4g4', 'f1e2', 'g4h3',
-  'h5f4'
+  'g2g4', 'd3e2', 'c2c4', 'e2c4', 'h3g1'
 ]
 
 for (const move of moves) {
   child.stdin.write(`${move}\n`)
 }
 child.stdin.write('go\n')
-child.stdin.write('quit\n') 
+// child.stdin.write('quit\n') 
 
 
 
