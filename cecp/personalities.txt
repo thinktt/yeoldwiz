@@ -1,0 +1,54 @@
+// start settings
+xboard
+post
+new
+level 0 6:40 0
+
+// after personality settings (no idea why CM does 2 forces)
+force 
+force 
+
+Josh 6
+cm_parm default
+cm_parm opp=78 opn=78 opb=91 opr=85 opq=87
+cm_parm myp=78 myn=78 myb=91 myr=85 myq=87
+cm_parm mycc=177 mymob=204 myks=81 mypp=150 mypw=95
+cm_parm opcc=177 opmob=204 opks=81 oppp=150 oppw=95
+cm_parm cfd=300 sop=26 avd=-50 rnd=15 sel=6 md=99
+cm_parm tts=16777216
+hard
+
+force
+force
+e2e3
+
+Josh 7
+cm_parm default
+cm_parm opp=83 opn=83 opb=94 opr=88 opq=92
+cm_parm myp=83 myn=83 myb=94 myr=88 myq=92
+cm_parm mycc=162 mymob=175 myks=93 mypp=137 mypw=100
+cm_parm opcc=162 opmob=175 opks=93 oppp=137 oppw=100
+cm_parm cfd=300 sop=30 avd=-45 rnd=12 sel=6 md=99
+cm_parm tts=16777216
+hard
+
+
+Raj
+cm_parm default
+cm_parm opp=50 opn=41 opb=41 opr=50 opq=55
+cm_parm myp=31 myn=20 myb=20 myr=37 myq=48
+cm_parm mycc=150 mymob=14 myks=75 mypp=292 mypw=200
+cm_parm opcc=150 opmob=14 opks=75 oppp=292 oppw=200
+cm_parm cfd=50 sop=22 avd=0 rnd=0 sel=6 md=99
+cm_parm tts=16777216
+easy
+
+force
+force
+
+
+hard
+force
+setboard 8/5K2/8/8/8/2k5/1p6/8 w - - 0 1
+white
+go
