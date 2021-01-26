@@ -81,8 +81,8 @@ async function getEgnineMove(moves, turn) {
     console.log('engine moving a white')
     child.stdin.write('white\n')
   } else {
-    console.log('engine moving a white')
-    child.stdin.write('white\n')
+    console.log('engine moving a black')
+    child.stdin.write('black\n')
   }
   
   child.stdin.write('go\n')
