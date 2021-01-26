@@ -1,19 +1,22 @@
 const ChessUtils = require("./bot-o-tron/src/utils/ChessUtils")
-const spawn = require('child_process').spawn
+const { exec } = require('child_process')
+const { resolveTxt } = require("dns")
+const chalk = require('chalk')
 
 
-/**
- * Pick a random legal move.
- */
 class WizBot {
 
-  getNextMove(moves) {
-    console.log(moves)
+  async getNextMove(moves) {
+    // console.log(moves)
     const chess = new ChessUtils()
     chess.applyMoves(moves)
     const legalMoves = chess.legalMoves()
     if (legalMoves.length) {
-      return chess.pickRandomMove(legalMoves)
+      const engineMove = await getEgnineMove(moves, chess.turn())
+      const randomMove = chess.pickRandomMove(legalMoves)
+      console.log(`engineMove: ${engineMove}`)
+      console.log(`randomMove: ${randomMove}`)
+      return engineMove
     }
   }
 
@@ -24,19 +27,35 @@ class WizBot {
 }
 
 // Start and engine running as Josh 7
-function getMove(currentMoves) {
-  const child = spawn('C:/Users/Toby/code/yeoldwiz/TheKing350noOpk.exe')
-  child.stdout.on('data', (data) => {
-    process.stdout.write(`${data}`)
-  })
-  child.stderr.on('data', (data) => {
-    console.log(`err: ${data}`)
-  })
+async function getEgnineMove(moves, turn) {
+  
+  // const cmd = 'C:/Users/Toby/code/yeoldwiz/InBetween.exe'
+  const cmd = 'C:/Users/Toby/code/yeoldwiz/TheKing350noOpk.exe'
+  const child = exec(cmd)
 
+
+  child.on('close', function (code) {
+      console.log('egine exited ' + code);
+  });
+ 
+  const movePromise = new Promise(resolve => {
+    child.stdout.on('data', (data) => {
+      process.stdout.write(chalk.red(data.toString()))
+      if (data.toString().includes('move')) {
+        child.stdin.write('quit\n')
+        const move = data.toString().match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
+        resolve(move)
+      }
+    });
+  })
+  
   child.stdin.write('xboard\n')
   child.stdin.write('post\n')
   child.stdin.write('new\n')
-
+  child.stdin.write('level 0 6:40 0\n')
+  child.stdin.write('cm_parm opk=357730\n')
+  
+  
   // Josh 7
   child.stdin.write('cm_parm default\n')
   child.stdin.write('cm_parm opp=83 opn=83 opb=94 opr=88 opq=92\n')
@@ -45,17 +64,35 @@ function getMove(currentMoves) {
   child.stdin.write('cm_parm opcc=162 opmob=175 opks=93 oppp=137 oppw=100\n')
   child.stdin.write('cm_parm cfd=300 sop=30 avd=-45 rnd=12 sel=6 md=99\n')
   child.stdin.write('cm_parm tts=16777216\n')
+  child.stdin.write('hard\n')
   
-  // don't ponder (for now) prepare to take move list
+  //get's engine to move in about 10 seconds
+  
+  //prepare to take move list
+  child.stdin.write('force\n')
+  
+  for (const move of moves) {
+    child.stdin.write(`${move}\n`)
+  }
+  
   child.stdin.write('time 40000\n')
   child.stdin.write('otim 40000\n')
-  child.stdin.write('easy\n')
-  child.stdin.write('force\n')
+  if (turn = 'w') {
+    console.log('engine moving a white')
+    child.stdin.write('white\n')
+  } else {
+    console.log('engine moving a white')
+    child.stdin.write('white\n')
+  }
+  
+  child.stdin.write('go\n')
 
-  return 
+  return movePromise
 }
 
 
-
+function isWhitesTurn(n) {
+  return n % 2 == 0;
+}
 
 module.exports = WizBot
