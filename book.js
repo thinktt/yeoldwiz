@@ -31,5 +31,5 @@ async function testMove() {
 }
 
 
-testMove()
-// module.exports getRandomBookMoveS
+// testMove()
+module.exports =  { getRandomBookMove }

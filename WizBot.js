@@ -2,6 +2,7 @@ const ChessUtils = require("./bot-o-tron/src/utils/ChessUtils")
 const { exec } = require('child_process')
 const { resolveTxt } = require("dns")
 const chalk = require('chalk')
+const book = require('./book')
 
 
 class WizBot {
@@ -11,13 +12,21 @@ class WizBot {
     const chess = new ChessUtils()
     chess.applyMoves(moves)
     const legalMoves = chess.legalMoves()
-    if (legalMoves.length) {
-      const engineMove = await getEgnineMove(moves, chess.turn())
-      // const randomMove = chess.pickRandomMove(legalMoves)
-      // console.log(`randomMove: ${randomMove}`)
-      console.log(`engineMove: ${engineMove}`)
-      return engineMove
+    
+    // if there are no legal moves then return
+    if (!legalMoves.length) {
+      return
     }
+
+    const bookMove = await book.getRandomBookMove(chess.fen())
+    if (bookMove != "") {
+      console.log(`bookMove: ${bookMove}`)
+      return bookMove
+    }
+    
+    const engineMove = await getEgnineMove(moves, chess.turn())
+    console.log(`engineMove: ${engineMove}`)
+    return engineMove
   }
 
   getReply(chat) {
@@ -79,7 +88,7 @@ async function getEgnineMove(moves, turn) {
   child.stdin.write('time 20000\n')
   child.stdin.write('otim 20000\n')
   if (turn = 'w') {
-    console.log('engine moving a white')
+    console.log('engine moving as white')
     child.stdin.write('white\n')
   } else {
     console.log('engine moving a black')
