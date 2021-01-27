@@ -13,9 +13,9 @@ class WizBot {
     const legalMoves = chess.legalMoves()
     if (legalMoves.length) {
       const engineMove = await getEgnineMove(moves, chess.turn())
-      const randomMove = chess.pickRandomMove(legalMoves)
+      // const randomMove = chess.pickRandomMove(legalMoves)
+      // console.log(`randomMove: ${randomMove}`)
       console.log(`engineMove: ${engineMove}`)
-      console.log(`randomMove: ${randomMove}`)
       return engineMove
     }
   }
@@ -52,7 +52,7 @@ async function getEgnineMove(moves, turn) {
   child.stdin.write('xboard\n')
   child.stdin.write('post\n')
   child.stdin.write('new\n')
-  child.stdin.write('level 0 6:40 0\n')
+  child.stdin.write('level 0 3:20 0\n')
   child.stdin.write('cm_parm opk=357730\n')
   
   
@@ -75,8 +75,8 @@ async function getEgnineMove(moves, turn) {
     child.stdin.write(`${move}\n`)
   }
   
-  child.stdin.write('time 40000\n')
-  child.stdin.write('otim 40000\n')
+  child.stdin.write('time 20000\n')
+  child.stdin.write('otim 20000\n')
   if (turn = 'w') {
     console.log('engine moving a white')
     child.stdin.write('white\n')
