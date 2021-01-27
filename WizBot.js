@@ -74,7 +74,7 @@ async function getEgnineMove(moves, turn) {
   child.stdin.write('cm_parm opcc=162 opmob=175 opks=93 oppp=137 oppw=100\n')
   child.stdin.write('cm_parm cfd=300 sop=30 avd=-45 rnd=12 sel=6 md=99\n')
   child.stdin.write('cm_parm tts=16777216\n')
-  child.stdin.write('hard\n')
+  child.stdin.write('easy\n')
   
   //get's engine to move in about 10 seconds
   

@@ -1,4 +1,4 @@
-const ChessTools = require('chess-tools')
+const ChessTools = require('./chess-tools/index.js')
 const OpeningBook = ChessTools.OpeningBooks.Polyglot
 
 async function getRandomBookMove(fen) {
