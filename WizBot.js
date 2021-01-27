@@ -30,7 +30,8 @@ class WizBot {
 async function getEgnineMove(moves, turn) {
   
   // const cmd = 'C:/Users/Toby/code/yeoldwiz/InBetween.exe'
-  const cmd = 'C:/Users/Toby/code/yeoldwiz/TheKing350noOpk.exe'
+  // const cmd = 'C:/Users/Toby/code/yeoldwiz/TheKing350noOpk.exe'
+  const cmd = '/mnt/c/Users/Toby/code/yeoldwiz-lnx/TheKing350noOpk.exe'
   const child = exec(cmd)
 
 

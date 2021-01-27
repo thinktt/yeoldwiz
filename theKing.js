@@ -1,6 +1,7 @@
-// const { exec } = require('child_process')
+const { exec } = require('child_process')
 // const cmd = 'C:/Users/Toby/code/yeoldwiz/InBetween.exe'
-const cmd = 'C:/Users/Toby/code/yeoldwiz/TheKing350noOpk.exe'
+// const cmd = 'C:/Users/Toby/code/yeoldwiz/TheKing350noOpk.exe'
+const cmd = '/mnt/c/Users/Toby/code/yeoldwiz-lnx/TheKing350noOpk.exe'
 const child = exec(cmd)
 child.stdout.on('data', (data) => {
   if (data.toString().includes('move')) {
