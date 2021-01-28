@@ -18,6 +18,7 @@ class WizBot {
       return
     }
 
+    // const bookMove = await book.getWeightFavoredBookMove(chess.fen())
     const bookMove = await book.getRandomBookMove(chess.fen())
     if (bookMove != "") {
       console.log(`bookMove: ${bookMove}`)
