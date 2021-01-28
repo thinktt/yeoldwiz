@@ -1,0 +1,20 @@
+e3 e3 f4 e4 c4 e3 d4 e3 e4 g3 d4 d4 Nf3 c4 d4 b3 d4 d4 e3 c4 d4 e3 b3 Nf3 d4 d4 d4 g3 d4 f4 e3 e3 f4 b3 e3 e3 Nf3 f4 Nf3 d4 b3 e3 b3 f4 Nf3 c4 d4 Nf3 e3 g3 Nf3 d4 d4 b3 e3 e3 d4 d4 e4 b3 Nf3 d4 d4 c4 d4 c4 Nf3 e3 e3 f4 e3 f4 e3 d4 f4 e3 b3 Nf3 d4 f4 d4 d4 g3 e4 b3 d4 b3 Nf3 Nf3 b3 b3 d4 g3 f4 e3 e3 d4 b3 c4 Nf3 
+
+d6 Nc6 b5 f5 e6 nc6 d6 b5 c6 nc6 e6 b6 b5 b6 c6 e6 g6 f5 c5 e6 c6 e6 c6 nc6 c6 c6 g6 nf6 c5 d5 c6 d5 c5 b5 nc6 d5 c6 d6 g6 c6 f5 nc6 g6 d5 c6 nc6 nc6 d6 f5 nf6 d5 nc6 d5 nc6 g6 g6 f5 c5 d5 c6 d5 nf6 d5 c6 nc6 c6 f5 nc6 nf6 b5 c6 c6 nc6 g6 c6 c5 d5 nf6 c5 g6 c6 c6 c6 c6 c5 f5 d5 c5 c5 nc6 e6 d6 c6 nf6 d5 c6 c6 nc6 nf6 e6 d5 g6 c6 e6 b5 e6 d6 nc6 e6 c6 d6 d5 c6 nc6 e6 g6 nc6 g6 c6 d5 f5 g6 c6 c5 c6 d5 g6 c6 d6 nc6 g6 b5 nc6 nc6 nf6 nc6 g6 
+
+c6 30
+
+g6 15
+e6 11
+nc6 22
+
+nf6 8
+nf8 8
+d6 8
+d5 16
+c5 10
+b5 7
+
+
+
+
