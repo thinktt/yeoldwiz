@@ -2,9 +2,11 @@ const { get } = require('http')
 const ChessTools = require('./chess-tools/index.js')
 const OpeningBook = ChessTools.OpeningBooks.Polyglot
 const chess = new require('chess.js').Chess()
+const fs = require("fs")
+
 
 // get's any random move from the book
-async function getRandomBookMove(fen) {
+async function getRandomMove(fen) {
   const bookMoves = await getAllBookMoves(fen)
   if (!bookMoves) return ""
   move = bookMoves[Math.floor(Math.random() * bookMoves.length)]._algebraic_move
@@ -12,7 +14,7 @@ async function getRandomBookMove(fen) {
 }
 
 // get's random book move favoring higher weights and ignoring zero weights
-async function getWeightFavoredBookMove(fen) {
+async function getHeavyMove(fen) {
   let bookMoves = await getAllBookMoves(fen)
   if (!bookMoves) return ""
 
@@ -53,11 +55,10 @@ function listBookMoves(moves, fen) {
   }
 }
 
-const book = new OpeningBook()
-const bookPath = process.cwd() + "/EarlyQueen.bin"
-const fs = require("fs")
 
 async function getAllBookMoves(fen) {
+  const book = new OpeningBook()
+  const bookPath = process.cwd() + "/EarlyQueen.bin"
   const movePromise = new Promise(resolve => {
     book.on("loaded", () => {
       console.log("book loaded")
@@ -72,4 +73,4 @@ async function getAllBookMoves(fen) {
 
 // testMove()
 
-module.exports =  { getRandomBookMove , getWeightFavoredBookMove}
+module.exports =  { getHeavyMove , getRandomMove}
