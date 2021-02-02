@@ -3,6 +3,7 @@ const LichessApi = require("./bot-o-tron/src/LichessApi");
 const RobotUser = require("./bot-o-tron/src/RobotUser");
 const WizBot = require("./WizBot");
 const RandomPlayer = require("./bot-o-tron/src/bots/RandomPlayer");
+const chalk = require('chalk')
 
 
 /**
@@ -22,55 +23,84 @@ const RandomPlayer = require("./bot-o-tron/src/bots/RandomPlayer");
 
 async function startBot(token, player) {
   if (token) {
-    const robot = new RobotUser(new LichessApi(token), player);
-
-    robot.handleChallenge = async (challenge) => {
-      console.log(challenge)
-      const validVariants = ['standard']
-      const validSpeeds = ['rapid', 'classical', 'correspondence',]
-      // const response = await api.declineChallenge(challenge.id);
-      // console.log("Declined", response.data || response);
-      
-      console.log(challenge.variant.key)
-      console.log( challenge.speed)
-      console.log('validVariant: ' + validVariants.includes(challenge.variant))
-      console.log('validSpeed:' + validSpeeds.includes(challenge.speed))
-
-     
-      if (validVariants.includes(challenge.variant.key) && validSpeeds.includes(challenge.speed)) {
-        console.log("Accepting unrated challenge from " + challenge.challenger.id);
-        const response = await robot.api.acceptChallenge(challenge.id);
-        console.log("Accepted", response.data || response);
-      } else {
-        console.log("Declining rated challenge from " + challenge.challenger.id);
-        const response = await robot.api.declineChallenge(challenge.id);
-        console.log("Declined", response.data || response);
-      }
+    let robot = new RobotUser(new LichessApi(token), player);
+    robot.handleChallenge = handleChallenge
+    // const username = (await robot.start()).data.username;
     
-    }
+    console.log(chalk.red(await isHealthy(robot)))
 
-    const username = (await robot.start()).data.username;
-    return `<a href="https://lichess.org/?user=${username}#friend">${username}</a> on lichess.</h1><br/>`;
+    // await new Promise(r => setTimeout(r, 5000))
+    // if (await isHealthy(robot)) {
+    //   console.log(chalk.yellow('Bot looks healthy'))
+    // } else {
+    //   console.log(chalk.yellow('Bot looks to be stuck'))
+    // }
+
   }
 }
 
-async function begin() {
-  var links = "<h1>Challenge:</h1><br/>";
+async function handleChallenge(challenge) {
+  // console.log(challenge)
+  const validVariants = ['standard']
+  const validSpeeds = ['rapid', 'classical', 'correspondence',]
+  // const response = await api.declineChallenge(challenge.id);
+  // console.log("Declined", response.data || response);
 
-  // links += await startBot(process.env.API_TOKEN, new WizBot());
-  links += await startBot(process.env.API_TOKEN, new RandomPlayer());
-  // links += await startBot(process.env.API_TOKEN_SWARM, new AntiPatzerPlayer());
-  // heroku wakeup server (not necessary otherwise)
-  const express = require("express");
-  const PORT = process.env.PORT || 5000;
+  console.log(challenge.variant.key)
+  console.log( challenge.speed)
+  console.log('validVariant: ' + validVariants.includes(challenge.variant))
+  console.log('validSpeed:' + validSpeeds.includes(challenge.speed))
 
-  const server = express()
-
-  server.get("/", (req, res) => {
-    res.send(links)
-  })
-    
-  server.listen(PORT, () => console.log(`Wake up server listening on ${PORT}`));
+  if (validVariants.includes(challenge.variant.key) && validSpeeds.includes(challenge.speed) && !challenge.rated) {
+    console.log("Accepting unrated challenge from " + challenge.challenger.id);
+    const response = await this.api.acceptChallenge(challenge.id);
+    console.log("Accepted", response.data || response);
+  } else {
+    console.log("Declining rated challenge from " + challenge.challenger.id);
+    const response = await this.api.declineChallenge(challenge.id);
+    console.log("Declined", response.data || response);
+  }
 }
 
-begin();
+
+startBot(process.env.API_TOKEN, new RandomPlayer())
+
+async function isHealthy(robot) {
+  let resp = await robot.api.currentGames()
+  let games = []
+  if (resp.data && resp.data.nowPlaying) {
+    games = resp.data.nowPlaying
+  } else {
+    console.log('Error getting current games') 
+    return true
+  }
+
+  const gamesWaiting = {}
+  games.forEach(game => {
+    if (game.isMyTurn) gamesWaiting[game.fullId] = game.fen
+  })  
+  await new Promise(r => setTimeout(r, 5000));
+
+
+  resp = await robot.api.currentGames()
+  games = []
+  if (resp.data && resp.data.nowPlaying) {
+    games = resp.data.nowPlaying
+  } else {
+    console.log('Error getting current games') 
+    return true
+  }
+
+  games.forEach(game => {
+    // console.log(chalk.yellow(JSON.stringify(game)))
+    if (game.isMyTurn && gamesWaiting[game.fullId] == game.fen) {
+      return false
+    }
+  })  
+
+  return true
+}
+
+
+
+

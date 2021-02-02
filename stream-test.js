@@ -28,4 +28,6 @@ async function startBot(token, player) {
   streams.push(playerStream)
 }
 
-startBot()
+startBot(process.env.API_TOKEN, new RandomPlayer())
+
+module.exports = streams
