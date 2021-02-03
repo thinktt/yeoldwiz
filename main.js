@@ -27,7 +27,6 @@ async function startBot(token, player) {
     robot.handleChallenge = handleChallenge
     // const username = (await robot.start()).data.username;
     
-    console.log(chalk.red(await isHealthy(robot)))
 
     // await new Promise(r => setTimeout(r, 5000))
     // if (await isHealthy(robot)) {
@@ -35,6 +34,15 @@ async function startBot(token, player) {
     // } else {
     //   console.log(chalk.yellow('Bot looks to be stuck'))
     // }
+
+    const waitTime = 300000
+    while (await isHealthy(robot)) {
+      // wait waitTime then check health
+      await new Promise(r => setTimeout(r, 5000));
+    }
+
+    console.log('Health check failed, shutting down for daemon restart')
+    process.exit(1)
 
   }
 }
@@ -66,31 +74,23 @@ async function handleChallenge(challenge) {
 startBot(process.env.API_TOKEN, new RandomPlayer())
 
 async function isHealthy(robot) {
-  let resp = await robot.api.currentGames()
-  let games = []
-  if (resp.data && resp.data.nowPlaying) {
-    games = resp.data.nowPlaying
-  } else {
-    console.log('Error getting current games') 
-    return true
-  }
+  // todo, also check if any challenges are waiting 
 
+  // get games in play, if none consider bot healthy
+  let games = await getCurrentGames(robot)
+  if (games.length == 0) return true
+
+  // create map of games currently waiting for the engine to move
   const gamesWaiting = {}
   games.forEach(game => {
     if (game.isMyTurn) gamesWaiting[game.fullId] = game.fen
   })  
+  
   await new Promise(r => setTimeout(r, 5000));
 
-
-  resp = await robot.api.currentGames()
-  games = []
-  if (resp.data && resp.data.nowPlaying) {
-    games = resp.data.nowPlaying
-  } else {
-    console.log('Error getting current games') 
-    return true
-  }
-
+  // get the games again now
+  games = await getCurrentGames(robot)
+  if (games.length == 0) return true
 
   for (game of games) {
     if (game.isMyTurn && gamesWaiting[game.fullId] == game.fen) {
