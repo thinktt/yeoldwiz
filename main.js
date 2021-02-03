@@ -30,7 +30,7 @@ async function startBot(token, player) {
     await new Promise(r => setTimeout(r, 5000))
 
     // do health check every 5 minutes
-    const waitTime = 5 * 60 * 1000
+    const waitTime = 30 * 60 * 1000
     console.log(chalk.yellow(`Starting health check every ${waitTime / 60000} minutes`))
     while (await isHealthy(robot)) {
       // wait waitTime then check health
@@ -55,19 +55,19 @@ async function handleChallenge(challenge) {
   console.log('validVariant: ' + validVariants.includes(challenge.variant))
   console.log('validSpeed:' + validSpeeds.includes(challenge.speed))
 
-  if (validVariants.includes(challenge.variant.key) && validSpeeds.includes(challenge.speed) && !challenge.rated) {
+  if (validVariants.includes(challenge.variant.key) && validSpeeds.includes(challenge.speed)) {
     console.log("Accepting unrated challenge from " + challenge.challenger.id);
     const response = await this.api.acceptChallenge(challenge.id);
     console.log("Accepted", response.data || response);
   } else {
-    console.log("Declining rated challenge from " + challenge.challenger.id);
+    console.log("Declining  callenge from " + challenge.challenger.id);
     const response = await this.api.declineChallenge(challenge.id);
     console.log("Declined", response.data || response);
   }
 }
 
 
-startBot(process.env.API_TOKEN, new RandomPlayer())
+startBot(process.env.API_TOKEN, new WizBot())
 
 async function isHealthy(robot) {
   // todo, also check if any challenges are waiting 
@@ -82,7 +82,7 @@ async function isHealthy(robot) {
     if (game.isMyTurn) gamesWaiting[game.fullId] = game.fen
   })  
   
-  await new Promise(r => setTimeout(r, 5000));
+  await new Promise(r => setTimeout(r, 30000));
 
   // get the games again now
   games = await getCurrentGames(robot)
