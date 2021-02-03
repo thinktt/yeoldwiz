@@ -25,20 +25,16 @@ async function startBot(token, player) {
   if (token) {
     let robot = new RobotUser(new LichessApi(token), player);
     robot.handleChallenge = handleChallenge
-    // const username = (await robot.start()).data.username;
-    
+    const username = (await robot.start()).data.username;
 
-    // await new Promise(r => setTimeout(r, 5000))
-    // if (await isHealthy(robot)) {
-    //   console.log(chalk.yellow('Bot looks healthy'))
-    // } else {
-    //   console.log(chalk.yellow('Bot looks to be stuck'))
-    // }
+    await new Promise(r => setTimeout(r, 5000))
 
-    const waitTime = 300000
+    // do health check every 5 minutes
+    const waitTime = 5 * 60 * 1000
+    console.log(chalk.yellow(`Starting health check every ${waitTime / 60000} minutes`))
     while (await isHealthy(robot)) {
       // wait waitTime then check health
-      await new Promise(r => setTimeout(r, 5000));
+      await new Promise(r => setTimeout(r, waitTime));
     }
 
     console.log('Health check failed, shutting down for daemon restart')
