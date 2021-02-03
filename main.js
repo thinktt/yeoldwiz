@@ -91,16 +91,26 @@ async function isHealthy(robot) {
     return true
   }
 
-  games.forEach(game => {
-    // console.log(chalk.yellow(JSON.stringify(game)))
+
+  for (game of games) {
     if (game.isMyTurn && gamesWaiting[game.fullId] == game.fen) {
       return false
     }
-  })  
+  } 
 
   return true
 }
 
 
-
+async function getCurrentGames(robot) {
+  let resp = await robot.api.currentGames()
+  let games = []
+  if (resp.data && resp.data.nowPlaying) {
+    games = resp.data.nowPlaying
+  } else {
+    console.log('Error getting current games') 
+    return []
+  }
+  return games 
+}
 
