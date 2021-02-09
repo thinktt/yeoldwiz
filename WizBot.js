@@ -60,8 +60,8 @@ async function getEgnineMove(moves, turn) {
     });
   })
 
-  const clockTime='0 6:40 0'
-  const moveTime='40000'
+  const clockTime='0 3:20 0'
+  const moveTime='20000'
   console.log(clockTime)
   console.log(moveTime)
   
@@ -69,7 +69,7 @@ async function getEgnineMove(moves, turn) {
   child.stdin.write('post\n')
   child.stdin.write('new\n')
   child.stdin.write(`level ${clockTime}\n`)
-  child.stdin.write('cm_parm opk=357730\n')
+  child.stdin.write('cm_parm opk=150308\n')
   
   
   // Josh 7
@@ -78,7 +78,7 @@ async function getEgnineMove(moves, turn) {
   child.stdin.write('cm_parm myp=83 myn=83 myb=94 myr=88 myq=92\n')
   child.stdin.write('cm_parm mycc=162 mymob=175 myks=93 mypp=137 mypw=100\n')
   child.stdin.write('cm_parm opcc=162 opmob=175 opks=93 oppp=137 oppw=100\n')
-  child.stdin.write('cm_parm cfd=300 sop=30 avd=-45 rnd=12 sel=6 md=99\n')
+  child.stdin.write('cm_parm cfd=300 sop=30 avd=-45 rnd=0 sel=6 md=99\n')
   child.stdin.write('cm_parm tts=16777216\n')
   child.stdin.write('easy\n')
   
