@@ -59,11 +59,16 @@ async function getEgnineMove(moves, turn) {
       }
     });
   })
+
+  const clockTime='0 6:40 0'
+  const moveTime='40000'
+  console.log(clockTime)
+  console.log(moveTime)
   
   child.stdin.write('xboard\n')
   child.stdin.write('post\n')
   child.stdin.write('new\n')
-  child.stdin.write('level 0 3:20 0\n')
+  child.stdin.write(`level ${clockTime}\n`)
   child.stdin.write('cm_parm opk=357730\n')
   
   
@@ -86,8 +91,8 @@ async function getEgnineMove(moves, turn) {
     child.stdin.write(`${move}\n`)
   }
   
-  child.stdin.write('time 20000\n')
-  child.stdin.write('otim 20000\n')
+  child.stdin.write(`time ${moveTime}\n`)
+  child.stdin.write(`otim ${moveTime}\n`)
   if (turn = 'w') {
     console.log('engine moving as white')
     child.stdin.write('white\n')
