@@ -4,17 +4,20 @@ const book = require('./book')
 const engine = require('./engine')
 
 
-const moves = [
-  'e2e4', 'd7d5', 'd2d3', 'e7e6', 'b1c3', 'f8b4',
-  'c1d2', 'b4c3', 'd2c3', 'g8f6', 'e4e5', 'd5d4',
-  'c3b4', 'f6d5', 'b4a3', 'c7c5', 'c2c4', 'd8a5',
-  'd1d2', 'a5d2', 'e1d2', 'd5b6', 'a3c5', 'b6a4',
-  'b2b4', 'a7a5'
+const moves =[
+  'f2f4', 'd7d5', 'g1f3', 'g7g5',
+  'h2h4', 'g5f4', 'e2e3', 'f4e3',
+  'f1b5', 'c8d7', 'b5d7', 'b8d7',
+  'a2a4', 'e3d2', 'c1d2', 'e7e6',
+  'f3g5', 'g8h6', 'g5e6', 'f7e6',
+  'd1h5', 'h6f7', 'h1f1', 'd8e7',
+  'd2c3', 'e6e5', 'c3d2', 'h7h6',
+  'h5g6', 'e7h4'
 ]
 
 async function multiRun() {
   const runs = []
-  const asyncRunTimes = 30
+  const asyncRunTimes = 1
   
   for (let i = 0; i < asyncRunTimes; i++) {
     runs.push(engine.getMove(moves))
