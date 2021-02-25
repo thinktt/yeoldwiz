@@ -32,6 +32,18 @@ cm_parm cfd=300 sop=30 avd=-45 rnd=12 sel=6 md=99
 cm_parm tts=16777216
 hard
 
+JW7
+cm_parm default
+cm_parm opp=83 opn=83 opb=94 opr=88 opq=92
+cm_parm myp=83 myn=83 myb=94 myr=88 myq=92
+cm_parm mycc=162 mymob=175 myks=93 mypp=137 mypw=100
+cm_parm opcc=162 opmob=175 opks=93 oppp=137 oppw=100
+cm_parm cfd=300 sop=30 avd=0 rnd=12 sel=6 md=99
+cm_parm tts=16777216
+hard
+
+
+
 
 Raj
 cm_parm default
