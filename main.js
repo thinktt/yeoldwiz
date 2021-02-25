@@ -29,7 +29,7 @@ async function startBot(token, player) {
 
     await new Promise(r => setTimeout(r, 5000))
 
-    // do health check every 5 minutes
+    // do health check every 30 minutes
     const waitTime = 30 * 60 * 1000
     console.log(chalk.yellow(`Starting health check every ${waitTime / 60000} minutes`))
     while (await isHealthy(robot)) {

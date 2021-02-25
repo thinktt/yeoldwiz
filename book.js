@@ -58,7 +58,7 @@ function listBookMoves(moves, fen) {
 
 async function getAllBookMoves(fen) {
   const book = new OpeningBook()
-  const bookPath = process.cwd() + "/EarlyQueen.bin"
+  const bookPath = process.cwd() + "/books/EarlyQueen.bin"
   const movePromise = new Promise(resolve => {
     book.on("loaded", () => {
       console.log("book loaded")
