@@ -5,24 +5,19 @@ const chalk = require('chalk')
 // Start and engine running as Josh 7
 async function getMove(moves) {
 
-  // first establish a working model of the game and establish white or blacks turn
-  const chess = new ChessUtils()
-  chess.applyMoves(moves)
-  const turn = chess.turn()
-
-  // start the chess engine, using the proper engine command
-  // const cmd = 'C:/Users/Toby/code/yeoldwiz/InBetween.exe'
-  // let cmd = 'C:/Users/Toby/code/yeoldwiz/TheKing350noOpk.exe'
+  // start the chess engine process, using the proper engine command
   let cmd = process.cwd() + '/TheKing350noOpk.exe'
   cmd = process.env.ENG_CMD ||  cmd
   console.log(`engine cmd: ${cmd}`)
   const child = exec(cmd)
 
-
+  // on close event stop the process
   child.on('close', function (code) {
       console.log('egine exited ' + code);
   });
  
+  // create a movePromise, when engine responds with a move it resolves and
+  // sends an exit command to the engine, closing the process
   const movePromise = new Promise(resolve => {
     child.stdout.on('data', (data) => {
       process.stdout.write(chalk.red(data.toString()))
@@ -34,19 +29,33 @@ async function getMove(moves) {
     });
   })
 
+  // log on process errors
   child.stderr.on('data', (data) => {
     process.stdout.write(chalk.red(data.toString()))
   })
 
-  const clockTime='0 3:20 0'
-  const moveTime='20000'
+  startEngine(child, moves)
+ 
+  return movePromise
+}
+
+// startEngine sets up the engine and kicks off the move
+async function startEngine(child, moves) {
+  
+  // establish a working model of the game and find white or blacks turn
+  const chess = new ChessUtils()
+  chess.applyMoves(moves)
+  const turn = chess.turn()
+
+  // set up the clock time
   // const clockTime='0 6:40 0'
   // const moveTime='40000'
-
-
+  const clockTime='0 3:20 0'
+  const moveTime='20000'
   console.log(clockTime)
   console.log(moveTime)
   
+  // setu up basic params
   child.stdin.write('xboard\n')
   child.stdin.write('post\n')
   child.stdin.write('new\n')
@@ -54,7 +63,7 @@ async function getMove(moves) {
   child.stdin.write('cm_parm opk=150308\n')
   
   
-  // Josh 7
+  // set personality to Josh 7
   child.stdin.write('cm_parm default\n')
   child.stdin.write('cm_parm opp=83 opn=83 opb=94 opr=88 opq=92\n')
   child.stdin.write('cm_parm myp=83 myn=83 myb=94 myr=88 myq=92\n')
@@ -64,16 +73,16 @@ async function getMove(moves) {
   child.stdin.write('cm_parm tts=16777216\n')
   child.stdin.write('easy\n')
   
-  //get's engine to move in about 10 seconds
-  
-  //prepare to take move list
+  // prepare to take move list
   child.stdin.write('force\n')
   
+  // send all the moves to the engine
   console.log(moves)  
   for (const move of moves) {
     child.stdin.write(`${move}\n`)
   }
   
+  // establish which move the engine is playing
   child.stdin.write(`time ${moveTime}\n`)
   child.stdin.write(`otim ${moveTime}\n`)
   if (turn == 'w') {
@@ -84,11 +93,9 @@ async function getMove(moves) {
     child.stdin.write('black\n')
   }
   
+  // kick off the engine
   child.stdin.write('go\n')
-
-  return movePromise
 }
-
 
 function isWhitesTurn(n) {
   return n % 2 == 0;
