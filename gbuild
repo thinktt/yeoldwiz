@@ -2,4 +2,4 @@
 # Builds a win32 and linux version of binary for testing stdio
 
 GOOS=windows GOARCH=386 go build -o stdioTester.exe  main.go 
-go build -o sdioTester main.go 
+go build -o stdioTester main.go 

@@ -1,3 +1,4 @@
 #!/bin/bash
 
-docker run --rm -it thinktt/yeoldwiz /bin/bash
+# docker run -it thinktt/yeoldwiz /bin/bash
+docker run --rm -v $(pwd):/opt/yeoldwiz -it thinktt/yeoldwiz /bin/bash

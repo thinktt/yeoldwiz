@@ -10,4 +10,4 @@ COPY ./ ./yeoldwiz/
 
 WORKDIR /opt/yeoldwiz
 # ENV ENG_CMD="wine /opt/yeoldwiz/TheKing350noOpk.exe"
-ENV ENG_CMD="wine /opt/yeoldwiz/main.exe"
+# ENV ENG_CMD="wine /opt/yeoldwiz/stdioTester.exe"
