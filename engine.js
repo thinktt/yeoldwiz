@@ -5,13 +5,17 @@ const chalk = require('chalk')
 // Start and engine running as Josh 7
 async function getMove(moves) {
 
+  // first establish a working model of the game and establish white or blacks turn
   const chess = new ChessUtils()
   chess.applyMoves(moves)
   const turn = chess.turn()
 
+  // start the chess engine, using the proper engine command
   // const cmd = 'C:/Users/Toby/code/yeoldwiz/InBetween.exe'
-  // const cmd = 'C:/Users/Toby/code/yeoldwiz/TheKing350noOpk.exe'
-  const cmd = '/mnt/c/Users/Toby/code/yeoldwiz-lnx/TheKing350noOpk.exe'
+  // let cmd = 'C:/Users/Toby/code/yeoldwiz/TheKing350noOpk.exe'
+  let cmd = process.cwd() + '/TheKing350noOpk.exe'
+  cmd = process.env.ENG_CMD ||  cmd
+  console.log(`engine cmd: ${cmd}`)
   const child = exec(cmd)
 
 
@@ -28,6 +32,10 @@ async function getMove(moves) {
         resolve(move)
       }
     });
+  })
+
+  child.stderr.on('data', (data) => {
+    process.stdout.write(chalk.red(data.toString()))
   })
 
   const clockTime='0 3:20 0'

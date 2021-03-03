@@ -15,6 +15,12 @@ const moves =[
   'h5g6', 'e7h4'
 ]
 
+
+async function runOnce() {
+  const engineMove = await engine.getMove(moves)
+}
+
+
 async function multiRun() {
   const runs = []
   const asyncRunTimes = 1
@@ -27,4 +33,5 @@ async function multiRun() {
   console.log(engineMoves) 
 }
 
-multiRun()
+runOnce()
+// multiRun()
