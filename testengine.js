@@ -15,6 +15,10 @@ const moves =[
   'h5g6', 'e7h4'
 ]
 
+async function runContinously() {
+  const engineMove = await engine.getMove(moves)
+  setTimeout(runContinously, 5000)
+}
 
 async function runOnce() {
   const engineMove = await engine.getMove(moves)
@@ -33,5 +37,6 @@ async function multiRun() {
   console.log(engineMoves) 
 }
 
-runOnce()
+runContinously()
+// runOnce()
 // multiRun()

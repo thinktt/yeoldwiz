@@ -1,47 +1,28 @@
 package main
 
+package main
+
 import (
     "bufio"
     "fmt"
-    "io"
-    "log"
-    "os"
+    "os/exec"
+    "strings"
 )
 
 func main() {
+    // args := "-i test.mp4 -acodec copy -vcodec copy -f flv rtmp://aaa/bbb"
+    // cmd := exec.Command("ffmpeg", strings.Split(args, " ")...)
+    cmd := exec.Command("ffmpeg", strings.Split(args, " ")...)
 
-    nBytes, nChunks := int64(0), int64(0)
-    r := bufio.NewReader(os.Stdin)
-    buf := make([]byte, 0, 4*1024)
 
-    for {
+    stderr, _ := cmd.StderrPipe()
+    cmd.Start()
 
-        n, err := r.Read(buf[:cap(buf)])
-        buf = buf[:n]
-
-        if n == 0 {
-
-            if err == nil {
-                continue
-            }
-
-            if err == io.EOF {
-                break
-            }
-
-            log.Fatal(err)
-        }
-
-        nChunks++
-        nBytes += int64(len(buf))
-
-		fmt.Println("Howdy")
-        fmt.Println(string(buf))
-
-        if err != nil && err != io.EOF {
-            log.Fatal(err)
-        }
+    scanner := bufio.NewScanner(stderr)
+    scanner.Split(bufio.ScanWords)
+    for scanner.Scan() {
+        m := scanner.Text()
+        fmt.Println(m)
     }
-
-    fmt.Println("Bytes:", nBytes, "Chunks:", nChunks)
+    cmd.Wait()
 }

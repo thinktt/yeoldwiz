@@ -1,4 +1,4 @@
 #!/bin/bash
 
 docker image rm thinktt/yeoldwiz:latest
-docker build -t thinktt/yeoldwiz .
+docker build -t thinktt/yeoldwiz  .
