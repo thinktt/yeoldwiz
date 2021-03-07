@@ -2,4 +2,5 @@
 # Builds a win32 and linux version of binary for testing stdio
 
 GOOS=windows GOARCH=386 go build -o enginewrap.exe  main.go 
+GOOS=linux go build -o enginewrap  main.go 
 # go build -o stdioTester main.go 
