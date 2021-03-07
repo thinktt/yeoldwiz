@@ -1,28 +1,30 @@
 package main
 
-package main
-
 import (
-    "bufio"
-    "fmt"
-    "os/exec"
-    "strings"
+	// "bufio"
+	"fmt"
+	"io"
+	"os"
+	"os/exec"
+    "bytes"
+    "runtime"
+	// "strings"
 )
 
 func main() {
-    // args := "-i test.mp4 -acodec copy -vcodec copy -f flv rtmp://aaa/bbb"
-    // cmd := exec.Command("ffmpeg", strings.Split(args, " ")...)
-    cmd := exec.Command("ffmpeg", strings.Split(args, " ")...)
+	cmd := exec.Command("bash", "slowout.sh")
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("tasklist")
+	}
 
+	var stdoutBuf, stderrBuf bytes.Buffer
+	cmd.Stdout = io.MultiWriter(os.Stdout, &stdoutBuf)
+	cmd.Stderr = io.MultiWriter(os.Stderr, &stderrBuf)
 
-    stderr, _ := cmd.StderrPipe()
-    cmd.Start()
-
-    scanner := bufio.NewScanner(stderr)
-    scanner.Split(bufio.ScanWords)
-    for scanner.Scan() {
-        m := scanner.Text()
-        fmt.Println(m)
-    }
-    cmd.Wait()
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println("cmd.Run() failed with %s\n", err)
+	}
+	// outStr, errStr := string(stdoutBuf.Bytes()), string(stderrBuf.Bytes())
+	// fmt.Printf("\nout:\n%s\nerr:\n%s\n", outStr, errStr)
 }
