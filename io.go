@@ -1,14 +1,20 @@
 package main
 
 import (
-	// "bufio"
+	"bufio"
+	"os"
+	// "log"
+	// "io"
+	// "strings"
 	"fmt"
 )
 
 func main() {
-	fmt.Println("Howdy")
+	s := bufio.NewScanner(os.Stdin)
+	for s.Scan() {
+		fmt.Println(s.Text())
+	}
 }
-
 
 
 // outStr, errStr := string(stdoutBuf.Bytes()), string(stderrBuf.Bytes())

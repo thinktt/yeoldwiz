@@ -4,7 +4,7 @@
 # GOOS=windows GOARCH=386 go build -o enginewrap.exe  main.go 
 # GOOS=linux go build -o enginewrap  main.go 
 
-GOOS=windows GOARCH=386 go build -o simpleout.exe  main2.go 
-GOOS=linux go build -o simpleout  main2.go 
+GOOS=windows GOARCH=386 go build -o enginewrap.exe  main.go 
+GOOS=linux go build -o enginewrap  main.go 
 
 

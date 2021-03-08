@@ -1,6 +1,7 @@
 #!/bin/bash
 
-docker run --rm -it -v $(pwd):/opt/yeoldwiz thinktt/yeoldwiz /bin/bash
+docker run $1 --rm -it -v $(pwd):/opt/yeoldwiz thinktt/yeoldwiz /bin/bash
+# docker run $1 --rm -v $(pwd):/opt/yeoldwiz thinktt/yeoldwiz ./node enginemin.js
 # docker run --rm -v $(pwd):/opt/yeoldwiz thinktt/yeoldwiz wine enginewrap.exe
 # docker run -it thinktt/yeoldwiz /bin/bash
 # docker run thinktt/yeoldwiz
