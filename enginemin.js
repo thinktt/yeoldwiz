@@ -1,21 +1,22 @@
 const { exec } = require('child_process')
 const chalk = require('chalk')
 
-console.log(chalk.blue('We begin'))
+console.log(chalk.blue('Starting engine'))
 
 let child
 function startCmd() {
   // let cmd = process.cwd() + '/simpleout'
   // let cmd = process.cwd() + '/TheKing350noOpk.exe'
-  let cmd = 'wine enginewrap.exe'
   // let cmd ='wine TheKing350noOpk.exe'
+  let cmd = '/usr/bin/wine enginewrap.exe'
+  // let cmd = './enginewrap'
   child = exec(cmd) 
 }
 
 try {
   startCmd()
 } catch (error) {
-  console.log("we crasshed starting the command")
+  console.log("we crashed starting the command")
   // console.log(error)
 }
 
@@ -30,10 +31,10 @@ const movePromise = new Promise(resolve => {
   child.stdout.on('data', (data) => {
     process.stdout.write(chalk.red(data.toString()))
     if (data.toString().includes('move')) {
-      // child.stdin.write('quit\n')
+      child.stdin.write('quit\n')
       const move = data.toString().match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
       resolve(move)
-      process.exit()
+      // process.exit()
     }
   });
 })
@@ -43,8 +44,8 @@ child.stderr.on('data', (data) => {
   process.stdout.write(chalk.yellow(data.toString()))
 })
 
-// child.stdin.write('xboard\n')
-// child.stdin.write('post\n')
-// child.stdin.write(`time 2000\n`)
-// child.stdin.write(`otim 2000\n`)
-// child.stdin.write('go\n')
+child.stdin.write('xboard\n')
+child.stdin.write('post\n')
+child.stdin.write(`time 2000\n`)
+child.stdin.write(`otim 2000\n`)
+child.stdin.write('go\n')

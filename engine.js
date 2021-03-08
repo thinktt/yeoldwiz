@@ -8,7 +8,8 @@ const chalk = require('chalk')
 async function getMove(moves) {
 
   // start the chess engine process, using the proper engine command
-  let cmd = process.cwd() + '/TheKing350noOpk.exe'
+  // defaults to WSL setup, Dockerfile sets ENG_CMD /usr/bin/wine ./enginewrap
+  let cmd = './enginewrap'
   cmd = process.env.ENG_CMD ||  cmd
   console.log(`engine cmd: ${cmd}`)
   const child = exec(cmd)
@@ -91,7 +92,7 @@ async function startEngine(child, moves) {
     console.log('engine moving as white')
     child.stdin.write('white\n')
   } else {
-    console.log('engine moving a black')
+    console.log('engine moving as black')
     child.stdin.write('black\n')
   }
   
