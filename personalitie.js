@@ -7,21 +7,52 @@ path='./personalities'
 // path='/mnt/c/Users/Toby/Games/CM11/Data/Personalities'
 
 
-fs.readFile(`${path}/${name}.CMP`, (err, data) => {
-  if (err) throw err;
-  const cmp = {}
-  cmp.version = ab2str(data.buffer.slice(0,32))
-  cmp.book = ab2str(data.buffer.slice(192, 453))
-  cmp.summary = ab2str(data.buffer.slice(482, 582))
-  cmp.bio = ab2str(data.buffer.slice(582, 1581))
-  cmp.paramsRaw = new Int32Array(data.buffer.slice(32,192))
-  cmp.rating = cmp.paramsRaw[6]
-  cmp.style = ab2str(data.buffer.slice(1582)).replace('%d', cmp.rating)
+// fs.readFile(`${path}/${name}.CMP`, (err, data) => {
+//   if (err) throw err;
+//   const cmp = {}
+//   cmp.version = ab2str(data.buffer.slice(0,32))
+//   cmp.book = ab2str(data.buffer.slice(192, 453))
+//   cmp.summary = ab2str(data.buffer.slice(482, 582))
+//   cmp.bio = ab2str(data.buffer.slice(582, 1581))
+//   cmp.paramsRaw = new Int32Array(data.buffer.slice(32,192))
+//   cmp.rating = cmp.paramsRaw[6]
+//   cmp.style = ab2str(data.buffer.slice(1582)).replace('%d', cmp.rating)
+//   console.log(cmp)
+// })
 
-  console.log(cmp)
+run()
 
 
-})
+async function run() {
+  try {
+    const cmp = await getPersonality(name)
+    console.log(cmp)
+  } catch (err) {
+    console.log('Unable to open personality file for ' + name)
+  }
+}
+
+
+function getPersonality(name) {
+  const filePromise = new Promise((resolve, reject) => {
+    fs.readFile(`${path}/${name}.CMP`, (err, data) => { 
+      if (err) {
+        reject(err)
+        return 
+      }
+        const cmp = {}
+        cmp.version = ab2str(data.buffer.slice(0,32))
+        cmp.book = ab2str(data.buffer.slice(192, 453))
+        cmp.summary = ab2str(data.buffer.slice(482, 582))
+        cmp.bio = ab2str(data.buffer.slice(582, 1581))
+        cmp.paramsRaw = new Int32Array(data.buffer.slice(32,192))
+        cmp.rating = cmp.paramsRaw[6]
+        cmp.style = ab2str(data.buffer.slice(1582)).replace('%d', cmp.rating)
+        resolve(cmp)
+    })
+  })
+  return filePromise
+}
 
 
 function printRawParams(params) {
