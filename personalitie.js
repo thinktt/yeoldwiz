@@ -9,19 +9,28 @@ path='./personalities'
 
 fs.readFile(`${path}/${name}.CMP`, (err, data) => {
   if (err) throw err;
-  let cmver = data.buffer.slice(0,32)
-  let params = new Int32Array(data.buffer.slice(32,192))
-  console.log(params.BYTES_PER_ELEMENT)
-  console.log(params.length)
+  const cmp = {}
+  cmp.version = ab2str(data.buffer.slice(0,32))
+  cmp.book = ab2str(data.buffer.slice(192, 453))
+  cmp.summary = ab2str(data.buffer.slice(482, 582))
+  cmp.bio = ab2str(data.buffer.slice(582, 1581))
+  cmp.paramsRaw = new Int32Array(data.buffer.slice(32,192))
+  cmp.rating = cmp.paramsRaw[6]
+  cmp.style = ab2str(data.buffer.slice(1582)).replace('%d', cmp.rating)
 
+  console.log(cmp)
+
+
+})
+
+
+function printRawParams(params) {
   for (let i=0; i < params.length; i++) {
     process.stdout.write(`${params[i]} `);
     if ((i + 1) % 4 == 0 ) process.stdout.write('\n')
     // if ((i + 1) % 16 == 0 ) process.stdout.write('\n')
   }
-  console.log()
-})
-
+}
 
 function getIntsFromBuff(buffArr) {
   let ints = []
@@ -30,4 +39,19 @@ function getIntsFromBuff(buffArr) {
     ints.push(buffArr.readInt32LE(i))
   }
   return ints
+}
+
+function ab2strRaw(buf) {
+  return String.fromCharCode.apply(null, new Uint8Array(buf));
+}
+
+function ab2str(buf) {
+  let charCodes =  new Uint8Array(buf)
+  let str = ''
+  for (code of charCodes) {
+    if (code == 0) break
+    let char = String.fromCharCode(code)
+    str = str.concat(char)
+  }
+  return str
 }
