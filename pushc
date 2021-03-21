@@ -1,0 +1,8 @@
+#!/bin/bash
+# Pushes the latest container to the server
+
+docker save -o ~/yeoldwiz.tar thinktt/yeoldwiz:latest
+scp -P 5555 ~/yeoldwiz.tar toby@thinktt.duckdns.org:/home/toby/
+
+# on server
+# docker load -i yeoldwiz.tar
