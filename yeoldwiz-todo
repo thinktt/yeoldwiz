@@ -1,11 +1,32 @@
-make service
-  deal with dead stream?
-    health check
-    stream reset?
-  run engine through wine
-  run x86 container
-  run on rpi?
 
+Load personalities
+  load the post weighted values in personalities.cfg
+  build personlity loader func
+  get personality of current game
+  cache game personality
+  play move as personality 
+  load pre weighted values from cm files
+  
+Web page basic
+  build json personlities from CMD files (and/or game faq)
+    load Bio and Style description and short description
+    Load CM assigned rating
+    Load name of face image
+  Load images catagories by ratings groups
+  Load Bio Page when clicked
+  Give start command and lichess link to play yeoldwiz bot
+  
+Intigrate with lichess through board API
+  Log in through lichess
+  Give direct link to personality game
+  
+Rated Challenges 
+  Have Wizard offer you challenge choices
+
+
+
+
+.........Ice Box..............
 auto bot challenger
 
 strenght experiments
@@ -16,3 +37,14 @@ strenght experiments
 
 paralell experiments
   make cloud function out of engine?
+
+deal with dead stream?
+  health check
+  stream reset?
+
+run x86 container
+run on rpi?
+
+x run engine through wine
+x run engine through container
+x make service

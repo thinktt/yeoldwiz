@@ -3,8 +3,9 @@ const fs = require('fs');
 arg = process.argv[2] || ''
 const name = (arg.charAt(0).toUpperCase() + arg.slice(1))
 console.log(name)
-// path='./personalities'
-path='/mnt/c/Users/Toby/Games/CM11/Data/Personalities'
+path='./personalities'
+// path='/mnt/c/Users/Toby/Games/CM11/Data/Personalities'
+
 
 fs.readFile(`${path}/${name}.CMP`, (err, data) => {
   if (err) throw err;
