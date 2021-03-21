@@ -1,6 +1,7 @@
 
 Load personalities
   load the post weighted values in personalities.cfg
+  load opening book from cm files
   build personlity loader func
   get personality of current game
   cache game personality
@@ -15,13 +16,14 @@ Web page basic
   Load images catagories by ratings groups
   Load Bio Page when clicked
   Give start command and lichess link to play yeoldwiz bot
-  
+
 Intigrate with lichess through board API
   Log in through lichess
   Give direct link to personality game
   
 Rated Challenges 
-  Have Wizard offer you challenge choices
+  Determine users challenge level
+  Have Wizard offer user challenge choices
 
 
 
