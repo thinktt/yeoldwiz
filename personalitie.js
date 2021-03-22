@@ -4,24 +4,8 @@ arg = process.argv[2] || ''
 const name = (arg.charAt(0).toUpperCase() + arg.slice(1))
 console.log(name)
 path='./personalities'
-// path='/mnt/c/Users/Toby/Games/CM11/Data/Personalities'
 
-
-// fs.readFile(`${path}/${name}.CMP`, (err, data) => {
-//   if (err) throw err;
-//   const cmp = {}
-//   cmp.version = ab2str(data.buffer.slice(0,32))
-//   cmp.book = ab2str(data.buffer.slice(192, 453))
-//   cmp.summary = ab2str(data.buffer.slice(482, 582))
-//   cmp.bio = ab2str(data.buffer.slice(582, 1581))
-//   cmp.paramsRaw = new Int32Array(data.buffer.slice(32,192))
-//   cmp.rating = cmp.paramsRaw[6]
-//   cmp.style = ab2str(data.buffer.slice(1582)).replace('%d', cmp.rating)
-//   console.log(cmp)
-// })
-
-run()
-
+console.log(parseCmpCfg())
 
 async function run() {
   try {
@@ -30,6 +14,34 @@ async function run() {
   } catch (err) {
     console.log('Unable to open personality file for ' + name)
   }
+}
+
+// Fully parese the raw engine strings in personalities.cfg
+// into individual personalities
+function parseCmpCfg() {
+  const cmps = {}
+  let cmpStrings = fs.readFileSync('./personalities.cfg', 'utf8')
+  cmpStrings = cmpStrings.split('\r\n\r\n')
+  cmpStrings.forEach((cmpStr) => {
+    const params = parseEngStrings(cmpStr)
+    cmps[params.name] = params
+  })
+  return cmps
+}
+
+// A big mess of parsing all the engine strings
+function parseEngStrings(engStrings) {
+  const personality = {out : {}}
+  engStrings = engStrings.split('\r\n')
+  personality.name = engStrings[0]
+  personality.ponder = engStrings[7]
+  let params = engStrings.slice(1, 7).join(' ').split(' ')
+  params = params.filter(param => param != 'cm_parm')
+  params.forEach((param) => {
+    const paramPair = param.split('=')
+    personality.out[paramPair[0]] = paramPair[1]
+  })
+  return personality
 }
 
 
