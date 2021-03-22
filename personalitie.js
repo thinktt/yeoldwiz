@@ -5,14 +5,23 @@ const name = (arg.charAt(0).toUpperCase() + arg.slice(1))
 console.log(name)
 path='./personalities'
 
-console.log(parseCmpCfg())
+const cmps = parseCmpCfg()
+for (key in cmps) {
+  const cmpFileVals = parseCmpFile(key)
+  cmps[key] = { ...cmps[key], ...cmpFileVals }
+}
 
-async function run() {
+
+console.log(cmps.Cassie)
+// console.log(Object.keys(cmps).length)
+
+async function parseCmpFile(name) {
   try {
     const cmp = await getPersonality(name)
-    console.log(cmp)
+    return cmp
   } catch (err) {
     console.log('Unable to open personality file for ' + name)
+    return {}
   }
 }
 
