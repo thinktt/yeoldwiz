@@ -14,8 +14,9 @@ async function run() {
     cmps[key] = { ...cmps[key], ...cmpFileVals }
   }
   // console.log(await parseCmpFile(name))
-  console.log(Object.keys(cmps).length)
-  console.log(cmps[name])
+  // console.log(Object.keys(cmps).length)
+  // console.log(cmps[name])
+  fs.writeFileSync('personalities.json', JSON.stringify(cmps, null, 2))
 }
 
 async function parseCmpFile(name) {
@@ -69,9 +70,9 @@ function getPersonality(name) {
         cmp.book = ab2str(data.buffer.slice(192, 453))
         cmp.summary = ab2str(data.buffer.slice(482, 582))
         cmp.bio = ab2str(data.buffer.slice(582, 1581))
-        cmp.paramsRaw = new Int32Array(data.buffer.slice(32,192))
-        cmp.paramsRaw = Array.from(cmp.paramsRaw)
-        cmp.rating = cmp.paramsRaw[6]
+        cmp.raw = new Int32Array(data.buffer.slice(32,192))
+        cmp.raw = Array.from(cmp.raw)
+        cmp.rating = cmp.raw[6]
         cmp.style = ab2str(data.buffer.slice(1582)).replace('%d', cmp.rating)
         resolve(cmp)
     })
