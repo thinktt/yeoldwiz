@@ -5,15 +5,18 @@ const name = (arg.charAt(0).toUpperCase() + arg.slice(1))
 console.log(name)
 path='./personalities'
 
-const cmps = parseCmpCfg()
-for (key in cmps) {
-  const cmpFileVals = parseCmpFile(key)
-  cmps[key] = { ...cmps[key], ...cmpFileVals }
+
+run()
+async function run() {
+  const cmps = parseCmpCfg()
+  for (key in cmps) {
+    const cmpFileVals = await parseCmpFile(key)
+    cmps[key] = { ...cmps[key], ...cmpFileVals }
+  }
+  // console.log(await parseCmpFile(name))
+  console.log(Object.keys(cmps).length)
+  console.log(cmps[name])
 }
-
-
-console.log(cmps.Cassie)
-// console.log(Object.keys(cmps).length)
 
 async function parseCmpFile(name) {
   try {
@@ -67,6 +70,7 @@ function getPersonality(name) {
         cmp.summary = ab2str(data.buffer.slice(482, 582))
         cmp.bio = ab2str(data.buffer.slice(582, 1581))
         cmp.paramsRaw = new Int32Array(data.buffer.slice(32,192))
+        cmp.paramsRaw = Array.from(cmp.paramsRaw)
         cmp.rating = cmp.paramsRaw[6]
         cmp.style = ab2str(data.buffer.slice(1582)).replace('%d', cmp.rating)
         resolve(cmp)
