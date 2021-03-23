@@ -44,7 +44,7 @@ async function startBot(token, player) {
 }
 
 async function handleChallenge(challenge) {
-  // console.log(challenge)
+  console.log(challenge)
   const validVariants = ['standard']
   const validSpeeds = ['rapid', 'classical', 'correspondence',]
   // const response = await api.declineChallenge(challenge.id);
@@ -52,10 +52,10 @@ async function handleChallenge(challenge) {
 
   console.log(challenge.variant.key)
   console.log( challenge.speed)
-  console.log('validVariant: ' + validVariants.includes(challenge.variant))
+  console.log('validVariant: ' + validVariants.includes(challenge.variant.key))
   console.log('validSpeed:' + validSpeeds.includes(challenge.speed))
 
-  if (validVariants.includes(challenge.variant.key) && validSpeeds.includes(challenge.speed)) {
+  if (validVariants.includes(challenge.variant.key) && validSpeeds.includes(challenge.speed) && !challenge.rated) {
     console.log("Accepting unrated challenge from " + challenge.challenger.id);
     const response = await this.api.acceptChallenge(challenge.id);
     console.log("Accepted", response.data || response);

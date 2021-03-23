@@ -68,6 +68,7 @@ function getPersonality(name) {
         const cmp = {}
         cmp.version = ab2str(data.buffer.slice(0,32))
         cmp.book = ab2str(data.buffer.slice(192, 453))
+        cmp.book = cmp.book.replace('.OBK', '.bin').replace('.obk', '.bin')
         cmp.summary = ab2str(data.buffer.slice(482, 582))
         cmp.bio = ab2str(data.buffer.slice(582, 1581))
         cmp.raw = new Int32Array(data.buffer.slice(32,192))

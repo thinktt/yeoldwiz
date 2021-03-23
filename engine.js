@@ -4,8 +4,8 @@ const chalk = require('chalk')
 
 
 
-// Start and engine running as Josh 7
-async function getMove(moves) {
+// Start the engine and get next move using the given perosnality values (pvals)
+async function getMove(moves, pvals) {
 
   // start the chess engine process, using the proper engine command
   // defaults to WSL setup, Dockerfile sets ENG_CMD /usr/bin/wine ./enginewrap
@@ -37,13 +37,13 @@ async function getMove(moves) {
     process.stdout.write(chalk.red(data.toString()))
   })
 
-  startEngine(child, moves)
+  startEngine(child, moves, pvals)
  
   return movePromise
 }
 
 // startEngine sets up the engine and kicks off the move
-async function startEngine(child, moves) {
+async function startEngine(child, moves, pvals) {
   
   // establish a working model of the game and find white or blacks turn
   const chess = new ChessUtils()
@@ -66,14 +66,14 @@ async function startEngine(child, moves) {
   child.stdin.write('cm_parm opk=150308\n')
   
   
-  // set personality to Josh 7
+  // Load personality values
   child.stdin.write('cm_parm default\n')
-  child.stdin.write('cm_parm opp=83 opn=83 opb=94 opr=88 opq=92\n')
-  child.stdin.write('cm_parm myp=83 myn=83 myb=94 myr=88 myq=92\n')
-  child.stdin.write('cm_parm mycc=162 mymob=175 myks=93 mypp=137 mypw=100\n')
-  child.stdin.write('cm_parm opcc=162 opmob=175 opks=93 oppp=137 oppw=100\n')
-  child.stdin.write('cm_parm cfd=300 sop=30 avd=-45 rnd=12 sel=6 md=99\n')
-  child.stdin.write('cm_parm tts=16777216\n')
+  child.stdin.write(`cm_parm opp=${pvals.opp} opn=${pvals.opn} opb=${pvals.opb} opr=${pvals.opr} opq=${pvals.opq}\n`)
+  child.stdin.write(`cm_parm myp=${pvals.myp} myn=${pvals.myn} myb=${pvals.myb} myr=${pvals.myr} myq=${pvals.myq}\n`)
+  child.stdin.write(`cm_parm mycc=${pvals.mycc} mymob=${pvals.mymob} myks=${pvals.myks}  mypp=${pvals.mypp} mypw=${pvals.mypw}\n`)
+  child.stdin.write(`cm_parm opcc=${pvals.opcc} opmob=${pvals.opmob} opks=${pvals.opks} oppp=${pvals.oppp} oppw=${pvals.oppw}\n`)
+  child.stdin.write(`cm_parm cfd=${pvals.cfd} sop=${pvals.sop} avd=${pvals.avd} rnd=${pvals.rnd} sel=${pvals.sel} md=${pvals.md}\n`)
+  child.stdin.write(`cm_parm tts=${pvals.tts}\n`)
   child.stdin.write('easy\n')
   
   // prepare to take move list

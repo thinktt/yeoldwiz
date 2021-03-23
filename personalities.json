@@ -32,7 +32,7 @@
     "name": "Stanley",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Completely random",
     "bio": "As a young chimp, Stanley wandered onto a game preserve in Africa where he met a boy named Justin.  The two became fast friends.  Stanley has shown Justin many chimpanzee pastimes like climbing trees and how to find the best bananas.  In return, Justin has taught Stanley some human things, like how to program a VCR and how to play chess.  Stanley absolutely refuses to play chess unless he gets to wear Justin`s propeller hat.",
     "raw": [
@@ -113,7 +113,7 @@
     "name": "Cassie",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Cluttered position",
     "bio": "Cassie likes to make things.  Though she and her friends own a lot of dolls, Cassie rarely plays with hers.  She just makes things for them, like clothes, houses, and furniture.  She really likes the chess pieces in her parents` chess set and decided to make a big chess set of her own out of papier maché.  Her mom is teaching her how to play chess so when her new pieces are finished, she can play chess with them.",
     "raw": [
@@ -194,7 +194,7 @@
     "name": "Pete",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Holds onto knights",
     "bio": "Pete would like to be a veterinarian when he grows up.  So far, his parents have gotten him a Golden Retriever, two cats (one white and one calico), a parakeet, a turtle, five goldfish, and one sea snail.  Pete takes very good care of his pets and hardly ever has to be reminded to feed them.  One time a baby sparrow fell out of its nest in his backyard and Pete helped nurse it back to health. He started playing chess when his uncle gave him a chess set where the pieces all looked like animals.",
     "raw": [
@@ -275,7 +275,7 @@
     "name": "Niko",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Reckless attacker",
     "bio": "Niko`s sister, Kia, absolutely hates creepy-crawly things like bugs and snakes, which is one of the reasons Niko really likes them.  He has a collection of 26 different bugs he`s found at the park and in his family`s back yard.  His mom won`t let him actually keep any snakes, but he still brings one home every now and then anyway.  He likes to play chess with Kia because he beats her sometimes.",
     "raw": [
@@ -356,7 +356,7 @@
     "name": "Ben",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Overlooks pawns",
     "bio": "Ben is a quiet boy who spends hours at a time playing with his model airplanes or looking at airplane books.  He likes to draw pictures (mostly of airplanes and helicopters) and can identify almost all of the airplanes that fly over his house.  He doesnt have any brothers or sisters, but does have an iguana named Slippery Sam.  Bens dad just taught him how to play chess and he looks forward to their nightly after-supper chess matches.",
     "raw": [
@@ -437,7 +437,7 @@
     "name": "Sabrina",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Attacker",
     "bio": "An outspoken and joyful girl, Sabrina likes to party and make friends. Her latest boyfriend is a fan of boardgames and tried to teach her all matter of games, including chess. She lost at chess, but took her revenge at Scrabble.",
     "raw": [
@@ -517,7 +517,7 @@
     "name": "Monique",
     "ponder": "cm_parm tts=16777216",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Develops her long-range pieces",
     "bio": "As a budding fashion reporter, Monique has to keep an eye over all the latest trends. When a chess craze started after an acclaimed and  daring black and white fashion exhibition, Monique bought a chess book and tried to learn the rules and the usual terms. To be sure she uses chess vocabulary in a proper manner, she even played a few games.",
     "raw": [
@@ -597,7 +597,7 @@
     "name": "Petra",
     "ponder": "cm_parm tts=16777216",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Beginner, drops pieces",
     "bio": "Petra is an artist on a very small scale: she paints elaborate designs on fingernails.  Having taken a job as a manicurist to work her way through art school, Petra ended up combining both areas of her life, and is now in high demand as a specialty fingernail painter.  One of her most interesting creations was a chess set painted on the nails of a grandmaster, who was using her fingernails as a ploy to distract her opponent in a championship match.  Petra watched the match (which her client won) and learned a bit about chess in the process.",
     "raw": [
@@ -678,7 +678,7 @@
     "name": "Parker",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Neglects pawns",
     "bio": "By the age of three, Parker could identify most makes of cars.  If he saw a Jaguar (his favorite car), he could even tell you what year it was made.  His love of cars continues, and he hopes that one day he can be a car designer, preferably in Europe.  After seeing a chess table in the back seat of a Rolls Royce at a car show he decided it would be cool to learn how to play chess.",
     "raw": [
@@ -759,7 +759,7 @@
     "name": "Andre",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Tries to surround opponent",
     "bio": "Andre realized he had a special talent for drawing at the age of four when all of his friends kept asking him to draw monsters and dragons for them.  Andre and his older brother, Brett, are very close, and when Brett helps Andre with his math homework, Andre draws illustrations for Brett`s science homework.  Andre and Brett learned how to play chess from their dad, and they often play chess matches after school.",
     "raw": [
@@ -840,7 +840,7 @@
     "name": "Kamika",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Values queens and knights",
     "bio": "Kamika likes games and is very good at jumping rope.  She knows how to count backward from 1000 (which drives her big brother crazy).  Kamika loves to make up stories and taught herself to play chess by making up stories about the chess pieces.  Her second favorite chess piece is the Knight, and her most favorite is the Queen.  Sometimes she leaves the chess pieces in her dollhouse (which also drives her big brother crazy).",
     "raw": [
@@ -921,7 +921,7 @@
     "name": "Darcy",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Worries about opponent`s queen",
     "bio": "As an only child, Darcy hasn`t had much exposure to other kids at home.  Perhaps that`s why she spends so much time with kids when she`s away from home.  A favorite babysitter for neighborhood families, Darcy also works afternoons at a daycare center.  Darcy knows how to play chess because she often baby-sits for Mariah, and Mariah taught her how to play.",
     "raw": [
@@ -1002,7 +1002,7 @@
     "name": "Tex",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Defensive",
     "bio": "Tex is from a long line of Texas oilmen and often brags that he, too, is an oilman.  Unfortunately, the reality is that Tex changes oil for a living.  Texs grandfather left Texs daddy, Slim, his wealth in oil wells, but by the time Tex was born, Slim had squandered the family fortune away.  Once Tex grew up, he decided to pursue his interest in cars, and became a decent mechanic.  Tex and one of his mechanic co-workers keep a running chess game going in the garage where they work.  Since their hands are always greasy, they created a chess set out of used oilcans.",
     "raw": [
@@ -1083,7 +1083,7 @@
     "name": "Audrey",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Defensive",
     "bio": "Audrey was a serious case of internet addiction - she spent hours after hours happily surfing the net and chatting to total strangers. After trying a dozen different hobbies at her doctor's recommendation, she finally settled onto chess. She never misses a sunny day to go out in the park with the chess set, and likes to meet new opponents.  As she likes to talk a lot during the games, she tends to lose a lot of matches on time.",
     "raw": [
@@ -1164,7 +1164,7 @@
     "name": "Manny",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth2.OBK",
+    "book": "Depth2.bin",
     "summary": "Balanced",
     "bio": "Manny is a state congressman representing a small town in New Jersey. During long congressional sessions he likes to play electronic games to stave off boredom. One of the games he owns is a pocket chess game, but he`s not as good at it as he is at playing some of the sports and war-type games he owns.",
     "raw": [
@@ -1245,7 +1245,7 @@
     "name": "Lydia",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Good opening theory",
     "bio": "Lydia is a construction foreman who just began playing chess recently when progress on the building she was working on was delayed by torrential rains. Though she`s only just begun playing, she thinks she`s going to like the game.",
     "raw": [
@@ -1326,7 +1326,7 @@
     "name": "Ross",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Open game, vulnerable king",
     "bio": "Ross first looked at the moon through a telescope when he was five and camping with his family.  He immediately started begging for a telescope of his own.  He now owns three telescopes and spends almost every night scanning the skies for new discoveries.  His dream is to one day have a comet named after him.  In the evening, his mom often joins him on their back porch for a chess game, and while she ponders her chess moves, he gazes at the stars.",
     "raw": [
@@ -1407,7 +1407,7 @@
     "name": "Lisa",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Defensive.",
     "bio": "It took over a year of begging, but at the age of 12 Lisa finally convinced her dad to help her build a greenhouse in their backyard.  Since then she`s had the perfect place to grow orchids and conduct experiments on creating new strains of exotic plants and flowers.  When not working at her interest in botany, Lisa sings in a band with four of her friends.  Lisa is frustrated when her twin sister, Lucy instigates arguments between the two of them, and often directs their rivalry to games of chess.",
     "raw": [
@@ -1488,7 +1488,7 @@
     "name": "Jesse",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Values long-range pieces",
     "bio": "Jesse enjoys skateboarding, playing basketball, and hanging out at the video arcade.  But he also feels a tremendous responsibility to help others.  So, he collects blankets for the homeless and volunteers every Sunday at a local soup kitchen.  Sometimes he organizes games for children at a local homeless shelter.  After somebody donated a chess set to the shelter, Jesse started playing the game and has taught a number of the children how to play as well.",
     "raw": [
@@ -1569,7 +1569,7 @@
     "name": "Tina",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Attacker",
     "bio": "After secretly watching a James Bond movie, eight years old Tina decided to become a stuntman. Her first stunt (riding down a hill on her pink bicycle) sent her flying into the swimming pool. During the week when she was grounded, her grandmother taught her chess. She hasn't had much opportunities to play the game since then, but at least she reconsidered her career options...",
     "raw": [
@@ -1650,7 +1650,7 @@
     "name": "Skippy",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Drops pieces",
     "bio": "The eternal party boy, Skippy has been in college for seven of the past eight years (don`t ask about the missing year) and is hoping to be a senior next year. Voted by his fraternity as 'Most Likely to Drop Trou,' Skippy has actually played chess three times, even though he doesn`t remember two of the games.",
     "raw": [
@@ -1731,7 +1731,7 @@
     "name": "Carrie",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Balanced",
     "bio": "Carrie is a senior at a high school for gifted students. An overachiever, she`s active in student government, theatre, the school newspaper, and several local charities. Though she knows a little about chess, she hasn`t really had the opportunity to learn the game well enough to become a good player.",
     "raw": [
@@ -1811,7 +1811,7 @@
     "name": "Simon",
     "ponder": "cm_parm tts=16777216",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Good fundamentals",
     "bio": "Simon`s dad was a professional soccer player in England, which may be one of the reasons Simon is such a great soccer goalie.  When not playing soccer, Simon also enjoys playing in a rollerblade hockey league and playing strategy games with his friends. He and his friends have recently begun playing chess as well, and Simon has discovered that he`s quite good at the game.  He`s now hoping to find more challenging opponents to practice his chess game on.",
     "raw": [
@@ -1892,7 +1892,7 @@
     "name": "Jenna",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Avoids draws, neglects King",
     "bio": "A registered nurse, Jenna has been a member of the Peace Corps in Central America for the last year and a half. She was quite surprised to discover that the local citizens are avid chess players. So, on many evenings she finds herself engaged in chess matches using beautiful, hand-carved chess pieces of a Mayan design.",
     "raw": [
@@ -1973,7 +1973,7 @@
     "name": "Seth",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Trades pieces",
     "bio": "A recent college graduate, Seth is currently 'finding himself' by travelling across the country in an old VW van. Seth spends most evenings playing his guitar and writing love songs. He recently learned to play chess at a hostel near Boulder, Colorado and has since had a few more opportunities to play.",
     "raw": [
@@ -2054,7 +2054,7 @@
     "name": "Teea",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Defensive player",
     "bio": "A reluctant player, Teea only plays to please her grandfather in the few occasions when the old man comes to visit. It's not that she doesn't like the game at all, but she doesn't like to lose - and if you don't play, you can't lose, right?",
     "raw": [
@@ -2135,7 +2135,7 @@
     "name": "Kid",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Undervalues knights",
     "bio": "Kid is a junior art student nourishing the secret hope of becoming famous enough to live from his drawings. In the meantime, he's doing small jobs in advertising and interior decoration. While remodelling an old coffee shop, he found an antique chess set and fell in love with it; before long, he started designing new chess sets and eventually found the time to learn the game. Much to his surprise, he won a few times...",
     "raw": [
@@ -2216,7 +2216,7 @@
     "name": "Kendra",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Nervous about queen",
     "bio": "Kendra is a teenager who loves to cook, or to be more accurate, she loves to bake.  Whether it`s lasagna, or cookies, or double chocolate hazelnut torte, Kendra is an expert at making good things come from the oven.  Perhaps this is due to the fact that her mother is a terrible cook, even managing to ruin macaroni and cheese.  On the other hand, Kendra`s mother is an excellent chess player, and has slowly been teaching her daughter the finer points of the game.",
     "raw": [
@@ -2297,7 +2297,7 @@
     "name": "Mona",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Balanced",
     "bio": "As a personnal assistant for a Jordanian oil sheik, Mona's duties are not as exotic as one may believe. When she's not babysitting Texan oilmen or translating dull papers, she likes to learn as much as possible about arabic culture. She has found that playing chess is often a good way to untie tongues...",
     "raw": [
@@ -2378,7 +2378,7 @@
     "name": "Sonja",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Overvalues queens",
     "bio": "Sonja lives her life as a sort of professional 'wannabe.' A high school science teacher, she has tried out for the space program three times and been rejected three times. She has also been rejected as a contestant by the television show 'Jeopardy' four times. Her one great thrill was a one-time appearance on Wheel of Fortune, where she won $2,356. Also a chess 'wannabe,' she has spent a great amount of time learning about chess strategy and tactics.",
     "raw": [
@@ -2459,7 +2459,7 @@
     "name": "Argyle",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Defensive.",
     "bio": "Argyle is the bass guitarist in a rock band that travels the country playing over 250 performances each year.  During their long bus trips, one of the ways the band members keep themselves occupied is by challenging each other to games of chess.  Roxy, the lead singer in the band, wins most of her games, so Argyle avoids playing her whenever he can.",
     "raw": [
@@ -2540,7 +2540,7 @@
     "name": "Anders",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Timid attacker.",
     "bio": "When he was ten, Anders discovered a broken airplane toy in the park, fixed it, and decided he'll fly one day. Twenty years later, he didn't become a pilot, but a storage deposit manager for a commercial airline. In his spare moments, he enjoy playing chess or cards with his work buddies.",
     "raw": [
@@ -2621,7 +2621,7 @@
     "name": "Luca",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Undervalues bishops",
     "bio": "Few of Luca's friends know that the first circus show she went to was a disaster. She was only 5, and a clown scared her so much that she had nightmares for a month. Surprisingly, her father's idea of dressing her into a clown worked - and now one of Luca's favourite activities is playing the clown to cheer up hospitalized children. When one of the kids challenged her to a chess game, she couldn't admit she didn't know the game, and lost. Since then, she learned the rules and is ready to challenge any of the little troublemakers.",
     "raw": [
@@ -2702,7 +2702,7 @@
     "name": "Jonesie",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Sacrifices queen.",
     "bio": "Jonesie is the guy who calls you during dinner to ask how you feel about the latest budget initiative in your city.  In between jobs doing telephone polls, he also works as a telemarketer, usually for one of the many available long-distance services.  Hes so accustomed to hearing the phone slammed down in his ear that it no longer bothers him.  While waiting for his automatic dialer to locate a live human being, Jonesie and his fellow telemarketers pass the time by playing tic-tac-toe and chess.",
     "raw": [
@@ -2783,7 +2783,7 @@
     "name": "Duke",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "AlekhineA.OBK",
+    "book": "AlekhineA.bin",
     "summary": "Tries to mimic GM Alekhine",
     "bio": "Duke lives on his family`s ranch outside of Santa Fe, New Mexico.  He and his family work very hard, rising at 5:00 AM every day to care for their livestock.  Duke`s main responsibility is caring for the family`s horses, with which he has a special rapport.  When he gets the chance, Duke really enjoys a good game of chess with one of his sisters.  He has a horse that he raised from birth and named Alekhine, after his favorite chess player.",
     "raw": [
@@ -2864,7 +2864,7 @@
     "name": "Eddie",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Tries to get rid of enemy knights",
     "bio": "Eddie has written his first comic when he was six, but gave up the dream of being an author in favor of collecting comic books and writing reviews for his small web site. His hobby doesn't pay, so he teaches computer science at the local college. His favourite comic writer is Scott McCloud, and after reading about his obsession with chess, he learned the game and plays it now and then.",
     "raw": [
@@ -2945,7 +2945,7 @@
     "name": "Ella",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Neglects pawns",
     "bio": "Long time a software engineer for a large multinational company, Ella suddenly decided to move away from the crowded streets of New York to a small town in Vermont. This decision proved invaluable - her health is better than ever and she found new friends. Not to mention the enchanting scenery...",
     "raw": [
@@ -3026,7 +3026,7 @@
     "name": "Lucy",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Promotes pawns",
     "bio": "If you talk to Lucy, be prepared for an argument.  It`s not that she`s a negative person, but she loves to engage people in debate, a trait that comes in handy as captain of her school debating team.  She`s also a member of the Young Democrats club, and hopes to have a career in politics.  Lucy and her twin sister, Lisa alternate between being best friends and friendly rivals.  One of the ways they work out their differences is over a good game of chess.",
     "raw": [
@@ -3107,7 +3107,7 @@
     "name": "Berry",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Plays for material",
     "bio": "Berry has been around the world five times.  As a flight attendant on international flights, she flies back and forth from Washington, D.C. and New York City to European capitols every day.  On her days off, she makes liberal use of the free airfare available to her and has visited almost every major airport in the world.  Some of the regulars on her overnight flights like to play chess, and she plays whenever she gets the chance.",
     "raw": [
@@ -3188,7 +3188,7 @@
     "name": "Raj",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Trades away pieces.",
     "bio": "Raj is determined to find a cure for cancer.  As part of a team of genetic engineers, Raj is working on ways in which DNA can be used to combat disease and the destruction of cells.  Raj and his co-workers are very dedicated to their work, often toiling round the clock and on weekends.  To encourage his employees to take breaks, Rajs boss recently added a ping pong table, dartboard, and chess table to the company break room.",
     "raw": [
@@ -3269,7 +3269,7 @@
     "name": "Jeff",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "RubinsteinA.OBK",
+    "book": "RubinsteinA.bin",
     "summary": "Overvalues rooks",
     "bio": "Jeff is a college student who is looking forward to someday being a website developer. He enjoys the speed required by the industry, where impossible deadlines can appear out of nowhere. It is for the very same reasons that Jeff occasionally enjoys a game of chess. And, having an efficient and quick analytical mind, he is pretty good for a novice. He doesn't take the game seriously enough to put in the same amount of study and research that he puts into learning Java and other web languages, however.",
     "raw": [
@@ -3350,7 +3350,7 @@
     "name": "Mark",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Favors bishops",
     "bio": "Mark created his first web site as a teenager.  Hes grown with the industry and is now an in-demand Webmaster.  Many of the companies Mark has worked for have created instant millionaires among their employees.  Unfortunately, Mark has demonstrated a serious talent for bad timing, and has jumped ship just before each big score. Co-workers have begun to consider it a good omen when Mark leaves their company.  One of the web sites Mark created is for an on-line chess game.",
     "raw": [
@@ -3431,7 +3431,7 @@
     "name": "Marius",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Likes to capture",
     "bio": "Traveller by nature, Marius earns his living by writing travel guides. He has made a reputation as a hunter of beautiful unknown places, but many readers complain that you can't even find the Eiffel tower using his Paris guide. He collects boardgames from all over the world, and has more than 50 chess variants which he plays ocassionally.",
     "raw": [
@@ -3512,7 +3512,7 @@
     "name": "Thorian",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Perhaps too cautious",
     "bio": "As a little boy, Thorian was bullied by the neighboring kids because of his unusual name. That's why he started building muscle - to become worthy of this extravagant, fantasy hero-like name. At eighteen, he won his first bodybuilding contest, then enrolled in the army and became an expert in urban operations. Trying to improve his military training, he started playing chess - but his achievements on the chess board are still far from those on the field.",
     "raw": [
@@ -3593,7 +3593,7 @@
     "name": "Josh6",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "EarlyQueen.OBK",
+    "book": "EarlyQueen.bin",
     "summary": "Goes for the king, brings queen out early, never gives up",
     "bio": "Josh Waitzkin learned to play chess in Washington Square Park in New York City when he was 6 years old. His early teachers were old retired men and chess hustlers, tough players who moved the pieces trying to eke out a living. Josh was a gifted tactician and a fierce competitor, perfect for the park, and his games always attracted a crowd. In games against seasoned players he would sometimes seem to fall into a zone. His mother would say that when he sat down at the chess board the little boy went away and an old man came to play.",
     "raw": [
@@ -3674,7 +3674,7 @@
     "name": "Christian",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Relentless attacker",
     "bio": "Since as far as he can remember, Christian liked toys, be they rubber balls or sophisticated Home Theatre systems. When he's not managing databases for a living, he likes to tinker with his huge electronic toy collection. His last achievement was to build two robot armies and make them play chess, controlled by a handheld chess computer.",
     "raw": [
@@ -3755,7 +3755,7 @@
     "name": "Krycek",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "OldBook.obk",
+    "book": "OldBook.bin",
     "summary": "Good openings and endgames",
     "bio": "Krycek left home at the age of 15, earning his keep as a cyber-jockey for hire. He stumbled on some old chess books in a used bookstore, and became an immediate fan, committing entire classic chess games to memory.",
     "raw": [
@@ -3836,7 +3836,7 @@
     "name": "Willow",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Accepts draws, undervalues knights",
     "bio": "As her name would indicate, Willow is the daughter of hippies and a child of the earth. She lives off the land with a group of kindred souls and occasionally plays chess by firelight in the group`s communal living room.",
     "raw": [
@@ -3917,7 +3917,7 @@
     "name": "Joey",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Solid player",
     "bio": "Joey is really into computers, but nobody would ever call him a nerd.  He`s also the president of his class and one of the best gymnasts at his school.  His friends love to come to Joey`s house to see all of the coolest computer games and Internet web sites.  After his friends leave, Joey often logs onto an Internet chess site, and plays chess against players from all over the world.",
     "raw": [
@@ -3998,7 +3998,7 @@
     "name": "Bogie",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Controls center",
     "bio": "A professional hockey player by trade, Bogie has an extremely aggressive style on the ice. In contrast, he`s a surprisingly gentle chess player. Perhaps that's because he mostly plays chess against his two daughters, aged six and eight.",
     "raw": [
@@ -4079,7 +4079,7 @@
     "name": "Kris",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Weak.OBK",
+    "book": "Weak.bin",
     "summary": "Weak openings",
     "bio": "Kris is an aspiring photographer currently working as an assistant for one of the leading fashion photographers in the industry. An energetic worker, Kris is thrilled when, from time to time, she`s allowed to set up a shot. On the set, she`s often lured into chess matches by various craftspeople and models, including Rick.",
     "raw": [
@@ -4160,7 +4160,7 @@
     "name": "Miranda",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Neglects center",
     "bio": "A recent college graduate from UC Santa Barbara, Miranda is currently working as a hostess at a trendy Los Angeles eatery while looking for a PR job in the movie industry. After discovering that chess is becoming one of the trendy things to do in Hollywood, Miranda began sharpening up her game. It`s been 8 years since she first learned to play chess.",
     "raw": [
@@ -4241,7 +4241,7 @@
     "name": "Adam",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Undervalues pieces",
     "bio": "Adam is a computer game addict.  His parents have instituted strict rules about when he can and cannot play games on the computer, because otherwise he`d never get his homework done, or spend any time with friends and family.  Adam has been designing his own computer game, and secretly spends part of his homework time programming his new game.  He frequently plays chess online, because it`s one of the few games his parents don`t disapprove of.",
     "raw": [
@@ -4322,7 +4322,7 @@
     "name": "Buddy",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Plays fast, takes draws",
     "bio": "Buddy is Jessica`s younger brother. Having watched his older sister endure the pressures of being a chess star, Buddy has made sure that the same fate doesn`t visit him. He often plays erratically and loses on purpose so his father will lose patience and end the chess lessons. Then Buddy happily joins his friends in his favorite pastime, skateboarding.",
     "raw": [
@@ -4403,7 +4403,7 @@
     "name": "Orin",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Undecided",
     "bio": "Orin doesn't know what to do with his free time. He has so many hobbies he can't decide between them, and usually drops a coin to see what to do next: play soccer on his computer or watch movies. He likes trying new things, but this usually means he will need to spend even more time dropping coins. After watching a news report about the Fischer/Spassky rematch, he decided chess is cool and added it to his hobby list.",
     "raw": [
@@ -4484,7 +4484,7 @@
     "name": "Miguel",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Overvalues pawns",
     "bio": "Miguel started out as a teenager working at a burger joint.  By working hard, saving money, and developing contacts, he was eventually able to buy a fast food franchise of his own.  He now owns 12 fast food restaurants and plans to retire within the next five years.  When he does retire, he plans to travel the world and dedicate himself to a deeper study of art, music, languages, and chess.",
     "raw": [
@@ -4565,7 +4565,7 @@
     "name": "Risa",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Hangs pawns",
     "bio": "Risa went to an American school in her native Japan and as a result, speaks fluent English.  After she graduated from college with a Masters in Business, her professional path was set.  She now free-lances to large corporations as an interpreter, with special capability in the area of large-scale mergers.  She often gains respect from her clients by engaging them in chess matches.  She usually loses these matches which, it turns out, is a good business move.",
     "raw": [
@@ -4646,7 +4646,7 @@
     "name": "Gil",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Makes random moves",
     "bio": "Gil is the talent booker for a small music club.  Renowned for his knowledge of folk and blues artists, Gil puts together popular shows with unexpected combinations of artists.  People travel from all over the country to see his shows and the inevitable jam sessions that happen after.  In the wee hours of the morning, when most club patrons have long since gone home, Gil often engages in chess games with various musicians, waiters, and flunkies.",
     "raw": [
@@ -4727,7 +4727,7 @@
     "name": "Lacey",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth2.OBK",
+    "book": "Depth2.bin",
     "summary": "Plays fast, limited depth",
     "bio": "Lacey is a Boston lawyer specializing in business law. She has a commuter marriage with her husband, a city planner in New York City. Since she and her husband have so little time together, they look for unique ways to share fun times together. One of the activities they enjoy is carrying on chess matches via e-mail.",
     "raw": [
@@ -4808,7 +4808,7 @@
     "name": "Hayden",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Sometimes makes random moves",
     "bio": "Hayden`s parents are both college professors and really want their son to follow their academic path.  Unfortunately, Hayden is more interested in sports, especially tennis.  While his parents pressure him to bring his grades up so he can attend an Ivy League college, Hayden`s plan is to win a tennis scholarship at a California University, and eventually become a tennis pro or tennis coach.  As part of his parents` academic regimen, Hayden is required to play chess several afternoons per week.  In truth, he kind of likes the game, but hates that his parents make him play it.",
     "raw": [
@@ -4889,7 +4889,7 @@
     "name": "Trudy",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "KnightMoves.OBK",
+    "book": "KnightMoves.bin",
     "summary": "Knight openings",
     "bio": "Trudy is a travel guide who takes American tourists on tours throughout Europe and Scandinavia. After years of dealing with the 'Ugly American,' Trudy has seen it all, from a rich oilman insisting on buying Trevi Fountain, to a woman sending back Steak Tartare because it was undercooked. An avid chess player, Trudy spotted an opportunity to expand her business and organized a chess tour of Russia, where participants received instruction from some of the finest chess minds in the Soviet Union.",
     "raw": [
@@ -4970,7 +4970,7 @@
     "name": "Seb",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Quick development, good openings",
     "bio": "His brother maliciously pretends that Seb discovered his love for sport while being chased by a dog during a countryside trip. Now, a good twenty years later, Seb is a polyvalent athlete who likes to spend many hours jogging, skating or longboarding in the parks. When he's tired of running, he likes to relax by the chess corner and watch the games.",
     "raw": [
@@ -5051,7 +5051,7 @@
     "name": "Andy",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Favours knights over bishops",
     "bio": "Andy was an untypically quiet kid before turning out into an untypical noisy teenager, quick to react and fight just for the fun of it. After being thrown out of every club in the neighborhood, he was out of battlefields - and his parents, awfully worried about his future, sent him for the summer in a remote village in the heart of the mountains. Now, a good ten years later, Andy still spends every summer here, hiking, freeclimbing and playing chess in the evenings at the village pub.",
     "raw": [
@@ -5132,7 +5132,7 @@
     "name": "Josh7",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "EarlyQueen.OBK",
+    "book": "EarlyQueen.bin",
     "summary": "Attacks; Strong middle and endgame; weak openings",
     "bio": "Josh Waitzkin started working with renowned chess coach Bruce Pandolfini when he was 7 years old. Their early study focused on the end game and Josh soon became very confident in this crucial part of the struggle. In his first tournament games, Josh often found himself down a pawn or a piece but would fight back and usually finesse a win in the end game. Bruce started calling Josh 'Tiger' because of his attacking style and the name caught on at Washington Square Park in New York City, where he often played. Josh was a 1400 player when he was 7, stronger than half the tournament players in the country.",
     "raw": [
@@ -5213,7 +5213,7 @@
     "name": "Shaun",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Charging attacks",
     "bio": "An active teenager, Shaun plays football on his school team (which won their division championship), goes dirt bike riding, and is learning to kickbox.  If there were more hours in the week, he`d also play rugby and hockey.  About the only time he sits still (except when he`s doing his homework) is when he`s engaged in a chess match with one of his brothers. His competitive spirit is just as evident on the chessboard as it is on the football field.",
     "raw": [
@@ -5294,7 +5294,7 @@
     "name": "Griffin",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Balanced",
     "bio": "A computer graphics artist working in Silicon Valley, Griffin was given a box of oil paints and a chess set by his parents on his twelfth birthday. It was the chess set that initially captured Griffin`s imagination. After becoming the best chess player in his junior high school class, he rediscovered those untouched oil paints and moved on to earn an MFA from a respected art school. His love for chess and chess imagery resurfaced years later in his now well-known 'Bishop Series' of offset lithographs.",
     "raw": [
@@ -5375,7 +5375,7 @@
     "name": "Eric",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Balanced, trader",
     "bio": "During college, Eric's favourite pasttime was 'training' by hacking into corporate networks. Luckily, the ones who finally caught him red-handed hired him on the spot - and since then, Eric's most daring Internet adventure was winning an online chess tournament.",
     "raw": [
@@ -5456,7 +5456,7 @@
     "name": "Ioan",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Moderate attacker",
     "bio": "A competitive nature, Ioan is quick to take a challenge and never misses the opportunity to try new things. After dipping his toes into bridge, karting, paintball and every multiplayer computer game ever made, Ioan found a chess set and was eager to prove his mettle. He soon realized he needs too much time to practice in order to become as good as he'd want to...",
     "raw": [
@@ -5537,7 +5537,7 @@
     "name": "Mariah",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Protects queen",
     "bio": "An eight-year old tomboy, Mariah divides her time between soccer, rollerblading, and chess. She already shows a lot of talent in chess and is very good at figuring out difficult moves and positions. Though her parents can still beat her at chess, she spends a lot of time studying the game, and is getting better every day.",
     "raw": [
@@ -5618,7 +5618,7 @@
     "name": "Diana",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Defensive, trades queens",
     "bio": "As the head of the HR department of a large international company, Diana likes to test every potential employee using a large array of games and riddles; of course, there's always a chess set on her desk. She's currently working on her doctoral thesis on 'Exploiting inner competitive tendencies to maximize productivity', for which her day-to-day experiences prove to be invaluable.",
     "raw": [
@@ -5699,7 +5699,7 @@
     "name": "Elijah",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Undervalues bishops",
     "bio": "Elijah`s favorite class is journalism, and his favorite part of the day is the time he spends working on the school newspaper.  Though he enjoys writing news stories, his favorite articles are feature stories about interesting people or events he hears about.  Part of Elijah`s 'beat' as a reporter is his school`s chess club, which is easy for him because he is already a member.",
     "raw": [
@@ -5780,7 +5780,7 @@
     "name": "Alicia",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "King safety",
     "bio": "Alicia has been interested in fashion ever since the first time her mom told her not to wear plaid and polka dots together. She started making her own clothes when she was 11 and recently designed her own prom dress. She works after school in a boutique and is saving her money to attend a design school in Paris. Some afternoons, when business in the boutique is very slow, Alicia and another clerk pass the time by playing chess.",
     "raw": [
@@ -5861,7 +5861,7 @@
     "name": "Will",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "TalM.OBK",
+    "book": "TalM.bin",
     "summary": "Tal-like",
     "bio": "Will finally received his Doctor's degree in Philosophy from a large university in Southern California. He frequently escaped from his doctoral thesis by playing chess with fellow students at the campus pub, where he was known as 'that guy who's always there in the corner'. To celebrate, he put everything he owned into storage and moved to Australia, although it is certain that he is still making friends and playing chess regularly. Although, now he's called 'that guy who's behind the bar', as he has found his true calling as a bartender. Never a serious student of chess, Will plays logically, but often comes up short in the endgame. ",
     "raw": [
@@ -5942,7 +5942,7 @@
     "name": "Ash",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Doesn't trade",
     "bio": "If you've a bad day or just feeling moody, Ash is the kind of girl you want to come across - she's always merry, she knows the latest jokes, and her smile is contagious. As a kid, Ash (dressed as a rabbit) won a stand-up comedy contest during a summer camp and received a funny chess set with sheeps and wolves, which she still displays in her living room. Much to the surprise of her guests, Ash is more of a wolf than a sheep on the chessboard...",
     "raw": [
@@ -6023,7 +6023,7 @@
     "name": "Aaron",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Positional player",
     "bio": "Aaron likes to think of himself as a modern day explorer.  In his job as a geologist, he frequently travels to uninhabited places in search of oil, precious metals, or interesting geological formations.  Since he spends weeks at a time living out of his backpack, entertainment is a precious commodity, and he and his partners enjoy the luxury that their pocket chess set provides them.",
     "raw": [
@@ -6104,7 +6104,7 @@
     "name": "Amo",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Trader",
     "bio": "When he's not tackling on difficult computer algorithms, Amo likes to skate leisurely in the central park, listening to his walkman. That's how he met his girlfriend (actually, he bumped into her...), a quiet and shy beauty who likes to play chess in the open. To talk to her and see her more often, Amo traded his roller skates for a chess set. Since then, his playing strength grew steadily.",
     "raw": [
@@ -6185,7 +6185,7 @@
     "name": "Liz",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Accepts draws, undervalues bishops & knights",
     "bio": "A best-selling author of romance novels, Liz is independently wealthy and spends several months of each year touring the world on luxury cruise ships. She plays chess mostly to meet eligible bachelors while travelling and finds it to be an excellent way to determine the intelligence and breeding of her opponents.",
     "raw": [
@@ -6266,7 +6266,7 @@
     "name": "Cole",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth2.OBK",
+    "book": "Depth2.bin",
     "summary": "Vulnerable king",
     "bio": "Cole is a psychic healer.  He first discovered his talent shortly after being struck by lightning on his 21st birthday.  His first patient was his Irish Setter, Oasis, who was born with hip dysplasia.  After being massaged by Cole, Oasis started running around like a puppy - for the first time in his life.  It wasnt long before Cole began practicing his healing powers on people as well.  Cole finds his healing sessions to be very draining, and he relaxes by playing chess.",
     "raw": [
@@ -6347,7 +6347,7 @@
     "name": "Sunny",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Drawish.OBK",
+    "book": "Drawish.bin",
     "summary": "Drawish",
     "bio": "Sunny is the stay-at-home mother of four children, ages 4-11. Her busy life is added to by the fact that she and her husband have decided to home-school their children. Believing chess to be an excellent lesson in logic, probability and strategy, they have decided to include chess in their children`s weekly curriculum.",
     "raw": [
@@ -6428,7 +6428,7 @@
     "name": "Sam",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "FastLose.OBK",
+    "book": "FastLose.bin",
     "summary": "Refuses draw",
     "bio": "Sam is a martial arts expert who makes her living by doing kick-boxing exhibitions and by teaching kick-boxing and karate. Sam also greatly enjoys a good game of chess. Though trained extensively to use patience and self-control, Sam now uses only plastic chess pieces and roll-up boards in her games, as she often resorts to fits of karate when the chess game doesn`t go her way.",
     "raw": [
@@ -6509,7 +6509,7 @@
     "name": "Cal",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "DangerDon.obk",
+    "book": "DangerDon.bin",
     "summary": "King`s pawn openings",
     "bio": "Cal learned chess at an early age and played extensively until his parents, worried about his social development, tried to make him give up the game. In college, his interest in chess and psychology culminated in a doctoral thesis entitled 'Psychophysical analysis of the relationship between concentrated multiple-ply searches and dissociative identity / obsessive-compulsive disorders with related trichotillomania.' Cal now has a thriving psychotherapy practice, but has ruined years of therapy by mercilessly trouncing his patients.",
     "raw": [
@@ -6590,7 +6590,7 @@
     "name": "Trent",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Controls center",
     "bio": "Trent`s mom loves to tell the story of the time three-year-old Trent wandered away from their campsite and took up residence with two baby bear cubs in a cave.  Luckily, he was found before the mama bear returned.  Trent has always felt comfortable in the woods, and often rides his mountain bike through the forest near his home.  He`s been an apprentice trail guide at a nearby national park for three years and will probably be promoted to full guide next year.  He and his family camp together often, and always bring a portable chess set with them so they can play chess around the campfire.",
     "raw": [
@@ -6671,7 +6671,7 @@
     "name": "Annie",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Plays cramped positions",
     "bio": "Annie is a straight A student who really enjoys school.  Her favorite subject is math - any kind of math - algebra, geometry, even calculus.  She became attracted to chess when her math instructor used calculation of chess movements as a problem for the class.  She studies chess diligently and is quite good at the game, though she tends to play fairly technically, ignoring her intuition altogether.",
     "raw": [
@@ -6752,7 +6752,7 @@
     "name": "Max",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "LowCaptureBook.obk",
+    "book": "LowCaptureBook.bin",
     "summary": "Plays quickly, limited depth",
     "bio": "A gardener by trade, Max enjoys creating beauty and order out of chaos and dirt. Though he doesn`t play chess often, he always joins in at get-togethers of his large extended family, where everybody, from the wisest elder to the squirmiest child, plays chess and discusses moves and strategies.",
     "raw": [
@@ -6833,7 +6833,7 @@
     "name": "Charles",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Gambit.OBK",
+    "book": "Gambit.bin",
     "summary": "Gambit openings",
     "bio": "Charles is a senior analyst with a large brokerage firm. He recently began playing chess again, after years away from the game, as a way to find common ground with his troubled teenage son.",
     "raw": [
@@ -6914,7 +6914,7 @@
     "name": "Josh8",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "WaitzkinJ.OBK",
+    "book": "WaitzkinJ.bin",
     "summary": "Tough in the endgame Vulnerable openings",
     "bio": "Josh Waitzkin started playing in adult tournaments when he was 8 years old. Though this was frustrating in many ways, he found that his games against adults gave him an edge when competing against kids. He played for the national title for the first time at 8 and  was sure he would win but fell for an opening trap and lost in the last round. David Arnett, the kid that beat him, would later become his best friend and a chess master. Josh would later describe that loss as the most painful and greatest moment in his chess life. 'Talent is cheap,' he would come to reflect, 'You have to put in the work'.",
     "raw": [
@@ -6995,7 +6995,7 @@
     "name": "Ginger",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Trappee.OBK",
+    "book": "Trappee.bin",
     "summary": "Offers traps in opening",
     "bio": "Ginger is currently one of Hollywood`s hottest agents. When not schmoozing the studios or babysitting her clients, Ginger is often participating in Hollywood`s latest craze: chess. A surprisingly talented player, Ginger will lose when it`s a wise business decision to do so. Ginger`s new favorite phrase is 'Let`s do chess.'",
     "raw": [
@@ -7076,7 +7076,7 @@
     "name": "Kanna",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Balanced player",
     "bio": "As usual for a kid raised in a village situated at more than 2000 feet above sea level, Kanna is very good at almost every winter sport. Moreover, being the single girl of her age in the village made her combative and independent, to the point where the first guy daring to approach her for romantic purposes was a town boy spending his summer vacation there.",
     "raw": [
@@ -7157,7 +7157,7 @@
     "name": "John",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Strong openings",
     "bio": "When he's not teaching or composing math problems, John likes to spend his time outside, cutting the wild grass or loping the trees. His passion for mathematics is reflected in the beautiful geometrical structure of his garden, and in his other favourite pastime, logical games. He even has a garden chess set, and during garden parties on sunny days he likes to challenge his neighbors to a game.",
     "raw": [
@@ -7238,7 +7238,7 @@
     "name": "Wendy",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth2.OBK",
+    "book": "Depth2.bin",
     "summary": "Neglects passed and weak pawns",
     "bio": "A successful inventor, some of Wendy`s more noted creations include the doggie litter box, a doggie high chair, and a doggie stroller. The inspirations for her inventions are her two toy poodles, Peter Pan and Tinkerbell. Wendy insists that her two dogs be groomed every week, and occupies her waiting time at the grooming shoppe by challenging the French owner to games of chess.",
     "raw": [
@@ -7319,7 +7319,7 @@
     "name": "Tasha",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Good all-around player",
     "bio": "Tasha is a very talented young writer.  She writes poetry, children`s books, and has even written a short novel, but she especially loves to write short stories.  Three of her stories have been published in literary publications, and she`s won regional and national writing awards for her work.  Her writing ability has already garnered interest from an Ivy League school, and she expects to be able to attend college on full scholarship.  Tasha`s entire family plays chess, and she can`t ever remember not knowing how to play the game.",
     "raw": [
@@ -7400,7 +7400,7 @@
     "name": "T.C.",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "BirdH.OBK",
+    "book": "BirdH.bin",
     "summary": "Emulates Bird and Morphy",
     "bio": "T.C. was found as a baby on the shores of Pittsburg Landing, near the battlefield museum commemorating the battle of Shiloh. While still a small child, T.C. had the eerie ability to correctly recite the exploits of obscure Civil War generals. As he grew older, T.C. turned his attention from 19th-century military campaigns to the strategic possibilities offered by a 64-square battlefield. Like his 19th-century chess idols, T.C.`s penchant for wild and woolly play made for some strange results, as in one high school tournament where he lost all of his games with White and won all his games with Black. T.C. will likely never win an event at any level, but his play is generally anything but boring.",
     "raw": [
@@ -7481,7 +7481,7 @@
     "name": "Dylan",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Balanced",
     "bio": "Though initially discouraged from playing chess by his father (who worried about the solitary intensity the game requires), Dylan has developed an amazingly healthy attitude toward the game. By balancing his study of chess with his love for baseball and goofing off, Dylan has managed to improve his skills while still maintaining a normal life. He and his father frequently have long, heated matches, which Dylan has, from time to time, begun to win.",
     "raw": [
@@ -7562,7 +7562,7 @@
     "name": "Guillaume",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Attacker",
     "bio": "Guillaume is the leader of an outlaw chess club called 'The Bishops of Bad'. He grew up on the harsh streets of the Princeton ghetto, playing high-stakes speed chess for money. At the age of 18, he was thrown out of the Tristate Chess tournament for insisting on having the first move while playing the black side of the board. His dream is to get back into the Tournament and win enough money to buy himself a motorcycle.",
     "raw": [
@@ -7643,7 +7643,7 @@
     "name": "Marie",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Pawn hunter",
     "bio": "A child of the sand, Marie has followed her father during all of his archaeological expeditions. She once rescued a camel during a sand storm, and the owner offered her a handcrafted chess set as reward. Even if she's no longer interested in uncovering the secrets of ancient North Africa, she still plays chess against her friends now and then.",
     "raw": [
@@ -7724,7 +7724,7 @@
     "name": "Nikolai",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Neglects pawns",
     "bio": "Nikolai is a physics professor at a prestigious European college.  He is a tough taskmaster, and students have to work hard to receive merely a passing grade.  Nonetheless, students flock to his classes, as everyone knows that, once theyve taken his class, their understanding of physics will be well-grounded, and their academic background will be given prestige.  During his rare time off, Nikolai teaches chess, and is an equally demanding teacher on the chessboard. ",
     "raw": [
@@ -7805,7 +7805,7 @@
     "name": "Michael",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Likes to draw",
     "bio": "A sensitive eye doubled by a pragmatic mind, Michael dropped school to launch his own animation company. At first, things were bad - he practically survived on black tea and peanut butter sandwiches. However, his first computer animated video (a funny battle between some neglected chess pieces in an attic) proved a winner. Since then, Michael decided chess means good luck to him, and started wearing a knight suspended by a silver chain.",
     "raw": [
@@ -7886,7 +7886,7 @@
     "name": "Mateo",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Neglects center",
     "bio": "Mateo graduated from high school at the age of 15 and is already a student at a prestigious university.  He is studying to become a chemist or molecular biologist.  Mateo is the first in his family to attend college, and his parents are very proud of him.  Though his family is working class, they have always placed a high value on intellectual pursuits, and taught all of their children to play chess at an early age.",
     "raw": [
@@ -7967,7 +7967,7 @@
     "name": "Hans",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Balanced",
     "bio": "Hans lives in the Swiss Alps and leads ski tours in the winter and hiking tours in the summer. Part of the tourist appeal at the lodge where he works is the opportunity to curl up in front of a warm fire every evening with a hot buttered rum and a good book or a game of chess. With his charming personality and handsome appeal, Hans is a favorite with the ladies.",
     "raw": [
@@ -8048,7 +8048,7 @@
     "name": "Jon",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Values bishops over knights",
     "bio": "If asked to name his favorite historical figure, Jon would probably say Pablo Picasso or Leonardo DaVinci.  Jon is quite a good artist in his own right, and carries a sketchbook with him wherever he goes.  This has occasionally gotten him into trouble in school, where he is often reprimanded for sketching the teacher`s portrait rather than listening to the lesson.  Jon`s best friend from childhood turned out to be a science nut and the thing the two friends still have in common is their love of chess.",
     "raw": [
@@ -8129,7 +8129,7 @@
     "name": "George",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Favors knights",
     "bio": "George is known as 'The Singing Dentist.'  An operatic baritone, George likes to sing while he works and (most of) his patients actually find it relaxing when he sings.  Usually, he sings opera or popular music (and occasionally takes requests), but when he works on children, he sings songs he made up about Mr. Tooth, Mr. Drill, and Madame Rinse and Spit.  George really enjoys chess and plays on-line whenever he gets the chance.",
     "raw": [
@@ -8210,7 +8210,7 @@
     "name": "Josh9",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "WaitzkinJ.OBK",
+    "book": "WaitzkinJ.bin",
     "summary": "Strong tactics, open game, endgame; Weak opening",
     "bio": "Josh Waitzkin won his first National Championship at age nine, which became the basis for the book and film 'Searching For Bobby Fischer'. He would later say that this victory was the most important in his life because it taught him that hard work pays off and that he should never give up. Since losing the year before he had studied long hours and had developed a feel for the end game unusual for a boy so young. He was already becoming a complete player rated around 1800 and competing almost exclusively against adults, he could slash through a tactical melee or eke out a win in an even end game. ",
     "raw": [
@@ -8291,7 +8291,7 @@
     "name": "Waldo",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Gambit.obk",
+    "book": "Gambit.bin",
     "summary": "Trades bishops for knights",
     "bio": "A professional courier of sensitive documents for the Pentagon, Waldo spends over 50% of every week on an airplane, travelling to some exotic locale. To his sky-high seatmates, he often represents his job as being that of a secret agent. Because he meets dozens of new people every week, he`s seldom at a loss for a new chess opponent to challenge on his magnetic travel set. Waldo`s story of being a secret agent backfired on him when he sat next to Liam on a Moscow/New York flight.",
     "raw": [
@@ -8372,7 +8372,7 @@
     "name": "Slick",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Merlin.obk",
+    "book": "Merlin.bin",
     "summary": "Likes Sicilian",
     "bio": "A child prodigy in math, Slick took up chess when he concluded that it was a strictly mathematical game. As in math, he developed his own shortcuts for solving many chess problems. Slick will play anyone at any time, and plays just for the fun of it. All games are challenging to him, as every game is different. Slick was given his nickname because of his tendency to leave his pieces as mobile as possible.",
     "raw": [
@@ -8453,7 +8453,7 @@
     "name": "Vlad",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Unorthodox.obk",
+    "book": "Unorthodox.bin",
     "summary": "Unorthodox openings, Very Fast",
     "bio": "Vlad is a Russian-born physicist who emigrated from his native country to the United States to be able to work on non-defense applications. Like many Russians of his generation, he learned chess in school as a young boy. In the United States, Vlad has used his expertise at chess to help him make friends and overcome language barriers. ",
     "raw": [
@@ -8534,7 +8534,7 @@
     "name": "Odile",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Favors bishops",
     "bio": "When her own room proved too small for the increasing collection of poetry books, Odile decided to look for another way to pursue her hobby. After working a couple years for a famous publishing house, she settled on working as a librarian - now she's got all the poetry she can handle, and for free...",
     "raw": [
@@ -8615,7 +8615,7 @@
     "name": "Dave",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Favors knights",
     "bio": "Dave has probably made you laugh more times than youll ever know.  As a veteran comedy writer, Dave has contributed material to scores of well-known comedians, politicians and talk shows.  His credits also include a top-grossing movie and years as head writer for a number-one television show.  Now living off of residuals, Dave spends his days gardening, playing chess, and walking his dogs, Larry, Moe and Curly.",
     "raw": [
@@ -8696,7 +8696,7 @@
     "name": "Tick",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Mobile, balanced",
     "bio": "Tick's got his nickname after his other favourite pasttime: fixing watches. Or, as his lovely wife says, 'dismantling perfectly working items in order to pretend repairing them'. His leading hobby is chess, though, and during every lunch break he battles it out over the Internet, making friends with people from exotic places - he pretends his last opponent was an Eskimo.",
     "raw": [
@@ -8777,7 +8777,7 @@
     "name": "Liam",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Bipto.obk",
+    "book": "Bipto.bin",
     "summary": "Likes Queen`s Gambit, Caro-Kann",
     "bio": "A former CIA operative, Liam learned chess as part of his cover in the Soviet Union. He rose high in the ranks of the 'Secret Scythe' chess organization that was the backbone of the Soviet Chess machine in the `80s. Liam began to manifest 'identity problems' in the late `80s as the Soviet Union began to collapse. After one devastating loss, Liam swore to 'destroy the chess world', and defected to Cuba. New reports, however, claim that he is a homeless outcast, playing for pesos on street corners and alleyways, and not always winning. ",
     "raw": [
@@ -8858,7 +8858,7 @@
     "name": "Kenji",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Overvalues knights",
     "bio": "The long lost son of an honored samurai, Kenji took up chess knowing that it was a game his father enjoyed and that the game serves as a connection to his deceased father. He works as a professor of mathematics and enjoys collecting samurai swords.",
     "raw": [
@@ -8939,7 +8939,7 @@
     "name": "Toni",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Pawngrabber",
     "bio": "A receptionist at a high-class law firm, Toni often finds herself to be bored between the inevitable crises and pressures of her job. After exhausting every game of solitaire and hangman she could find, she started playing chess on her computer at work. Toni learned to play from her father, so her moments with the game tend to bring back fond memories for her.",
     "raw": [
@@ -9020,7 +9020,7 @@
     "name": "Turk",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Unorthodox.obk",
+    "book": "Unorthodox.bin",
     "summary": "Unorthodox openings",
     "bio": "A native New Yorker, Turk was raised on the mean streets and learned to play chess at a local boy`s club. Thus saved from a life of crime, Turk is nonetheless a street hustler, occasionally selling discount wares, but mostly eking out a living by challenging all comers to speed chess matches, $5.00 a game, in Washington Square.",
     "raw": [
@@ -9101,7 +9101,7 @@
     "name": "Rusty",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Ignores positional play",
     "bio": "A cowboy and rodeo clown, Rusty has managed to find steady employment in the ranchlands of Wyoming. As a ten-year-old boy Rusty learned to play chess from his father. Though he no longer plays chess, he has fond memories of the time spent with his father.",
     "raw": [
@@ -9182,7 +9182,7 @@
     "name": "Luke",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Overvalues bishops",
     "bio": "A preacher in the bible belt, Luke is known for his powerful fire and brimstone sermons. Among the parishioners with whom he plays chess, he`s also known for his fire and brimstone style of playing chess. Don`t even think of messing with his bishops.",
     "raw": [
@@ -9263,7 +9263,7 @@
     "name": "Jessica",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Pawnmoves.OBK",
+    "book": "Pawnmoves.bin",
     "summary": "Overvalues pawns",
     "bio": "Jessica is a very promising young chess player who is coached by her father and feels a lot of pressure to succeed. Playing almost every day since the age of five has taken a toll on Jessica`s social life and she has recently begun to rebel against her father`s dreams. She sometimes plays erratically, even losing on purpose so that the lesson can be over and she can go to the mall.",
     "raw": [
@@ -9344,7 +9344,7 @@
     "name": "Roxy",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Unorthodox.obk",
+    "book": "Unorthodox.bin",
     "summary": "Unorthodox openings",
     "bio": "Roxy is the lead singer in a rock band that tours the country 250 days each year. During the band`s long bus journeys, chess is one of the activities used to occupy their time. As the only female on the bus, Roxy enjoys the fact that she almost always beats everybody else at the game. ",
     "raw": [
@@ -9425,7 +9425,7 @@
     "name": "Josh12",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "WaitzkinJ.OBK",
+    "book": "WaitzkinJ.bin",
     "summary": "Attacker, love of endgame, weaker positionally",
     "bio": "By the time Josh Waitzkin was 12 he had already won many national titles and was widely recognized as America`s strongest young player. In a simultaneous exhibition at age 11, Josh drew a game against World Champion Garry Kasparov, an unprecedented feat for a boy so young. However, Josh encountered his first plateau at age 12 as his rating hovered around 2170 for over a year. Finally, a few days after turning 13 he broke through and his rating quickly shot up to 2400. Josh learned that even the fiercest competitor must exhibit patience while his game grows.",
     "raw": [
@@ -9506,7 +9506,7 @@
     "name": "Rick",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Gambit.obk",
+    "book": "Gambit.bin",
     "summary": "Gambit openings",
     "bio": "Rick is an up-and-coming model who likes to relax at photography shoots by inviting models, set designers, hair stylists, etc., into chess competitions. Because of his pretty-boy/party boy reputation, his new opponents don`t tend to take him very seriously. They soon find out that he`s a very good player.",
     "raw": [
@@ -9587,7 +9587,7 @@
     "name": "Laura",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Undervalues bishops",
     "bio": "Despite the fact that her exotic look has brought her meteoric appearances in several TV shows during her teen years, Laura doesn't take her future as actress seriously. She used the money to pay for her economic studies and aims to become a real business woman in a few years. As part of her self-education, Laura took to chess and discovered she is a natural talent.",
     "raw": [
@@ -9668,7 +9668,7 @@
     "name": "Rand",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Balanced",
     "bio": "Rand is a Benedictine monk who spends part of each year participating in a vow of silence. During those times, many of the brethren like to play chess in the evenings when prayers and chores are done for the day. Though aggressive play is officially frowned upon, matches often become quite spirited, and Rand secretly takes great pride in the fact that he often wins.",
     "raw": [
@@ -9749,7 +9749,7 @@
     "name": "Dobie",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Prefers material",
     "bio": "A product of the TV generation, Dobie and his brother Maynard were not exposed to the finer things in life, including chess, by their parents. Now a Porsche salesman, Dobie`s wealthy girlfriend, Buffy, is teaching him the game so he can compete with her Mummy and Daddy during weekend getaways at their Long Island Estate.",
     "raw": [
@@ -9830,7 +9830,7 @@
     "name": "Wally",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "SlowBook.obk",
+    "book": "SlowBook.bin",
     "summary": "Undervalues queens",
     "bio": "Wally is a Midwestern farmer who meets with other farmers every Friday at the local coffee shop where they engage in games of chess, bridge, or pinochle. During the winter he and other chess lovers are likely to meet more frequently, often spending long afternoons challenging each other to matches.",
     "raw": [
@@ -9911,7 +9911,7 @@
     "name": "Doc",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Strong.OBK",
+    "book": "Strong.bin",
     "summary": "Balanced",
     "bio": "A veterinarian in rural Arizona, Doc has maintained a correspondence chess competition with an old college buddy currently living in Florida. Since both players know the other`s idiosyncrasies and playing styles so well, they are constantly trying to out-maneuver each other with new techniques and ideas.",
     "raw": [
@@ -9992,7 +9992,7 @@
     "name": "Lori",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Depth6.OBK",
+    "book": "Depth6.bin",
     "summary": "Balanced",
     "bio": "Behind a pretty face, Lori hides a formidable opponent. She has played chess since she was 5, and most of her family think she'll be the one to beat her grandfather's record, who won five chess tournaments in a single year.",
     "raw": [
@@ -10073,7 +10073,7 @@
     "name": "Vanessa",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Balanced",
     "bio": "Vanessa is a senior buyer for a major department store. Her self-confidence and winning personality help her to get great deals on high-quality merchandise for her stores. One of her favorite ways to unwind after a busy week is to sit down to a long, peaceful chess game with her husband.",
     "raw": [
@@ -10154,7 +10154,7 @@
     "name": "Natalie",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "LowCaptureBook.obk",
+    "book": "LowCaptureBook.bin",
     "summary": "Crowded openings",
     "bio": "Natalie comes from a family of over-achievers, with a brother who`s a champion gymnast and a sister who`s a violin prodigy. A talented pianist and gymnast in her own right, Natalie`s favorite pastime is chess, and her parents have given her every opportunity to pursue this interest. Now working on her B.A. at Yale, Natalie often goes to local coffeehouses to play chess.",
     "raw": [
@@ -10235,7 +10235,7 @@
     "name": "Jade",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "Overly defensive",
     "bio": "Jade was something of a child prodigy in chess, astounding her relatives by her ability to beat them all by the age of 10. An avid chess hobbyist, she occasionally played in tournaments throughout her teen years, and often placed in the top ten finalists. Jade is currently pursuing her Ph.D. in Eastern Philosophy at the University of California at Berkeley.",
     "raw": [
@@ -10316,7 +10316,7 @@
     "name": "Muldoon",
     "ponder": "easy",
     "version": "Chessmaster 10th Edition",
-    "book": "Strong.OBK",
+    "book": "Strong.bin",
     "summary": "Pawn-centric",
     "bio": "A computer programmer by profession, Muldoon wrote his first chess program for his Apple II when he was 13 years old. He has continued to enjoy the combination of chess and computers and buys the best and latest version of Chessmaster as soon as it hits the stores. Because of his long hours working on a computer screen, he often indulges in chess matches on-line.",
     "raw": [
@@ -10397,7 +10397,7 @@
     "name": "J.T.",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Trapper.obk",
+    "book": "Trapper.bin",
     "summary": "Plays for trap in opening",
     "bio": "J.T. attended the finest prep schools as a teenager, where chess was offered as part of the curriculum. Though naturally talented at the game, he never developed the passion needed to propel him from 'very good' status to the status of greatness. Though he hasn`t played much in recent years, he can usually sit down and pick up where he left off, instantly playing as well as he did in his teen years.",
     "raw": [
@@ -10478,7 +10478,7 @@
     "name": "Buck",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CaptureBook.OBK",
+    "book": "CaptureBook.bin",
     "summary": "Disregards center",
     "bio": "Buck is a long distance truck driver who occupies his time on long journeys by carrying on chess games with other truckers over CB radios. Anyone listening in to one of their transmissions is likely to be confused as they use their own trucker lingo for pieces and square moves. ('Elvis spotted at the second house, over,' translates to Kh2.) Playing this way has honed his ability to think through long strategies and picture tactics in his mind.",
     "raw": [
@@ -10559,7 +10559,7 @@
     "name": "Lili",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Weak.OBK",
+    "book": "Weak.bin",
     "summary": "Controls center",
     "bio": "Lili works for an advertising agency. She started to play chess late in her life - his husband taught her the basics. Even if they're both true workaholics, they always have a chess game ongoing. They play most often in the morning, after breakfast, before heading for work. They also play sometimes early in the evening, before watching TV.",
     "raw": [
@@ -10640,7 +10640,7 @@
     "name": "Jinx",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "FastBook.obk",
+    "book": "FastBook.bin",
     "summary": "Neglects center, mobility",
     "bio": "Jinx is the youngest in her chess-playing family with five older brothers, two of whom are chess champions. Jinx got her nickname by the fact that, whenever she attends a tournament in which one of her brothers plays, he always loses early in the competition. She has learned to play chess in much the same manner as she plays other competitive sports like 'one of the guys.'",
     "raw": [
@@ -10721,7 +10721,7 @@
     "name": "Lou",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "NoBook.OBK",
+    "book": "NoBook.bin",
     "summary": "Natural player",
     "bio": "A leading female chess player in the `60s, Lou stopped playing competitively to raise her two sons and pursue her law degree. She rarely plays these days, as neither her husband nor her sons provide much of a challenge to her abilities. However, she recently discovered the joy of playing chess on-line and from time to time logs on under the name 'Queen of Torts.'",
     "raw": [
@@ -10802,7 +10802,7 @@
     "name": "Sven",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CaptureBook.OBK",
+    "book": "CaptureBook.bin",
     "summary": "Aggressive",
     "bio": "A lumberjack in the deep woods of Alaska, Sven is a champion log-roller and tobacco spitter. During the long northern winters he keeps his wits sharp by playing chess against himself. When the weather is good he and his big dog Lucy like to go into town for some R&R. While Lucy plays with the other sled dogs, Sven takes to the local tavern and wagers games of chess for tankards of ale. By the end of the night he has usually clear-cut the competition and is a bit tipsy. Emma, the friendly barmaid, lets him sleep it off before his sled-trek back to his cabin.",
     "raw": [
@@ -10883,7 +10883,7 @@
     "name": "Shakespeare",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Pawnmoves.OBK",
+    "book": "Pawnmoves.bin",
     "summary": "Pawnmaster",
     "bio": "Shakespeare (so nicknamed because of his frequent tendency to quote the Bard) is a clerk at a trendy but mellow bookstore and coffee shop. The store has chess tables set up for anyone wanting to play, and every chance he gets, Shakespeare takes up the gauntlet of competition.",
     "raw": [
@@ -10964,7 +10964,7 @@
     "name": "Logan",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Drawish.OBK",
+    "book": "Drawish.bin",
     "summary": "Drawmaster",
     "bio": "Logan is an English professor at a small, prestigious college in the Northeast. As faculty advisor for the college chess team, he enjoys the opportunity of playing against the bright young minds of his school and helping shape the strengths and strategies of his protégés.",
     "raw": [
@@ -11045,7 +11045,7 @@
     "name": "Queenie",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "EarlyQueen.OBK",
+    "book": "EarlyQueen.bin",
     "summary": "Queen out early",
     "bio": "Raised in a culture where girls were not allowed to excel in a pursuit as serious as chess, Queenie nonetheless became an excellent player through matches with her older brother and friends. In recent years she has taken great pleasure in providing chess tutelage to her granddaughter, who is now recognized as an up-and-coming female player.",
     "raw": [
@@ -11126,7 +11126,7 @@
     "name": "Frederic",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "OldBook.obk",
+    "book": "OldBook.bin",
     "summary": "Older book openings",
     "bio": "Frederic is a postal worker in his native Bavaria. Like most of the men in his village, he began learning to play chess before he learned to ride a bicycle. Most nights, he and his friends go to a pub where they drink and talk over a chessboard. Frederic`s skill as a chess player is somewhat renowned and players travel from neighboring villages to challenge him. Most often, he wins.",
     "raw": [
@@ -11207,7 +11207,7 @@
     "name": "Zukertort",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "ZukertortJ.OBK",
+    "book": "ZukertortJ.bin",
     "summary": "Strong center, attacker",
     "bio": "Zukertort began as a student of Anderssen, and by 1871, had become the second-best player in the world. Zukertort lost two matches for the world championship to Steinitz in 1872 (+1 -7 =4) and again in 1886 (+5 -10 =5). His greatest success came at London 1883, three points ahead of Steinitz. Blessed with a prodigious memory, Zukertort could recall countless games and variations, a trait that served him well as co-editor of the Neue Berliner Schachzeitung. In many ways, Zukertort was the Baron Munchausen of chess. In a fanciful account of his early life, he claimed fluency in nine languages, and boasted of being a crack pistol shot, an accomplished swordsman, and a veteran of military campaigns he never fought in. One witness overheard him holding a visitor from India spellbound with a convincing and detailed description of a tiger hunt he never took part in. He was seized by a stroke while playing at Londons famous Simpsons Divan and died the next day.",
     "raw": [
@@ -11288,7 +11288,7 @@
     "name": "Waitzkin",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "WaitzkinJ.OBK",
+    "book": "WaitzkinJ.bin",
     "summary": "Attacker",
     "bio": "New York City native Josh Waitzkin discovered chess at the age of six. Captivated by the local version of speed chess, Josh immediately began a serious study of the game. As a scholastic competitor, Josh won 8 national titles, and his youthful career was immortalized in the book and subsequent film, Searching for Bobby Fischer. Josh became a National Master at age 13, an International Master at 16, and an acclaimed chess author at 18, with 'Attacking Chess.' One of the most popular and widely recognized chess players in the world, Josh has gained a reputation for the humanistic grace with which he speaks and writes about the art. In addition to his extensive chess pursuits, Josh also studies Eastern Philosophy and Religion, and has become deeply immersed in the study of Tai Chi Chuan with Grandmaster William CC Chen. Josh has already added 4 Tai Chi Chuan Push Hands National Championship titles to his 8 National Chess Championship titles.",
     "raw": [
@@ -11369,7 +11369,7 @@
     "name": "Timman",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "TimmanJ.OBK",
+    "book": "TimmanJ.bin",
     "summary": "Flexible, classical style",
     "bio": "Jan Timman won his national title on numerous occasions starting in 1974, thus inheriting the mantle of Holland`s best player from Euwe and then Donner. He has beaten all reigning world champs in individual games and has always had fine results, including Mar Del Plata 1982 -- first ahead of Karpov by two full points. In 1993 he dropped a FIDE title match to Karpov and turned his attention to chess journalism. Today Timman is best known as the editor of New In Chess.",
     "raw": [
@@ -11450,7 +11450,7 @@
     "name": "Tartakower",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "TartakowerS.OBK",
+    "book": "TartakowerS.bin",
     "summary": "Balanced, Strong Openings",
     "bio": "Saveilly Tartakower was a bit of an anomaly in the chess world of the early 20th century. While he could attack when needed, Tartakower could defend as well, and was perfectly happy to embrace many of the new ideas of the Hypermodern chess movement. Known as one of the leading exponents of openings theory, Tartakower ironically lost one of the most famous chess miniatures ever played against Richard Reti, in only 10 moves (see this Classic Game in the Chessmaster Library).",
     "raw": [
@@ -11531,7 +11531,7 @@
     "name": "Tarrasch",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "TarraschS.OBK",
+    "book": "TarraschS.bin",
     "summary": "Patient player",
     "bio": "Siegbert Tarrasch, born in Breslau, Germany, was a medical doctor and one of the world`s four best players (along with Steinitz, Lasker and Chigorin) for about 20 years until he lost a title match to Lasker in 1908. He occupies a unique position in chess literature and today is remembered chiefly as a great chess teacher. His word was law. Uniting the theories of Morphy and Steinitz, he preached the value of mobility and rapid development. ",
     "raw": [
@@ -11612,7 +11612,7 @@
     "name": "Tal",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "TalM.OBK",
+    "book": "TalM.bin",
     "summary": "Risk-taker",
     "bio": "Mikhail Tal was born in Riga, Latvia, and swiftly received international acclaim with his fearless and imaginative attacks. Full of nervous energy, chain-smoking, pacing restlessly between moves, he was obsessed with chess and played fast games against all comers into the wee hours. He was world champion for only one year after beating Botvinnik in 1960 but lost the rematch in 1961. Although plagued with ill-health, Tal always remained a favorite with the fans. His witty book 'The Life And Games Of Mikhail Tal' (1976) is a classic that will be enjoyed by future generations.",
     "raw": [
@@ -11693,7 +11693,7 @@
     "name": "Steinitz",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "SteinitzW.OBK",
+    "book": "SteinitzW.bin",
     "summary": "Likes closed games",
     "bio": "Wilhelm Steinitz was born in Prague, Czechoslovakia. He learned chess at the age of 12; unable to afford a board and men, he made his own. He went to Vienna as a young man and first attempted to earn a living as a journalist before dedicating his vocation to chess. He held the first official world championship from 1886-94, it was the 25 year old Lasker who eventually de-throned him. He earned a living as a chess pro in London, then the Mecca of the chess world, before emigrating to America where he died in poverty.",
     "raw": [
@@ -11774,7 +11774,7 @@
     "name": "Spassky",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "SpasskyB.OBK",
+    "book": "SpasskyB.bin",
     "summary": "Natural attacker, lively tactics",
     "bio": "Boris Spassky was born in Leningrad, USSR. He became world junior champion in 1955 and went on to capture the crown from Petrosian. Spassky reigned as world champion from 1969-72. His dramatic match with Fischer at Reykjavik in 1972 captured headlines all over the globe. Spassky disobeyed orders to return home and sportingly continued playing after he amassed a two-point lead when Fischer failed to show up for their second game. However, Spassky could not withstand Fischer`s fierce onslaught and although he fought valiantly, lost his title. Soviet authorities punished him for losing to an American. He eventually moved to France to play on their Olympic team. In 1992 he again faced Fischer for a record purse of $5 million and again he lost.",
     "raw": [
@@ -11855,7 +11855,7 @@
     "name": "Smyslov",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Smyslov.OBK",
+    "book": "Smyslov.bin",
     "summary": "English, flank openings",
     "bio": "Vassily Smyslov was born in Moscow, USSR. Chess nearly lost him when he narrowly failed an audition as a singer with the Bolshoi Opera in 1950. He then faced Botvinnik in three title matches with an overall score of 18 wins, 17 losses and 34 draws. Smyslov drew their first match in 1954, won the second in 1957 and became world champion for a year before dropping a rematch in 1958. In his heyday he was nearly invincible, and his amazing longevity was demonstrated in 1984 when at age 63 he became the oldest player to reach the finals where he was dispatched by Kasparov.",
     "raw": [
@@ -11936,7 +11936,7 @@
     "name": "Short",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "ShortN.OBK",
+    "book": "ShortN.bin",
     "summary": "Attacker, King`s pawn openings",
     "bio": "Nigel Short was born in Leigh, England, and became the youngest player to achieve the International Master title by age 15, when he was runner-up to Kasparov in the World Junior. In 1993, after winning preliminary matches against the likes of Timman and Karpov, he became the first Western challenger for the title since Bobby Fischer in 1972. Dissatisfied with FIDE, however, he and Kasparov broke away to form the rival PCA. The Times of London put up a purse of $2.5 million, and the fascinating story of their historic confrontation is reported by Dominic Lawson in 'Endgame' (Harmony Books 1994).",
     "raw": [
@@ -12017,7 +12017,7 @@
     "name": "Shirov",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "Shirov.OBK",
+    "book": "Shirov.bin",
     "summary": "Tactician, attacker",
     "bio": "Alexei Shirov was born in Riga, Latvia, and has remained in the world`s top ten ever since he was 20. Due to problems with his country`s chess officials and after losing his life savings when a bank failed, he emigrated to Spain 'because I already spoke some Spanish.' His presence on their Olympic team in 1996 helped Spain finish sixth in a field of over 100 nations, a sensational result. Shirov got his big break at Linares in 1998 as runner-up to Anand, whom he then replaced in a match with Kramnik where victory earned him a $2 million title shot against Kasparov. ",
     "raw": [
@@ -12098,7 +12098,7 @@
     "name": "Seirawan",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "SeirawanY.OBK",
+    "book": "SeirawanY.bin",
     "summary": "Defensive, Caro-Kann defense",
     "bio": "Yasser Seirawan was born in Damascus, Syria, but lived in the USA since age 2. He became world junior champion in 1979, then won Wijk aan Zee in 1980. He tied for first with Browne in the 1981 USA Championship, which he won by himself in 1986. After defeating two reigning world champions (Karpov and Kasparov) in individual games, a dispute with chess officials over the way they picked Olympic teams soured him on playing. In 1988 Seirawan started a new venture as editor and publisher of 'Inside Chess,' gradually turning his talents toward the business side of the game. Today he competes infrequently.",
     "raw": [
@@ -12179,7 +12179,7 @@
     "name": "Rubinstein",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "RubinsteinA.OBK",
+    "book": "RubinsteinA.bin",
     "summary": "Uncomplicated openings, strong endgame",
     "bio": "The youngest of 12 children, Akiba Rubinstein was born in Stawiski, a Polish border town then in Russia. He learned chess at 16 and devoted his life to the game, remaining one of the top four until after WWI. He might have become world champion, but being a poor Jewish person from the ghetto never got backing for a shot at the title. His greatest victory came at Carlsbad 1907 with everyone there except Lasker, then by a tie for first with Lasker (whom he beat) at St. Petersburg 1909. Rubinstein`s last hurrah came at Vienna 1922. A lifelong shyness developed into a persecution complex. 'There is scarcely another master who suffers so from nerves, which cause him moments of complete exhaustion so that he commits crude blunders,' noted Reti.",
     "raw": [
@@ -12260,7 +12260,7 @@
     "name": "Reti",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "RetiR.OBK",
+    "book": "RetiR.bin",
     "summary": "Indirect control of center",
     "bio": "Richard Reti was born in Pezinok (in Hungary at the time) and earned his living writing chess columns and giving simultaneous displays. In 1925 he played 29 blindfold games at once, then a record. His results were always good -- he broke Capablanca's eight year winning streak by beating him at New York 1924 -- but he was never a contender. Today he is best remembered for writing two classics 'Masters of the Chessboard' and 'Modern Ideas in Chess.'",
     "raw": [
@@ -12341,7 +12341,7 @@
     "name": "Reshevsky",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "ReshevskyS.OBK",
+    "book": "ReshevskyS.bin",
     "summary": "Tactician, Queen`s pawn openings",
     "bio": "Samuel Reshevsky, born in Ozorkow, Poland, was a famous child prodigy who started touring the world at age 6 giving simultaneous displays. He quit playing after his family settled in America to complete his education and become an accountant. Upon returning to the international arena, he won Margate in 1935 ahead of Capablanca and captured the USA Championship in 1936 and remained a contender for the title into the late 1970s.",
     "raw": [
@@ -12422,7 +12422,7 @@
     "name": "Polgar",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "PolgarJ.OBK",
+    "book": "PolgarJ.bin",
     "summary": "Aggressive",
     "bio": "Judith Polgar, born in Budapest, Hungary, was the youngest of three sisters who all became grandmasters after their father trained them almost from birth to excel at chess. She achieved the title at 15 and became the highest rated female in history before breaking into the top ten by winning a 10-game training match against Spassky in 1992. In 1998 she also beat Karpov 5-3 at a fast time limit of 25 minutes per side. She fought her way to the top by competing only in mixed events despite dogged resistance from Communist chess officials in her own country who tried to confine her and her two sisters to women`s tournaments.",
     "raw": [
@@ -12503,7 +12503,7 @@
     "name": "Pillsbury",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "PillsburyH.OBK",
+    "book": "PillsburyH.bin",
     "summary": "Attacker, Ruy Lopez or Queen`s Gambit",
     "bio": "Born in Summerville, South Carolina, Harry Nelson Pillsbury learned chess at 16 and was one of the few great masters content to make it his profession. His blindfold powers and miraculous memory were a delight to behold. During simultaneous exhibitions of chess and checkers he would ask someone to submit a list of 30 words which he repeated backwards when he was all through. In 1895 he sailed to Europe and startled the world by winning Hastings ahead of all the leading players of his day -- but his first success was to be his greatest. Always a tough contender, only once again did he share first in an international tournament at Munich 1900. Poor health plagued his play, and he died prematurely at 34.",
     "raw": [
@@ -12584,7 +12584,7 @@
     "name": "Petrosian",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "PetrosianT.OBK",
+    "book": "PetrosianT.bin",
     "summary": "Defensive, prefers closed games",
     "bio": "Tigran Petrosian was born in Tbilisi, Georgia. Both his parents died when he was 16 years old. He took work in an officer`s club to maintain his family and found chess to be his main consolation. The play and principles of Capablanca and Nimzowitsch influenced his early development. In 1963, he wrested the world title crown from Botvinnik, which took two months, and then defended it against Spassky in 1966. He later lost his title to Spassky in 1969. Petrosian was content to draw with most of his rivals but he was almost impossible to beat due to his extreme prophylactic play.",
     "raw": [
@@ -12665,7 +12665,7 @@
     "name": "Paulsen",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "PaulsenL.obk",
+    "book": "PaulsenL.bin",
     "summary": "Likes semi-open games",
     "bio": "Often underrated, Paulsen's career was overshadowed by the brilliance of Paul Morphy. After losing the final match in the great New York tournament of 1851 to Morphy, Paulsen continued to improve, and was one of the top players in the world until 1889. He excelled at match play, and won tournaments that featured such greats as Anderssen and Zukertort.  Paulsen is notable as the first great master to stress defense, and invented several openings, including lines in the Sicilian and King Indian's Defense that are still popular today.",
     "raw": [
@@ -12746,7 +12746,7 @@
     "name": "Nimzowitsch",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "NimzowitschA.OBK",
+    "book": "NimzowitschA.bin",
     "summary": "Prefers closed games",
     "bio": "Aaron Nimzowitsch, born in Riga, Latvia, was the greatest player of the hypermodern school. In 1922 he emigrated to Denmark and from a small rented room in Copenhagen penned 'My System' and other classics that deeply influenced future generations. His finest result was winning Carlsbad 1929 ahead of Capablanca but a compulsion to prove his 'unorthodox' theories and 'mysterious' moves sometimes proved costly in tournaments. He made decisive contributions to opening theory; he revived the Winawer Variation of the French Defense, the Queen`s Indian and Nimzo-Indian Defense. He also coined many memorable phrases such as 'the pawn has a lust to expand,' 'prophylaxis' and 'the bishop bites on granite.' Two of his most famous disciples are Petrosian and Karpov.",
     "raw": [
@@ -12827,7 +12827,7 @@
     "name": "Najdorf",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "NajdorfM.OBK",
+    "book": "NajdorfM.bin",
     "summary": "Unpredictable, prefers open games",
     "bio": "Najdorf first made his mark as high-scorer for the Polish team at the 1935 chess Olympiad. At the outbreak of WWII, during the chess Olympiad of 1939, he sought asylum in Argentina, along with a number of other European stars. In 1947, he set a blindfold record by taking on 45 players simultaneously (+39 -2 = 4). From 1950 to 1976, Najdorf fielded first board on the Argentine team in 11 Chess Olympiads.  In 1949, he drew a match with Fine (+2 -2 = 4) and then lost two matches against Reshevsky in what became known as the championship of the free world. In a long career he was champion of three nations: Poland, Hungary and Argentina. He always played colorful chess and conducted the middle game with virtuosity; but at the highest level his skill in the opening and ending did not match his leading contemporaries. One of the most popular lines in the Sicilian Defense, the indestructible Najdorf Variation, (1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6) was named in his honor.",
     "raw": [
@@ -12908,7 +12908,7 @@
     "name": "Morphy",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "MorphyP.OBK",
+    "book": "MorphyP.bin",
     "summary": "Positional, prefers open games",
     "bio": "Born in New Orleans, USA, Paul Morphy was the first 'unofficial' World Champion (1858-9) but then retired from chess to pursue an unsuccessful career as a lawyer. He grasped the principles of chess before anyone else and today his insights are accepted by all serious players. He abhorred being considered a chess pro, believing it was not a fit profession for a grown man. In an era when the dynamic young nation suffered from a cultural inferiority complex, he was the toast of America after going to Europe and defeating their best players, including Adolf Anderssen, who later lost a match to Steinitz, the first official world champ.",
     "raw": [
@@ -12989,7 +12989,7 @@
     "name": "Marshall",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "MarshallF.OBK",
+    "book": "MarshallF.bin",
     "summary": "Attacker, gambit openings",
     "bio": "Frank Marshall was born in New York, USA. Since age 10 not a day went by in which he didn`t play at least one game of chess. He made his international debut at Paris 1900 where he finished fourth and became America`s strongest player for the next 30 years. His greatest success was first at Cambridge Springs in 1904 ahead of Lasker and Pillsbury. His only interests were chess and family life. His only weakness was a liking for drink, though he never let it interfere with serious play. The Marshall Chess Club, which he founded, is still located as 23 West 10 Street in Manhattan.",
     "raw": [
@@ -13070,7 +13070,7 @@
     "name": "Leko",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "LekoP.OBK",
+    "book": "LekoP.bin",
     "summary": "Supreme defense, positional",
     "bio": "At 14, Peter Leko became the youngest Grandmaster ever. His victory in the Under-16 World Championship began a meteoric rise. In 1998, at Dortmund, Madrid and Tilburg, he lost only once in 40 games against the world's elite. By January 2001, he already was ranked number five in the world, and later in 2001, Leko won a rapid match against Kramnik, who had just conquered Kasparov for the title. An idol in his own country, since 1999 Leko has been supported by RWE Gas AG in Dortmund, Germany, an unusual arrangement for top players. His greatest weakness is a lack of aggression and a tendency to agree to peaceful draws. But he is extremely hard to beat and competitors often refer to him as 'bulletproof'. To improve, he hired a professional coaching team consisting of three Grandmasters, and on all his travels he is accompanied by his Armenian wife, Sofie. All his hard work seems to be paying dividends. In 2002 he won the first FIDE Grand Prix rapid tournament in Dubai.",
     "raw": [
@@ -13151,7 +13151,7 @@
     "name": "Lasker",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "LaskerE.OBK",
+    "book": "LaskerE.bin",
     "summary": "Defensive, risk taker",
     "bio": "Emanuel Lasker, born in Berlinchen, Germany, held the World Championship longer than anyone in history, from 1894-1921. He was a well-rounded man who also wrote about mathematics and philosophy. He did not wish to devote his life to chess, but financial pressure always forced him back. His classic book 'Lasker`s Manual Of Chess' describes his approach to the game and pays tribute to the revolutionary theories of Steinitz, the champion he deposed.",
     "raw": [
@@ -13232,7 +13232,7 @@
     "name": "Larsen",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "LarsenB.OBK",
+    "book": "LarsenB.bin",
     "summary": "Positional",
     "bio": "Denmark`s leading player for decades, Bent Larsen learned the moves of chess at age 6 and was the first Westerner to pose the Soviet bloc a serious challenge. In 1956 he won fame at the Moscow Olympiad as overall high scorer on first board (+11 -1 = 6). His results continued to be spectacular, and from 1967 to 1970 he failed to win first prize only once in nine consecutive events. His play faltered after 1971 when Fischer trounced him 6-0 in a world championship qualifying match; yet Larsen remained in demand from organizers because he always plays to win and takes calculated risks that delight spectators.",
     "raw": [
@@ -13313,7 +13313,7 @@
     "name": "Kramnik",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "KramnikV.OBK",
+    "book": "KramnikV.bin",
     "summary": "Mobile, defensive",
     "bio": "Since bursting on the world chess scene in 1992, Kramnik displayed a maturity of play far beyond his years. Over a period of 18 months, leading up to July 2000, Kramnik set a record by remaining undefeated in over 80 games played at the highest level. He quickly gained the distinction as one of the few who was able to give Kasparov a run for his money. Before their Braingames title match at London in October 2000, where Kramnik astonished everyone by winning, they had met 23 times at classical time limits, and the score was three wins apiece with 17 draws. Since then, however, Kramnik has been relatively inactive. Despite a triumph at Dortmund in 2001, his results have fallen below expectation, and many fans do not consider him a worthy successor to Kasparov. A unification match planned for October 2003 may settle the issue of who is the best player on the planet.",
     "raw": [
@@ -13394,7 +13394,7 @@
     "name": "Korchnoi",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "KorchnoiV.OBK",
+    "book": "KorchnoiV.bin",
     "summary": "Defensive, counterattacker",
     "bio": "Viktor Korchnoi was born in Leningrad, USSR, and along with Keres is often ranked as the strongest player who never became world champion. Korchnoi won the powerful USSR Championship four times before defecting to the USA in 1976. In 1978 and 1981, while his family was held hostage inside the USSR, he lost two title matches to Karpov, after which his wife and son were freed. In 1983 he dropped a semi-final match to Kasparov, ending his chance to challenge Karpov again. Even in his late sixties, Korchnoi is still dangerous, and in 2002, he became the oldest player to ever win a professional tournament.",
     "raw": [
@@ -13475,7 +13475,7 @@
     "name": "Keres",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "KeresP.OBK",
+    "book": "KeresP.bin",
     "summary": "Positional",
     "bio": "Paul Keres, born in Narva, Estonia, was among eight of the world`s superstars for a quarter of a century ever since his sensational debut at top board on his country`s Olympic team in 1935. At Bad Neuheim 1936 he tied for first with Alekhine, then won Semmering 1937 ahead of Capablanca. A tie with Fine at AVRO 1938 ahead of Alekhine, Botvinnik, Capablanca, Euwe, Flohr and Reshevsky earned Keres a title shot against Alekhine -- except for the advent of W.W.II. After the war evidence indicates Soviet officials prevented him from interfering with Botvinnik`s ascension to the crown. Keres was an excellent openings analyst who originated several important lines and strengthened many variations.",
     "raw": [
@@ -13556,7 +13556,7 @@
     "name": "Kashdan",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "KashdanI.obk",
+    "book": "KashdanI.bin",
     "summary": "Attacker, likes using bishops",
     "bio": "Kashdan burst on the scene in 1928 by scoring the highest on first board of the Hague Olympiad. A leading US player, he had several good results in the 1930s and 1940s, including two US Open Championship titles. Kashdan also founded Chess Review magazine, and was chess editor of the LA Times.",
     "raw": [
@@ -13637,7 +13637,7 @@
     "name": "Karpov",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "KarpovA.OBK",
+    "book": "KarpovA.bin",
     "summary": "Defensive, positional",
     "bio": "Anatoly Karpov was born in Zlatoust in the former Soviet Union. He won the FIDE title twice by default: in 1975 when Fischer refused to play and in 1993 when Kasparov formed the Professional Chess Association. Karpov was the darling of the Kremlin and his two title defenses against Soviet defector Korchnoi in 1978 and 1981 were marred by the fact that the challenger`s family was held hostage inside the USSR. A marathon match with Kasparov in 1984 was halted by FIDE after 48 games and almost six months when an exhausted Karpov was leading by two points. He lost the title to Kasparov in 1985 and failed to get it back despite three more matches culminating in 1990. Karpov regained the FIDE crown against Timman in 1993, Kamsky in 1996 and Anand in 1998. He was the most active champion in history and won more first prizes in major events (some 150) than any other great player.",
     "raw": [
@@ -13718,7 +13718,7 @@
     "name": "Kamsky",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "KamskyG.OBK",
+    "book": "KamskyG.bin",
     "summary": "Defender",
     "bio": "Gata Kamsky was born in Tatarstan, USSR. He was raised by his father who took him out of school at an early age to study chess full time. He won the championship of Leningrad at age 12 and defected with his father to the USA during the New York Open in 1989. Kamsky swiftly established himself as top dog by winning the USA championship in 1991. At 21 he defeated Anand, Salov, Short and Kramnik in preliminary matches to earn a title shot against FIDE champion Karpov in 1996. After taking home the loser`s share of $562,500 Kamsky declared he was giving up chess to study medicine.",
     "raw": [
@@ -13799,7 +13799,7 @@
     "name": "Ivanchuk",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "IvanchukV.obk",
+    "book": "IvanchukV.bin",
     "summary": "Defender",
     "bio": "A former junior champion who has proven he can play in the big leagues, with wins over several strong Grandmasters. At Linares in 1991, Ivanchuk defeated both Kasparov and Karpov on his way to winning one of the strongest events ever held.",
     "raw": [
@@ -13880,7 +13880,7 @@
     "name": "Geller",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "GellerE.OBK",
+    "book": "GellerE.bin",
     "summary": "Likes sharp, tactical play",
     "bio": "Geller's chess strength was forged in the fire of the Soviet Championships, where he competed 23 times. A long-time contender for the World Championship, Geller won his last strong tournament in 1989, when he was past 60 years of age.",
     "raw": [
@@ -13961,7 +13961,7 @@
     "name": "Flohr",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "FlohrS.OBK",
+    "book": "FlohrS.bin",
     "summary": "Defender",
     "bio": "Salo Flohr was born in Poland and moved to Czechoslovakia after his parents were killed during a pogrom. From 1928 to 1937 he competed in 42 tournaments, winning or sharing first in half of them. A hero in his adopted homeland, he endorsed products such as cigars, collars and pastries. By 1937 he was designated as Alekhine`s official challenger but was unable to raise a purse and his hopes were dashed after finishing last at AVRO a year later when a younger generation emerged led by Keres and Fine. He lost his fighting spirit and became increasingly cautious, adopting a policy of safety first, settling for tame draws, content to demonstrate equality with his peers. After WWII Flohr moved to the USSR where he served as a popular and witty chess journalist.",
     "raw": [
@@ -14042,7 +14042,7 @@
     "name": "Fischer",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "FischerR.OBK",
+    "book": "FischerR.bin",
     "summary": "Aggressive, King`s pawn openings",
     "bio": "Robert James 'Bobby' Fischer was born in Chicago, raised in Brooklyn, New York. He won the USA Championship at the unheard-of age of 14 in 1958. He was a dominant player throughout the 1960s but developed a reputation for being difficult by insisting on very specific playing conditions. Fischer`s ambition was firmly set on the world championship and in 1972 he got his chance. He was set to play Boris Spassky for the title. No match in the history of the game received more publicity. Fischer soundly defeated Spassky and became the first American to win the world championship. He then withdrew from serious play and in 1975 forfeited his title to Karpov. He became a recluse and did not compete again until 1992 when a Yugoslav entrepreneur organized a rematch with Spassky for $5 million ($3.35 million to the winner and $1.65 million to the loser). Once again Fischer defeated his old rival and once again vanished from the public eye, probably forever.",
     "raw": [
@@ -14123,7 +14123,7 @@
     "name": "Fine",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "FineR.OBK",
+    "book": "FineR.bin",
     "summary": "Prefers open games",
     "bio": "Reuben Fine was born in New York City, USA. During the 1930s the rivalry between him and Reshevsky was white hot as they led American teams to victory in the chess Olympiads. Fine won the USA Open seven times but could never wrest the national title from his nemesis. Fine`s greatest feat was tying for first with Keres at AVRO 1938, ahead of Reshevsky and four world champions, past and present. After the war, unable to make a living from chess, Fine was faced with a hard choice. He became a psychologist, declined to take part in the 1948 world championship, and stopped competing altogether in 1951. Yet he remained America`s premier chess author; his classics include 'Basic Chess Endings,' 'The Ideas Behind the Chess Openings,' 'Lessons From My Games,' and 'The World`s Great Chess games.'",
     "raw": [
@@ -14204,7 +14204,7 @@
     "name": "Evans",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "EvansL.OBK",
+    "book": "EvansL.bin",
     "summary": "Defender, pawn snatcher",
     "bio": "The five US chess championships of Larry Evans span four decades. Evans earned his first US title at the age of 19, served as Bobby Fischer's second for the world championship, won the US Open four times, and was a member or captain of nine Olympic teams (capturing several gold and silver medals along the way). He has drawn or beaten six world champions (Euwe, Fischer, Karpov, Petrosian, Smyslov, Spassky) as well as dozens of the world's top players. One of America's leading Chess authorities, Evans has written more than 20 books on chess, including a revision of the monumental 10th edition of Modern Chess Openings, commonly known as the Chess Bible. He retired from play to put more time into his syndicated newspaper column, and was named Chess Journalist Of The Year in 2000. Grandmaster Evans is a frequent contributor to Chessmaster.",
     "raw": [
@@ -14285,7 +14285,7 @@
     "name": "Euwe",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "EuweM.OBK",
+    "book": "EuweM.bin",
     "summary": "Hypermodern as white, classical as black",
     "bio": "Machgielis 'Max' Euwe was born in Amsterdam, Holland. A mathematics teacher, he became the first real amateur to win the world championship in 1935. It was considered a fluke and he sportingly agreed to a rematch in 1937, thus enabling Alekhine to regain the crown. Euwe also found time for flying, swimming and boxing in addition to writing numerous chess books. From 1970-78 he was president of FIDE and visited more than 100 countries at his own expense to popularize the game in Africa and Asia.",
     "raw": [
@@ -14366,7 +14366,7 @@
     "name": "Christiansen",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "AlekhineA.OBK",
+    "book": "AlekhineA.bin",
     "summary": "Tactician, attacker",
     "bio": "Larry Christiansen is one of the most famous attacking players in the history of American chess. He gained his GM norm at 23, before even winning his first US Champion title - his three US champion titles date from 1980, 1983 and 2002. He was also a four-time runner-up for the title, as well as 11-time US Olympiad team member, winning the gold Olympic medal as a team member in 1993 and winning the silver as a non-player team captain in 1998. He has won over 20 international tournaments, including Linares 1979 and 1981. He is the chess coach of the MIT Chess Club, and also wrote a dozen chess books, Storming the Barricades being the most widely known.",
     "raw": [
@@ -14447,7 +14447,7 @@
     "name": "Chigorin",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "ChigorinM.OBK",
+    "book": "ChigorinM.bin",
     "summary": "Attacker",
     "bio": "Mikhail Chigorin was the first of the great Russian Grandmasters, and one of the four top players in the world -- along with Lasker, Steinitz, and Tarrasch -- from the 1880s to the turn of the century. While he won some brilliant games, he sometimes stumbled in the endgame. Chigorin contested for the world championship against Steinitz in both 1886 and 1892. Though Chigorin lost both times, the matches are notable for their incredible competitiveness, with only six draws in 40 games!",
     "raw": [
@@ -14528,7 +14528,7 @@
     "name": "Capablanca",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CapablancaJR.OBK",
+    "book": "CapablancaJR.bin",
     "summary": "Classical style, shuns complicated positions",
     "bio": "Jose Raul Capablanca, born in Havana, already won a match at age 12 from the best player in Cuba. As a grown man, he was extremely charismatic, always dressed immaculately and had strong sense of honor. His understanding of chess was innate; the first major tournament he attempted was one of the strongest in the world and he came in first place (a distinction shared only with Pillsbury). After the first World War he was considered so invincible that his nickname became 'the chess machine.' In 1921 he captured the world championship from Lasker, but then surprisingly lost it to Alekhine in 1927. His intuition was phenomenal, his speed incredible. 'What others could not discover in a month, he saw at a glance,' noted Fine. He played prolifically and in his time, no other master sustained as few losses as he.",
     "raw": [
@@ -14609,7 +14609,7 @@
     "name": "Botvinnik",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "BotvinnikM.OBK",
+    "book": "BotvinnikM.bin",
     "summary": "Excellent endgame",
     "bio": "Mikhail Moiseyevich Botvinnik was born in St. Petersburg, Russia, and became the symbol of Soviet supremacy at chess. In 1948 he won a match- tournament organized by FIDE to fill the crown left vacant by Alekhine`s death. He defended it twice with 12-12 ties in 1951 and 1954, then lost to Smyslov in 1957 but won a rematch in 1958. In 1960 he lost to Tal but regained it in 1961. Petrosian finally put him away for good in 1963. An electrical engineer, Botvinnik devoted his final years to perfecting chess computers and founding a chess school where his most famous student was Garry Kasparov.",
     "raw": [
@@ -14690,7 +14690,7 @@
     "name": "Bogoljubow",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "BogoljubowE.OBK",
+    "book": "BogoljubowE.bin",
     "summary": "Positional player",
     "bio": "Efim Bogoljubow was born in the Ukraine and became a German citizen during the 1920s. He twice challenged Alekhine for the title, in 1929 and 1934, but was crushed on both occasions. His greatest victories came at Moscow 1925 and Bad Kissingen 1928 where he finished well ahead of Capablanca. Alternating between brilliant success and lamentable failure, Bogoljubow was a born optimist who remained unperturbed by losses. 'The youngsters have read my book,' he wailed in his jovial manner. 'Now I have no chance.' He won the German championship for the fourth and last time in 1949.",
     "raw": [
@@ -14771,7 +14771,7 @@
     "name": "Blackburne",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "BlackburneJ.OBK",
+    "book": "BlackburneJ.bin",
     "summary": "Tactician",
     "bio": "Nicknamed 'the black death,' Joseph Henry Blackburne was born in Manchester. He learned chess at 18 and remained England`s best player for over 50 years, touring the country regularly and giving blindfold displays. He became a professional after winning his national title in 1869. His greatest success came at Berlin 1881 where he finished ahead of every leading master. But he lost three matches to Steinitz and one to Lasker. His capacity for scotch was enormous; legend has it he was so enraged at Steinitz during one of their games that he picked him up and almost threw him out the window.",
     "raw": [
@@ -14852,7 +14852,7 @@
     "name": "Bird",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "BirdH.OBK",
+    "book": "BirdH.bin",
     "summary": "Attacker",
     "bio": "Born in Portsea, Hampshire, Henry Edward Bird was one of the leading British amateurs of last century and is best known today by the opening named after him (1. f4). He learned chess at age 10 by watching players at a coffee house in London; by 16 he was a regular at the Divan in the Strand. He was strong enough to be invited to the first great international tournament at London 1851. When he lost to Morphy in 1858 Bird was only 28 and remained active for almost another 50 years. An outstanding accountant, he wrote a book entitled 'An Analysis of Railways in the United Kingdom' and also authored several chess treatises.",
     "raw": [
@@ -14933,7 +14933,7 @@
     "name": "Anderssen",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "AnderssenA.OBK",
+    "book": "AnderssenA.bin",
     "summary": "Early attacker",
     "bio": "It is noteworthy that Adolf Anderssen, a math professor who hailed from Breslau, Germany, terms his own attacks as 'traps' and nothing more. His combinations were an inspiration of the moment and didn`t always flow out of the position, organically. Morphy knew not only how to attack but also when -- and that is why he won. Nonetheless, Anderssen`s victory at the first great modern tournament in London 1851 established him as the best player in the world until he lost a close match to Steinitz in 1866.",
     "raw": [
@@ -15014,7 +15014,7 @@
     "name": "Anand",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "AnandV.OBK",
+    "book": "AnandV.bin",
     "summary": "Attacker, Classical Black defenses",
     "bio": "Viswanathan Anand, born in Madras, is the best player India ever produced and was ranked in the world`s top ten since the early 1990s. He has unusually quick sight of the board, is noted for playing fast, and is one of the best-liked grandmasters on the circuit. In 1995 he dropped a PCA world championship match to Kasparov despite taking an early lead by drawing the first eight games and winning the ninth. In 1998 he dropped a short FIDE title bout to Karpov in overtime after achieving a 3-3 tie. Later that year Anand won Linares ahead of Kasparov and five other top rated stars, yet he declined another shot at the PCA title because of contractual obligations to FIDE.",
     "raw": [
@@ -15095,7 +15095,7 @@
     "name": "Alekhine",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "AlekhineA.OBK",
+    "book": "AlekhineA.bin",
     "summary": "Tactician, attacker",
     "bio": "Alexander Alexandrovich Alekhine was born to aristocracy in Moscow, Russia, and was taught chess at age 11 by his mother. Alekhine`s personality left a lot to be desired; he was devious, nervous, restless, and a heavy smoker and drinker. Though a chess genius in his own right, he held his contemporary and rival, Capablanca, in very high regards. Surprisingly, in 1927, he toppled Capablanca to gain the world championship and then studiously avoided any subsequent rematch. Alekhine`s penchant for drink caught up with him with his loss to Euwe in 1935. He then gave up drinking and smoking to regain it in 1937. During World War II he played in many tournaments in Germany and German-occupied countries. After the war he was criticized as an anti-Semite, a charge he firmly denied. He spent the last years of his life in Spain as he was endeavoring the British Chess Federation to organize a match between him and Botvinnik.",
     "raw": [
@@ -15176,7 +15176,7 @@
     "name": "Chessmaster",
     "ponder": "hard",
     "version": "Chessmaster 10th Edition",
-    "book": "CMX.OBK",
+    "book": "CMX.bin",
     "summary": "The Brains behind the Finest Chess Program in the World",
     "bio": "The Chessmaster`s exact origins are shrouded in mystery, but it is believed that he was created in a top-secret chess laboratory from bits and silicon. His wise and kindly presence has presided over the finest chess program in the world since 1986.",
     "raw": [

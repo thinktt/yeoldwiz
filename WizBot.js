@@ -2,6 +2,12 @@ const ChessUtils = require("./bot-o-tron/src/utils/ChessUtils")
 const chalk = require('chalk')
 const book = require('./book')
 const engine = require('./engine')
+const cmps = require('./personalities.json')
+const cmp = cmps['Fischer']
+
+console.log(chalk.magenta('Playing as ' + cmp.name))
+console.log(chalk.magenta('Using book ' + cmp.book))
+// console.log(cmp.out)
 
 
 class WizBot {
@@ -17,14 +23,14 @@ class WizBot {
       return
     }
 
-    const bookMove = await book.getHeavyMove(chess.fen())
+    const bookMove = await book.getHeavyMove(chess.fen(), cmp.book)
     // const bookMove = await book.getRandomMove(chess.fen())
     if (bookMove != "") {
       console.log(`bookMove: ${bookMove}`)
       return bookMove
     }
     
-    const engineMove = await engine.getMove(moves)
+    const engineMove = await engine.getMove(moves, cmp.out)
     console.log(`engineMove: ${engineMove}`)
     return engineMove
   }

@@ -6,16 +6,16 @@ const fs = require("fs")
 
 
 // get's any random move from the book
-async function getRandomMove(fen) {
-  const bookMoves = await getAllBookMoves(fen)
+async function getRandomMove(fen, book) {
+  const bookMoves = await getAllBookMoves(fen, book)
   if (!bookMoves) return ""
   move = bookMoves[Math.floor(Math.random() * bookMoves.length)]._algebraic_move
   return move
 }
 
 // get's random book move favoring higher weights and ignoring zero weights
-async function getHeavyMove(fen) {
-  let bookMoves = await getAllBookMoves(fen)
+async function getHeavyMove(fen, book) {
+  let bookMoves = await getAllBookMoves(fen, book)
   if (!bookMoves) return ""
 
   // sort moves by weight for easier viewing when logging the final array
@@ -56,9 +56,9 @@ function listBookMoves(moves, fen) {
 }
 
 
-async function getAllBookMoves(fen) {
+async function getAllBookMoves(fen, bookName) {
   const book = new OpeningBook()
-  const bookPath = process.cwd() + "/books/EarlyQueen.bin"
+  const bookPath = process.cwd() + `/books/${bookName}`
   const movePromise = new Promise(resolve => {
     book.on("loaded", () => {
       console.log("book loaded")
