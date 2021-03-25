@@ -1,6 +1,3 @@
 [submodule "chess-tools"]
 	path = chess-tools
 	url = git@github.com:thinktt/chess-tools.git
-[submodule "bot-o-tron"]
-	path = bot-o-tron
-	url = https://github.com/thinktt/bot-o-tron

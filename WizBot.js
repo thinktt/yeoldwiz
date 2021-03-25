@@ -4,6 +4,8 @@ const book = require('./book')
 const engine = require('./engine')
 const cmps = require('./personalities.json')
 const cmp = cmps['Fischer']
+// const cmp = cmps['Chessmaster']
+
 
 console.log(chalk.magenta('Playing as ' + cmp.name))
 console.log(chalk.magenta('Using book ' + cmp.book))
@@ -11,6 +13,9 @@ console.log(chalk.magenta('Using book ' + cmp.book))
 
 
 class WizBot {
+  constructor() {
+    this.cmp = cmp
+  }
 
   async getNextMove(moves) {
     // console.log(moves)

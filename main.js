@@ -20,6 +20,7 @@ const chalk = require('chalk')
  * 
  */
 
+ startBot(process.env.API_TOKEN, new WizBot())
 
 async function startBot(token, player) {
   if (token) {
@@ -66,8 +67,6 @@ async function handleChallenge(challenge) {
   }
 }
 
-
-startBot(process.env.API_TOKEN, new WizBot())
 
 async function isHealthy(robot) {
   // todo, also check if any challenges are waiting 
