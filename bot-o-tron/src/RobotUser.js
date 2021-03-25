@@ -1,5 +1,6 @@
 const LichessApi = require("./LichessApi");
 const Game = require("./Game");
+const yowOpponents = require('../../personalities.json')
 
 /**
  * RobotUser listens for challenges and spawns Games on accepting.
@@ -41,17 +42,25 @@ class RobotUser {
   }
 
   async handleChallenge(challenge) {
-    console.log(this.api) 
-
-    if (challenge.rated) {
-      console.log("Declining rated challenge from " + challenge.challenger.id);
-      const response = await this.api.declineChallenge(challenge.id);
-      console.log("Declined", response.data || response);
-    }
-    else {
+    // console.log(challenge)
+    const validVariants = ['standard']
+    const validSpeeds = ['rapid', 'classical', 'correspondence',]
+    // const response = await api.declineChallenge(challenge.id);
+    // console.log("Declined", response.data || response);
+  
+    console.log(challenge.variant.key)
+    console.log( challenge.speed)
+    console.log('validVariant: ' + validVariants.includes(challenge.variant))
+    console.log('validSpeed:' + validSpeeds.includes(challenge.speed))
+  
+    if (validVariants.includes(challenge.variant.key) && validSpeeds.includes(challenge.speed)) {
       console.log("Accepting unrated challenge from " + challenge.challenger.id);
       const response = await this.api.acceptChallenge(challenge.id);
       console.log("Accepted", response.data || response);
+    } else {
+      console.log("Declining  callenge from " + challenge.challenger.id);
+      const response = await this.api.declineChallenge(challenge.id);
+      console.log("Declined", response.data || response);
     }
   }
 

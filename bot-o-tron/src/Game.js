@@ -15,11 +15,11 @@ class Game {
     this.api = api;
     this.name = name;
     this.player = player;
-    console.log('Howdy')
   }
 
-  start(gameId) {
+  async start(gameId) {
     this.gameId = gameId;
+    this.wizPlayer = await this.getWizPlayer()
     this.api.streamGame(gameId, (event) => this.handler(event));
   }
 
@@ -31,6 +31,21 @@ class Game {
       }
     }
   }
+
+  async getWizPlayer() {
+    const gamePage = await this.api.gamePage(this.gameId)
+    const re = /"u":"yeoldwiz","t":"playing as [A-Za-z\.]*/g
+    const opponentData = gamePage.data.match(re)
+    let opponent = ''
+    if (opponentData == null) {
+      opponent = 'JW7'
+    } else {
+      opponent = opponentData[0].replace('"u":"yeoldwiz","t":"playing as ', '')
+    }
+    console.log('Wiz Player: ' + opponent)
+    return opponent
+  }
+
 
   handler(event) {
     switch (event.type) {

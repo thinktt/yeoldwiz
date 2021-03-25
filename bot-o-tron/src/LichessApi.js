@@ -70,6 +70,13 @@ class LichessApi {
     return data;
   }
 
+  // Get the full public game page, useful for parsing info regular api 
+  // doesn't have
+  gamePage(gameId) {
+    return this.get(`https://lichess.org/${gameId}`)
+  }
+  
+
   get(URL) {
     // temporary hack to supress health check logging
     if (URL != 'https://lichess.org/api/account/playing') console.log(`GET ${URL}`)
@@ -98,7 +105,7 @@ class LichessApi {
         headers: this.headers,
       })
       .node("!", function(data) {
-        console.log("STREAM data : " + JSON.stringify(data));
+        // console.log("STREAM data : " + JSON.stringify(data));
         handler(data);
       }).fail(function(errorReport) {
         console.error(JSON.stringify(errorReport));
