@@ -1,16 +1,7 @@
+// This is a one time script for building out the personalities.json files from the 
+// personalites.cfg and the CMP files
+
 const fs = require('fs');
-
-const aliases = {
-  Josh6: ['JW6','NYCKid6'],
-  Josh7: ['JW7','NYCKid7'],
-  Josh8: ['JW8','NYCKid8'],
-  Josh9: ['JW9','NYCKid9'],
-  Josh12: ['JW12','NYCKid12'],
-  Chessmaster: ['Wizard', 'The Wizard'],
-  Shakespeare: ['Pawnmaster'],
-  Logan: ['Drawmaster'],
-}
-
 
 arg = process.argv[2] || ''
 const name = (arg.charAt(0).toUpperCase() + arg.slice(1))

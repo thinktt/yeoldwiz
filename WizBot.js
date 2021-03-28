@@ -2,23 +2,28 @@ const ChessUtils = require("./bot-o-tron/src/utils/ChessUtils")
 const chalk = require('chalk')
 const book = require('./book')
 const engine = require('./engine')
-const cmps = require('./personalities.json')
-const cmp = cmps['Fischer']
-// const cmp = cmps['Chessmaster']
+const personalites = require('./personalities.js')
 
-
-console.log(chalk.magenta('Playing as ' + cmp.name))
-console.log(chalk.magenta('Using book ' + cmp.book))
-// console.log(cmp.out)
 
 
 class WizBot {
   constructor() {
-    this.cmp = cmp
+    // this.cmp = cmp
   }
 
-  async getNextMove(moves) {
-    // console.log(moves)
+  async getNextMove(moves, wizPlayer) {
+    
+    if (!this.wizPlayer) {
+      console.log('No personality selected yet, no move made')
+      return
+    }
+
+    const cmp = personalites.getSettings(wizPlayer)
+
+    console.log(chalk.blue(`Moving as ${cmp.name}`)) 
+    console.log(chalk.blue(`Using ${cmp.book} for book moves`))
+
+
     const chess = new ChessUtils()
     chess.applyMoves(moves)
     const legalMoves = chess.legalMoves()
@@ -27,6 +32,7 @@ class WizBot {
     if (!legalMoves.length) {
       return
     }
+
 
     const bookMove = await book.getHeavyMove(chess.fen(), cmp.book)
     // const bookMove = await book.getRandomMove(chess.fen())
@@ -46,3 +52,7 @@ class WizBot {
 
 }
 module.exports = WizBot
+
+function getWizPlayerSettings(wizPlayer) {
+
+}

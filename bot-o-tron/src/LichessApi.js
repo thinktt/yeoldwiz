@@ -1,5 +1,7 @@
 const axios = require("axios");
 const oboe = require("oboe");
+const chalk = require('chalk')
+
 /**
  * Programatic interface to the web API of lichess https://lichess.org/api#tag/Chess-Bot
  *  
@@ -79,17 +81,25 @@ class LichessApi {
 
   get(URL) {
     // temporary hack to supress health check logging
-    if (URL != 'https://lichess.org/api/account/playing') console.log(`GET ${URL}`)
+    // if (URL != 'https://lichess.org/api/account/playing') console.log(`GET ${URL}`)
+    console.log(`GET ${URL}`)
     return axios.get(URL + "?v=" + Date.now(), this.axiosConfig)
       .then(this.logAndReturn)
-      .catch(err => console.log(err));
-  }
+      .catch((err) => {
+        console.log(chalk.red(`GET ${URL}`))
+        console.log(err);
+      })
+    }
 
   post(URL, body) {
     console.log(`POST ${URL} ` + JSON.stringify(body || {}));
     return axios.post(URL, body || {}, this.axiosConfig)
       .then(this.logAndReturn)
-      .catch(err => console.log(err.response || err));
+      .catch((err) => {
+        console.log(chalk.cyan('Howdy'))
+        console.log(chalk.red(`POST ${URL}`))
+        console.log(err.response || err)
+      })
   }
 
   /**
@@ -108,6 +118,7 @@ class LichessApi {
         // console.log("STREAM data : " + JSON.stringify(data));
         handler(data);
       }).fail(function(errorReport) {
+        console.log(chalk.red(`GET ${URL} stream`))
         console.error(JSON.stringify(errorReport));
       });
   }

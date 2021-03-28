@@ -1,6 +1,7 @@
 const LichessApi = require("./LichessApi");
 const Game = require("./Game");
 const yowOpponents = require('../../personalities.json')
+const chalk = require('chalk')
 
 /**
  * RobotUser listens for challenges and spawns Games on accepting.
@@ -24,6 +25,7 @@ class RobotUser {
   }
 
   eventHandler(event) {
+    // console.log(chalk.blue(event.type)) 
     switch (event.type) {
       case "challenge":
         this.handleChallenge(event.challenge);

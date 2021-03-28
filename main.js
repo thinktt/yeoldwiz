@@ -25,7 +25,6 @@ const chalk = require('chalk')
 async function startBot(token, player) {
   if (token) {
     let robot = new RobotUser(new LichessApi(token), player);
-    // robot.handleChallenge = handleChallenge
     const username = (await robot.start()).data.username;
     // doHealthCheckLoop()
   }
