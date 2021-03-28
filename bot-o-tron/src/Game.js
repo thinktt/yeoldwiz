@@ -48,6 +48,7 @@ class Game {
         } else {
           this.api.chat(this.gameId, 'player', `Playing as ${this.wizPlayer}`);
           this.api.chat(this.gameId, 'spectator', `Playing as ${this.wizPlayer}`);
+          this.playNextMove(this.previousMoves)
         } 
       }
     }
@@ -75,8 +76,7 @@ class Game {
         break;
       case "gameFull":
         this.colour = this.playingAs(event);
-        // this.api.chat(this.gameId, 'player', 'Who would you like to play?');
-        // this.playNextMove(event.state.moves);
+        this.playNextMove(event.state.moves);
         break;
       case "gameState":
         this.playNextMove(event.moves);
@@ -87,9 +87,13 @@ class Game {
   }
 
   async playNextMove(previousMoves) {
+    // cache the moves if we end up not moving right due to missing Wiz Player
+    this.previousMoves = previousMoves
+    
+    
     const moves = (previousMoves === "") ? [] : previousMoves.split(" ");
     if (this.isTurn(this.colour, moves)) {
-      const nextMove = await this.player.getNextMove(moves, this.wizPlayer);
+      const nextMove = await this.player.getNextMove(moves, this.wizPlayer, this.gameId);
       if (nextMove) {
         console.log(this.name + " as " + this.colour + " to move " + nextMove);
         this.api.makeMove(this.gameId, nextMove);

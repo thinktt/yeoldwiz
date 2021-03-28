@@ -11,10 +11,11 @@ class WizBot {
     // this.cmp = cmp
   }
 
-  async getNextMove(moves, wizPlayer) {
+  async getNextMove(moves, wizPlayer, gameId) {
     
-    if (!this.wizPlayer) {
-      console.log('No personality selected yet, no move made')
+    
+    if (!wizPlayer) {
+      console.log(`No personality selected for ${gameId}, no move made`)
       return
     }
 
