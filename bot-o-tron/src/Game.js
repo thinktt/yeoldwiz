@@ -25,18 +25,6 @@ class Game {
 
   async start(gameId) {
     this.gameId = gameId
-    // this.chatHistory = this.getChatHistory()
-    this.wizPlayer = await this.getWizPlayerFromChat()
-    if (this.wizPlayer == '') {
-      console.log(chalk.red(`No player found for game ${gameId}`))
-    } else if (this.wizPlayer == 'should ask who to play') {
-      this.wizPlayer = ''
-      this.api.chat(this.gameId, 'player', 'Who would you like to play?');
-      this.api.chat(this.gameId, 'spectator', 'Waiting for opponent selection');
-    } else {
-      console.log(chalk.magenta(`Playing ${this.gameId} as ${this.wizPlayer}`))
-    }
-
     this.api.streamGame(gameId, (event) => this.handler(event));
   }
 
@@ -56,6 +44,38 @@ class Game {
         } 
       }
     }
+  }
+
+  async findAndSetWizPlayer() {
+    let chatPlayer = await this.getWizPlayerFromChat()
+
+    // If no opponent has been set in chat and this is a rated game set
+    // the game to play as Josh7
+    if ((chatPlayer === '' || chatPlayer === 'should ask who to play') &&  this.rated) {
+      this.setWizPlayer('JW7')
+      return
+    }
+    
+    // This means chat has no messages at all so we should ask who the player wants to play
+    if (chatPlayer === 'should ask who to play' && !this.rated) {
+      this.api.chat(this.gameId, 'player', 'Who would you like to play?');
+      this.api.chat(this.gameId, 'spectator', 'Waiting for opponent selection');
+      // clear this for next if
+      chatPlayer = ''
+    } 
+
+
+    // No player found in chat setting wizPlayer, still waiting to be told who to play as
+    if (chatPlayer === '') {
+      console.log(chalk.red(`No player found for game ${this.gameId}`))
+      // probably not necessary but just for safety go ahead and set wizPlayer to empty string
+      this.wizPlayer = ''
+      return 
+    } 
+    
+    // if gauntlet passed, a player was found in the chat
+    this.wizPlayer = chatPlayer
+    console.log(chalk.magenta(`Playing ${this.gameId} as ${this.wizPlayer}`))
   }
 
   setWizPlayer(wizPlayer) {
@@ -90,16 +110,19 @@ class Game {
   }
 
 
-  handler(event) {
+  async handler(event) {
     // console.log(chalk.yellow(event.type))
     switch (event.type) {
       case "chatLine":
         this.handleChatLine(event);
         break;
       case "gameFull":
+        // console.log(event)
         this.colour = this.playingAs(event);
         // If this is a rated game use the standar personality for now
-        if (event.rated && !this.wizPlayer) this.setWizPlayer('JW7')
+        // if (event.rated && !this.wizPlayer) this.setWizPlayer('JW7')
+        this.rated = event.rated
+        await this.findAndSetWizPlayer()
         this.playNextMove(event.state.moves);
         break;
       case "gameState":
