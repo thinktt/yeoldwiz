@@ -29,6 +29,10 @@ class Game {
     this.wizPlayer = await this.getWizPlayerFromChat()
     if (this.wizPlayer == '') {
       console.log(chalk.red(`No player found for game ${gameId}`))
+    } else if (this.wizPlayer == 'should ask who to play') {
+      this.wizPlayer = ''
+      this.api.chat(this.gameId, 'player', 'Who would you like to play?');
+      this.api.chat(this.gameId, 'spectator', 'Waiting for opponent selection');
     } else {
       console.log(chalk.magenta(`Playing ${this.gameId} as ${this.wizPlayer}`))
     }
@@ -54,11 +58,29 @@ class Game {
     }
   }
 
+  setWizPlayer(wizPlayer) {
+    this.wizPlayer = wizPlayer
+    this.api.chat(this.gameId, 'player', `Playing as ${wizPlayer}`);
+    this.api.chat(this.gameId, 'spectator', `Playing as ${wizPlayer}`);
+    // this.playNextMove(this.previousMoves)
+  }
+
   // Check the spectator chat (via HTML page) for a Wiz Player setting
   async getWizPlayerFromChat() {
     const gamePage = await this.api.gamePage(this.gameId)
-    const re = /"u":"yeoldwiz","t":"Playing as [A-Za-z0-9\.]*/g
-    const opponentData = gamePage.data.match(re)
+    
+    // caputre and count message, if no messages have been sent respond with string
+    // to let the system know it should ask who the wants to play
+    const wizMessagesRx = /"u":"yeoldwiz","t":".*?"/g
+    const wizMessages = gamePage.data.match(wizMessagesRx) || []
+    if (wizMessages.length === 0) {
+      return 'should ask who to play'
+    }
+    
+    // Next we check for a "Playing as string" if one exist we will capture it
+    // and try to parse out the opponent name and return it
+    const playingAsRx = /"u":"yeoldwiz","t":"Playing as [A-Za-z0-9\.]*/g
+    const opponentData = gamePage.data.match(playingAsRx)
     let opponent = ''
     if (opponentData == null) {
       return ''
@@ -76,6 +98,8 @@ class Game {
         break;
       case "gameFull":
         this.colour = this.playingAs(event);
+        // If this is a rated game use the standar personality for now
+        if (event.rated && !this.wizPlayer) this.setWizPlayer('JW7')
         this.playNextMove(event.state.moves);
         break;
       case "gameState":

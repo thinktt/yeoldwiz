@@ -19,7 +19,7 @@ class RobotUser {
 
   async start() {
     this.account = await this.api.accountInfo();
-    console.log("Playing as " + this.account.data.username);
+    // console.log("Playing as " + this.account.data.username);
     this.api.streamEvents((event) => this.eventHandler(event));
     return this.account;
   }
@@ -52,7 +52,7 @@ class RobotUser {
   
     console.log(challenge.variant.key)
     console.log( challenge.speed)
-    console.log('validVariant: ' + validVariants.includes(challenge.variant))
+    console.log('validVariant: ' + validVariants.includes(challenge.variant.key))
     console.log('validSpeed:' + validSpeeds.includes(challenge.speed))
   
     if (validVariants.includes(challenge.variant.key) && validSpeeds.includes(challenge.speed)) {
