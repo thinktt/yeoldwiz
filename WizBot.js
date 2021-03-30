@@ -34,9 +34,10 @@ class WizBot {
       return
     }
 
-
     const bookMove = await book.getHeavyMove(chess.fen(), cmp.book)
     // const bookMove = await book.getRandomMove(chess.fen())
+    // const bookMove = ''
+
     if (bookMove != "") {
       console.log(`bookMove: ${bookMove}`)
       return bookMove
@@ -54,6 +55,5 @@ class WizBot {
 }
 module.exports = WizBot
 
-function getWizPlayerSettings(wizPlayer) {
 
-}
+

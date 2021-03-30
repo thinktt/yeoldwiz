@@ -3,6 +3,7 @@ const ChessTools = require('./chess-tools/index.js')
 const OpeningBook = ChessTools.OpeningBooks.Polyglot
 const chess = new require('chess.js').Chess()
 const fs = require("fs")
+const { rejects } = require('assert')
 
 
 // get's any random move from the book
@@ -57,13 +58,21 @@ function listBookMoves(moves, fen) {
 
 
 async function getAllBookMoves(fen, bookName) {
+  console.log(bookName)
   const book = new OpeningBook()
   const bookPath = process.cwd() + `/books/${bookName}`
-  const movePromise = new Promise(resolve => {
+  const movePromise = new Promise((resolve) => {
     book.on("loaded", () => {
       console.log("book loaded")
-      const moves = book.find(fen)
+      let moves = []
+      try {
+        moves = book.find(fen)
+      } catch (err) {
+        console.error('Failed to get book moves')
+      }
       resolve(moves)
+    }, (reject) => {
+      rejects('Error from opening book')
     })
   })
   book.load_book(fs.createReadStream(bookPath))
@@ -74,3 +83,10 @@ async function getAllBookMoves(fen, bookName) {
 // testMove()
 
 module.exports =  { getHeavyMove , getRandomMove}
+
+// bad state test when book crashes app
+// const badFen = 'r2q1rk1/pbp1p1bp/1p4pn/3pPp2/3P4/N1Q4P/PPP1NPP1/R1B1K2R w KQ f6 0 12'
+// const badBook = 'Depth6.bin'
+// getHeavyMove(badFen, badBook).then((moves) => {
+//   console.log(moves)
+// })
