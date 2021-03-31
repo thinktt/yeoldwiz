@@ -1,10 +1,40 @@
 body {
+  margin-left: 20%;
+  margin-right: 20%;
   background-color: black;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 [v-cloak] { display: none; }
+
+.group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cmps {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  /* align-content: row-reverse; */
+  justify-content: center;
+}
+
+.cmp {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 /* .face {
   width: 10%;
@@ -16,4 +46,4 @@ body {
   /* image-rendering: pixelated; */
   /* image-rendering: crisp-edges; */
   /* filter: saturate(5); */
-} */
+/* } */

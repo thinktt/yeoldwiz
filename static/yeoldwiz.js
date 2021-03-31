@@ -11,7 +11,7 @@ async function startApp() {
       groups : [
         {
           title: 'The Grandmasters',
-          high: 2700,
+          high: 2701,
           low: 2700,
           cmps: [],
         }, 
@@ -50,34 +50,17 @@ async function startApp() {
   })
 
   for (const group of app.groups) {
+    console.log(group.title)
     group.cmps = getRatingGroup(cmps, group.high, group.low)
+    console.log(group.cmps.length)
   }
-
-  console.log(app.groups)
+  // console.log(app.groups)
 }
 
-function getRatingGroup(cmps, low, high) {
-  // console.log(low, high)
-  return cmps.filter(cmp => cmp.rating <= high && cmp.rating >= low)
+function getRatingGroup(cmps, high, low) {
+  console.log(low, high)
+  const cmpGroup = cmps.filter(cmp => {
+    return (cmp.rating >= low) && (cmp.rating < high) 
+  }) 
+  return cmpGroup.reverse()
 }
-
-function renderCmp(cmp) {
-  let face = cmp.face
-  const name = cmp.name
-  const rating = cmp.rating
-  const summary = cmp.summary
-  if (face === 'LarryC.png') face = 'Master.png'
-  const imgHtml = `
-    <div> 
-      <img class="face" src="/images/faces/${face}" alt="${name}">
-    </div>
-  `
-      // <span>${name}</span>
-      // <span>Rated ${rating}</span>
-      // <span>${summary}</span>
-
-  document.createElement()
-  document.body.innerHTML += imgHtml
-}
-
-

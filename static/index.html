@@ -11,40 +11,26 @@
 <body>
 
   <div id="app" v-cloak>
-    <section v-for="group in groups" > 
+    <!-- <section>
+      <h1>The Wizard</h1>
+      <img src="/images/faces/dude.png" alt="The Wizard">
+    </section> -->
+    <section class="group" v-for="group in groups" > 
       <h1>{{group.title}}</h1> 
-      <div v-for='cmp of group.cmps'>
-        <img v-bind:src="'/images/faces/' + cmp.face" alt="cmp.name">
+      <!-- <h3>{{group.low}} to {{group.high}} </h3> -->
+      <div class="cmps">
+        <span class="cmp" :title="cmp.summary" v-for='cmp of group.cmps'>
+          <img class="face" :src="'/images/faces/' + cmp.face" alt="cmp.name">
+          <div class=info>
+            <span>{{cmp.name}}</span>
+            <span>{{cmp.rating}}</span>
+            <!-- <span>{{cmp.summary}}</span> -->
+          </div>
+        </span>
       </div>
     </section>
   </div>
 
-  <!-- <group>
-    <h1>The Wizard</h1>
-  </group>
-  <group>
-    <h1>The Grandmasters</h1>
-  </group>
-  <group>
-    <h1>Masters</h1>
-    <h2>2000 to 2700</h2>
-  </group>
-  <group>
-    <h1>Club Players</h1>
-    <h2>1500 to 2000</h2>
-  </group>
-  <group>
-    <h1>Casual Players</h1>
-    <h2>1000 to 1500</h2>
-  </group>
-  <group>
-    <h1>Beginners</h1>
-    <h2>500 to 1000</h2>
-  </group>
-  <group>
-    <h1>Noobs</h1>
-    <h2>0 to 500</h2>
-  </group> -->
 
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <script src="yeoldwiz.js"></script>
