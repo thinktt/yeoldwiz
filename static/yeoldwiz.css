@@ -4,12 +4,16 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.face {
+[v-cloak] { display: none; }
+
+/* .face {
   width: 10%;
   height: auto;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -webkit-crisp-edges;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-  filter:   saturate(7);
-}
+  /* image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges; */
+  /* image-rendering: smoothe;
+  image-rendering: high-quality; */
+  /* image-rendering: pixelated; */
+  /* image-rendering: crisp-edges; */
+  /* filter: saturate(5); */
+} */
