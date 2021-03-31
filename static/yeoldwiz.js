@@ -14,6 +14,7 @@ async function startApp() {
           high: 2701,
           low: 2700,
           cmps: [],
+          isGms: true,
         }, 
         {
           title: 'Masters',
@@ -50,15 +51,11 @@ async function startApp() {
   })
 
   for (const group of app.groups) {
-    console.log(group.title)
     group.cmps = getRatingGroup(cmps, group.high, group.low)
-    console.log(group.cmps.length)
   }
-  // console.log(app.groups)
 }
 
 function getRatingGroup(cmps, high, low) {
-  console.log(low, high)
   const cmpGroup = cmps.filter(cmp => {
     return (cmp.rating >= low) && (cmp.rating < high) 
   }) 

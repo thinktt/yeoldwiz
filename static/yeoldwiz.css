@@ -22,6 +22,11 @@ body {
   justify-content: center;
 }
 
+.gms {
+  flex-direction: row-reverse;
+  flex-wrap: wrap-reverse;
+}
+
 .cmp {
   margin: 10px;
   display: flex;
