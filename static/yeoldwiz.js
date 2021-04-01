@@ -10,6 +10,12 @@ async function startApp() {
     data: {
       groups : [
         {
+          title: 'The Wizard',
+          high: 3000,
+          low: 2701,
+          cmps: [],
+        }, 
+        {
           title: 'The Grandmasters',
           high: 2701,
           low: 2700,

@@ -1,12 +1,27 @@
+@font-face {
+  font-family: dosfont;
+  src: url(fonts/LessPerfectDOSVGA.ttf);
+}
+
 body {
   margin-left: 20%;
   margin-right: 20%;
   background-color: black;
   color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: dosfont;
+  background-image: url("/images/wood.png");
+  background-repeat: repeat-y repeat-x;
 }
 
 [v-cloak] { display: none; }
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+}
+
 
 .group {
   display: flex;
@@ -34,6 +49,17 @@ body {
   align-items: center;
 }
 
+.face {
+  width: 72px;
+  height: 93px;
+  margin: 3px;
+  border: 5px solid rgb(59, 31, 17);
+  zoom: 1.25;
+  /* filter: brightness(1.1) contrast(1.5); */
+  /* image-rendering: smooth; */
+  /* image-rendering: pixelated; */
+  /* image-rendering: crisp-edges; */
+}
 
 .info {
   display: flex;
