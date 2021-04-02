@@ -9,6 +9,7 @@ async function startApp() {
     el: '#app',
     data: {
       selected: cmpsObj.Chessmaster,
+      navIsOn: true,
       groups : [
         {
           title: 'The Wizard',
@@ -54,6 +55,15 @@ async function startApp() {
           cmps: [],
         },
       ]
+    },
+    methods: {
+      switchNav(event) {
+        this.navIsOn = true
+      },
+      selectCmp(cmp) {
+        this.selected = cmpsObj[cmp.name]
+        this.navIsOn = false
+      }
     }
   })
 

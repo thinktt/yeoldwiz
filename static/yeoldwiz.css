@@ -53,6 +53,10 @@ header {
   padding-left: 1rem;
 }
 
+.hamburger { 
+  cursor: pointer; 
+}
+
 main {
   margin: 0 0 0 0;
   display: flex;
@@ -62,22 +66,27 @@ main {
 
 .nav-and-info {
   height: 100%;
-  /* width: auto; */
+  width: 20rem;
   margin-top : 1rem;
   background-color: rgb(49, 32, 7, .5);
-  /* position: fixed; */
-  /* flex: 0 auto auto; */
-  /* display: block; */
+  position: fixed;
+  flex: 0 auto auto;
+  display: block;
   padding: 1.5rem;
 } 
+
+nav {
+  margin-top: 5rem;
+  text-align: center;
+}
 
 nav a {
   display: block;
   text-decoration: none;
   color: white;
   font-weight: lighter;
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+  font-size: 2rem;
+  margin-bottom: 2rem;
   text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
   line-height: 1.5rem;
 }
@@ -104,7 +113,7 @@ nav a {
 
 
 .groups {
-  margin-left: 2rem;
+  margin-left: 25rem;
   margin-bottom: 25rem;
 }
 
@@ -116,7 +125,7 @@ nav a {
 }
 
 .group .face {
-  zoom: 1.25;
+  zoom: 1.5;
 }
 
 
@@ -140,16 +149,24 @@ nav a {
   align-items: center;
 }
 
+.cmp .face {
+  cursor: pointer;
+}
+
 .face {
   width: 72px;
   height: 93px;
   margin: 3px;
   border: 4px solid rgb(59, 31, 17);
+  image-rendering: crisp-edges;
   /* zoom: 1; */
   /* filter: brightness(1.1) contrast(1.5); */
   /* image-rendering: smooth; */
   /* image-rendering: pixelated; */
-  image-rendering: crisp-edges;
+}
+
+.selected {
+  border: 4px solid goldenrod;
 }
 
 

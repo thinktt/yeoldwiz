@@ -12,23 +12,23 @@
 
   <div id="app" v-cloak>
     <header>
-      <span>☰</span> 
+      <span class="hamburger" @mouseover="switchNav">☰</span> 
       Ye Old Wizard
     </header>
     <main>
       <div class="spacer"></div>
       <div class="nav-and-info">
-        <section class="info">
+        <section v-if="!navIsOn" class="info">
           <img class="face" :src="'/images/faces/' + selected.face" alt="selected.name">
           <h2>{{selected.name}}</h2>
           <h3>{{selected.rating}}</h3>
           <p>{{selected.summary}}</p>
           <p>{{selected.bio}}</p>
-          <p>{{selected.style}}</p>
+          <!-- <p>{{selected.style}}</p> -->
         </section>
-        <!-- <nav>
+        <nav v-if="navIsOn">
           <a v-for="group in groups" :href="'#' + group.title">{{group.title}}</a>
-        </nav> -->
+         </nav>
       </div>
       
       <div class="groups">
@@ -38,7 +38,10 @@
           <!-- <h3>{{group.low}} to {{group.high}} </h3> -->
           <div class="cmps" :class="{gms: group.isGms}">
             <span class="cmp" :title="cmp.summary" v-for='cmp of group.cmps'>
-              <img class="face" :src="'/images/faces/' + cmp.face" alt="cmp.name">
+              <img class="face" :src="'/images/faces/' + cmp.face" alt="cmp.name"
+                @mouseover="selectCmp(cmp)" 
+                :class="{selected: selected.name === cmp.name}"
+              >
               <span>{{cmp.name}}</span>
               <span>{{cmp.rating}}</span>
             </span>
