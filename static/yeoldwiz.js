@@ -8,6 +8,7 @@ async function startApp() {
   const app = new Vue({
     el: '#app',
     data: {
+      selected: cmpsObj.Chessmaster,
       groups : [
         {
           title: 'The Wizard',
@@ -23,7 +24,7 @@ async function startApp() {
           isGms: true,
         }, 
         {
-          title: 'Masters',
+          title: 'The Masters',
           high: 2650,
           low: 2000,
           cmps: [],
