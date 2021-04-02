@@ -3,6 +3,10 @@
   src: url(fonts/LessPerfectDOSVGA.ttf);
 }
 
+:root {
+  --nav-and-info-width: 20%
+}
+
 body {
   margin-top: 0px;
   margin-left: 0px;
@@ -53,53 +57,9 @@ main {
   display: flex;
   flex-direction: row;
 }
-.nav-and-info {
-  height: 100%;
-  width: 15rem;
-  flex: 0 0 auto;
-  display: block;
-  background-color: rgb(49, 32, 7, .5);
-  padding: 3rem;
-  position: fixed;
-} 
-
-.info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-}
-
-.info .face {
-  width: 72px;
-  height: 93px;
-  margin: 3px;
-  border: 5px solid rgb(59, 31, 17);
-  zoom: 2;
-  /* filter: brightness(1.1) contrast(1.5); */
-  /* image-rendering: smooth; */
-  image-rendering: pixelated;
-  /* image-rendering: crisp-edges; */
-}
-
-/* nav {
-
-} */
-
-
-nav a {
-  display: block;
-  text-decoration: none;
-  color: white;
-  font-weight: lighter;
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
-  line-height: 1.5em;
-}
 
 .groups {
-  margin-left: 25rem;
+  margin-left: var(--nav-and-info-width);
   margin-bottom: 25rem;
 }
 
@@ -108,6 +68,11 @@ nav a {
   flex-direction: column;
   align-items: center;
 }
+
+.group .face {
+  zoom: 1.25;
+}
+
 
 .cmps {
   display: flex;
@@ -137,14 +102,42 @@ nav a {
   /* zoom: 1; */
   /* filter: brightness(1.1) contrast(1.5); */
   /* image-rendering: smooth; */
-  image-rendering: pixelated;
-  /* image-rendering: crisp-edges; */
+  /* image-rendering: pixelated; */
+  image-rendering: crisp-edges;
 }
+
+.nav-and-info {
+  height: 100%;
+  width: 15em;
+  flex: 0 0 auto;
+  display: block;
+  background-color: rgb(49, 32, 7, .5);
+  padding: 3rem;
+  position: fixed;
+} 
+
+nav a {
+  display: block;
+  text-decoration: none;
+  color: white;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+  line-height: 1.5em;
+}
+
+.info .face {
+  zoom: 2;
+  image-rendering: pixelated;
+}
+
 
 .info {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
 [v-cloak] { display: none !important; }

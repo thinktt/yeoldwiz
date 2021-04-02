@@ -38,11 +38,8 @@
           <div class="cmps" :class="{gms: group.isGms}">
             <span class="cmp" :title="cmp.summary" v-for='cmp of group.cmps'>
               <img class="face" :src="'/images/faces/' + cmp.face" alt="cmp.name">
-              <div class=info>
-                <span>{{cmp.name}}</span>
-                <span>{{cmp.rating}}</span>
-                <!-- <span>{{cmp.summary}}</span> -->
-              </div>
+              <span>{{cmp.name}}</span>
+              <span>{{cmp.rating}}</span>
             </span>
           </div>
         </section>
