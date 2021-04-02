@@ -16,11 +16,12 @@
       Ye Old Wizard
     </header>
     <main>
+      <div class="spacer"></div>
       <div class="nav-and-info">
         <section class="info">
           <img class="face" :src="'/images/faces/' + selected.face" alt="selected.name">
           <h2>{{selected.name}}</h2>
-          <h3>Wiz Rating {{selected.rating}}</h3>
+          <h3>{{selected.rating}}</h3>
           <p>{{selected.summary}}</p>
           <p>{{selected.bio}}</p>
           <p>{{selected.style}}</p>
@@ -29,7 +30,7 @@
           <a v-for="group in groups" :href="'#' + group.title">{{group.title}}</a>
         </nav> -->
       </div>
-  
+      
       <div class="groups">
         <section class="group" v-for="group in groups"> 
           <a :name="group.title"></a>

@@ -10,26 +10,17 @@
 body {
   margin-top: 0px;
   margin-left: 0px;
-  margin-right: 5rem;
+  margin-right: 0;
   background-color: black;
   color: white;
   /* font-family: Arial, Helvetica, sans-serif; */
   font-family: dosfont;
   background-image: url("/images/wood.png");
   background-repeat: repeat-y repeat-x;
+  font-weight: lighter;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
-
-header {
-  width: 100%;
-  height: 2em;
-  background-color: rgb(59, 31, 17);
-  display: block;
-  position: fixed;
-  z-index: 2;
-  line-height: 2em;
-  padding-left: 1em;
-}
 
 h1 {
   font-size: 3rem;
@@ -51,6 +42,16 @@ h3 {
   text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
 }
 
+header {
+  width: 100%;
+  height: 2rem;
+  background-color: rgb(59, 31, 17);
+  display: block;
+  position: fixed;
+  z-index: 2;
+  line-height: 2rem;
+  padding-left: 1rem;
+}
 
 main {
   margin: 0 0 0 0;
@@ -58,10 +59,55 @@ main {
   flex-direction: row;
 }
 
+
+.nav-and-info {
+  height: 100%;
+  /* width: auto; */
+  margin-top : 1rem;
+  background-color: rgb(49, 32, 7, .5);
+  /* position: fixed; */
+  /* flex: 0 auto auto; */
+  /* display: block; */
+  padding: 1.5rem;
+} 
+
+nav a {
+  display: block;
+  text-decoration: none;
+  color: white;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+  line-height: 1.5rem;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.info .face {
+  zoom: 2;
+  image-rendering: pixelated;
+}
+
+.info h2, h3 {
+  margin: 0;
+}
+
+.info h2 {
+  font-size: 2rem;
+}
+
+
 .groups {
-  margin-left: var(--nav-and-info-width);
+  margin-left: 2rem;
   margin-bottom: 25rem;
 }
+
 
 .group {
   display: flex;
@@ -98,7 +144,7 @@ main {
   width: 72px;
   height: 93px;
   margin: 3px;
-  border: 5px solid rgb(59, 31, 17);
+  border: 4px solid rgb(59, 31, 17);
   /* zoom: 1; */
   /* filter: brightness(1.1) contrast(1.5); */
   /* image-rendering: smooth; */
@@ -106,38 +152,7 @@ main {
   image-rendering: crisp-edges;
 }
 
-.nav-and-info {
-  height: 100%;
-  width: 15em;
-  flex: 0 0 auto;
-  display: block;
-  background-color: rgb(49, 32, 7, .5);
-  padding: 3rem;
-  position: fixed;
-} 
-
-nav a {
-  display: block;
-  text-decoration: none;
-  color: white;
-  font-weight: lighter;
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
-  line-height: 1.5em;
-}
-
-.info .face {
-  zoom: 2;
-  image-rendering: pixelated;
-}
 
 
-.info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
 
 [v-cloak] { display: none !important; }
