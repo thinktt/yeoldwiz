@@ -10,6 +10,7 @@ async function startApp() {
     data: {
       selected: cmpsObj.Chessmaster,
       navIsOn: true,
+      isInPlayMode: false,
       groups : [
         {
           title: 'The Wizard',
@@ -58,11 +59,22 @@ async function startApp() {
     },
     methods: {
       switchNav(event) {
-        this.navIsOn = true
+         this.navIsOn = true
       },
       selectCmp(cmp) {
+        if (!this.isInPlayMode) {
+          this.selected = cmpsObj[cmp.name]
+          this.navIsOn = false
+        }
+      },
+      togglePlayMode(cmp) {
         this.selected = cmpsObj[cmp.name]
         this.navIsOn = false
+        this.isInPlayMode = !this.isInPlayMode
+      },
+      stopPlayMode(){
+        // console.log(isInPlayMode)
+        this.isInPlayMode = false
       }
     }
   })

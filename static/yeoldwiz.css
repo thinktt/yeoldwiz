@@ -169,7 +169,56 @@ nav a {
   border: 4px solid goldenrod;
 }
 
+.inPlayMode {
+  border: 4px solid rgb(0, 81, 255)
+}
 
+a.button{
+  display:inline-block;
+  padding:0.2em 0.5em;
+  border:0.16em solid #FFFFFF;
+  margin:0 0.3em 0.3em 0;
+  box-sizing: border-box;
+  text-decoration:none;
+  text-transform:uppercase;
+  font-size: 1.5em;
+  font-weight:400;
+  color:#FFFFFF;
+  text-align:center;
+  transition: all 0.15s;
+  /* text-shadow: none; */
+  /* font-family:'Roboto',sans-serif; */
+}
+a.blue {
+  border:0.16em solid rgb(0, 81, 255);
+  color: rgb(0, 81, 255);
+}
+a.yellow {
+  border:0.16em solid goldenrod;
+  color: goldenrod;
+}
 
+a.button.yellow:hover{
+  /* color:#DDDDDD; */
+  /* border-color: yellow; */
+  border-color:#DDDDDD;
+  cursor: pointer;
+}
+a.button.blue:hover{
+  /* color:#DDDDDD; */
+  /* border-color:rgb(78, 134, 255); */
+  border-color:#DDDDDD;
+  cursor: pointer;
+}
+a.button:active{
+  color:#BBBBBB;
+  border-color:#BBBBBB;
+}
+@media all and (max-width:30em){
+    a.button {
+    display:block;
+    margin:0.4em auto;
+  }
+}
 
 [v-cloak] { display: none !important; }
