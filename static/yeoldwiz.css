@@ -3,6 +3,16 @@
   src: url(fonts/LessPerfectDOSVGA.ttf);
 }
 
+@font-face {
+  font-family: retro;
+  src: url(fonts/setback-tt-brk.ttf);
+}
+
+@font-face {
+  font-family: retro2;
+  src: url(fonts/bitpap.medium.ttf);
+}
+
 :root {
   --nav-and-info-width: 20%
 }
@@ -51,6 +61,7 @@ header {
   z-index: 2;
   line-height: 2rem;
   padding-left: 1rem;
+  font-family: retro2;
 }
 
 .hamburger { 
