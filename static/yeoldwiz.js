@@ -60,6 +60,7 @@ async function startApp() {
     methods: {
       switchNav(event) {
          this.navIsOn = true
+         this.isInPlayMode = false
       },
       selectCmp(cmp) {
         if (!this.isInPlayMode) {

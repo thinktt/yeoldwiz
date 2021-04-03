@@ -62,6 +62,8 @@ header {
   line-height: 2rem;
   padding-left: 1rem;
   font-family: retro2;
+  font-size: 1.5rem;
+  padding-top: 0.5rem;
 }
 
 .hamburger { 
@@ -84,6 +86,7 @@ main {
   flex: 0 auto auto;
   display: block;
   padding: 1.5rem;
+  padding-top: 3.5rem;
 } 
 
 nav {
@@ -124,6 +127,7 @@ nav a {
 
 
 .groups {
+  margin-top: 3rem;
   margin-left: 25rem;
   margin-bottom: 25rem;
 }
