@@ -26,7 +26,7 @@ app.get('/token', async (req, res) => {
 
   const query =  `grant_type=authorization_code&code=${req.query.code}&redirect_uri=${req.query.redirect_uri}`
   console.log(query)
-  console.log(auth)
+  // console.log(auth)
 
   fetch('https://oauth.lichess.org/oauth', {
     body: query,
