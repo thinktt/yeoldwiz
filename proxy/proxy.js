@@ -15,15 +15,12 @@ app.use((req, res, next) => {
 });
 
 app.get('/health', (req, res) => {
-
   res.json({'status': 'ok'})
 })
 
 app.get('/token', async (req, res) => {
-  // const auth = 'TDlZdWN6OTdUSkFnV3NHVTpaYnZiYmJxWXBYMWo3VmlNN1U0SWZMQjdaS2JqWTNlcQo='
-  // const redirect  = 'https://thinktt.github.io/yeoldwizard'
+  const redirect  = 'https://thinktt.github.io/yeoldwizard'
   const auth = 'TDQ3VHFwWm43aWFKcHBHTTpDZGY3aGxhSndKbWVyd2JESEZ1cWxQQVVnR1U3eGtTNw=='
-  const redirect = 'http://localhost:8080'
   
   console.log('Received a code at ' + req.headers.host)
   console.log('Redirect url is set to ' + redirect)
@@ -32,31 +29,29 @@ app.get('/token', async (req, res) => {
   console.log(query)
   console.log(auth)
 
-  res.send('hi')
-
-  // fetch('https://oauth.lichess.org/oauth', {
-  //   body: query,
-  //   method: 'POST',
-  //   headers: {
-  //     'Accept': 'application/json',
-  //     'Content-Type': 'application/x-www-form-urlencoded',
-  //     'Authorization': `Basic ${auth}` ,
-  //   },
-  // })
-  // .then(lires => {
-  //   if (!lires.ok) {
-  //     console.log(lires)
-  //     res.status(500).json({ error: "boo" });
-  //     throw new Error(res.statusText);
-  //   } 
-  //   return lires.json()
-  // })
-  // .then(data => {
-  //    res.json(data)
-  // })
-  // .catch(err => {
-  //   console.log(err)
-  // })
+  fetch('https://oauth.lichess.org/oauth', {
+    body: query,
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Basic ${auth}` ,
+    },
+  })
+  .then(lires => {
+    if (!lires.ok) {
+      console.log(lires)
+      res.status(500).json({ error: "boo" });
+      throw new Error(res.statusText);
+    } 
+    return lires.json()
+  })
+  .then(data => {
+     res.json(data)
+  })
+  .catch(err => {
+    console.log(err)
+  })
  
 
 });
