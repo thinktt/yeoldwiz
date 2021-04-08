@@ -19,13 +19,12 @@ app.get('/health', (req, res) => {
 })
 
 app.get('/token', async (req, res) => {
-  const redirect  = 'https://thinktt.github.io/yeoldwizard'
   const auth = 'TDQ3VHFwWm43aWFKcHBHTTpDZGY3aGxhSndKbWVyd2JESEZ1cWxQQVVnR1U3eGtTNw=='
   
   console.log('Received a code at ' + req.headers.host)
-  console.log('Redirect url is set to ' + redirect)
+  console.log('Redirect url is set to ' + req.query.redirect_uri)
 
-  const query =  `grant_type=authorization_code&code=${req.query.code}&redirect_uri=${redirect}`
+  const query =  `grant_type=authorization_code&code=${req.query.code}&redirect_uri=${req.query.redirect_uri}`
   console.log(query)
   console.log(auth)
 
