@@ -1,5 +1,6 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const request = require('request');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -25,7 +26,7 @@ app.get('/token', async (req, res) => {
   console.log('Redirect url is set to ' + req.query.redirect_uri)
 
   const query =  `grant_type=authorization_code&code=${req.query.code}&redirect_uri=${req.query.redirect_uri}`
-  console.log(query)
+  // console.log(query)
   // console.log(auth)
 
   fetch('https://oauth.lichess.org/oauth', {
@@ -39,8 +40,8 @@ app.get('/token', async (req, res) => {
   })
   .then(lires => {
     if (!lires.ok) {
-      console.log(lires)
-      res.status(500).json({ error: "boo" });
+      // console.log(lires)
+      res.status(400).json({ error: lires.statusText });
       throw new Error(res.statusText);
     } 
     return lires.json()
@@ -50,9 +51,26 @@ app.get('/token', async (req, res) => {
   })
   .catch(err => {
     console.log(err)
+    res.status(400).send('Error getting token')
   })
- 
 
 });
+
+// app.get('/games/:gameId', (req, res) => {
+//   fetch(`https://lichess.org/${req.params.gameId}`)
+//   .then(lires => lires.text())
+//   .then(data => {
+//     res.send(data)
+//   })
+//   .catch(err => {
+//     console.log(err)
+//     res.status(400).send("Error getting the game")
+//   })
+// })
+
+app.get('/games/:gameId', (req, res) => {
+  req.pipe(request("https://lichess.org/" + req.params.gameId)).pipe(res);
+})
+
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
