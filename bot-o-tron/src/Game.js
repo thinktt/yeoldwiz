@@ -34,11 +34,14 @@ class Game {
       if (this.wizPlayer == '') {
         let opponent = message.replace('play ', '').replace('as ', '').trim()
         this.wizPlayer = personalites.getProperName(opponent)
-        
+        const cmp = personalites.getSettings(this.wizPlayer)
+       
         if (!this.wizPlayer) { 
           this.api.chat(this.gameId, 'player', "Sorry, I don't know that opponent");
         } else {
-          this.api.chat(this.gameId, 'player', `Playing as ${this.wizPlayer}`);
+          this.api.chat(this.gameId,'player', 
+            `Playing as ${this.wizPlayer}. Wiz Rating ${cmp.rating}. ${cmp.summary}`
+          );
           this.api.chat(this.gameId, 'spectator', `Playing as ${this.wizPlayer}`);
           this.playNextMove(this.previousMoves)
         } 
