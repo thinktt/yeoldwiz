@@ -5,4 +5,4 @@
 # docker run --rm -v $(pwd):/opt/yeoldwiz thinktt/yeoldwiz wine enginewrap.exe
 # docker run -it thinktt/yeoldwiz /bin/bash
 # docker run $1 --rm -v $(pwd):/opt/yeoldwiz thinktt/yeoldwiz
-docker run --resart unless-stopped thinktt/yeoldwiz
+docker run thinktt/yeoldwiz

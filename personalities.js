@@ -23,6 +23,25 @@ const aliases = {
   'drawmaster': 'Logan',
 }
 
+// Parse a string with multiple possible configurations and find a personality
+function fuzzySearch(msg) {
+  msg = msg.toLowerCase()
+
+  // first check the aliases
+  for (const alias of Object.keys(aliases)) {
+    if ( msg.includes(alias) ) return cmps[aliases[alias]]
+  }
+
+  // check all the personalities
+  for (const name of Object.keys(cmps)) {
+    if ( msg.includes(name.toLocaleLowerCase()) ) return cmps[name]
+  }
+
+  // check for a catagory
+  // check for random
+  // check for a rating
+
+}
 
 function getSettings(name) {
   // first check the aliases
@@ -60,16 +79,40 @@ function getProperName(name) {
 module.exports = {
   getSettings,
   getProperName,
+  fuzzySearch,
 }
 
-// console.log(getProperName('Kasparov'))
-// console.log(getProperName('chessmaster'))
-// console.log(getProperName('cassie'))
-// console.log(getProperName('Josh AGE 6'))
-// console.log(getProperName('FIscher'))
-// console.log(getProperName('Green Tentacle'))
-// console.log(getProperName('pawnmaster'))
-// console.log(getProperName('   DrawMaster  '))
+function testFuzzySearch() {
+  console.log(fuzzySearch('His name is Josh age 6')?.name)
+  console.log(fuzzySearch('Go get me the Wizard')?.name)
+  console.log(fuzzySearch('Have you ever met Josh')?.name)
+  console.log(fuzzySearch('Have you ever met NYCKid8')?.name)
+  console.log(fuzzySearch("I'm a fand of the PAWNMASTER")?.name)
+  console.log(fuzzySearch("play the DRAWmaster")?.name)
+
+  console.log(fuzzySearch("play the Max")?.name)
+  console.log(fuzzySearch("cassie is a neat player")?.name)
+  console.log(fuzzySearch("joey hates ross")?.name)
+  console.log(fuzzySearch("go Team")?.name)
+  console.log(fuzzySearch("Bobby Fischer")?.name)
+
+}
+
+testFuzzySearch()
+
+
+
+function testGetProperName() {
+  console.log(getProperName('Kasparov'))
+  console.log(getProperName('chessmaster'))
+  console.log(getProperName('cassie'))
+  console.log(getProperName('Josh AGE 6'))
+  console.log(getProperName('FIscher'))
+  console.log(getProperName('Green Tentacle'))
+  console.log(getProperName('pawnmaster'))
+  console.log(getProperName('   DrawMaster  '))
+}
+
 
 
 
