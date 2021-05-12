@@ -130,29 +130,29 @@ module.exports = {
 }
 
 function testFuzzySearch() {
-  console.log(fuzzySearch('His name is Josh age 6')?.name)
-  console.log(fuzzySearch('Go get me the Wizard')?.name)
-  console.log(fuzzySearch('Have you ever met NYCKid8')?.name)
-  console.log(fuzzySearch("I'm a fand of the PAWNMASTER")?.name)
-  console.log(fuzzySearch("play the DRAWmaster")?.name)
+  // console.log(fuzzySearch('His name is Josh age 6')?.name)
+  // console.log(fuzzySearch('Go get me the Wizard')?.name)
+  // console.log(fuzzySearch('Have you ever met NYCKid8')?.name)
+  // console.log(fuzzySearch("I'm a fand of the PAWNMASTER")?.name)
+  // console.log(fuzzySearch("play the DRAWmaster")?.name)
   
-  console.log(fuzzySearch("play the Max")?.name)
-  console.log(fuzzySearch("cassie is a neat player")?.name)
-  console.log(fuzzySearch("Bobby Fischer")?.name)
+  // console.log(fuzzySearch("play the Max")?.name)
+  // console.log(fuzzySearch("cassie is a neat player")?.name)
+  // console.log(fuzzySearch("Bobby Fischer")?.name)
   
-  console.log(fuzzySearch("1200")?.name)
-  console.log(fuzzySearch("500 200 300")?.name)
-  console.log(fuzzySearch("I want to play a 1200 player")?.name)
-  console.log(fuzzySearch("1231")?.name)
+  // console.log(fuzzySearch("1200")?.name)
+  // console.log(fuzzySearch("500 200 300")?.name)
+  // console.log(fuzzySearch("I want to play a 1200 player")?.name)
+  // console.log(fuzzySearch("1231")?.name)
   
-  console.log(fuzzySearch("GM please")?.name)
-  console.log(fuzzySearch(" I BeAT a 2700!!!!!")?.name)
-  console.log(fuzzySearch("hit me with random dude")?.name)
-  console.log(fuzzySearch("play Rand")?.name)
+  // console.log(fuzzySearch("GM please")?.name)
+  // console.log(fuzzySearch(" I BeAT a 2700!!!!!")?.name)
+  // console.log(fuzzySearch("hit me with random dude")?.name)
+  // console.log(fuzzySearch("play Rand")?.name)
 
-  console.log(fuzzySearch("joey and ross sitting in tree")?.name)
-  console.log(fuzzySearch("go Team")?.name)
-  console.log(fuzzySearch('Have you ever met Josh')?.name)
+  // console.log(fuzzySearch("joey and ross sitting in tree")?.name)
+  // console.log(fuzzySearch("go Team")?.name)
+  // console.log(fuzzySearch('Have you ever met Josh')?.name)
 
 }
 

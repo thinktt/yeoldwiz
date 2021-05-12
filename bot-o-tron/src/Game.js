@@ -32,19 +32,19 @@ class Game {
     if (event.username !== this.name) {
       const message = event.text.toLowerCase()
       if (this.wizPlayer == '') {
-        let opponent = message.replace('play ', '').replace('as ', '').trim()
-        this.wizPlayer = personalites.getProperName(opponent)
-        const cmp = personalites.getSettings(this.wizPlayer)
-       
-        if (!this.wizPlayer) { 
+        // let opponent = message.replace('play ', '').replace('as ', '').trim()
+        const cmp = personalites.fuzzySearch(message)
+        if ( !cmp ) {
           this.api.chat(this.gameId, 'player', "Sorry, I don't know that opponent");
-        } else {
-          this.api.chat(this.gameId,'player', 
-            `Playing as ${this.wizPlayer}. Wiz Rating ${cmp.rating}. ${cmp.summary}`
-          );
-          this.api.chat(this.gameId, 'spectator', `Playing as ${this.wizPlayer}`);
-          this.playNextMove(this.previousMoves)
-        } 
+          return
+        }
+
+        this.wizPlayer = personalites.getProperName(cmp.name)
+        this.api.chat(this.gameId,'player', 
+          `Playing as ${this.wizPlayer}. Wiz Rating ${cmp.rating}. ${cmp.summary}`
+        );
+        this.api.chat(this.gameId, 'spectator', `Playing as ${this.wizPlayer}`);
+        this.playNextMove(this.previousMoves)
       }
     }
   }
@@ -61,7 +61,10 @@ class Game {
     
     // This means chat has no messages at all so we should ask who the player wants to play
     if (chatPlayer === 'should ask who to play' && !this.rated) {
-      this.api.chat(this.gameId, 'player', 'Who would you like to play?');
+      this.api.chat(
+        this.gameId, 
+        'player', 'Who would you like to play? Give me a name or a rating number from 1 to 2750.'
+      );
       this.api.chat(this.gameId, 'spectator', 'Waiting for opponent selection');
       // clear this for next if
       chatPlayer = ''
