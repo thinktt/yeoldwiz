@@ -1,5 +1,22 @@
 const cmps = require('./personalities.json')
 
+// Map the CMP Object to an array, sort them by rating, reverse them 
+// for top to bottom flow when building layout
+let cmpsArr = Object.entries(cmps).map(e => e[1])
+
+cmpsArr.sort((cmp0, cmp1) => {
+  if ( cmp0.rating < cmp1.rating ) return -1
+  if ( cmp0.rating > cmp1.rating ) return 1
+  if ( cmp0.rating === cmp1.rating ) return 0
+})
+const gms = []
+for (const cmp of cmpsArr) {
+  // console.log(cmp.rating)
+  if (cmp.rating === 2700) gms.push(cmp)
+}
+// console.log(gms)
+
+
 
 const aliases = {
   'josh age 6': 'Josh6',
@@ -26,6 +43,13 @@ const aliases = {
 // Parse a string with multiple possible configurations and find a personality
 function fuzzySearch(msg) {
   msg = msg.toLowerCase()
+  console.log(msg)
+  
+  // check for random
+  if ( msg.includes('random') ) {
+    return cmpsArr[Math.floor(Math.random() * cmpsArr.length)];
+  }
+    
 
   // first check the aliases
   for (const alias of Object.keys(aliases)) {
@@ -38,8 +62,31 @@ function fuzzySearch(msg) {
   }
 
   // check for a catagory
-  // check for random
-  // check for a rating
+
+  // check for GM
+  if (msg.includes('gm') || msg.includes('grandmaster')) {
+    return gms[Math.floor(Math.random() * gms.length)];
+  }
+
+  // check for a rating number
+  let num = msg.match(/\d+/g)
+  if (!num) return 
+  
+  // if there is a number in the msg we'll parse it and return 
+  // the nearest personality
+  num = parseInt(num) 
+  
+  // this is a GM return a random one
+  if (num == 2700) {
+    return gms[Math.floor(Math.random() * gms.length)];
+  }
+  
+  // return the nearest personality at or below this rating
+  for (cmp of cmpsArr) {
+    if (num <= cmp.rating) return cmp
+  }
+
+
 
 }
 
@@ -85,20 +132,31 @@ module.exports = {
 function testFuzzySearch() {
   console.log(fuzzySearch('His name is Josh age 6')?.name)
   console.log(fuzzySearch('Go get me the Wizard')?.name)
-  console.log(fuzzySearch('Have you ever met Josh')?.name)
   console.log(fuzzySearch('Have you ever met NYCKid8')?.name)
   console.log(fuzzySearch("I'm a fand of the PAWNMASTER")?.name)
   console.log(fuzzySearch("play the DRAWmaster")?.name)
-
+  
   console.log(fuzzySearch("play the Max")?.name)
   console.log(fuzzySearch("cassie is a neat player")?.name)
-  console.log(fuzzySearch("joey hates ross")?.name)
-  console.log(fuzzySearch("go Team")?.name)
   console.log(fuzzySearch("Bobby Fischer")?.name)
+  
+  console.log(fuzzySearch("1200")?.name)
+  console.log(fuzzySearch("500 200 300")?.name)
+  console.log(fuzzySearch("I want to play a 1200 player")?.name)
+  console.log(fuzzySearch("1231")?.name)
+  
+  console.log(fuzzySearch("GM please")?.name)
+  console.log(fuzzySearch(" I BeAT a 2700!!!!!")?.name)
+  console.log(fuzzySearch("hit me with random dude")?.name)
+  console.log(fuzzySearch("play Rand")?.name)
+
+  console.log(fuzzySearch("joey and ross sitting in tree")?.name)
+  console.log(fuzzySearch("go Team")?.name)
+  console.log(fuzzySearch('Have you ever met Josh')?.name)
 
 }
 
-testFuzzySearch()
+// testFuzzySearch()
 
 
 
