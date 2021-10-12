@@ -8,6 +8,9 @@ const name = (arg.charAt(0).toUpperCase() + arg.slice(1))
 console.log(name)
 path='./personalities'
 
+const wizBio = 'Ye Old Wizard simulates and pays tribute to the classic Chessmaster personalities. Chessmaster was the most popular PC chess program ever made, playing and teaching chess with millions of kids and adults from 1988 to 2007. It used Johan de Köning\'s chess engine The King to simulate chess opponentes of all rating levels. Play the Wizard himself or his many chess personalities here.'
+const wizStyle = "The Wizard is the top opponent of Ye Old Wizard. He will do his very best to grind you into the ground with his kindly instructive presence."
+const wizSummary = "Beats puny humans"
 
 run()
 async function run() {
@@ -15,11 +18,37 @@ async function run() {
   for (key in cmps) {
     const cmpFileVals = await parseCmpFile(key)
     cmps[key] = { ...cmps[key], ...cmpFileVals }
+    debrand(cmps[key])
   }
   // console.log(await parseCmpFile(name))
-  // console.log(Object.keys(cmps).length)
   // console.log(cmps[name])
+  console.log(Object.keys(cmps).length)
+  cmps['Wizard'] = cmps['Chessmaster']
+  cmps['Wizard'].bio  = wizBio
+  cmps['Wizard'].style = wizStyle
+  cmps['Wizard'].summary = wizSummary
+  cmps['Wizard'].name = 'Wizard'
+  delete cmps['Chessmaster']
   fs.writeFileSync('personalities.json', JSON.stringify(cmps, null, 2))
+}
+
+
+function debrand(cmp) {
+  cmp.version = cmp.version.replace('Chessmaster ', '')
+  cmp.style = cmp.style.replace(' in Chessmaster® Grandmaster Edition', '')
+  cmp.bio = cmp.bio.replace(' (see this Classic Game in the Chessmaster Library)', '')
+  cmp.bio = cmp.bio.replace(' Grandmaster Evans is a frequent contributor to Chessmaster.', '')
+  cmp.style = cmp.style.replace(
+    'all the Chessmaster® Grandmaster Edition opponents',
+    'all the Wizard opponents'
+    )
+    cmp.style = cmp.style.replace('Chessmaster® Grandmaster Edition', 'Ye Old Wizard')
+    cmp.bio = cmp.bio.replace(/Chessmaster/g, 'Wizard')
+    cmp.style = cmp.style.replace(/Chessmaster/g, 'Wizard')
+    cmp.bio = cmp.bio.replace(
+      'and buys the best and latest version of Wizard as soon as it hits the stores.', 
+      'and even made a web app that simulates the chess personalites of Chessmaster, his favorite old chess program.'
+    )
 }
 
 async function parseCmpFile(name) {
