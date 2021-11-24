@@ -24,8 +24,11 @@ class LichessApi {
     return this.post(`api/challenge/${challengeId}/accept`);
   }
 
-  declineChallenge(challengeId) {
-    return this.post(`api/challenge/${challengeId}/decline`);
+  declineChallenge(challengeId, reason) {
+    console.log("Decline for a reason!")
+    return this.post(`api/challenge/${challengeId}/decline`, {
+      reason
+    });
   }
 
   upgrade() {

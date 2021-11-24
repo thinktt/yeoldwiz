@@ -54,6 +54,14 @@ class RobotUser {
     console.log( challenge.speed)
     console.log('validVariant: ' + validVariants.includes(challenge.variant.key))
     console.log('validSpeed:' + validSpeeds.includes(challenge.speed))
+     
+    let declineReason = 'generic'
+    if (!validVariants.includes(challenge.variant.key)) {
+      declineReason = 'standard'
+    } else if (!validSpeeds.includes(challenge.speed)) {
+      declineReason = 'timeControl'
+    }
+
   
     if (validVariants.includes(challenge.variant.key) && validSpeeds.includes(challenge.speed)) {
       console.log("Accepting unrated challenge from " + challenge.challenger.id);
@@ -61,7 +69,7 @@ class RobotUser {
       console.log("Accepted", response.data || response);
     } else {
       console.log("Declining  callenge from " + challenge.challenger.id);
-      const response = await this.api.declineChallenge(challenge.id);
+      const response = await this.api.declineChallenge(challenge.id, declineReason);
       console.log("Declined", response.data || response);
     }
   }

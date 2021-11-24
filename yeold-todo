@@ -1,25 +1,64 @@
+....Today....
+limit non ponder players to 5000 depth
+Accept Draws
+Use Chat API!
 
-replace chessmaster GM edition branding
-fix cmp orders
-one game at time from bot
 
 
 
-Frontend
-Install Button and flow?
 
-..........Score Mode........................
-vue components
-golden king
+
+
+
+
+
+
+
+....Frontend.....
+Use Chat API
+Vue Components
+  Use Vue component files
+  Split into vue component files
+better score crowns
+golden crowns
+fix score crowns on phones
 color balancing
+8bit Art Faces?
 
-score board on profiles
-game list
+score board
+  Games won, lost and drawn
+  See Games button
+game page
+  games listed with win loss next to them
+  go to lichess analysis when clicking
+  game listed with endgame picture
+  play through on game page
+  sort games?
+  filter games?
+Groups
+  More Groupings
+  Group Trophies?
+Player Ratings based on games
+What would Capablanca do
 
-refactor frontend
-lichess service for frontend?
 
-Issues
+....Backend....
+limit non ponder players to 5000 depth
+Accept Draws
+Use Chat API!
+
+Refactor away from Classes to simple module flow pattern?
+better flow for and error handling
+make long running backend
+lichess streaming connection monitoring and correction
+Capablanca Bot for cmp vs games and testing
+  get a valid lichess email
+  setup extra bot flow to run as Capa
+separate engine into it's own API
+put engine api in it's own container for scaling
+run engine containers as a cloud function
+
+....Issues.....
 longer running backend
 lost opponents
 failed post to spectator?
@@ -33,9 +72,18 @@ x sign out & kill token
 x proper sign in
 x score mode with numbers
 x score mode switch
+x replace chessmaster GM edition branding
+x run x86 container
+
+
+
+
 
 
 .........Ice Box..............
+Independent From Lichess
+  A playable game board
+
 Rated Challenges 
   Determine users challenge level
   Have Wizard offer user challenge choices
@@ -55,8 +103,9 @@ deal with dead stream?
   health check
   stream reset?
 
-run x86 container
-run on rpi?
+
+Progressive Web App
+  Install Button and flow?
 
 x run engine through wine
 x run engine through container
