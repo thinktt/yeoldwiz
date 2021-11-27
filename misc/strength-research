@@ -1,0 +1,15 @@
+After researching Chessmaster on my old PC it seems the base strenght listed 
+may come out at about 5000 level egnine lines, going to try and limit the non 
+ponder personalalties to this
+
+Max Transpostional Table Memory in CM Personality Editor:
+268435456
+When turning this up for Capablanca Lichess game I noticed the engine seemed
+to play similar strenght but took less time to move
+
+Strenght of lines seem to max aout at about 11000 or 12000, perhaps getting past
+that is just exponetnionally dificult for the engine. Mind you this is all time
+controls 5 to ten Seconds per move.
+
+
+
