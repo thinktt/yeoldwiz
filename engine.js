@@ -66,11 +66,12 @@ async function startEngine(child, moves, pvals) {
   child.stdin.write('easy\n')
 
   // set time control
-  // child.stdin.write(`level 0 3:20 0\n`) // 2.5 seconds
-  child.stdin.write(`level 0 0 5\n`)
-  // child.stdin.write(`time 20000\n`)
-  // child.stdin.write(`otim \n`)
-  //  child.stdin.write(`st 5\n`)
+  // child.stdin.write(`level 0 0 5\n`)
+  const clockTime='0 3:20 0'
+  const moveTime='20000'
+  child.stdin.write(`level ${clockTime}\n`)
+  child.stdin.write(`time ${moveTime}\n`)
+  child.stdin.write(`otim ${moveTime}\n`)
     
   // send all the moves to the engine
   console.log(moves)  
