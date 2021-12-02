@@ -44,11 +44,11 @@ class RobotUser {
   }
 
   async handleChallenge(challenge) {
-    // console.log(challenge)
     const validVariants = ['standard']
-    const validSpeeds = ['rapid', 'classical', 'correspondence',]
+    const validSpeeds = ['rapid', 'classical']
     // const response = await api.declineChallenge(challenge.id);
     // console.log("Declined", response.data || response);
+    // return
   
     console.log(challenge.variant.key)
     console.log( challenge.speed)

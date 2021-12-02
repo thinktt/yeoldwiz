@@ -10,6 +10,7 @@ import (
 )
 
 func main() {
+	shouldPostInput := os.Getenv("SHOULD_POST_INPUT")
 	cmd := exec.Command("./TheKing350noOpk.exe")
 
 	var stdoutBuf, stderrBuf bytes.Buffer
@@ -31,6 +32,9 @@ func main() {
 	s := bufio.NewScanner(os.Stdin)
 	for s.Scan() {
 		line := s.Text()
+		if shouldPostInput == "true" {
+			fmt.Printf("In: " + line + "\n")
+		}
 		engine.Write([]byte(line + "\n"))
 		if line == "quit" {
 			fmt.Println("quit received, waiting for engine to quit")

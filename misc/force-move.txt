@@ -1,0 +1,46 @@
+When trying to start the engine on a long running move and then force it to move 
+in the middle of processing using the ? command It's not working from my engine wrapper but it does 
+work from CM11 
+
+The following is a test script that works in CM11:
+
+cm_parm opk=978946
+cm_parm opk=150308
+
+xboard
+cm_parm opk=978946
+post
+new
+level 0 180 0
+cm_parm default
+cm_parm opp=125 opn=104 opb=104 opr=104 opq=104
+cm_parm myp=125 myn=104 myb=104 myr=104 myq=104
+cm_parm mycc=96 mymob=96 myks=120 mypp=96 mypw=125
+cm_parm opcc=96 opmob=96 opks=120 oppp=96 oppw=125
+cm_parm cfd=250 sop=100 avd=30 rnd=0 sel=9 md=99
+cm_parm tts=16777216
+easy
+force
+force
+d2d4
+time 1079700
+otim 1076110
+a7a6
+white
+time 1080000
+otim 1076110
+go
+
+...after processing starts....
+?
+
+Works from Chessmaster inbetween pointing to CM11\TheKing350noOpk.exe
+Works from dos propmpt CM11\TheKing350noOpk.exe
+Works from WSL prompt with CM11\TheKing350Opk.exe
+
+Does not work from WSL with yeoldwiz-lnx\TheKing350noOpk.exe
+yeoldwiz-lnx/TheKing350noOpk.exe e115e4dbc42b9ec8f880f214f089abc301e8118dd697153ed8f0b365098d2f38
+CM11\TheKing350noOpk.exe         511de09ec25fd8de0a41640c8e53ced4ebab1daeac01a8a9a3116a04f4ed7585
+CM11\TheKing350Real.exe          511de09ec25fd8de0a41640c8e53ced4ebab1daeac01a8a9a3116a04f4ed7585
+
+

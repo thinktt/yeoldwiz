@@ -55,7 +55,7 @@ class Game {
     // If no opponent has been set in chat and this is a rated game set
     // the game to play as Josh7
     if ((chatPlayer === '' || chatPlayer === 'should ask who to play') &&  this.rated) {
-      this.setWizPlayer('JW7')
+      this.setWizPlayer('Capablanca')
       return
     }
     
@@ -97,7 +97,7 @@ class Game {
     
     // caputre and count message, if no messages have been sent respond with string
     // to let the system know it should ask who the wants to play
-    const wizMessagesRx = /"u":"yeoldwiz","t":".*?"/g
+    const wizMessagesRx = /"u":"yowCapablanca","t":".*?"/g
     const wizMessages = gamePage.data.match(wizMessagesRx) || []
     if (wizMessages.length === 0) {
       return 'should ask who to play'
@@ -105,13 +105,13 @@ class Game {
     
     // Next we check for a "Playing as string" if one exist we will capture it
     // and try to parse out the opponent name and return it
-    const playingAsRx = /"u":"yeoldwiz","t":"Playing as [A-Za-z0-9\.]*/g
+    const playingAsRx = /"u":"yowCapablanca","t":"Playing as [A-Za-z0-9\.]*/g
     const opponentData = gamePage.data.match(playingAsRx)
     let opponent = ''
     if (opponentData == null) {
       return ''
     }
-    opponent = opponentData[0].replace('"u":"yeoldwiz","t":"Playing as ', '')
+    opponent = opponentData[0].replace('"u":"yowCapablanca","t":"Playing as ', '')
     return opponent
   }
 

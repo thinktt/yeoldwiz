@@ -18,7 +18,8 @@ async function getMove(moves, pvals) {
   child.on('close', function (code) {
       console.log('egine exited ' + code);
   });
- 
+
+
   // create a movePromise, when engine responds with a move it resolves and
   // sends an exit command to the engine, closing the process
   const movePromise = new Promise(resolve => {
@@ -49,22 +50,10 @@ async function startEngine(child, moves, pvals) {
   const chess = new ChessUtils()
   chess.applyMoves(moves)
   const turn = chess.turn()
-
-  // set up the clock time
-  // const clockTime='0 6:40 0'
-  // const moveTime='40000'
-  const clockTime='0 3:20 0'
-  const moveTime='20000'
-  console.log(clockTime)
-  console.log(moveTime)
   
-  // setu up basic params
+  // setup basic params
   child.stdin.write('xboard\n')
   child.stdin.write('post\n')
-  child.stdin.write('new\n')
-  child.stdin.write(`level ${clockTime}\n`)
-  child.stdin.write('cm_parm opk=150308\n')
-  
   
   // Load personality values
   child.stdin.write('cm_parm default\n')
@@ -75,33 +64,47 @@ async function startEngine(child, moves, pvals) {
   child.stdin.write(`cm_parm cfd=${pvals.cfd} sop=${pvals.sop} avd=${pvals.avd} rnd=${pvals.rnd} sel=${pvals.sel} md=${pvals.md}\n`)
   child.stdin.write(`cm_parm tts=${pvals.tts}\n`)
   child.stdin.write('easy\n')
-  
-  // prepare to take move list
-  child.stdin.write('force\n')
-  
+
+  // set time control
+  // child.stdin.write(`level 0 3:20 0\n`) // 2.5 seconds
+  child.stdin.write(`level 0 0 5\n`)
+  // child.stdin.write(`time 20000\n`)
+  // child.stdin.write(`otim \n`)
+  //  child.stdin.write(`st 5\n`)
+    
   // send all the moves to the engine
   console.log(moves)  
   for (const move of moves) {
     child.stdin.write(`${move}\n`)
   }
   
-  // establish which move the engine is playing
-  child.stdin.write(`time ${moveTime}\n`)
-  child.stdin.write(`otim ${moveTime}\n`)
+  // log which move the engine is playing
   if (turn == 'w') {
     console.log('engine moving as white')
-    child.stdin.write('white\n')
   } else {
     console.log('engine moving as black')
-    child.stdin.write('black\n')
   }
   
   // kick off the engine
   child.stdin.write('go\n')
 }
 
-function isWhitesTurn(n) {
-  return n % 2 == 0;
-}
-
 module.exports = { getMove }
+
+
+// Thes are engine commands I removed since they didn't seem necessary
+// keeping them here for reference for now though
+// child.stdin.write('black\n')
+// child.stdin.write('white\n')
+// set up the clock time
+// const clockTime='0 12:40 0'
+// const moveTime='80000'
+// const clockTime='0 3:20 0'
+// const moveTime='20000'
+// const clockTime='0 0:01 0'
+// const moveTime='5000'
+// child.stdin.write('new\n')
+// child.stdin.write(`level ${clockTime}\n`)
+// child.stdin.write('cm_parm opk=150308\n')
+// prepare to take move list
+// child.stdin.write('force\n')

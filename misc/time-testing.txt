@@ -1,0 +1,46 @@
+// default time, no control set just run engine
+[
+  4898, 5041,  7420, 11753, 10448, 7604,
+  6307, 8074,  5389,  4897,  8256, 7588,
+  5212, 7377,  3474,  3164,  8179, 6846,
+  5484, 7232, 11505,  8744,  5228, 7523,
+  5749, 5315,  3473,  7388,  5168, 4862,
+  4926, 6241,  2558,  3749,  4085, 2979,
+  5202, 3620,  5940,  3246,  3174,   39
+]
+
+
+level 0 0 10 engine may have had competition, still giving 20s! >:-(
+[
+    658,  3728,  2730, 10041,  9907,  8824,
+   6312,  8916, 10526, 11197, 10523,  9334,
+  11207, 10549,  7926,  7826,  9997, 16542,
+  12975,  8747, 13514, 10297, 14784, 11516,
+  20418, 15337,  8053, 10372, 20098, 12703,
+  13597, 15103,  5879,  8897,  5540,  6955,
+  14149,  8714, 17300,  8384,  8056,    47
+]
+
+//reasons to move?
+1. You hit 5 seconds (or 2.5 for easy players)
+2. You reach a depth limit (to adjust for )
+3. Engine decides to make a move early
+
+Test moves for 
+
+Goal, consistent moves for any speed computer
+Five seconds moves on base computer
+Easy personalities should have half the time of hard personalities
+
+Choose a Base computer (the Ace)
+Determine highest depth for 5 seconds (hard depth)
+Determine highest depth for 2.5 seconds (easy depth)
+
+set easy and hard cutoff time based on depth of dificult move
+test on multiple speed machines
+
+Use a Wizard vs Wizard game, determine hardest move for Wizard
+
+
+
+

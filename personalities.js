@@ -34,8 +34,7 @@ const aliases = {
   'jw7': 'Josh7',
   'jw8': 'Josh8',
   'jw12': 'Josh12',
-  'wizard': 'Chessmaster',
-  'the wizard': 'Chessmaster',
+  'the wizard': 'Wizard',
   'pawnmaster': 'Shakespeare',
   'drawmaster': 'Logan',
 }
