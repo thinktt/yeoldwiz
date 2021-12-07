@@ -24,10 +24,28 @@ async function getMove(moves, pvals) {
   // sends an exit command to the engine, closing the process
   const movePromise = new Promise(resolve => {
     child.stdout.on('data', (data) => {
-      process.stdout.write(chalk.red(data.toString()))
-      if (data.toString().includes('move')) {
+      const engineLine = data.toString()
+      
+      // if the line starts with a depth number it's a move line
+      if (Number.isInteger(parseInt(engineLine))) {
+        process.stdout.write(chalk.red(engineLine))
+        const depth = parseInt(engineLine.substring(0))
+        const eval = parseInt(engineLine.substring(5))
+        const shortDepth = parseInt(engineLine.substring(11))
+        const longDepth = parseInt(engineLine.substring(18))
+        const moveLine = engineLine.substring(29)
+        console.log(depth, eval, shortDepth, longDepth, moveLine)
+        
+        
+        // process.stdout.write(chalk.yellow(engineLine.substring(0,5)) + '\n')  
+      } else {
+        process.stdout.write(chalk.red(engineLine))
+      }
+
+
+      if (engineLine.includes('move')) {
         child.stdin.write('quit\n')
-        const move = data.toString().match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
+        const move = engineLine.match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
         resolve(move)
       }
     });
