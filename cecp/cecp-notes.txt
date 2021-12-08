@@ -27,3 +27,5 @@ level
     chess master sets it to 40,000 at some point for both time and otim, that' 6:40
   otim
     clock that belongs to the opponent?
+
+  

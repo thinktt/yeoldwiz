@@ -39,7 +39,7 @@ Determine highest depth for 2.5 seconds (easy depth)
 set easy and hard cutoff time based on depth of dificult move
 test on multiple speed machines
 
-Use a Wizard vs Wizard game, determine hardest move for Wizard
+1. Use a Wizard vs Wizard game, determine hardest move for Wizard
 
 
 

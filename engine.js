@@ -3,9 +3,13 @@ const { exec } = require('child_process')
 const chalk = require('chalk')
 
 
+async function getMove(moves, pvals) {
+  const moveData = await getMoveWithData(moves, pvals)
+  return moveData.engineMove
+}
 
 // Start the engine and get next move using the given perosnality values (pvals)
-async function getMove(moves, pvals) {
+async function getMoveWithData(moves, pvals) {
 
   // start the chess engine process, using the proper engine command
   // defaults to WSL setup, Dockerfile sets ENG_CMD /usr/bin/wine ./enginewrap
@@ -13,7 +17,8 @@ async function getMove(moves, pvals) {
   cmd = process.env.ENG_CMD ||  cmd
   console.log(`engine cmd: ${cmd}`)
   const child = exec(cmd)
-
+  let moveData
+ 
   // on close event stop the process
   child.on('close', function (code) {
       console.log('egine exited ' + code);
@@ -25,19 +30,13 @@ async function getMove(moves, pvals) {
   const movePromise = new Promise(resolve => {
     child.stdout.on('data', (data) => {
       const engineLine = data.toString()
-      
+    
       // if the line starts with a depth number it's a move line
-      if (Number.isInteger(parseInt(engineLine))) {
+      if (parseInt(engineLine) ) {
+        moveData = parseMoveLine(engineLine)
+        moveData.cordinateMove = getCordinateMove(moveData.algebraMove, moves)
         process.stdout.write(chalk.red(engineLine))
-        const depth = parseInt(engineLine.substring(0))
-        const eval = parseInt(engineLine.substring(5))
-        const shortDepth = parseInt(engineLine.substring(11))
-        const longDepth = parseInt(engineLine.substring(18))
-        const moveLine = engineLine.substring(29)
-        console.log(depth, eval, shortDepth, longDepth, moveLine)
-        
-        
-        // process.stdout.write(chalk.yellow(engineLine.substring(0,5)) + '\n')  
+        // console.log(moveData)
       } else {
         process.stdout.write(chalk.red(engineLine))
       }
@@ -45,8 +44,9 @@ async function getMove(moves, pvals) {
 
       if (engineLine.includes('move')) {
         child.stdin.write('quit\n')
-        const move = engineLine.match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
-        resolve(move)
+        moveData.engineMove = engineLine.match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
+        moveData.timeForMove = Date.now() - startTime
+        resolve(moveData)
       }
     });
   })
@@ -56,9 +56,27 @@ async function getMove(moves, pvals) {
     process.stdout.write(chalk.red(data.toString()))
   })
 
+  startTime = Date.now()
   startEngine(child, moves, pvals)
  
   return movePromise
+}
+
+function parseMoveLine(engineLine) {
+  const depth = parseInt(engineLine) 
+  const eval = parseInt(engineLine.substring(5))
+  const shortDepth = parseInt(engineLine.substring(11))
+  const longDepth = parseInt(engineLine.substring(18))
+  const moveLine = engineLine.substring(29)
+  const algebraMove = moveLine.split(' ')[0]
+  return { depth, eval, shortDepth, longDepth, algebraMove }
+}
+
+function getCordinateMove(algebraMove, moves) {
+  const chess = new ChessUtils()
+  chess.applyMoves(moves)
+  const longMove = chess.chess.move(algebraMove)
+  return longMove.from + longMove.to  
 }
 
 // startEngine sets up the engine and kicks off the move
@@ -87,9 +105,9 @@ async function startEngine(child, moves, pvals) {
   // child.stdin.write(`level 0 0 5\n`)
   const clockTime='0 3:20 0'
   const moveTime='20000'
-  child.stdin.write(`level ${clockTime}\n`)
-  child.stdin.write(`time ${moveTime}\n`)
-  child.stdin.write(`otim ${moveTime}\n`)
+  // child.stdin.write(`level ${clockTime}\n`)
+  // child.stdin.write(`time ${moveTime}\n`)
+  // child.stdin.write(`otim ${moveTime}\n`)
     
   // send all the moves to the engine
   console.log(moves)  
@@ -108,7 +126,7 @@ async function startEngine(child, moves, pvals) {
   child.stdin.write('go\n')
 }
 
-module.exports = { getMove }
+module.exports = { getMove, getMoveWithData }
 
 
 // Thes are engine commands I removed since they didn't seem necessary
