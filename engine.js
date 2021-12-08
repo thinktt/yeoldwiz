@@ -29,26 +29,34 @@ async function getMoveWithData(moves, pvals) {
   // sends an exit command to the engine, closing the process
   const movePromise = new Promise(resolve => {
     child.stdout.on('data', (data) => {
-      const engineLines = data.toString().split('\r\n')
-      console.log(engineLines)
+      const engineLines = data.toString().replace('\r','\n').split('\n')
 
-      for (engineLine of engineLines) {
-        // if the line starts with a depth number it's a move line
+      for (let engineLine of engineLines) {
+        // ignore empty lines, add return char back to end of line
+        if (engineLine === '') continue
+        engineLine = engineLine + '\n'
+
+        // if egineline starts with an int this is a move line, parse it and
+        // store it in the moveData object
         if (parseInt(engineLine)) {
           moveData = parseMoveLine(engineLine)
           moveData.cordinateMove = getCordinateMove(moveData.algebraMove, moves)
-          // process.stdout.write(chalk.yellow(engineLine) + '\n')
+          process.stdout.write(chalk.yellow(engineLine))
+        
+        // the engine has selected a move, stop engine, and reolve promise  
+        // with current move data
+        } else if (engineLine.includes('move')) {
+          process.stdout.write(chalk.blue(engineLine))
+          child.stdin.write('quit\n')
+          moveData.engineMove = engineLine.match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
+          moveData.timeForMove = Date.now() - startTime
+          resolve(moveData)
+        
         } else {
-          // process.stdout.write(chalk.red(engineLine) + '\n')
+          process.stdout.write(chalk.red(engineLine))
         }
       }
-
-      if (engineLine.includes('move')) {
-        child.stdin.write('quit\n')
-        moveData.engineMove = engineLine.match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
-        moveData.timeForMove = Date.now() - startTime
-        resolve(moveData)
-      }
+   
     });
   })
 

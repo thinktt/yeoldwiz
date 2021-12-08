@@ -60,7 +60,7 @@ async function runThroughMoves() {
 async function runContinously() {
   const moveData = await engine.getMoveWithData(moves, cmp.out)
   // console.log(moveData)
-  moves.push(engineMove)
+  moves.push(moveData.engineMove)
   const chess = new ChessUtils()
   chess.applyMoves(moveData.engineMove)
   console.log(chess.chess.ascii())
@@ -87,6 +87,6 @@ async function multiRun() {
 }
 
 // runThroughMoves()
-runContinously()
-// runOnce()
+// runContinously()
+runOnce(moves)
 // multiRun()
