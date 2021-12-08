@@ -21,7 +21,7 @@ async function getMoveWithData(moves, pvals) {
  
   // on close event stop the process
   child.on('close', function (code) {
-      console.log('egine exited ' + code)
+      // console.log('egine exited ' + code)
   })
 
 
@@ -39,9 +39,9 @@ async function getMoveWithData(moves, pvals) {
         // if egineline starts with an int this is a move line, parse it and
         // store it in the moveData object
         if (parseInt(engineLine)) {
+          process.stdout.write(chalk.yellow(engineLine))
           moveData = parseMoveLine(engineLine)
           moveData.cordinateMove = getCordinateMove(moveData.algebraMove, moves)
-          process.stdout.write(chalk.yellow(engineLine))
         
         // the engine has selected a move, stop engine, and reolve promise  
         // with current move data
@@ -82,10 +82,15 @@ function parseMoveLine(engineLine) {
 }
 
 function getCordinateMove(algebraMove, moves) {
+  // cm egine uses 0 instead of O which breaks chess.js, this is the fix
+  algebraMove = algebraMove.replace(/0/g, 'O')
   const chess = new ChessUtils()
   chess.applyMoves(moves)
   const longMove = chess.chess.move(algebraMove)
-  // console.log(longMove)
+  
+  // failed to build a cordinate move
+  // if (!longMove) return null
+  
   return longMove.from + longMove.to  
 }
 
