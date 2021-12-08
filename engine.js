@@ -42,6 +42,7 @@ async function getMoveWithData(moves, pvals) {
           process.stdout.write(chalk.yellow(engineLine))
           moveData = parseMoveLine(engineLine)
           moveData.cordinateMove = getCordinateMove(moveData.algebraMove, moves)
+          console.log(moveData)
         
         // the engine has selected a move, stop engine, and reolve promise  
         // with current move data
@@ -77,13 +78,13 @@ function parseMoveLine(engineLine) {
   const shortDepth = parseInt(engineLine.substring(11))
   const longDepth = parseInt(engineLine.substring(18))
   const moveLine = engineLine.substring(29)
-  const algebraMove = moveLine.split(' ')[0]
+  let algebraMove = moveLine.split(' ')[0]
+  // cm egine uses 0 instead of O which breaks chess.js, this is the fix
+  algebraMove = algebraMove.replace(/0/g, 'O')
   return { depth, eval, shortDepth, longDepth, algebraMove }
 }
 
 function getCordinateMove(algebraMove, moves) {
-  // cm egine uses 0 instead of O which breaks chess.js, this is the fix
-  algebraMove = algebraMove.replace(/0/g, 'O')
   const chess = new ChessUtils()
   chess.applyMoves(moves)
   const longMove = chess.chess.move(algebraMove)

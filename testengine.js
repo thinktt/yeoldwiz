@@ -79,8 +79,8 @@ async function runContinously() {
 }
 
 async function runOnce(moves) {
-  const moveData = await engine.getMove(moves, cmp.out)
-  return
+  const moveData = await engine.getMoveWithData(moves, cmp.out)
+  console.log(moveData)
 }
 
 
