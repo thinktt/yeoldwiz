@@ -29,18 +29,19 @@ async function getMoveWithData(moves, pvals) {
   // sends an exit command to the engine, closing the process
   const movePromise = new Promise(resolve => {
     child.stdout.on('data', (data) => {
-      const engineLine = data.toString()
-    
-      // if the line starts with a depth number it's a move line
-      if (parseInt(engineLine) ) {
-        moveData = parseMoveLine(engineLine)
-        moveData.cordinateMove = getCordinateMove(moveData.algebraMove, moves)
-        process.stdout.write(chalk.red(engineLine))
-        // console.log(moveData)
-      } else {
-        process.stdout.write(chalk.red(engineLine))
-      }
+      const engineLines = data.toString().split('\r\n')
+      console.log(engineLines)
 
+      for (engineLine of engineLines) {
+        // if the line starts with a depth number it's a move line
+        if (parseInt(engineLine)) {
+          moveData = parseMoveLine(engineLine)
+          moveData.cordinateMove = getCordinateMove(moveData.algebraMove, moves)
+          // process.stdout.write(chalk.yellow(engineLine) + '\n')
+        } else {
+          // process.stdout.write(chalk.red(engineLine) + '\n')
+        }
+      }
 
       if (engineLine.includes('move')) {
         child.stdin.write('quit\n')
@@ -76,6 +77,7 @@ function getCordinateMove(algebraMove, moves) {
   const chess = new ChessUtils()
   chess.applyMoves(moves)
   const longMove = chess.chess.move(algebraMove)
+  // console.log(longMove)
   return longMove.from + longMove.to  
 }
 
@@ -110,7 +112,8 @@ async function startEngine(child, moves, pvals) {
   // child.stdin.write(`otim ${moveTime}\n`)
     
   // send all the moves to the engine
-  console.log(moves)  
+  // console.log(moves)
+  console.log(`sending ${moves.length} moves to the engine`)  
   for (const move of moves) {
     child.stdin.write(`${move}\n`)
   }
