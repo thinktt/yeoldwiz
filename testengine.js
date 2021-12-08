@@ -26,16 +26,16 @@ const cmp = personalites.getSettings('Wizard')
 //   'g5g2', 'g1h1', 'c7e5', 'a1f1', 'e5e6', 'h1g2', 'e6g4'
 // ] 
 
-const moves = [
-  'e2e4', 'e7e6', 'd2d4',
-  'd7d5', 'b1c3', 'f8b4',
-  'e4e5', 'c7c5', 'a2a3',
-  'b4a5', 'b2b4', 'c5d4',
-  'd1g4', 'g8e7', 'b4a5',
-  'd4c3', 'g4g7', 'h8g8',
-  'g7h7', 'b8c6', 'g1f3',
-  'd8c7', 'f1b5', 'c8d7'
-]
+// const moves = [
+//   'e2e4', 'e7e6', 'd2d4',
+//   'd7d5', 'b1c3', 'f8b4',
+//   'e4e5', 'c7c5', 'a2a3',
+//   'b4a5', 'b2b4', 'c5d4',
+//   'd1g4', 'g8e7', 'b4a5',
+//   'd4c3', 'g4g7', 'h8g8',
+//   'g7h7', 'b8c6', 'g1f3',
+//   'd8c7', 'f1b5', 'c8d7'
+// ]
 
 // Wiz vs Capablanca (Wiz Personas)
 // const moves = [
@@ -56,13 +56,27 @@ const moves = [
 //   'g2f1', 'd6f4'
 // ]
 
+const moves = [
+  'd2d4', 'd7d5', 'e2e4', 'd5e4', 'c2c3', 'g8f6',
+  'f1c4', 'b8d7', 'c1g5', 'h7h6', 'g5f6', 'e7f6',
+  'd1e2', 'f6f5', 'b1d2', 'd8g5', 'g2g3', 'd7b6',
+  'c4b3', 'f8d6', 'd2c4', 'b6c4', 'b3a4', 'c7c6',
+  'a4c6', 'b7c6', 'e2c4', 'c8d7', 'd4d5', 'c6c5',
+  'h2h4', 'g5f6', 'c4a6', 'e8g8', 'g1e2', 'a8b8',
+  'a6a3', 'd7b5', 'g3g4', 'f5g4', 'c3c4', 'b5c4',
+  'a1b1', 'e4e3', 'f2f4', 'g4f3', 'e1d1', 'b8b3',
+  'd1c2', 'c4d3', 'c2b3', 'f8b8', 'b3a4', 'd3c2',
+  'b2b3', 'd6c7', 'd5d6', 'f6d6', 'a3b4', 'd6a6',
+  'b4a5'
+]
+
 
 async function runThroughMoves() {
   const movesSoFar = []
   // const times = []
   for (const move of moves) {
     movesSoFar.push(move) 
-    console.log(movesSoFar)
+    // console.log(movesSoFar)
     await runOnce(movesSoFar)
   }
 }
@@ -96,7 +110,7 @@ async function multiRun() {
   console.log(engineMoves) 
 }
 
-// runThroughMoves()
+runThroughMoves()
 // runContinously()
-runOnce(moves)
+// runOnce(moves)
 // multiRun()

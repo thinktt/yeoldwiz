@@ -10,6 +10,7 @@ async function getMove(moves, pvals) {
 
 // Start the engine and get next move using the given perosnality values (pvals)
 async function getMoveWithData(moves, pvals) {
+  console.log(moves)
 
   // start the chess engine process, using the proper engine command
   // defaults to WSL setup, Dockerfile sets ENG_CMD /usr/bin/wine ./enginewrap
@@ -38,11 +39,11 @@ async function getMoveWithData(moves, pvals) {
 
         // if egineline starts with an int this is a move line, parse it and
         // store it in the moveData object
-        if (parseInt(engineLine)) {
+        if (parseInt(engineLine) > 1000) {
           process.stdout.write(chalk.yellow(engineLine))
           moveData = parseMoveLine(engineLine)
           moveData.cordinateMove = getCordinateMove(moveData.algebraMove, moves)
-          console.log(moveData)
+          // console.log(moveData)
         
         // the engine has selected a move, stop engine, and reolve promise  
         // with current move data
@@ -51,6 +52,7 @@ async function getMoveWithData(moves, pvals) {
           child.stdin.write('quit\n')
           moveData.engineMove = engineLine.match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
           moveData.timeForMove = Date.now() - startTime
+          console.log(moveData)
           resolve(moveData)
         
         } else {
@@ -81,18 +83,66 @@ function parseMoveLine(engineLine) {
   let algebraMove = moveLine.split(' ')[0]
   // cm egine uses 0 instead of O which breaks chess.js, this is the fix
   algebraMove = algebraMove.replace(/0/g, 'O')
+  algebraMove = algebraMove.replace(/\s/, '')
+
   return { depth, eval, shortDepth, longDepth, algebraMove }
 }
 
 function getCordinateMove(algebraMove, moves) {
   const chess = new ChessUtils()
   chess.applyMoves(moves)
-  const longMove = chess.chess.move(algebraMove)
+  let cordinateMove = null
   
-  // failed to build a cordinate move
-  // if (!longMove) return null
+  // first try and use chess js to do the work for us
+  let longMove = chess.chess.move(algebraMove)
+  if (longMove) return longMove.from + longMove.to
+
+  // chess js didn't like the move let's try a more manual approach
+  let disambiguation 
+  let disambigCordinate
   
-  return longMove.from + longMove.to  
+  // first let's check for full disambiguation, if it exist just return it as
+  // the move (ex. Qe4e5)
+  if (disambiguation = algebraMove.match(/[a-h][1-8][a-h][1-8]/)) {
+    return disambiguation[0]
+  }
+  
+  // next check for a single disambiguation cordinate, if so save it (ex. Qea1)
+  if (disambiguation = algebraMove.match(/([a-h|1-8])[a-h][1-8]/)) {
+    disambigCordinate = disambiguation[1]
+  }
+
+  let toSquare = algebraMove.match(/[a-h][0-8]/)[0]
+  let piece = algebraMove.match(/[KQBNR]/)[0]
+
+
+  for (const square of chess.chess.SQUARES) {
+    // is this the type of piece we're looking for? if not move along
+    if (chess.chess.get(square).type !== piece.toLowerCase()) continue
+
+    // now we have a candidate move
+    let testMove = square + toSquare
+
+    // if chessjs still doesn't like it move along
+    let longMove = chess.chess.move(testMove)
+    if (!longMove) continue
+
+    // if there's a diabiguation cordinate make sure this is the right square
+    // to move from (it should contain the cordinate) if not move on
+    if (disambigCordinate && !square.includes(disambigCordinate)) continue 
+
+    
+    // we found our move we can stop searching for it
+    cordinateMove = testMove
+    break
+  }
+
+  
+  // at this point if we never found a move we will be returning null
+  if (cordinateMove === null) {
+    console.error('Failed to create cordinate move!')
+  }
+  return cordinateMove
 }
 
 // startEngine sets up the engine and kicks off the move
