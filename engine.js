@@ -21,8 +21,8 @@ async function getMoveWithData(moves, pvals) {
  
   // on close event stop the process
   child.on('close', function (code) {
-      console.log('egine exited ' + code);
-  });
+      console.log('egine exited ' + code)
+  })
 
 
   // create a movePromise, when engine responds with a move it resolves and
@@ -57,7 +57,7 @@ async function getMoveWithData(moves, pvals) {
         }
       }
    
-    });
+    })
   })
 
   // log on process errors
