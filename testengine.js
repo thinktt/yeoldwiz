@@ -70,6 +70,9 @@ const moves = [
   'b4a5'
 ]
 
+// const moves = [
+// 'e2e4','e7e5','g1f3','b8c6','f1b5','a7a6','b5a4','g8f6','e1g1','f8e7','f1e1','b7b5','a4b3','d7d6','c2c3','c6a5','b3c2','c7c5','d2d4','d8c7','d4d5','e8g8','b2b3','c8g4','h2h3','g4h5','c1e3','a5b7','c3c4','f8b8','b1d2','h7h6','d2f1','h5g6','f1g3','g6h7','d1e2','b7a5','e3d2','e7f8','g3f5','g8h8','g2g4','a8a7','g1h1','b5c4','b3c4','a7a8','e1b1','b8e8','b1g1','f6d7','g4g5','h6h5','g5g6','h7g6','f5h4','g6h7','f3g5','d7f6','d2c3','a5b7','f2f4','g7g6','f4f5','f8h6','g5h7','h8h7','f5g6','f7g6','g1g6','c7f7','a1f1','f7g6','h4g6','h7g6','c3e1','e8f8','e1h4','b7a5','f1f5','h6g7','h4f6','g7f6','c2d1','g6f7','e2d2','a5c4','d2c1','f7e7','c1c4','h5h4','c4f1','f8f7','a2a4','f7f8','a4a5','f8f7','d1h5','f7f8','h5e2','a8b8','e2a6','b8b3','a6e2','f8f7','a5a6','f7f8','a6a7','b3a3','f5f3','a3a7','f1b1','f8a8','f3f1','f6g5','b1b2','g5h6','f1g1','h6e3','g1g7','e7f6','g7a7','a8a7','b2b6','a7a1','h1g2','a1g1','g2h2','f6f7','b6d8','g1b1','d8d6','b1b2','d6e6','f7f8','h2g2','b2e2','g2f1','e2f2','f1e1','f2g2','e6e5','e3d4','e5f4','f8e8','f4h4','e8d7','e4e5','g2g1','e1e2','d4e5','h4h5','e5d4','h5f5','d7c7','f5f4','c7d7','f4f7','d7d8','h3h4','g1g2','e2d3','g2f2','f7g8','d8c7','g8g3','c7d7','g3h3','d7c7','h4h5','f2f6','h5h6','f6b6','h3h2','c7b7','h6h7','b6b3','d3e4','b3e3','e4f4','e3e8','f4f5','e8c8','f5e6','c8d8','d5d6','b7b6','e6e7','d8a8','d6d7','b6b5','d7d8q','a8d8','e7d8','c5c4','h2b8','b5c5','b8c7','c5b4','c7h2'
+// ]
 
 async function runThroughMoves() {
   const movesSoFar = []
@@ -94,7 +97,6 @@ async function runContinously() {
 
 async function runOnce(moves) {
   const moveData = await engine.getMoveWithData(moves, cmp.out)
-  console.log(moveData)
 }
 
 
@@ -110,7 +112,7 @@ async function multiRun() {
   console.log(engineMoves) 
 }
 
-runThroughMoves()
+// runThroughMoves()
 // runContinously()
-// runOnce(moves)
+runOnce(moves)
 // multiRun()
