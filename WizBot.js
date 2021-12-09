@@ -1,4 +1,4 @@
-const ChessUtils = require("./bot-o-tron/src/utils/ChessUtils")
+const ChessUtils = require("./ChessUtils")
 const chalk = require('chalk')
 const book = require('./book')
 const engine = require('./engine')

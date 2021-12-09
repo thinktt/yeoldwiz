@@ -1,8 +1,7 @@
 require('dotenv').config()
-const LichessApi = require("./bot-o-tron/src/LichessApi");
-const RobotUser = require("./bot-o-tron/src/RobotUser");
+const LichessApi = require("./LichessApi");
+const RobotUser = require("./RobotUser");
 const WizBot = require("./WizBot");
-const RandomPlayer = require("./bot-o-tron/src/bots/RandomPlayer");
 const chalk = require('chalk')
 
 

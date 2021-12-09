@@ -1,4 +1,4 @@
-const ChessUtils = require("./bot-o-tron/src/utils/ChessUtils")
+const ChessUtils = require("./ChessUtils")
 const { exec } = require('child_process')
 const chalk = require('chalk')
 
