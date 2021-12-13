@@ -3,14 +3,14 @@ const { exec } = require('child_process')
 const chalk = require('chalk')
 
 
-async function getMove(moves, pvals) {
-  const moveData = await getMoveWithData(moves, pvals)
+async function getMove(moves, pvals, secondsPerMove) {
+  
+  const moveData = await getMoveWithData(moves, pvals, secondsPerMove)
   return moveData.engineMove
 }
 
 // Start the engine and get next move using the given perosnality values (pvals)
-async function getMoveWithData(moves, pvals) {
-  console.log(moves)
+async function getMoveWithData(moves, pvals, secondsPerMove) {
 
   // start the chess engine process, using the proper engine command
   // defaults to WSL setup, Dockerfile sets ENG_CMD /usr/bin/wine ./enginewrap
@@ -48,10 +48,10 @@ async function getMoveWithData(moves, pvals) {
         // the engine has selected a move, stop engine, and reolve promise  
         // with current move data
         } else if (engineLine.includes('move')) {
+          moveData.timeForMove = Date.now() - startTime
           process.stdout.write(chalk.blue(engineLine))
           child.stdin.write('quit\n')
           moveData.engineMove = engineLine.match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
-          moveData.timeForMove = Date.now() - startTime
           console.log(moveData)
           resolve(moveData)
         
@@ -69,7 +69,7 @@ async function getMoveWithData(moves, pvals) {
   })
 
   startTime = Date.now()
-  startEngine(child, moves, pvals)
+  startEngine(child, moves, pvals, secondsPerMove)
  
   return movePromise
 }
@@ -102,7 +102,7 @@ function getCordinateMove(algebraMove, moves) {
 }
 
 // startEngine sets up the engine and kicks off the move
-async function startEngine(child, moves, pvals) {
+async function startEngine(child, moves, pvals, secondsPerMove) {
   
   // establish a working model of the game and find white or blacks turn
   const chess = new ChessUtils()
@@ -125,11 +125,19 @@ async function startEngine(child, moves, pvals) {
 
   // set time control
   // child.stdin.write(`level 0 0 5\n`)
-  const clockTime='0 3:20 0'
-  const moveTime='20000'
+  // const clockTime='0 3:20 0'
   // child.stdin.write(`level ${clockTime}\n`)
-  // child.stdin.write(`time ${moveTime}\n`)
-  // child.stdin.write(`otim ${moveTime}\n`)
+  if (!secondsPerMove) {
+    secondsPerMove = 5
+    console.log(`No seconds per move set, defaulting to ${secondsPerMove}`)
+  } else {
+    console.log(`seconds per move is ${secondsPerMove}`)
+  }
+  const moveTime = (secondsPerMove * 100 * 40)
+  console.log(`time ${moveTime}`)
+  console.log(`otim ${moveTime}`)
+  child.stdin.write(`time ${moveTime}\n`)
+  child.stdin.write(`otim ${moveTime}\n`)
     
   // send all the moves to the engine
   // console.log(moves)

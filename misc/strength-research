@@ -11,6 +11,16 @@ Strenght of lines seem to max aout at about 11000 or 12000, perhaps getting past
 that is just exponetnionally dificult for the engine. Mind you this is all time
 controls 5 to ten Seconds per move.
 
+How Ponder Works as best I can tell
+When CM makes a move it takes it's last line and makes a hint based on the next
+  move it thinks you should make
+It then starts calculating based on the move it thinks you will make
+If you make that move it uses the remaining of it's time to continue calculating 
+  and then moves
+If it's already past the time it has to cacluate (say 30 seconds) it move and 
+  starts calculating it's next move base on it's best guess for your next move
+If you don't do it's best guess for you it starts calculating from scratch
+
 
 
 Capablanca Move on XPS 3x same results
@@ -296,6 +306,79 @@ results:
 ]
 
 
+................. Marius ...........................
+// using Fisher Spasky game
 
+[ 'b8c6', 'b1c3', 'f8b4' ]
+[ 9003, 9003, 9003 ]
+[ -207, -207, 181 ]
+[ 4832182, 16106355, 10602045 ]
+[ 6221, 17572, 15100 ]
+12964
 
+[ 'b8c6', 'b1c3', 'f8b4' ]
+[ 9003, 9003, 9003 ]
+[ -207, -207, 181 ]
+[ 4832182, 16106355, 10602045 ]
+[ 6171, 17529, 14956 ]
+12885
+
+// with 3 seconds per move
+[ 'b8c6', 'd1f3', 'c7c6' ]
+[ 9003, 8003, 8003 ]
+[ -207, 339, 335 ]
+[ 4832182, 2462445, 2699756 ]
+[ 6910, 3107, 3563 ]
+4527
+
+[
+  'b8c6', 'b1c3', 'f8b4', 'c2c3', 'f8b4',
+  'a2a3', 'c7c6', 'd1g4', 'b4c3', 'd4c5',
+  'c5b4', 'c3b5', 'd8c7', 'g4g7', 'd8a5',
+  'g4g7', 'h8g8', 'g7h7', 'd8a5', 'f1b5',
+  'd8a5', 'f1b5', 'c8d7', 'c1f4', 'c6e5',
+  'a5a6', 'c6e5', 'f3e5', 'd7b5', 'g5e7',
+  'b5f1', 'f7d8', 'g8g5', 'd8e6', 'g5g2',
+  'g1h1', 'c7e5', 'a1f1', 'e5e6', 'h1g2',
+  'e6g4', 'g2h1'
+]
+[
+   9003,  9003,  9003,  8003,  8003,  9003,
+  10004,  8003,  9003,  9003,  8003,  9003,
+   9003,  9003,  9003, 10004, 10004, 10004,
+   9003, 10004, 10004, 10004,  8003,  9003,
+   9003,  9003, 10004, 10004, 10004, 10004,
+   9003,  9003,  9004, 10005,  9004, 11006,
+  10005, 10005, 10006,  9005,  9006,  2002
+]
+[
+  -207, -207,  181, 442, 140,  88,  310, -26,
+   397, -145,  270, 253, -83, 125, -207, 370,
+    18,  263, -267, 276,  27, 357, -129, 133,
+   323,   40,   90,   0,   6, -38,  -29, -28,
+   343,    0,  107,   0,  18,   0,    0,   0,
+     0, -319
+]
+[
+   4832182, 16106355, 10602045,  3254587,
+   1448771, 11821181, 46996133,  1061846,
+   3466057,  8689711,  1209291,  6028644,
+   3508614,  2472485,  1928808, 37220969,
+   4592748, 12415064,  4673367, 18583098,
+  14876384, 19394080,  2912275,  5652778,
+   3680969,  3823881,  4593444,  3450906,
+   4232389,  7927995,  2259334,  7236764,
+   1489609,  2734654,  1261896,  7188874,
+   3314757,  3422770,  5545160,  1861474,
+   2847241,       83
+]
+[
+   6476, 17877, 15195,  3863, 3037, 15990,
+  59944,  2197,  3343, 16021, 1451,  9093,
+   6001, 11609,  5485, 38789, 5059, 12739,
+   8998, 36701, 18216, 31026, 3263, 10466,
+   3388,  7348,  6126,  5548, 5687, 13222,
+   3359,  7470,  2074,  3137, 1435,  5886,
+   5342,  3197,  6762,  2262, 4639,    77
+]
 
