@@ -1,0 +1,43 @@
+Engine does not draw on threefold repetition, may want to add manually to keep
+it from making moves after threefold
+
+Appers Engine does not accept draws during opening moves
+Played through a game with no book, and draw was accepted after move 15
+
+...... Draw Algorithm ........
+Capablanca  cfd 250
+  Down a Pawn 
+    Eval -109 No draw
+  2 pawns down
+    Eval -221 No Draw
+  Down 3 Pawns and pin
+    Eval -410 Draw accepted
+    Eval -287 Draw accepted
+    Eval -302 Draw accepted
+    Eval -312 Draw accepted
+    Eval -271 Draw accepted
+    Eval -249 No draw
+
+Willow cfd -400
+  Eval 315 Draw accepted
+  Eval 356 Draw accepted
+  Eval 229 Draw accepted
+  Eval 215 Draw accepted
+  Eval 351 Draw accepted
+  Eval 421 No Draw
+  Eval 488 No Draw
+  Eval 530 No Draw
+  Eval 656 No draw
+  Eval 1803 No draw
+
+Logan cfd -500
+  Eval 282 Draw accepted
+  Eval 383 Draw accepted
+  Eval 673 No Draw
+
+Wizard cfd 0
+  Eval -220 Draw accepted
+
+Bird cfd -100
+  Eval -1 
+  Eval 50 Draw accepted

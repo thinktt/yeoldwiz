@@ -99,7 +99,7 @@ class LichessApi {
     return axios.post(URL, body || {}, this.axiosConfig)
       .then(this.logAndReturn)
       .catch((err) => {
-        console.log(chalk.cyan('Howdy'))
+        console.log(chalk.cyan('Response Error'))
         console.log(chalk.red(`POST ${URL}`))
         console.log(err.response || err)
       })

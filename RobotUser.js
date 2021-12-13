@@ -64,13 +64,13 @@ class RobotUser {
 
   
     if (validVariants.includes(challenge.variant.key) && validSpeeds.includes(challenge.speed)) {
-      console.log("Accepting unrated challenge from " + challenge.challenger.id);
-      const response = await this.api.acceptChallenge(challenge.id);
-      console.log("Accepted", response.data || response);
+      console.log("Accepting unrated challenge from " + challenge.challenger.id)
+      const response = await this.api.acceptChallenge(challenge.id)
+      if (response) console.log("Accepted", response.data || response)
     } else {
-      console.log("Declining  callenge from " + challenge.challenger.id);
-      const response = await this.api.declineChallenge(challenge.id, declineReason);
-      console.log("Declined", response.data || response);
+      console.log("Declining  callenge from " + challenge.challenger.id)
+      const response = await this.api.declineChallenge(challenge.id, declineReason)
+      if (response) console.log("Declined", response.data || response)
     }
   }
 
