@@ -50,15 +50,15 @@ class Game {
   }
 
   async findAndSetWizPlayer() {
-    let chatPlayer = await this.getWizPlayerFromChat()
-    chatPlayer = 'Capablanca'
+    // let chatPlayer = await this.getWizPlayerFromChat()
+    let chatPlayer = 'Joey'
 
     // If no opponent has been set in chat and this is a rated game set
     // the game to play as Josh7
-    if ((chatPlayer === '' || chatPlayer === 'should ask who to play') &&  this.rated) {
-      this.setWizPlayer('Capablanca')
-      return
-    }
+    // if ((chatPlayer === '' || chatPlayer === 'should ask who to play') &&  this.rated) {
+    //   this.setWizPlayer('Capablanca')
+    //   return
+    // }
 
     
     // This means chat has no messages at all so we should ask who the player wants to play
@@ -74,12 +74,12 @@ class Game {
 
 
     // No player found in chat setting wizPlayer, still waiting to be told who to play as
-    if (chatPlayer === '') {
-      console.log(chalk.red(`No player found for game ${this.gameId}`))
-      // probably not necessary but just for safety go ahead and set wizPlayer to empty string
-      this.wizPlayer = 'Capablanca'
-      return 
-    } 
+    // if (chatPlayer === '') {
+    //   console.log(chalk.red(`No player found for game ${this.gameId}`))
+    //   // probably not necessary but just for safety go ahead and set wizPlayer to empty string
+    //   this.wizPlayer = 'Capablanca'
+    //   return 
+    // } 
     
     // if gauntlet passed, a player was found in the chat
     this.wizPlayer = chatPlayer
