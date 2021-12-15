@@ -43,6 +43,14 @@ class LichessApi {
     return this.post(`api/bot/game/${gameId}/move/${move}`);
   }
 
+  acceptDraw(gameId) {
+    return this.post(`api/bot/game/${gameId}/draw/yes`);
+  }
+
+  declineDraw(gameId) {
+    return this.post(`api/bot/game/${gameId}/draw/no`);
+  }
+
   abortGame(gameId) {
     return this.post(`api/bot/game/${gameId}/abort`);
   }

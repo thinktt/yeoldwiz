@@ -4,6 +4,9 @@ it from making moves after threefold
 Appers Engine does not accept draws during opening moves
 Played through a game with no book, and draw was accepted after move 15
 
+Lichess limits draws because of obnocious users, looks like limit it's limited to
+every 10 move?
+
 ...... Draw Algorithm ........
 Capablanca  cfd 250
   Down a Pawn 

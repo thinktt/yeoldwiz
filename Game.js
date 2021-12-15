@@ -25,10 +25,18 @@ class Game {
 
   async start(gameId) {
     this.gameId = gameId
+    this.willAcceptDraw = false
     this.api.streamGame(gameId, (event) => this.handler(event));
   }
 
   handleChatLine(event) {
+
+    // if (event.username === 'lichess' && 
+    //   event.text.includes('offers draw') && this.willAcceptDraw) {
+    //     this.api.acceptDraw()
+    //     return
+    // }
+
     if (event.username !== this.name) {
       const message = event.text.toLowerCase()
       if (this.wizPlayer == '') {
@@ -51,14 +59,16 @@ class Game {
 
   async findAndSetWizPlayer() {
     // let chatPlayer = await this.getWizPlayerFromChat()
-    let chatPlayer = 'Joey'
-
+    let chatPlayer
+    
     // If no opponent has been set in chat and this is a rated game set
     // the game to play as Josh7
-    // if ((chatPlayer === '' || chatPlayer === 'should ask who to play') &&  this.rated) {
-    //   this.setWizPlayer('Capablanca')
-    //   return
-    // }
+    if ((chatPlayer === '' || chatPlayer === 'should ask who to play') &&  this.rated) {
+      this.setWizPlayer('Capablanca')
+      return
+    }
+
+    chatPlayer = 'Logan'
 
     
     // This means chat has no messages at all so we should ask who the player wants to play
@@ -119,41 +129,73 @@ class Game {
 
 
   async handler(event) {
-    // console.log(chalk.yellow(event.type))
+    console.log(chalk.yellow(event.type))
+    let isDraw = false
     switch (event.type) {
+      case "gameFinish":
+        console.log('Game has completed')
+        break;
       case "chatLine":
-        this.handleChatLine(event);
+        this.handleChatLine(event)
         break;
       case "gameFull":
-        // console.log(event)
-        this.colour = this.playingAs(event);
-        // If this is a rated game use the standar personality for now
-        // if (event.rated && !this.wizPlayer) this.setWizPlayer('JW7')
+        if (event.status === 'draw') break;
+        console.log(event)
+        this.colour = this.playingAs(event)
         this.rated = event.rated
         await this.findAndSetWizPlayer()
-        this.playNextMove(event.state.moves);
+        // If this is a rated game use the standar personality for now
+        // if (event.rated && !this.wizPlayer) this.setWizPlayer('JW7')
+        // isDraw = this.acceptMutualDraw(event.state)        
+        // if (isDraw) break; 
+        this.playNextMove(event.state)
         break;
       case "gameState":
-        this.playNextMove(event.moves);
+        if (event.status === 'draw') break;
+        console.log(event)
+        // isDraw = this.acceptMutualDraw(event)        
+        // if (isDraw) break;
+        this.playNextMove(event)
         break;
       default:
         console.log("Unhandled game event : " + JSON.stringify(event));
     }
   }
 
-  async playNextMove(previousMoves) {
+  acceptMutualDraw(gameState) {
+    console.log(`${this.gameId} is accepting draws:`,this.willAcceptDraw)
+    const drawWasOffered = Boolean(gameState.wdraw || gameState.bdraw)
+    console.log('draw was offered:', drawWasOffered)
+    const isDrawByAgreement = drawWasOffered && this.willAcceptDraw
+    console.log('isDrawbyAgreement:', isDrawByAgreement)
+    if (isDrawByAgreement) this.api.acceptDraw(this.gameId)
+    return isDrawByAgreement
+  }
+
+  async playNextMove(gameState) {
     // cache the moves if we end up not moving right due to missing Wiz Player
-    this.previousMoves = previousMoves
-    
+    this.previousMoves = gameState.moves
+    const previousMoves = gameState.moves
     
     const moves = (previousMoves === "") ? [] : previousMoves.split(" ");
-    if (this.isTurn(this.colour, moves)) {
-      const nextMove = await this.player.getNextMove(moves, this.wizPlayer, this.gameId);
-      if (nextMove) {
-        console.log(this.name + " as " + this.colour + " to move " + nextMove);
-        this.api.makeMove(this.gameId, nextMove);
-      }
-    }
+
+    // if it's not the bots turn then exit
+    if (!isTurn(this.colour, moves)) return
+
+    const moveData = await this.player.getNextMove(moves, this.wizPlayer, this.gameId);
+    console.log(moveData)
+    
+    // no move was found or move setup was invalid, go about your business
+    if (!moveData) return 
+
+    const { move, willAcceptDraw } = moveData
+    this.willAcceptDraw = willAcceptDraw
+    const isDraw = this.acceptMutualDraw(gameState)        
+    if (isDraw) return 
+
+    console.log(this.name + " as " + this.colour + " to move " + move);
+    this.api.makeMove(this.gameId, move)
+
   }
 
   playingAs(event) {
@@ -165,5 +207,11 @@ class Game {
     return (colour === "white") ? (parity === 0) : (parity === 1);
   }
 }
+
+function isTurn(colour, moves) {
+  var parity = moves.length % 2;
+  return (colour === "white") ? (parity === 0) : (parity === 1);
+}
+
 
 module.exports = Game;

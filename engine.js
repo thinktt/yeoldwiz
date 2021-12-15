@@ -43,6 +43,7 @@ async function getMoveWithData(moves, pvals, secondsPerMove) {
           process.stdout.write(chalk.yellow(engineLine))
           moveData = parseMoveLine(engineLine)
           moveData.cordinateMove = getCordinateMove(moveData.algebraMove, moves)
+          moveData.willAcceptDraw = getDrawEval(moveData.eval, pvals.cfd)
           // console.log(moveData)
         
         // the engine has selected a move, stop engine, and reolve promise  
@@ -72,6 +73,14 @@ async function getMoveWithData(moves, pvals, secondsPerMove) {
   startEngine(child, moves, pvals, secondsPerMove)
  
   return movePromise
+}
+
+function getDrawEval(currentEval, contemptForDraw) {
+  contemptForDraw = parseInt(contemptForDraw)
+  // console.log('eval:', currentEval)
+  // console.log('cfd:', contemptForDraw)
+  // console.log('drawEval:', currentEval + contemptForDraw)
+  return (currentEval + contemptForDraw) < 0
 }
 
 function parseMoveLine(engineLine) {

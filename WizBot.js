@@ -12,8 +12,7 @@ class WizBot {
   }
 
   async getNextMove(moves, wizPlayer, gameId) {
-    
-    
+       
     if (!wizPlayer) {
       console.log(`No personality selected for ${gameId}, no move made`)
       return
@@ -40,7 +39,7 @@ class WizBot {
 
     if (bookMove != "") {
       console.log(`bookMove: ${bookMove}`)
-      return bookMove
+      return {move: bookMove, willAcceptDraw: false}
     }
     
     // set different times to think to give different strength levels to easy 
@@ -49,9 +48,9 @@ class WizBot {
     if (cmp.ponder === 'hard') secondsPerMove = 5
     if (cmp.rating >= 2700) secondsPerMove = 7
 
-    const engineMove = await engine.getMove(moves, cmp.out, secondsPerMove)
-    console.log(`engineMove: ${engineMove}`)
-    return engineMove
+    const moveData = await engine.getMoveWithData(moves, cmp.out, secondsPerMove)
+    console.log(`engineMove: ${moveData.engineMove}`)
+    return {move: moveData.engineMove, willAcceptDraw: moveData.willAcceptDraw}
   }
 
   getReply(chat) {
