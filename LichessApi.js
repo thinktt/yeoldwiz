@@ -74,6 +74,10 @@ class LichessApi {
     });
   }
 
+  getChat(gameId) {
+    return this.get(`api/bot/game/${gameId}/chat`);
+  }
+
   currentGames() {
     return this.get('https://lichess.org/api/account/playing')
   }
