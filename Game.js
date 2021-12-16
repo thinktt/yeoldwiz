@@ -31,8 +31,8 @@ class Game {
     this.isAcceptingDraws = false
     this.hasDrawOffer = false
     this.previousMoves = ''
-    this.lichessBotName = 'yowCapablanca'
-    this.ratedWizPlayer = 'Capablanca'
+    this.lichessBotName = process.env.LICHESS_BOT_NAME
+    this.ratedWizPlayer = process.env.RATED_WIZ_PLAYER
 
     // this variable is used to be sure that if the system restarted we 
     // don't prematurely decline a draw when the system doesn't actaully know 
