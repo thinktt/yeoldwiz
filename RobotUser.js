@@ -48,10 +48,7 @@ class RobotUser {
 
   async handleChallenge(challenge) {
     const validVariants = ['standard']
-    const validSpeeds = ['rapid', 'classical']
-    // const response = await api.declineChallenge(challenge.id);
-    // console.log("Declined", response.data || response);
-    // return
+    const validSpeeds = ['rapid', 'classical', 'correspondence']
   
     console.log(challenge.variant.key)
     console.log( challenge.speed)
