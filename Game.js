@@ -66,8 +66,6 @@ class Game {
     console.log(gameState)
     // If this is a rated game use the standar personality for now
     // if (gameState.rated && !this.wizPlayer) this.setWizPlayer('JW7')
-    // isDraw = this.acceptMutualDraw(gameState.state)        
-    // if (isDraw) break; 
 
     console.log('is moving:', this.isMoving)
     if(!this.isMoving) {
@@ -82,6 +80,15 @@ class Game {
     if (event.username === 'lichess' && event.text.includes('offers draw')) {
       console.log('A draw was requested')
       this.hasDrawOffer = true
+      
+      console.log('Chatline draw checking')
+      console.log('hasDrawOffer:', this.hasDrawOffer)
+      console.log('willAcceptDraw:', this.willAcceptDraw)
+      console.log('isMoving:', this.isMoving)
+      if (this.hasDrawOffer && this.willAcceptDraw && !this.isMoving)  {
+          this.api.acceptDraw(this.gameId)
+        return
+      }
     }
 
     if (event.username === 'lichess' && event.text.includes('declines draw')) {
@@ -89,10 +96,7 @@ class Game {
       this.hasDrawOffer = false
     }
     
-    if (this.hasDrawOffer && this.willAcceptDraw && !this.isMoving)  {
-      this.api.acceptDraw(this.gameId)
-      return
-    }
+
 
     if (event.username !== this.name) {
       const message = event.text.toLowerCase()
@@ -115,8 +119,7 @@ class Game {
   }
 
   async findAndSetWizPlayer() {
-    // let chatPlayer = await this.getWizPlayerFromChat()
-    let chatPlayer
+    let chatPlayer = await this.getWizPlayerFromChat()
     
     // If no opponent has been set in chat and this is a rated game set
     // the game to play as Josh7
@@ -125,28 +128,28 @@ class Game {
       return
     }
 
-    chatPlayer = 'Logan'
+    // chatPlayer = 'Logan'
 
     
     // This means chat has no messages at all so we should ask who the player wants to play
-    // if (chatPlayer === 'should ask who to play' && !this.rated) {
-    //   this.api.chat(
-    //     this.gameId, 
-    //     'player', 'Who would you like to play? Give me a name or a rating number from 1 to 2750.'
-    //   );
-    //   this.api.chat(this.gameId, 'spectator', 'Waiting for opponent selection');
-    //   // clear this for next if
-    //   chatPlayer = ''
-    // } 
+    if (chatPlayer === 'should ask who to play' && !this.rated) {
+      this.api.chat(
+        this.gameId, 
+        'player', 'Who would you like to play? Give me a name or a rating number from 1 to 2750.'
+      );
+      this.api.chat(this.gameId, 'spectator', 'Waiting for opponent selection');
+      // clear this for next if
+      chatPlayer = ''
+    } 
 
 
     // No player found in chat setting wizPlayer, still waiting to be told who to play as
-    // if (chatPlayer === '') {
-    //   console.log(chalk.red(`No player found for game ${this.gameId}`))
-    //   // probably not necessary but just for safety go ahead and set wizPlayer to empty string
-    //   this.wizPlayer = 'Capablanca'
-    //   return 
-    // } 
+    if (chatPlayer === '') {
+      console.log(chalk.red(`No player found for game ${this.gameId}`))
+      // probably not necessary but just for safety go ahead and set wizPlayer to empty string
+      this.wizPlayer = ''
+      return 
+    } 
     
     // if gauntlet passed, a player was found in the chat
     this.wizPlayer = chatPlayer
@@ -184,20 +187,21 @@ class Game {
     return opponent
   }
 
-  acceptMutualDraw(gameState) {
-    console.log(`${this.gameId} is accepting draws:`,this.willAcceptDraw)
-    const drawWasOffered = Boolean(gameState.wdraw || gameState.bdraw)
-    console.log('draw was offered:', drawWasOffered)
-    const isDrawByAgreement = drawWasOffered && this.willAcceptDraw
-    console.log('isDrawbyAgreement:', isDrawByAgreement)
-    if (isDrawByAgreement) this.api.acceptDraw(this.gameId)
-    return isDrawByAgreement
-  }
+  // acceptMutualDraw(gameState) {
+  //   console.log(`${this.gameId} is accepting draws:`,this.willAcceptDraw)
+  //   const drawWasOffered = Boolean(gameState.wdraw || gameState.bdraw)
+  //   console.log('draw was offered:', drawWasOffered)
+  //   const isDrawByAgreement = drawWasOffered && this.willAcceptDraw
+  //   console.log('isDrawbyAgreement:', isDrawByAgreement)
+  //   if (isDrawByAgreement) this.api.acceptDraw(this.gameId)
+  //   return isDrawByAgreement
+  // }
 
   async playNextMove(gameState) {
     // cache the moves if we end up not moving right due to missing Wiz Player
     this.previousMoves = gameState.moves
     const previousMoves = gameState.moves
+    console.log(previousMoves)
     
     const moves = (previousMoves === "") ? [] : previousMoves.split(" ");
 
@@ -213,6 +217,11 @@ class Game {
     const { move, willAcceptDraw } = moveData
     this.willAcceptDraw = willAcceptDraw
     
+    
+    console.log('PlayNextMove draw checking')
+    console.log('hasDrawOffer:', this.hasDrawOffer)
+    console.log('willAcceptDraw:', this.willAcceptDraw)
+
     if (this.hasDrawOffer && this.willAcceptDraw)  {
       // this will keep susequent events from triggering draw request
       this.willAcceptDraw=false
