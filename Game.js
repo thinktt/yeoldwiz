@@ -31,6 +31,7 @@ class Game {
     this.isAcceptingDraws = false
     this.hasDrawOffer = false
     this.previousMoves = ""
+    this.lichessBotName = "yowCapablanca"
   }
 
   async handler(event) {
@@ -40,10 +41,12 @@ class Game {
         this.handleChatLine(event)
         break;
       case "gameFull":
+        // console.log(event)
         await this.setupGame(event)
         this.handleGameState(event.state)
         break;
       case "gameState":
+        // console.log(event)
         this.handleGameState(event)
         break;
       default:
@@ -54,6 +57,10 @@ class Game {
   async setupGame(event) {
     this.color = this.playingAs(event)
     this.rated = event.rated
+    if (event.state.bdraw || event.state.wdraw) {
+      console.log('A draw was requested')
+      this.hasDrawOffer = true
+    }
     await this.findAndSetWizPlayer()
   }
 
@@ -68,8 +75,6 @@ class Game {
    }
 
   handleChatLine(event) {
-    console.log(event)
-
     if (event.username === 'lichess' && event.room === 'player' && 
         event.text.includes('offers draw')
     ) {
@@ -125,7 +130,6 @@ class Game {
       return
     }
 
-    // chatPlayer = 'Logan'
 
     
     // This means chat has no messages at all so we should ask who the player wants to play
@@ -160,8 +164,27 @@ class Game {
     // this.playNextMove(this.previousMoves)
   }
 
-  // Check the spectator chat (via HTML page) for a Wiz Player setting
   async getWizPlayerFromChat() {
+    const {data: chatLines } = await this.api.getChat(this.gameId)
+    
+    // handle response errors
+
+    const wizMessages = chatLines.filter(
+      line => line.user === this.lichessBotName && line.text.includes('Playing as')
+    )
+    
+    if (wizMessages.length === 0) {
+      return 'should ask who to play'
+    }
+
+    const opponent = 
+      wizMessages[0].text.match(/Playing as [A-Za-z0-9]*/)[0].replace('Playing as ', '')
+
+    return opponent
+  }
+
+  // Check the spectator chat (via HTML page) for a Wiz Player setting
+  async getWizPlayerFromChatOld() {
     const gamePage = await this.api.gamePage(this.gameId)
     
     // caputre and count message, if no messages have been sent respond with string

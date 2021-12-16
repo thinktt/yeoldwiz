@@ -1,27 +1,25 @@
 ....Today....
-limit non ponder players to 5000 depth
-Accept Draws
-Use Chat API!
+chat from api
+draw state from start
+draw only after 15 moves
 
-
-
-
-
-
-
+error handling 
+stream handling 
 
 
 
 
 
 ....Frontend.....
+fix score crowns on phones
 Use Chat API
+color balanccing
+golden crowns
+
 Vue Components
   Use Vue component files
   Split into vue component files
 better score crowns
-golden crowns
-fix score crowns on phones
 color balancing
 8bit Art Faces?
 
@@ -43,20 +41,22 @@ What would Capablanca do
 
 
 ....Backend....
-limit non ponder players to 5000 depth
-Accept Draws
 Use Chat API!
 
 Refactor away from Classes to simple module flow pattern?
 better flow for and error handling
 make long running backend
 lichess streaming connection monitoring and correction
-Capablanca Bot for cmp vs games and testing
-  get a valid lichess email
-  setup extra bot flow to run as Capa
+
 separate engine into it's own API
 put engine api in it's own container for scaling
 run engine containers as a cloud function
+
+strenght experiments
+  x real ponder option
+  x simulated ponder option
+  old laptop abilities (5000?)
+  real old computer strength
 
 ....Issues.....
 longer running backend
@@ -74,7 +74,12 @@ x score mode with numbers
 x score mode switch
 x replace chessmaster GM edition branding
 x run x86 container
+x limit non ponder players depth
+x Accept Draws
 
+x Capablanca Bot for cmp vs games and testing
+  x get a valid lichess email
+  setup extra bot flow to run as Capa
 
 
 
@@ -90,11 +95,7 @@ Rated Challenges
 
 auto bot challenger
 
-strenght experiments
-  real ponder option
-  simulated ponder option
-  old laptop abilities
-  real old computer strength
+
 
 paralell experiments
   make cloud function out of engine?
