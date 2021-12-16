@@ -33,6 +33,9 @@ class RobotUser {
       case "gameStart":
         this.handleGameStart(event.game.id);
         break;
+      case "gameFinish": 
+        console.log(`Game ${event.game.id} completed`)
+        break; 
       default:
         console.log("Unhandled event : " + JSON.stringify(event));
     }

@@ -27,15 +27,72 @@ class Game {
     this.gameId = gameId
     this.willAcceptDraw = false
     this.api.streamGame(gameId, (event) => this.handler(event));
+    this.isMoving = false
+    this.isAcceptingDraws = false
+    this.hasDrawOffer = false
   }
+
+  async handler(event) {
+    console.log(chalk.yellow(event.type))
+    let isDraw = false
+    switch (event.type) {
+      case "gameFinish":
+        console.log('Game has completed')
+        break;
+      case "chatLine":
+        this.handleChatLine(event)
+        break;
+      case "gameFull":
+        await this.setupGame(event)
+        this.handleGameState(event.state)
+        break;
+      case "gameState":
+        this.handleGameState(event)
+        break;
+      default:
+        console.log("Unhandled game event : " + JSON.stringify(event));
+    }
+  }
+
+  async setupGame(event) {
+    console.log(event)
+    this.color = this.playingAs(event)
+    this.rated = event.rated
+    await this.findAndSetWizPlayer()
+  }
+
+  async handleGameState(gameState) {
+    if (gameState.status === 'draw') return
+    console.log(gameState)
+    // If this is a rated game use the standar personality for now
+    // if (gameState.rated && !this.wizPlayer) this.setWizPlayer('JW7')
+    // isDraw = this.acceptMutualDraw(gameState.state)        
+    // if (isDraw) break; 
+
+    console.log('is moving:', this.isMoving)
+    if(!this.isMoving) {
+      this.isMoving = true
+      await this.playNextMove(gameState)
+      this.isMoving = false
+    }
+   }
 
   handleChatLine(event) {
 
-    // if (event.username === 'lichess' && 
-    //   event.text.includes('offers draw') && this.willAcceptDraw) {
-    //     this.api.acceptDraw()
-    //     return
-    // }
+    if (event.username === 'lichess' && event.text.includes('offers draw')) {
+      console.log('A draw was requested')
+      this.hasDrawOffer = true
+    }
+
+    if (event.username === 'lichess' && event.text.includes('declines draw')) {
+      console.log('Draw was delcined')
+      this.hasDrawOffer = false
+    }
+    
+    if (this.hasDrawOffer && this.willAcceptDraw && !this.isMoving)  {
+      this.api.acceptDraw(this.gameId)
+      return
+    }
 
     if (event.username !== this.name) {
       const message = event.text.toLowerCase()
@@ -127,41 +184,6 @@ class Game {
     return opponent
   }
 
-
-  async handler(event) {
-    console.log(chalk.yellow(event.type))
-    let isDraw = false
-    switch (event.type) {
-      case "gameFinish":
-        console.log('Game has completed')
-        break;
-      case "chatLine":
-        this.handleChatLine(event)
-        break;
-      case "gameFull":
-        if (event.status === 'draw') break;
-        console.log(event)
-        this.colour = this.playingAs(event)
-        this.rated = event.rated
-        await this.findAndSetWizPlayer()
-        // If this is a rated game use the standar personality for now
-        // if (event.rated && !this.wizPlayer) this.setWizPlayer('JW7')
-        // isDraw = this.acceptMutualDraw(event.state)        
-        // if (isDraw) break; 
-        this.playNextMove(event.state)
-        break;
-      case "gameState":
-        if (event.status === 'draw') break;
-        console.log(event)
-        // isDraw = this.acceptMutualDraw(event)        
-        // if (isDraw) break;
-        this.playNextMove(event)
-        break;
-      default:
-        console.log("Unhandled game event : " + JSON.stringify(event));
-    }
-  }
-
   acceptMutualDraw(gameState) {
     console.log(`${this.gameId} is accepting draws:`,this.willAcceptDraw)
     const drawWasOffered = Boolean(gameState.wdraw || gameState.bdraw)
@@ -180,7 +202,7 @@ class Game {
     const moves = (previousMoves === "") ? [] : previousMoves.split(" ");
 
     // if it's not the bots turn then exit
-    if (!isTurn(this.colour, moves)) return
+    if (!isTurn(this.color, moves)) return
 
     const moveData = await this.player.getNextMove(moves, this.wizPlayer, this.gameId);
     console.log(moveData)
@@ -190,27 +212,32 @@ class Game {
 
     const { move, willAcceptDraw } = moveData
     this.willAcceptDraw = willAcceptDraw
-    const isDraw = this.acceptMutualDraw(gameState)        
-    if (isDraw) return 
+    
+    if (this.hasDrawOffer && this.willAcceptDraw)  {
+      // this will keep susequent events from triggering draw request
+      this.willAcceptDraw=false
+      await this.api.acceptDraw(this.gameId)
+      return
+    }
+ 
 
-    console.log(this.name + " as " + this.colour + " to move " + move);
-    this.api.makeMove(this.gameId, move)
-
+    console.log(this.name + " as " + this.color + " to move " + move);
+    await this.api.makeMove(this.gameId, move)
   }
 
   playingAs(event) {
     return (event.white.name === this.name) ? "white" : "black";
   }
 
-  isTurn(colour, moves) {
+  isTurn(color, moves) {
     var parity = moves.length % 2;
-    return (colour === "white") ? (parity === 0) : (parity === 1);
+    return (color === "white") ? (parity === 0) : (parity === 1);
   }
 }
 
-function isTurn(colour, moves) {
+function isTurn(color, moves) {
   var parity = moves.length % 2;
-  return (colour === "white") ? (parity === 0) : (parity === 1);
+  return (color === "white") ? (parity === 0) : (parity === 1);
 }
 
 
