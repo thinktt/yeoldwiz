@@ -53,7 +53,10 @@ async function getMoveWithData(moves, pvals, secondsPerMove) {
           process.stdout.write(chalk.blue(engineLine))
           child.stdin.write('quit\n')
           moveData.engineMove = engineLine.match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
-          console.log(moveData)
+          // console.log(moveData)
+          console.log('timeForMove:', moveData.timeForMove)
+          console.log('willAcceptDraw:', moveData.willAcceptDraw)
+          console.log('cordanateMove:', moveData.cordinateMove)
           resolve(moveData)
         
         } else {

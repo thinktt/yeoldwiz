@@ -30,15 +30,12 @@ class Game {
     this.isMoving = false
     this.isAcceptingDraws = false
     this.hasDrawOffer = false
+    this.previousMoves = ""
   }
 
   async handler(event) {
     console.log(chalk.yellow(event.type))
-    let isDraw = false
     switch (event.type) {
-      case "gameFinish":
-        console.log('Game has completed')
-        break;
       case "chatLine":
         this.handleChatLine(event)
         break;
@@ -55,7 +52,6 @@ class Game {
   }
 
   async setupGame(event) {
-    console.log(event)
     this.color = this.playingAs(event)
     this.rated = event.rated
     await this.findAndSetWizPlayer()
@@ -63,11 +59,7 @@ class Game {
 
   async handleGameState(gameState) {
     if (gameState.status === 'draw') return
-    console.log(gameState)
-    // If this is a rated game use the standar personality for now
-    // if (gameState.rated && !this.wizPlayer) this.setWizPlayer('JW7')
 
-    console.log('is moving:', this.isMoving)
     if(!this.isMoving) {
       this.isMoving = true
       await this.playNextMove(gameState)
@@ -76,15 +68,16 @@ class Game {
    }
 
   handleChatLine(event) {
+    // console.log(event)
 
     if (event.username === 'lichess' && event.text.includes('offers draw')) {
       console.log('A draw was requested')
       this.hasDrawOffer = true
       
-      console.log('Chatline draw checking')
-      console.log('hasDrawOffer:', this.hasDrawOffer)
-      console.log('willAcceptDraw:', this.willAcceptDraw)
-      console.log('isMoving:', this.isMoving)
+      // console.log('Chatline draw checking')
+      // console.log('hasDrawOffer:', this.hasDrawOffer)
+      // console.log('willAcceptDraw:', this.willAcceptDraw)
+      // console.log('isMoving:', this.isMoving)
       if (this.hasDrawOffer && this.willAcceptDraw && !this.isMoving)  {
           this.api.acceptDraw(this.gameId)
         return
@@ -95,8 +88,6 @@ class Game {
       console.log('Draw was delcined')
       this.hasDrawOffer = false
     }
-    
-
 
     if (event.username !== this.name) {
       const message = event.text.toLowerCase()
@@ -113,7 +104,8 @@ class Game {
           `Playing as ${this.wizPlayer}. Wiz Rating ${cmp.rating}. ${cmp.summary}`
         );
         this.api.chat(this.gameId, 'spectator', `Playing as ${this.wizPlayer}`);
-        this.playNextMove(this.previousMoves)
+
+        this.playNextMove()
       }
     }
   }
@@ -187,29 +179,17 @@ class Game {
     return opponent
   }
 
-  // acceptMutualDraw(gameState) {
-  //   console.log(`${this.gameId} is accepting draws:`,this.willAcceptDraw)
-  //   const drawWasOffered = Boolean(gameState.wdraw || gameState.bdraw)
-  //   console.log('draw was offered:', drawWasOffered)
-  //   const isDrawByAgreement = drawWasOffered && this.willAcceptDraw
-  //   console.log('isDrawbyAgreement:', isDrawByAgreement)
-  //   if (isDrawByAgreement) this.api.acceptDraw(this.gameId)
-  //   return isDrawByAgreement
-  // }
-
   async playNextMove(gameState) {
     // cache the moves if we end up not moving right due to missing Wiz Player
-    this.previousMoves = gameState.moves
-    const previousMoves = gameState.moves
-    console.log(previousMoves)
-    
+    if (gameState) this.previousMoves = gameState.moves
+    const previousMoves = this.previousMoves
+   
     const moves = (previousMoves === "") ? [] : previousMoves.split(" ");
 
     // if it's not the bots turn then exit
     if (!isTurn(this.color, moves)) return
 
     const moveData = await this.player.getNextMove(moves, this.wizPlayer, this.gameId);
-    console.log(moveData)
     
     // no move was found or move setup was invalid, go about your business
     if (!moveData) return 
@@ -218,10 +198,6 @@ class Game {
     this.willAcceptDraw = willAcceptDraw
     
     
-    console.log('PlayNextMove draw checking')
-    console.log('hasDrawOffer:', this.hasDrawOffer)
-    console.log('willAcceptDraw:', this.willAcceptDraw)
-
     if (this.hasDrawOffer && this.willAcceptDraw)  {
       // this will keep susequent events from triggering draw request
       this.willAcceptDraw=false
