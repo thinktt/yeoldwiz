@@ -1,6 +1,7 @@
 const ChessUtils = require("./ChessUtils")
 const { exec } = require('child_process')
 const chalk = require('chalk')
+const { moves } = require("./chess-tools/opening-books/ctg/moves")
 
 
 async function getMove(moves, pvals, secondsPerMove) {
@@ -43,7 +44,7 @@ async function getMoveWithData(moves, pvals, secondsPerMove) {
           process.stdout.write(chalk.yellow(engineLine))
           moveData = parseMoveLine(engineLine)
           moveData.cordinateMove = getCordinateMove(moveData.algebraMove, moves)
-          moveData.willAcceptDraw = getDrawEval(moveData.eval, pvals.cfd)
+          moveData.willAcceptDraw = getDrawEval(moveData.eval, pvals.cfd, moves)
           // console.log(moveData)
         
         // the engine has selected a move, stop engine, and reolve promise  
@@ -78,7 +79,9 @@ async function getMoveWithData(moves, pvals, secondsPerMove) {
   return movePromise
 }
 
-function getDrawEval(currentEval, contemptForDraw) {
+function getDrawEval(currentEval, contemptForDraw, moves) {
+  // first the game must be at least 30 half moves (15 moves) long
+  if (moves.length <= 30) return false
   contemptForDraw = parseInt(contemptForDraw)
   // console.log('eval:', currentEval)
   // console.log('cfd:', contemptForDraw)

@@ -30,8 +30,14 @@ class Game {
     this.isMoving = false
     this.isAcceptingDraws = false
     this.hasDrawOffer = false
-    this.previousMoves = ""
-    this.lichessBotName = "yowCapablanca"
+    this.previousMoves = ''
+    this.lichessBotName = 'yowCapablanca'
+    this.ratedWizPlayer = 'Capablanca'
+
+    // this variable is used to be sure that if the system restarted we 
+    // don't prematurely decline a draw when the system doesn't actaully know 
+    // if it really should draw or not
+    this.drawShouldWaitForMove = true
   }
 
   async handler(event) {
@@ -80,13 +86,15 @@ class Game {
     ) {
         console.log('A draw was requested')
         this.hasDrawOffer = true
-      
+    
         if (this.hasDrawOffer && this.willAcceptDraw && !this.isMoving)  {
           this.api.acceptDraw(this.gameId)
           return
         }
 
-        if (this.hasDrawOffer && !this.willAcceptDraw && !this.isMoving)  {
+        if (this.hasDrawOffer && !this.willAcceptDraw && !this.isMoving 
+          && !this.drawShouldWaitForMove
+        )  {
           this.api.declineDraw(this.gameId)
           return
         }
@@ -102,7 +110,6 @@ class Game {
     if (event.username !== this.name) {
       const message = event.text.toLowerCase()
       if (this.wizPlayer == '') {
-        // let opponent = message.replace('play ', '').replace('as ', '').trim()
         const cmp = personalites.fuzzySearch(message)
         if ( !cmp ) {
           this.api.chat(this.gameId, 'player', "Sorry, I don't know that opponent");
@@ -124,9 +131,9 @@ class Game {
     let chatPlayer = await this.getWizPlayerFromChat()
     
     // If no opponent has been set in chat and this is a rated game set
-    // the game to play as Josh7
+    // the game to play as the default Wiz Player
     if ((chatPlayer === '' || chatPlayer === 'should ask who to play') &&  this.rated) {
-      this.setWizPlayer('Capablanca')
+      this.setWizPlayer(this.ratedWizPlayer)
       return
     }
 
@@ -166,44 +173,19 @@ class Game {
 
   async getWizPlayerFromChat() {
     const {data: chatLines } = await this.api.getChat(this.gameId)
-    
     // handle response errors
 
-    const wizMessages = chatLines.filter(
-      line => line.user === this.lichessBotName && line.text.includes('Playing as')
-    )
-    
-    if (wizMessages.length === 0) {
-      return 'should ask who to play'
-    }
+    // we need to ask them who they wan to play
+    const wizMessages = chatLines.filter(line => line.user === this.lichessBotName)
+    if (wizMessages.length === 0) return 'should ask who to play'
+
+    // no opponent set in chat yet
+    const playAsMessages = wizMessages.filter(line => line.text.includes('Playing as'))
+    if (playAsMessages.length === 0) return ''
 
     const opponent = 
-      wizMessages[0].text.match(/Playing as [A-Za-z0-9]*/)[0].replace('Playing as ', '')
+      playAsMessages[0].text.match(/Playing as [A-Za-z0-9]*/)[0].replace('Playing as ', '')
 
-    return opponent
-  }
-
-  // Check the spectator chat (via HTML page) for a Wiz Player setting
-  async getWizPlayerFromChatOld() {
-    const gamePage = await this.api.gamePage(this.gameId)
-    
-    // caputre and count message, if no messages have been sent respond with string
-    // to let the system know it should ask who the wants to play
-    const wizMessagesRx = /"u":"yowCapablanca","t":".*?"/g
-    const wizMessages = gamePage.data.match(wizMessagesRx) || []
-    if (wizMessages.length === 0) {
-      return 'should ask who to play'
-    }
-    
-    // Next we check for a "Playing as string" if one exist we will capture it
-    // and try to parse out the opponent name and return it
-    const playingAsRx = /"u":"yowCapablanca","t":"Playing as [A-Za-z0-9\.]*/g
-    const opponentData = gamePage.data.match(playingAsRx)
-    let opponent = ''
-    if (opponentData == null) {
-      return ''
-    }
-    opponent = opponentData[0].replace('"u":"yowCapablanca","t":"Playing as ', '')
     return opponent
   }
 
@@ -211,6 +193,9 @@ class Game {
     // cache the moves if we end up not moving right due to missing Wiz Player
     if (gameState) this.previousMoves = gameState.moves
     const previousMoves = this.previousMoves
+
+    // if we are still under 15 moves (30 half moves) any draws can be immediately accepted
+    if (previousMoves.length <= 30) this.drawShouldWaitForMove = false
    
     const moves = (previousMoves === "") ? [] : previousMoves.split(" ");
 
@@ -224,6 +209,7 @@ class Game {
 
     const { move, willAcceptDraw } = moveData
     this.willAcceptDraw = willAcceptDraw
+    this.drawShouldWaitForMove = false
     
     
     if (this.hasDrawOffer && this.willAcceptDraw)  {
@@ -242,10 +228,6 @@ class Game {
     return (event.white.name === this.name) ? "white" : "black";
   }
 
-  isTurn(color, moves) {
-    var parity = moves.length % 2;
-    return (color === "white") ? (parity === 0) : (parity === 1);
-  }
 }
 
 function isTurn(color, moves) {
