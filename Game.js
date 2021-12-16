@@ -34,7 +34,7 @@ class Game {
   }
 
   async handler(event) {
-    console.log(chalk.yellow(event.type))
+    console.log(chalk.yellow('event: ' + event.type))
     switch (event.type) {
       case "chatLine":
         this.handleChatLine(event)
@@ -68,24 +68,29 @@ class Game {
    }
 
   handleChatLine(event) {
-    // console.log(event)
+    console.log(event)
 
-    if (event.username === 'lichess' && event.text.includes('offers draw')) {
-      console.log('A draw was requested')
-      this.hasDrawOffer = true
+    if (event.username === 'lichess' && event.room === 'player' && 
+        event.text.includes('offers draw')
+    ) {
+        console.log('A draw was requested')
+        this.hasDrawOffer = true
       
-      // console.log('Chatline draw checking')
-      // console.log('hasDrawOffer:', this.hasDrawOffer)
-      // console.log('willAcceptDraw:', this.willAcceptDraw)
-      // console.log('isMoving:', this.isMoving)
-      if (this.hasDrawOffer && this.willAcceptDraw && !this.isMoving)  {
+        if (this.hasDrawOffer && this.willAcceptDraw && !this.isMoving)  {
           this.api.acceptDraw(this.gameId)
-        return
-      }
+          return
+        }
+
+        if (this.hasDrawOffer && !this.willAcceptDraw && !this.isMoving)  {
+          this.api.declineDraw(this.gameId)
+          return
+        }
     }
 
-    if (event.username === 'lichess' && event.text.includes('declines draw')) {
-      console.log('Draw was delcined')
+    if (event.username === 'lichess' && event.room === 'player'  &&
+        event.text.includes('declines draw')
+    ) {
+      console.log('Draw was declined')
       this.hasDrawOffer = false
     }
 
