@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker image rm thinktt/yowapi:latest
+docker build -t thinktt/yowapi  .

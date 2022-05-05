@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# docker run $1 --rm -it -v $(pwd):/opt/yeoldwiz thinktt/yeoldwiz /bin/bash
+# docker run $1 --rm -v $(pwd):/opt/yeoldwiz thinktt/yeoldwiz ./node main.js
+# docker run --rm -v $(pwd):/opt/yeoldwiz thinktt/yeoldwiz wine enginewrap.exe
+# docker run -it thinktt/yeoldwiz /bin/bash
+# docker run $1 --rm -v $(pwd):/opt/yeoldwiz thinktt/yeoldwiz
+# docker run --env-file ace.env -it thinktt/yeoldwiz /bin/bash
+# docker run -it abcb4ef58afd /bin/bash
+
+# docker run -it thinktt/yowapi /bin/sh
+docker run -d -p 5000:5000 --name yowapi thinktt/yowapi:latest
+

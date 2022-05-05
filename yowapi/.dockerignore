@@ -1,0 +1,8 @@
+**/.git
+Dockerfile
+drunmongo
+drunapi
+dexec
+docker-compose.yml
+dbuild
+node_modules
