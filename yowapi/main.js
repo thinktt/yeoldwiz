@@ -25,18 +25,33 @@ const gameSchema = {
 app.use(express.json())
 
 app.post('/games', async (req, res) => {
-  // console.log(req.body)
+
+
   const valid = ajv.validate(gameSchema, req.body)
   if (!valid) {
     res.status(400)
     res.json(ajv.errors[0])
     return
   }
-  create(game).catch((err)=>{
-    res.status(500)
 
-  })
-  res.json({status: 'OK'})
+  const game = req.body
+
+  let [result, err] = await safeCall(create(game))
+  if (err) {
+    res.status(500) 
+    res.json({message: err.mesage})
+    return 
+  }
+
+  // this means mogoDB already had this id the DB so it didn't make a new one
+  if (result.matchedCount) {
+    res.status(200)
+    res.json({message: `succesful post, game ${game.id} already exist, no new creation`})
+    return
+  }
+
+  res.status(201)
+  res.json({message: `game ${game.id} successfully added`})
 })
 
 // catch all error handler
@@ -46,18 +61,6 @@ app.use((err, req, res, next) => {
   res.json({ error: err.toString() })
 })
 
-
-// Connect and ping the Mongodb sever, then disconect, throw any errors
-async function run() {
-  try {
-    await client.connect()
-    await client.db("admin").command({ ping: 1 })
-    console.log("Connected successfully to server")
-  } finally {
-    await client.close()
-  }
-}
-// run().catch(console.dir)
 
 async function create(game) {
   try {
@@ -71,11 +74,7 @@ async function create(game) {
       {upsert: true},
     )
 
-    console.log(res)
-    console.log("Creation successfull")
-  
-  } catch (err) {
-    return err
+    return res
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close()
@@ -83,10 +82,10 @@ async function create(game) {
 }
 // create('duperduperd').catch(console.dir)
 
-// app.listen(port, () => console.log(`Server started on port ${port}`))
+app.listen(port, () => console.log(`Server started on port ${port}`))
 
-// allows you to safely call an asycn function and easily detect trown errors
-// and respond to them with a Golang style if error statement
+// allows you to safely call an asycn function and easily handle errors
+// with a Golang style if error statement
 async function safeCall(promise) {
  try {
    const res = await promise
@@ -110,7 +109,7 @@ async function main() {
   console.log(a)
 }
 
-main()
+// main()
 
 
 // const fetch = require('node-fetch')
