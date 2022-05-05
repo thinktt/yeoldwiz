@@ -1,26 +1,39 @@
 ....Today....
-chat from api
-draw state from start
-draw only after 15 moves
+Personality DB
+
+
+....Backend....
+Personality DB
+
+
+Refactor away from Classes to simple module flow pattern?
+better flow for and error handling
+make long running backend
+lichess streaming connection monitoring and correction
+
+separate engine into it's own API
+put engine api in it's own container for scaling
+run engine containers as a cloud function
+
+strenght experiments
+  x real ponder option
+  x simulated ponder option
+  old laptop abilities (5000?)
+  real old computer strength
 
 error handling 
-stream handling 
-
-
-
+stream handling? 
 
 
 ....Frontend.....
 fix score crowns on phones
 Use Chat API
-color balanccing
 golden crowns
 
 Vue Components
   Use Vue component files
   Split into vue component files
 better score crowns
-color balancing
 8bit Art Faces?
 
 score board
@@ -39,24 +52,12 @@ Groups
 Player Ratings based on games
 What would Capablanca do
 
+...Moon Shot...
+Playable In App Board
+Ability to watch bot games
 
-....Backend....
-Use Chat API!
 
-Refactor away from Classes to simple module flow pattern?
-better flow for and error handling
-make long running backend
-lichess streaming connection monitoring and correction
 
-separate engine into it's own API
-put engine api in it's own container for scaling
-run engine containers as a cloud function
-
-strenght experiments
-  x real ponder option
-  x simulated ponder option
-  old laptop abilities (5000?)
-  real old computer strength
 
 ....Issues.....
 longer running backend
@@ -64,6 +65,10 @@ lost opponents
 failed post to spectator?
 
 ...Done...
+x color balancing
+x chat from api
+x draw state from start (thinkt his is done)
+x draw only after 15 moves (think this is done)?
 x can manually install iOS
 x turn into progressive webapp
 x put short summary in chat
