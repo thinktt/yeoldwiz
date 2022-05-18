@@ -4,12 +4,15 @@ Personality DB
   x put db in volume
   x hook up post request
   x backups system 
-  clean up backup system
-
+  x clean up backup system
+  x hook up get request
+  clean up db and error pattern
+  frontend sends games to api
+  frontend gets games from api?  
+  bot sends games to api?
+  bot gets games from api? 
 
 ....Backend....
-Personality DB
- hook up get request
 
 Refactor away from Classes to simple module flow pattern?
 better flow for and error handling
