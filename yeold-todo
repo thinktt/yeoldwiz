@@ -1,10 +1,15 @@
 ....Today....
 Personality DB
+  x mongodb
+  x put db in volume
+  x hook up post request
+  x backups system 
+  clean up backup system
 
 
 ....Backend....
 Personality DB
-
+ hook up get request
 
 Refactor away from Classes to simple module flow pattern?
 better flow for and error handling

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+latest_backup=$(gdrive --service-account sa.json list | awk 'NR==2')
+obj_id=$(echo $latest_backup | head -c 33)
+
+echo "Attempting to download  latest db backup"
+echo $latest_backup
+gdrive --service-account sa.json download $obj_id
+
+echo "Extracting db files"
+tar xvf yowdb-*
+
+echo "Restoring DB from backups"
+mongorestore --host mongodb -d yow --port 27017 ./yow
+
+echo "Removing db files"
+rm yowdb-*
+rm -rf yow
+

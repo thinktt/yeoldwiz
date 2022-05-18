@@ -1,0 +1,12 @@
+#!/bin/bash
+
+docker run -it --rm \
+-e SA \
+-e GDRIVE_SHARE_DIR_OBJ \
+-e GDRIVE_DAILY_FOLDER_ID \
+-e GDRIVE_MONTHLY_FOLDER_ID \
+--network mongonet \
+--name mongobackup dbbackup 
+# /bin/sh 
+
+# --mount type=tmpfs,destination=/opt/dbbackup/.gdrive \

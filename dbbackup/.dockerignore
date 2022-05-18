@@ -1,0 +1,12 @@
+**/.git
+Dockerfile
+drunmongo
+dexec
+docker-compose.yml
+dbuild
+node_modules
+drunbackup
+service.json
+sa.json
+.env
+drun

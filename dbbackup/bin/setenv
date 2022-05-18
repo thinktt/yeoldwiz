@@ -1,0 +1,8 @@
+#!/bin/sh
+mkdir /root/.gdrive
+echo $SA | base64 -d > /root/.gdrive/sa.json
+env >> /etc/environment
+
+
+# Hand off to CMD
+exec "$@"

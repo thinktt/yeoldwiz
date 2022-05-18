@@ -1,0 +1,21 @@
+#!/bin/sh
+
+echo "Creating Backup Files from MongoDB"
+mongodump --host mongodb --port 27017 --db yow --out /root
+date=$(date -u -Iminute | sed 's/://')
+tar -cvz -f yowdb-$date.tgz ./yow
+
+echo "Sending backup files to share folder $GDRIVE_SHARE_DIR_OBJ"
+gdrive --service-account sa.json upload -p $GDRIVE_SHARE_DIR_OBJ yowdb-$date.tgz
+gdrive --service-account sa.json list
+
+echo "Removing db files"
+rm yowdb-*
+rm -rf yow
+
+old_backup=$(gdrive --service-account sa.json list | awk 'NR==12')
+obj_id=$(echo $old_backup | head -c 33)
+
+echo "Attempting to Removing 10 day old db backup"
+echo $old_backup
+gdrive --service-account sa.json delete $obj_id
