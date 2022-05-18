@@ -1,2 +1,2 @@
 #!/bin/bash
-docker run -d -p 27017:27017 --name example-mongo mongo:latest
+docker run -d --network=mongonet -p 27017:27017  -v ~/db:/data/db --name mongodb mongo:latest 

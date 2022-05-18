@@ -46,7 +46,7 @@ app.post('/games', async (req, res) => {
   // this means mogoDB already had this id the DB so it didn't make a new one
   if (result.matchedCount) {
     res.status(200)
-    res.json({message: `succesful post, game ${game.id} already exist, no new creation`})
+    res.json({message: `game ${game.id} already exist, no new creation`})
     return
   }
 
