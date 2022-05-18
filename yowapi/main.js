@@ -1,9 +1,7 @@
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 5000
-const { MongoClient } = require("mongodb")
-const uri = "mongodb://localhost:27017/?maxPoolSize=20&w=majority"
-const client = new MongoClient(uri)
+const db = require('./db')
 const Ajv = require("ajv")
 const ajv = new Ajv()
 
@@ -23,12 +21,13 @@ const gameSchema = {
 
 app.use(express.json())
 
+
 app.get('/games/:id', async (req, res) => {
   
-  let [result, err] = await safeCall(get(req.params.id))
+  let [result, err] = await safeCall(db.get(req.params.id))
   if (err) {
     res.status(500) 
-    res.json({message: err.mesage})
+    res.json(err)
     return 
   }
 
@@ -52,10 +51,10 @@ app.post('/games', async (req, res) => {
 
   const game = req.body
 
-  let [result, err] = await safeCall(create(game))
+  let [result, err] = await safeCall(db.create(game))
   if (err) {
     res.status(500) 
-    res.json({message: err.mesage})
+    res.json({message: err.message})
     return 
   }
 
@@ -78,38 +77,12 @@ app.use((err, req, res, next) => {
 })
 
 
-async function get(id) {
-  try {
-    await client.connect()
-    const res = await client.db('yow').collection('games').findOne({ 'id': id }) 
-    return res
-
-  } finally {
-    await client.close()
-  }
+async function start() {
+  await db.client.connect()
+  app.listen(port, () => console.log(`Server started on port ${port}`))
 }
+start()
 
-async function create(game) {
-  try {
-    // Connect the client to the server
-    await client.connect()
-    
-    // create the entry if it doesn't exist already
-    const res = await client.db("yow").collection('games').updateOne(  
-      {id : game.id}, 
-      {$setOnInsert: game},
-      {upsert: true},
-    )
-    return res
-
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close()
-  }
-}
-// create('duperduperd').catch(console.dir)
-
-app.listen(port, () => console.log(`Server started on port ${port}`))
 
 // allows you to safely call an asycn function and easily handle errors
 // with a Golang style if error statement
@@ -135,86 +108,3 @@ async function main() {
   }
   console.log(a)
 }
-
-// main()
-
-
-// const fetch = require('node-fetch')
-// const request = require('request')
-
-// const express = require('express')
-
-// const fetch = require('node-fetch')
-// const request = require('request')
-
-// const app = express()
-// const port = process.env.PORT || 5000
-
-
-// app.get('/health', (req, res) => {
-//   res.json({'status': 'ok'})
-// })
-
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type, Accept,Authorization,Origin")
-//   res.setHeader("Access-Control-Allow-Origin", "*")
-//   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE")
-//   res.setHeader("Access-Control-Allow-Credentials", true)
-//   next()
-// })
-
-// app.get('/token', async (req, res) => {
-//   const auth = 'TDQ3VHFwWm43aWFKcHBHTTpDZGY3aGxhSndKbWVyd2JESEZ1cWxQQVVnR1U3eGtTNw=='
-  
-//   console.log('Received a code at ' + req.headers.host)
-//   console.log('Redirect url is set to ' + req.query.redirect_uri)
-
-//   const query =  `grant_type=authorization_code&code=${req.query.code}&redirect_uri=${req.query.redirect_uri}`
-//   // console.log(query)
-//   // console.log(auth)
-
-//   fetch('https://oauth.lichess.org/oauth', {
-//     body: query,
-//     method: 'POST',
-//     headers: {
-//       'Accept': 'application/json',
-//       'Content-Type': 'application/x-www-form-urlencoded',
-//       'Authorization': `Basic ${auth}` ,
-//     },
-//   })
-//   .then(lires => {
-//     if (!lires.ok) {
-//       // console.log(lires)
-//       res.status(400).json({ error: lires.statusText });
-//       throw new Error(res.statusText);
-//     } 
-//     return lires.json()
-//   })
-//   .then(data => {
-//      res.json(data)
-//   })
-//   .catch(err => {
-//     console.log(err)
-//     res.status(400).send('Error getting token')
-//   })
-
-// });
-
-// // app.get('/games/:gameId', (req, res) => {
-// //   fetch(`https://lichess.org/${req.params.gameId}`)
-// //   .then(lires => lires.text())
-// //   .then(data => {
-// //     res.send(data)
-// //   })
-// //   .catch(err => {
-// //     console.log(err)
-// //     res.status(400).send("Error getting the game")
-// //   })
-// // })
-
-// app.get('/games/:gameId', (req, res) => {
-//   req.pipe(request("https://lichess.org/" + req.params.gameId)).pipe(res);
-// })
-
-
-
