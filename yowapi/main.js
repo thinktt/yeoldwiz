@@ -1,4 +1,3 @@
-
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 5000
@@ -24,8 +23,25 @@ const gameSchema = {
 
 app.use(express.json())
 
-app.post('/games', async (req, res) => {
+app.get('/games/:id', async (req, res) => {
+  
+  let [result, err] = await safeCall(get(req.params.id))
+  if (err) {
+    res.status(500) 
+    res.json({message: err.mesage})
+    return 
+  }
 
+  if (!result) {
+    res.status(404)
+    res.json({ message: `no game found for id ${req.params.id}` })
+    return 
+  }
+  
+  res.json(result)
+})
+
+app.post('/games', async (req, res) => {
 
   const valid = ajv.validate(gameSchema, req.body)
   if (!valid) {
@@ -62,6 +78,17 @@ app.use((err, req, res, next) => {
 })
 
 
+async function get(id) {
+  try {
+    await client.connect()
+    const res = await client.db('yow').collection('games').findOne({ 'id': id }) 
+    return res
+
+  } finally {
+    await client.close()
+  }
+}
+
 async function create(game) {
   try {
     // Connect the client to the server
@@ -73,8 +100,8 @@ async function create(game) {
       {$setOnInsert: game},
       {upsert: true},
     )
-
     return res
+
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close()
