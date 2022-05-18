@@ -18,7 +18,7 @@ async function create(game) {
     {$setOnInsert: game},
     {upsert: true},
   )
-  throw new Error('Bad stuff')
+  // throw new Error('Bad stuff')
   return res
 }
 

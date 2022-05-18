@@ -1,29 +1,15 @@
 const express = require('express')
+require('express-async-errors')
 const app = express()
 const port = process.env.PORT || 5000
-const db = require('./db')
 const Ajv = require("ajv")
 const ajv = new Ajv()
-
-const gameSchema = {
-  type: "object",
-  properties: {
-    id: {type: "string", pattern: "^[a-zA-Z0-9]{8}$" },
-    opponent: {
-      type: "string", 
-      // enum: ["Marius", "Orin"],
-      pattern: "^[a-zA-Z0-9]*$",
-    }
-  },
-  required: ["id", "opponent"],
-  additionalProperties: false
-}
+const db = require('./db')
+const schema = require('./schema')
 
 app.use(express.json())
 
-
 app.get('/games/:id', async (req, res) => {
-  
   let [result, err] = await safeCall(db.get(req.params.id))
   if (err) {
     res.status(500) 
@@ -42,7 +28,7 @@ app.get('/games/:id', async (req, res) => {
 
 app.post('/games', async (req, res) => {
 
-  const valid = ajv.validate(gameSchema, req.body)
+  const valid = ajv.validate(schema.game, req.body)
   if (!valid) {
     res.status(400)
     res.json(ajv.errors[0])
@@ -69,11 +55,18 @@ app.post('/games', async (req, res) => {
   res.json({message: `game ${game.id} successfully added`})
 })
 
-// catch all error handler
+app.get('*', (req, res) => {
+  res.status(404)
+  res.json({message: 'no such route'});
+})
+
+// catch all for unprocessed errors
 app.use((err, req, res, next) => {
-  if (err.statusCode) res.status(err.statusCode)
-    else res.statusCode(500)
-  res.json({ error: err.toString() })
+  if (err) {
+    res.status(500)
+    res.json({ error: err.toString() })
+  }
+ 
 })
 
 
