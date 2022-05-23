@@ -6,11 +6,17 @@ Personality DB
   x backups system 
   x clean up backup system
   x hook up get request
-  clean up db and error pattern
-  frontend sends games to api
-  frontend gets games from api?  
+  x clean up db and error pattern
+  x frontend sends games to api
+  send full frontend data to api?
+  frontend load new games from api  
   bot sends games to api?
   bot gets games from api? 
+
+fix no chat message sent after aborted game
+  probably caused by duplicate messages sent to chat in quick sequence
+
+
 
 ....Backend....
 
