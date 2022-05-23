@@ -1,6 +1,7 @@
 const express = require('express')
 require('express-async-errors')
 const app = express()
+const cors = require('cors')
 const port = process.env.PORT || 5000
 const Ajv = require("ajv")
 const ajv = new Ajv()
@@ -8,6 +9,7 @@ const db = require('./db')
 const schema = require('./schema')
 
 app.use(express.json())
+app.use(cors())
 
 app.get('/games/:id', async (req, res) => {
   let [result, err] = await safeCall(db.get(req.params.id))
