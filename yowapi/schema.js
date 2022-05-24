@@ -2,7 +2,10 @@ const game = {
   type: "object",
   properties: {
     id: {type: "string", pattern: "^[a-zA-Z0-9]{8}$" },
-    user: { type: "string"},
+    user: { 
+      type: "string", 
+      pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]{0,28}[a-zA-Z0-9]",
+    },
     opponent: {
       type: "string", 
       // enum: ["Marius", "Orin"],
