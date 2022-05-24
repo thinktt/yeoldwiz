@@ -11,6 +11,10 @@ const schema = require('./schema')
 app.use(express.json())
 app.use(cors())
 
+app.get('/health', async (rec, res) => {
+  res.json({message: 'API is healthy'})
+})
+
 app.get('/games/:id', async (req, res) => {
   let [result, err] = await safeCall(db.get(req.params.id))
   if (err) {
