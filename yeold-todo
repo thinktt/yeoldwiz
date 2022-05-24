@@ -13,8 +13,7 @@ Personality DB
   bot sends games to api?
   bot gets games from api? 
 
-fix no chat message sent after aborted game
-  probably caused by duplicate messages sent to chat in quick sequence
+
 
 
 
@@ -40,6 +39,8 @@ stream handling?
 
 
 ....Frontend.....
+fix no chat message sent after aborted game
+  probably caused by duplicate messages sent to chat in quick sequence
 fix score crowns on phones
 Use Chat API
 golden crowns
