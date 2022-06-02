@@ -1,5 +1,9 @@
 #!/bin/sh
 
+echo "Removing any previous db files"
+rm yowdb-*
+rm -rf yow
+
 latest_backup=$(gdrive --service-account sa.json list | awk 'NR==2')
 obj_id=$(echo $latest_backup | head -c 33)
 

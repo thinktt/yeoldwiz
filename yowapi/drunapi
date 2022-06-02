@@ -9,5 +9,18 @@
 # docker run -it abcb4ef58afd /bin/bash
 
 # docker run -it thinktt/yowapi /bin/sh
-docker run -d -p 5000:5000 --name yowapi thinktt/yowapi:latest
+# docker run -it -p 6000:5000 --network=mongonet --name yowapi ace:5000/yowapi:latest /bin/sh
+# docker run -d -p 6000:5000 --network=mongonet --name yowapi ace:5000/yowapi:latest 
 
+# docker run -it --rm \
+# -p 6000:5000 \
+# -e MONGO_HOST=mongodb \
+# --network mongonet \
+# --name yowapi ace:5000/yowapi:latest \
+# /bin/sh 
+
+docker run -d --rm \
+-p 6000:64355 \
+-e MONGO_HOST=mongodb \
+--network mongonet \
+--name yowapi ace:5000/yowapi:latest \

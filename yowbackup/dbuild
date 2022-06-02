@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker image rm ace:5000/yowbackup:latest
+docker build -t ace:5000/yowbackup .

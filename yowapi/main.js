@@ -2,7 +2,7 @@ const express = require('express')
 require('express-async-errors')
 const app = express()
 const cors = require('cors')
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 64355
 const Ajv = require("ajv")
 const ajv = new Ajv()
 const db = require('./db')

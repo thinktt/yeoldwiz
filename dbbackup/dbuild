@@ -1,4 +1,0 @@
-#!/bin/bash
-
-docker image rm dbbackup:latest
-docker build -t dbbackup .

@@ -84,6 +84,7 @@ class LichessApi {
 
   logAndReturn(data) {
     // console.log(JSON.stringify(data.data));
+    // console.log(data)
     return data;
   }
 

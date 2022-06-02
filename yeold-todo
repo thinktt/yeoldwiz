@@ -1,17 +1,9 @@
 ....Today....
-Personality DB
-  x mongodb
-  x put db in volume
-  x hook up post request
-  x backups system 
-  x clean up backup system
-  x hook up get request
-  x clean up db and error pattern
-  x frontend sends games to api
-  send full frontend data to api?
-  frontend load new games from api  
-  bot sends games to api?
-  bot gets games from api? 
+https proxy
+  x ngnx http proxy setup with let's encrypt
+  cerbot container cron job renewals
+    half done
+  x reset the ngxin proxy dailey
 
 
 
@@ -96,6 +88,20 @@ x replace chessmaster GM edition branding
 x run x86 container
 x limit non ponder players depth
 x Accept Draws
+Personality DB
+  x mongodb
+  x put db in volume
+  x hook up post request
+  x backups system 
+  x clean up backup system
+  x hook up get request
+  x clean up db and error pattern
+  x frontend sends games to api
+  x send user yowApi?
+  x frontend load new games from api  
+  x port out 
+  x bot sends games to api?
+  x bot gets games from api? 
 
 x Capablanca Bot for cmp vs games and testing
   x get a valid lichess email

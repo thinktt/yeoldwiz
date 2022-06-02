@@ -1,5 +1,6 @@
 const { MongoClient } = require("mongodb")
-const uri = "mongodb://localhost:27017/?maxPoolSize=20&w=majority"
+const mongoHost = process.env.MONGO_HOST || 'localhost:27017'
+const uri = `mongodb://${mongoHost}/?maxPoolSize=20&w=majority`
 const client = new MongoClient(uri)
 
 async function get(id) {

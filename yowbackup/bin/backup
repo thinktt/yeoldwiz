@@ -1,7 +1,14 @@
 #!/bin/sh
 
+echo "Removing previous db files"
+rm yowdb-*
+rm -rf yow
+
+set -e
+
 echo "Creating Backup Files from MongoDB"
 mongodump --host mongodb --port 27017 --db yow --out /root
+
 date=$(date -u -Iminute | sed 's/://')
 tar -cvz -f yowdb-$date.tgz ./yow
 
