@@ -1,9 +1,10 @@
 require('dotenv').config()
-const LichessApi = require("./LichessApi");
+const lichessApi = require("./lichessApi");
 const RobotUser = require("./RobotUser");
 const WizBot = require("./WizBot");
 const chalk = require('chalk')
 
+lichessApi.setToken(process.env.API_TOKEN)
 
 /**
  * Start a RobotUser (lichess account defined by API_TOKEN) that listens for challenges
@@ -19,14 +20,12 @@ const chalk = require('chalk')
  * 
  */
 
- startBot(process.env.API_TOKEN, new WizBot())
+ startBot(new WizBot())
 
-async function startBot(token, player) {
-  if (token) {
-    let robot = new RobotUser(new LichessApi(token), player);
-    const username = (await robot.start()).data.username;
-    // doHealthCheckLoop()
-  }
+async function startBot(player) {
+  let robot = new RobotUser(lichessApi, player);
+  const username = (await robot.start()).data.username;
+  // doHealthCheckLoop()
 }
 
 async function doHealthCheckLoop() {

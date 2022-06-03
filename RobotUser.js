@@ -1,4 +1,3 @@
-const LichessApi = require("./LichessApi");
 const Game = require("./Game");
 const yowOpponents = require('./personalities.json')
 const chalk = require('chalk')
