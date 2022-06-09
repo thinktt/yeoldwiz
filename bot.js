@@ -1,4 +1,4 @@
-const Game = require("./Game");
+const gameManager = require("./game.js");
 const chalk = require('chalk')
 
 let player
@@ -33,7 +33,7 @@ function eventHandler(event) {
 }
 
 function handleGameStart(id) {
-  const game = new Game(api, account.data.username, player);
+  const game = gameManager.create(api, account.data.username, player);
   game.start(id);
 }
 
