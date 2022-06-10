@@ -1,18 +1,15 @@
+require('dotenv').config()
 const gameManager = require("./game.js");
 const chalk = require('chalk')
+const api = require('./lichessApi.js')
 
-let player
-let api
-let account
+start()
 
-async function  start(apiToSet, playerToSet) {
-  api = apiToSet
-  player = playerToSet
-
+async function  start() {
   account = await api.accountInfo();
-  // console.log("Playing as " + account.data.username);
-  api.streamEvents((event) => eventHandler(event));
-  return account;
+  // console.log("Playing as " + account.data.username)
+  api.streamEvents((event) => eventHandler(event))
+  return account
 }
 
 function eventHandler(event) {
@@ -33,8 +30,7 @@ function eventHandler(event) {
 }
 
 function handleGameStart(id) {
-  const game = gameManager.create(api, account.data.username, player);
-  game.start(id);
+  const game = gameManager.create(id)
 }
 
 async function handleChallenge(challenge) {

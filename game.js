@@ -1,31 +1,40 @@
 
 const chalk = require('chalk')
 const personalites = require('./personalities')
+const wiz = require('./wiz.js')
+const api = require('./lichessApi.js')
 
 
 // A factory that creates a game object and it's interface functions
-function create(api, name, player) {
+function create(gameId) {
 
-  const game = {api, name, player, start, handler, setupGame, handleGameState, 
-    handleChatLine, findAndSetWizPlayer, setWizPlayer, getWizPlayerFromChat, 
-    playNextMove, playingAs}
-
-  async function start(gameId) {
-    game.gameId = gameId
-    game.willAcceptDraw = false
-    game.api.streamGame(gameId, (event) => game.handler(event));
-    game.isMoving = false
-    game.isAcceptingDraws = false
-    game.hasDrawOffer = false
-    game.previousMoves = ''
-    game.lichessBotName = process.env.LICHESS_BOT_NAME
-    game.ratedWizPlayer = process.env.RATED_WIZ_PLAYER
-
-    // this variable is used to be sure that if the system restarted we 
-    // don't prematurely decline a draw when the system doesn't actaully know 
-    // if it really should draw or not
-    game.drawShouldWaitForMove = true
+  const game = {
+    handler,
+    setupGame,
+    handleGameState,
+    handleChatLine,
+    findAndSetWizPlayer,
+    setWizPlayer,
+    getWizPlayerFromChat,
+    playNextMove,
+    playingAs,
+    gameId,
+    willAcceptDraw : false,
+    isMoving : false,
+    isAcceptingDraws : false,
+    hasDrawOffer : false,
+    previousMoves : '',
+    lichessBotName : process.env.LICHESS_BOT_NAME,
+    ratedWizPlayer : process.env.RATED_WIZ_PLAYER,
+    // if system restarts drawShouldWaitForMove is used to make sure  we don't
+    // decline a draw when system doesn't know if it should draw or not yet
+    drawShouldWaitForMove: true,
   }
+
+  // turn on the stream via the lichess API
+  api.streamGame(gameId, (event) => game.handler(event))
+
+  // Below game object functions exposed above
 
   async function handler(event) {
     console.log(chalk.yellow('event: ' + event.type))
@@ -75,14 +84,14 @@ function create(api, name, player) {
         game.hasDrawOffer = true
     
         if (game.hasDrawOffer && game.willAcceptDraw && !game.isMoving)  {
-          game.api.acceptDraw(game.gameId)
+          api.acceptDraw(game.gameId)
           return
         }
 
         if (game.hasDrawOffer && !game.willAcceptDraw && !game.isMoving 
           && !game.drawShouldWaitForMove
         )  {
-          game.api.declineDraw(game.gameId)
+          api.declineDraw(game.gameId)
           return
         }
     }
@@ -94,20 +103,20 @@ function create(api, name, player) {
       game.hasDrawOffer = false
     }
 
-    if (event.username !== game.name) {
+    if (event.username !== game.lichessBotName) {
       const message = event.text.toLowerCase()
       if (game.wizPlayer == '') {
         const cmp = personalites.fuzzySearch(message)
         if ( !cmp ) {
-          game.api.chat(game.gameId, 'player', "Sorry, I don't know that opponent");
+          api.chat(game.gameId, 'player', "Sorry, I don't know that opponent");
           return
         }
 
         game.wizPlayer = personalites.getProperName(cmp.name)
-        game.api.chat(game.gameId,'player', 
+        api.chat(game.gameId,'player', 
           `Playing as ${game.wizPlayer}. Wiz Rating ${cmp.rating}. ${cmp.summary}`
         );
-        game.api.chat(game.gameId, 'spectator', `Playing as ${game.wizPlayer}`);
+        api.chat(game.gameId, 'spectator', `Playing as ${game.wizPlayer}`);
 
         game.playNextMove()
       }
@@ -128,11 +137,11 @@ function create(api, name, player) {
     
     // This means chat has no messages at all so we should ask who the player wants to play
     if (chatPlayer === 'should ask who to play' && !game.rated) {
-      game.api.chat(
+      api.chat(
         game.gameId, 
         'player', 'Who would you like to play? Give me a name or a rating number from 1 to 2750.'
       );
-      game.api.chat(game.gameId, 'spectator', 'Waiting for opponent selection');
+      api.chat(game.gameId, 'spectator', 'Waiting for opponent selection');
       // clear this for next if
       chatPlayer = ''
     } 
@@ -153,13 +162,13 @@ function create(api, name, player) {
 
   function setWizPlayer(wizPlayer) {
     game.wizPlayer = wizPlayer
-    game.api.chat(game.gameId, 'player', `Playing as ${wizPlayer}`);
-    game.api.chat(game.gameId, 'spectator', `Playing as ${wizPlayer}`);
+    api.chat(game.gameId, 'player', `Playing as ${wizPlayer}`);
+    api.chat(game.gameId, 'spectator', `Playing as ${wizPlayer}`);
     // game.playNextMove(game.previousMoves)
   }
 
   async function getWizPlayerFromChat() {
-    const {data: chatLines } = await game.api.getChat(game.gameId)
+    const {data: chatLines } = await api.getChat(game.gameId)
     // handle response errors
 
     // we need to ask them who they wan to play
@@ -189,7 +198,7 @@ function create(api, name, player) {
     // if it's not the bots turn then exit
     if (!isTurn(game.color, moves)) return
 
-    const moveData = await game.player.getNextMove(moves, game.wizPlayer, game.gameId);
+    const moveData = await wiz.getNextMove(moves, game.wizPlayer, game.gameId);
     
     // no move was found or move setup was invalid, go about your business
     if (!moveData) return 
@@ -202,17 +211,17 @@ function create(api, name, player) {
     if (game.hasDrawOffer && game.willAcceptDraw)  {
       // this will keep susequent events from triggering draw request
       game.willAcceptDraw=false
-      await game.api.acceptDraw(game.gameId)
+      await api.acceptDraw(game.gameId)
       return
     }
 
 
-    console.log(game.name + " as " + game.color + " to move " + move);
-    await game.api.makeMove(game.gameId, move)
+    console.log(game.lichessBotName + " as " + game.color + " to move " + move);
+    await api.makeMove(game.gameId, move)
   }
 
   function playingAs(event) {
-    return (event.white.name === game.name) ? "white" : "black";
+    return (event.white.name === game.lichessBotName) ? "white" : "black";
   }
 
   return game
