@@ -2,8 +2,6 @@ const axios = require("axios")
 const oboe = require("oboe")
 const chalk = require('chalk')
 let token = process.env.API_TOKEN
-console.log(token)
-
 
 const baseURL = "https://lichess.org/"
 const headers = { "Authorization": `Bearer ${token}` }
