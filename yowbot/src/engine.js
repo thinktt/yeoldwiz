@@ -1,7 +1,7 @@
 const ChessUtils = require("./ChessUtils")
 const { exec } = require('child_process')
 const chalk = require('chalk')
-const { moves } = require("../../chess-tools/opening-books/ctg/moves")
+const { moves } = require("chess-tools/opening-books/ctg/moves")
 
 
 async function getMove(moves, pvals, secondsPerMove) {

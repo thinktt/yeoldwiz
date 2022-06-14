@@ -1,5 +1,5 @@
 const { get } = require('http')
-const ChessTools = require('../../chess-tools/index.js')
+const ChessTools = require('chess-tools')
 const OpeningBook = ChessTools.OpeningBooks.Polyglot
 const chess = new require('chess.js').Chess()
 const fs = require("fs")

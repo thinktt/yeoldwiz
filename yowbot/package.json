@@ -13,14 +13,13 @@
     "axios": "^0.19.2",
     "chalk": "^4.1.0",
     "chess": "^0.5.0",
-    "chess-tools": "^0.3.0",
+    "chess-tools": "git+https://github.com/thinktt/chess-tools.git",
     "chess.js": "^0.10.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "ndjson": "^1.5.0",
     "node-fetch": "^2.6.1",
     "node-uci": "^1.3.4",
-    "nodemon": "^2.0.7",
     "oboe": "^2.1.5"
   },
   "devDependencies": {
