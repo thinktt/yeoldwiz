@@ -1,5 +1,5 @@
 node_modules
-.env
+*.env
 stdioTester
 stdioTester.exe
 enginewrap.exe
@@ -8,3 +8,5 @@ bot-o-tron/.git
 chess-tools/.git
 service.json
 sa.json
+dist
+*.tar

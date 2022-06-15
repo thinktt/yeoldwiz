@@ -4,7 +4,8 @@
 # GOOS=windows GOARCH=386 go build -o enginewrap.exe  main.go 
 # GOOS=linux go build -o enginewrap  main.go 
 
-GOOS=windows GOARCH=386 go build -o enginewrap.exe  main.go 
-GOOS=linux go build -o enginewrap  main.go 
+GOOS=windows GOARCH=386 go build -o dist/enginewrap.exe  src/main.go 
+GOOS=linux go build -o dist/enginewrap  src/main.go 
+
 
 
