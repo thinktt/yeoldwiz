@@ -26,7 +26,7 @@ dist:
 	GOOS=windows GOARCH=386 go build -o dist/enginewrap.exe  src/main.go 
 	GOOS=linux go build -o dist/enginewrap  src/main.go 
 
-run:
+run: dist
 	cd dist; \
 	node main.js
 

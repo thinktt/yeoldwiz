@@ -1,0 +1,167 @@
+
+default     ; set the engine to default.
+opp=100     ; Opponents pawn
+opn=100     ; Opponents knight
+opb=100     ; Opponents bishop
+opr=100     ; Opponents rook
+opq=100     ; Opponents queen
+opk=0       ; Opponents king
+myp=100     ; Kings pawn
+myn=100     ; Kings knight
+myb=100     ; Kings bishop
+myr=100     ; Kings rook
+myq=100     ; Kings queen
+myk=0       ; Kings king
+cc=100      ; Control of centre
+mob=100     ; Mobility
+ks=100      ; King safety
+pp=100      ; Passed pawn
+pw=100      ; Pawn weakness
+cfd=0       ; Contempt for draw
+sop=100     ; Strength of play
+avd=0       ; Attacker/defender
+rnd=0       ; Randomness
+sel=6       ; Selective search (Note for Chessmaster 9000 the default is now 9)
+md=99       ; Max search depth
+tts=1048576 ; Hash size (Transpostional Table Size)
+ttu=1       ; Hash unit 
+ana=0       ; Unknown (CM don’t use this)
+
+
+allMaterial = 0.1
+mvsp= -100
+cm_parm opp=30 opn=9 opb=9 opr=6 opq=3
+cm_parm myp=30 myn=9 myb=9 myr=6 myq=3
+
+mvsp= -50
+cm_parm opp=15 opn=4 opb=4 opr=3 opq=1
+cm_parm myp=15 myn=4 myb=4 myr=3 myq=1
+
+mvsp= -25
+cm_parm opp=12 opn=3 opb=3 opr=2 opq=1
+cm_parm myp=12 myn=3 myb=3 myr=2 myq=1
+
+mvsp= 0
+cm_parm opp=10 opn=3 opb=3 opr=2 opq=1
+cm_parm myp=10 myn=3 myb=3 myr=2 myq=1
+
+......................................
+allMaterial = 1
+mvsp= -100
+cm_parm opp=300 opn=99 opb=99 opr=60 opq=33
+cm_parm myp=300 myn=99 myb=99 myr=60 myq=33
+
+mvsp= 0
+cm_parm opp=100 opn=33 opb=33 opr=20 opq=11
+cm_parm myp=100 myn=33 myb=33 myr=20 myq=11
+
+mvsp= 100
+cm_parm opp=60 opn=19 opb=19 opr=12 opq=6
+cm_parm myp=60 myn=19 myb=19 myr=12 myq=6
+
+.......Positional......
+mvsp= 100
+allPositional= 1
+cm_parm mycc=3 mymob=3 myks=3 mypp=3 mypw=3
+cm_parm opcc=3 opmob=3 opks=3 oppp=3 oppw=3
+
+mvsp= 100
+allPositional=200
+cm_parm mycc=600 mymob=600 myks=600 mypp=600 mypw=600
+cm_parm opcc=600 opmob=600 opks=600 oppp=600 oppw=600
+
+mvsp=0
+cm_parm mycc=200 mymob=200 myks=200 mypp=200 mypw=200
+cm_parm opcc=200 opmob=200 opks=200 oppp=200 oppw=200
+
+mvsp= -50
+cm_parm opp=150 opn=49 opb=49 opr=30 opq=16
+cm_parm myp=150 myn=49 myb=49 myr=30 myq=16
+cm_parm mycc=150 mymob=150 myks=150 mypp=150 mypw=150
+cm_parm opcc=150 opmob=150 opks=150 oppp=150 oppw=150
+
+mvsp= -100
+cm_parm opp=300 opn=99 opb=99 opr=60 opq=33
+cm_parm myp=300 myn=99 myb=99 myr=60 myq=33
+cm_parm mycc=120 mymob=120 myks=120 mypp=120 mypw=120
+cm_parm opcc=120 opmob=120 opks=120 oppp=120 oppw=120
+
+
+......................
+mvsp=-100 = *.6
+cmp=100
+oppp=60
+
+mvsp=-50 = *.75
+cmp=100
+oppp=75
+
+mvsp=0 = *1.0
+cmp=1
+oppp=1
+
+mvsp=50 = * .03 * 50 = 1.5
+cmp=100
+opp=150
+
+mvsp=75 = .0263 * 75 = 1.97
+cmp=100
+opp=197
+
+mvsp=80 = * 2.14
+cmp=100
+oppp=214
+
+90 = * 2.5
+95 = * 2.67
+
+mvsp=100 = *3
+cmp=100
+oppp=300
+
+-100 = 0.60 40
+-95 = 0.60 
+-94 = 0.61 39
+-90 = 0.62 78
+-88 = 0.63 37
+-84 = 0.64 36
+-80 = 0.65 35p
+-76 = 0.66 34
+-72 = 0.67 33
+-70 = 0.68 32
+-66 = 0.69 31
+-64 = 0.70 30
+-60 = 0.71 29
+-58 = 0.72 28
+-54 = 0.73 27
+-52 = 0.74 26
+-50 = 0.75 25
+
+0   = 1.00 0
+50  = 1.50 50
+75  = 1.97 97 
+90  = 2.50 150
+95  = 2.67 267
+98  = 2.88 288
+100 = 3.00 300
+
+60 - 300
+
+40 / 100 = 0.4
+
+200 / 100 = 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

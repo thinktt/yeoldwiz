@@ -43,4 +43,8 @@ yeoldwiz-lnx/TheKing350noOpk.exe e115e4dbc42b9ec8f880f214f089abc301e8118dd697153
 CM11\TheKing350noOpk.exe         511de09ec25fd8de0a41640c8e53ced4ebab1daeac01a8a9a3116a04f4ed7585
 CM11\TheKing350Real.exe          511de09ec25fd8de0a41640c8e53ced4ebab1daeac01a8a9a3116a04f4ed7585
 
+Been a while since I looked at this but think it was determined that the change in noOpk actually
+breaks the ? mark command. Theory is that this is the command that the engine uses to stop the 
+engine if OPK number is not validated. Changes bypass the ? command so it always always runs the 
+engine (This is just a working theory) 
 
