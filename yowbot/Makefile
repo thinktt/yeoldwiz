@@ -18,28 +18,30 @@ dist: books
 	mkdir dist
 	docker cp bookbuilder:opt/binbooks/. dist/books/
 	cp assets/node dist/node
-	node build/personalitiesBuilder.js
+	build/buildKing.sh
 	GOOS=windows GOARCH=386 go build -o dist/enginewrap.exe  src/main.go 
 	GOOS=linux go build -o dist/enginewrap  src/main.go 
-	ln -sr node_modules dist/
-	ln -sr src/*.js dist/
-	ln -sr .env dist/.env
+	node build/personalitiesBuilder.js
+	ln -rs node_modules dist/
+	ln src/*.js dist/
+	ln .env dist/.env
 
 books:
-	docker rm bookbuilder
+	docker rm bookbuilder || true
 	docker build -t bookbuilder -f build/bookBuilder.docker .
 	docker run --name bookbuilder bookbuilder
 	touch books
 	
-run:
+run: dist
 	cd dist; \
 	node main.js
 
 reset: 
 	rm -rf dist
 	rm books
-	# docker rm bookbuilder
-	# docker rmi bookbuilder
+	docker rm bookbuilder
+	docker rmi bookbuilder
+	rm dist.tar || true
 
 clean:
 	rm -rf dist
