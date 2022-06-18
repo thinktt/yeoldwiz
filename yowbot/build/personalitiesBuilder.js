@@ -5,13 +5,18 @@ const fs = require('fs');
 
 arg = process.argv[2] || ''
 const name = (arg.charAt(0).toUpperCase() + arg.slice(1))
-console.log(name)
-path='./personalities'
+// console.log(name)
+cmpPath = `${process.cwd()}/assets/cm/personalities`
+cpmCfgPath = `${process.cwd()}/assets/personalities.cfg`
+outputPath = `${process.cwd()}/dist/personalities.json`
+
+
 
 const wizBio = 'Ye Old Wizard simulates and pays tribute to the classic Chessmaster personalities. Chessmaster was the most popular PC chess program ever made, playing and teaching chess with millions of kids and adults from 1988 to 2007. It used Johan de Köning\'s chess engine The King to simulate chess opponentes of all rating levels. Play the Wizard himself or his many chess personalities here.'
 const wizStyle = "The Wizard is the top opponent of Ye Old Wizard. He will do his very best to grind you into the ground with his kindly instructive presence."
 const wizSummary = "Beats puny humans"
 
+console.log('Building personalites.json file')
 run()
 async function run() {
   const cmps = parseCmpCfg()
@@ -22,14 +27,14 @@ async function run() {
   }
   // console.log(await parseCmpFile(name))
   // console.log(cmps[name])
-  console.log(Object.keys(cmps).length)
+  console.log(`${Object.keys(cmps).length} Personlaities for personalities.json file`)
   cmps['Wizard'] = cmps['Chessmaster']
   cmps['Wizard'].bio  = wizBio
   cmps['Wizard'].style = wizStyle
   cmps['Wizard'].summary = wizSummary
   cmps['Wizard'].name = 'Wizard'
   delete cmps['Chessmaster']
-  fs.writeFileSync('personalities.json', JSON.stringify(cmps, null, 2))
+  fs.writeFileSync(outputPath, JSON.stringify(cmps, null, 2))
 }
 
 
@@ -65,7 +70,7 @@ async function parseCmpFile(name) {
 // into individual personalities
 function parseCmpCfg() {
   const cmps = {}
-  let cmpStrings = fs.readFileSync('./personalities.cfg', 'utf8')
+  let cmpStrings = fs.readFileSync(cpmCfgPath, 'utf8')
   cmpStrings = cmpStrings.split('\r\n\r\n')
   cmpStrings.forEach((cmpStr) => {
     const params = parseEngStrings(cmpStr)
@@ -92,7 +97,7 @@ function parseEngStrings(engStrings) {
 
 function getPersonality(name) {
   const filePromise = new Promise((resolve, reject) => {
-    fs.readFile(`${path}/${name}.CMP`, (err, data) => { 
+    fs.readFile(`${cmpPath}/${name}.CMP`, (err, data) => { 
       if (err) {
         reject(err)
         return 
@@ -127,7 +132,7 @@ function printRawParams(params) {
 function getIntsFromBuff(buffArr) {
   let ints = []
   for (let i=0; i < buffArr.byteLength; i++) {
-    console.log(buffArr.readInt32LE(i))
+    // console.log(buffArr.readInt32LE(i))
     ints.push(buffArr.readInt32LE(i))
   }
   return ints

@@ -18,10 +18,9 @@ dist: books
 	mkdir dist
 	docker cp bookbuilder:opt/binbooks/. dist/books/
 	cp assets/node dist/node
-	./build/buildKing.sh
+	node build/personalitiesBuilder.js
 	GOOS=windows GOARCH=386 go build -o dist/enginewrap.exe  src/main.go 
 	GOOS=linux go build -o dist/enginewrap  src/main.go 
-	ln -sr src/personalities.json dist/personalities.json
 	ln -sr node_modules dist/
 	ln -sr src/*.js dist/
 	ln -sr .env dist/.env
