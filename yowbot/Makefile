@@ -1,7 +1,7 @@
 JS_FILES := $(wildcard *.txt)
 BINS := $(JS_FILES:%.txt=%)
 
-.PHONY: run dbuild drun clean books2bin rmbooks buildbooks reset
+.PHONY: run dbuild drun clean books2bin rmbooks buildbooks reset fixking
 
 drun: dbuild
 	docker run --name yeoldwiz ace:5000/yeoldwiz 
@@ -18,7 +18,7 @@ dist: books
 	mkdir dist
 	docker cp bookbuilder:opt/binbooks/. dist/books/
 	cp assets/node dist/node
-	cp assets/backup/TheKing350noOpk.exe dist/TheKing350noOpk.exe
+	make fixking
 	GOOS=windows GOARCH=386 go build -o dist/enginewrap.exe  src/main.go 
 	GOOS=linux go build -o dist/enginewrap  src/main.go 
 	ln -sr src/personalities.json dist/personalities.json
@@ -42,6 +42,18 @@ reset:
 	rm -rf books
 	# docker rm bookbuilder
 	# docker rmi bookbuilder
+
+# This is a regex sed hack to replace the two bytes of TheKing350.exe we need 
+# to replace. For reference those bytes are:
+# Hex line CE80 replace 0F 85 with 90 E9
+regExFind := /\x24\x10\x0f\x85\x9f\x00\x00\x00
+regExReplace := /\x24\x10\x90\xe9\x9f\x00\x00\x00/
+fixking:
+	rm dist/TheKing350.exe || true
+	cp assets/cm/TheKing350.exe dist/TheKing350.exe
+	sed -i -e "s$(regExFind)$(regExReplace)" dist/TheKing350.exe
+	mv dist/TheKing350.exe dist/TheKing350noOpk.exe
+
 
 clean:
 	rm -rf dist
