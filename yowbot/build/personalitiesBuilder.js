@@ -5,7 +5,8 @@ const fs = require('fs');
 
 arg = process.argv[2] || ''
 const name = (arg.charAt(0).toUpperCase() + arg.slice(1))
-// console.log(name)
+console.log(process.cwd())
+
 cmpPath = `${process.cwd()}/assets/cm/personalities`
 cpmCfgPath = `${process.cwd()}/assets/personalities.cfg`
 outputPath = `${process.cwd()}/dist/personalities.json`
@@ -57,11 +58,12 @@ function debrand(cmp) {
 }
 
 async function parseCmpFile(name) {
+  
   try {
     const cmp = await getPersonality(name)
     return cmp
   } catch (err) {
-    console.log('Unable to open personality file for ' + name)
+    // console.log('Unable to open personality file for ' + name)
     return {}
   }
 }
@@ -71,7 +73,7 @@ async function parseCmpFile(name) {
 function parseCmpCfg() {
   const cmps = {}
   let cmpStrings = fs.readFileSync(cpmCfgPath, 'utf8')
-  cmpStrings = cmpStrings.split('\r\n\r\n')
+  cmpStrings = cmpStrings.split('\n\n')
   cmpStrings.forEach((cmpStr) => {
     const params = parseEngStrings(cmpStr)
     cmps[params.name] = params
@@ -82,7 +84,7 @@ function parseCmpCfg() {
 // A big mess of parsing all the engine strings
 function parseEngStrings(engStrings) {
   const personality = {out : {}}
-  engStrings = engStrings.split('\r\n')
+  engStrings = engStrings.split('\n')
   personality.name = engStrings[0]
   personality.ponder = engStrings[7]
   let params = engStrings.slice(1, 7).join(' ').split(' ')
@@ -99,6 +101,7 @@ function getPersonality(name) {
   const filePromise = new Promise((resolve, reject) => {
     fs.readFile(`${cmpPath}/${name}.CMP`, (err, data) => { 
       if (err) {
+        console.log(err.message)
         reject(err)
         return 
       }
