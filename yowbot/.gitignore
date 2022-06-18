@@ -10,3 +10,4 @@ service.json
 sa.json
 dist
 *.tar
+./books
