@@ -1,4 +1,4 @@
-const ChessUtils = require("./ChessUtils")
+const chessTools = require("./chessTools.js")
 const chalk = require('chalk')
 const book = require('./book')
 const engine = require('./engine')
@@ -18,7 +18,7 @@ async function getNextMove(moves, wizPlayer, gameId) {
   console.log(chalk.blue(`Using ${cmp.book} for book moves`))
 
 
-  const chess = new ChessUtils()
+  const chess = chessTools.create()
   chess.applyMoves(moves)
   const legalMoves = chess.legalMoves()
   

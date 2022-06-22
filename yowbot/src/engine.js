@@ -1,4 +1,4 @@
-const ChessUtils = require("./ChessUtils")
+const chessTools = require("./chessTools.js")
 const { exec } = require('child_process')
 const chalk = require('chalk')
 const { moves } = require('chess-tools/opening-books/ctg/moves')
@@ -104,7 +104,7 @@ function parseMoveLine(engineLine) {
 }
 
 function getCordinateMove(algebraMove, moves) {
-  const chess = new ChessUtils()
+  const chess = chessTools.create()
   chess.applyMoves(moves)
  
   // try and use chess js to do the work for us
@@ -120,7 +120,7 @@ function getCordinateMove(algebraMove, moves) {
 async function startEngine(child, moves, pvals, secondsPerMove) {
   
   // establish a working model of the game and find white or blacks turn
-  const chess = new ChessUtils()
+  const chess = chessTools.create()
   chess.applyMoves(moves)
   const turn = chess.turn()
   
