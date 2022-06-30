@@ -1,23 +1,19 @@
-const ChessUtils = require("./bot-o-tron/src/utils/ChessUtils")
+require('dotenv').config()
+const ChessUtils = require("./chessTools.js")
 const chalk = require('chalk')
 const book = require('./book')
 const engine = require('./engine')
 const personalites = require('./personalities.js')
-const chessTools = require("./chess-tools")
+
 // const cmp = personalites.getSettings('Marius')
 // const cmp = personalites.getSettings('Wizard')
 // const cmp = personalites.getSettings('Capablanca')
 // const cmp = personalites.getSettings('Fischer')
-const cmp = personalites.getSettings('Josh7')
-
-
 
 // console.log(cmp)
 // cmp.out.rnd = 0
 
-
-
-// // Fischer vs Tal 1960
+// Fischer vs Tal 1960
 // const moves = [
 //   'e2e4', 'e7e6', 'd2d4', 'd7d5', 'b1c3', 'f8b4', 'e4e5', 
 //   'c7c5', 'a2a3', 'b4a5', 'b2b4', 'c5d4', 'd1g4', 'g8e7', 
@@ -27,18 +23,23 @@ const cmp = personalites.getSettings('Josh7')
 //   'g5g2', 'g1h1', 'c7e5', 'a1f1', 'e5e6', 'h1g2', 'e6g4'
 // ] 
 
+const cmp = personalites.getSettings('Josh7')
 const moves = ['e2e4', 'e7e6', 'd2d4']
 
-// const moves = [
-//   'e2e4', 'e7e6', 'd2d4',
-//   'd7d5', 'b1c3', 'f8b4',
-//   'e4e5', 'c7c5', 'a2a3',
-//   'b4a5', 'b2b4', 'c5d4',
-//   'd1g4', 'g8e7', 'b4a5',
-//   'd4c3', 'g4g7', 'h8g8',
-//   'g7h7', 'b8c6', 'g1f3',
-//   'd8c7', 'f1b5', 'c8d7'
-// ]
+// repeatMove()
+
+const moveData = runThroughMoves(cmp)
+// console.log(moveData)
+
+
+// async function repeatMove() { 
+//   for (let i=0; i<1; i++) {
+//     await engine.getMoveWithData(moves, cmp.out, 12) 
+//   }
+// }
+
+
+
 
 // Wiz vs Capablanca (Wiz Personas)
 // const moves = [
@@ -87,9 +88,10 @@ async function runThroughMoves(cmp) {
 
   const movesSoFar = []
   const depths = []
-  const shortDepths = []
+  const times = []
   const evals = []
-  const longDepths = []
+  const lineIds = []
+  const algebraMoves = []
   const engineMoves = []
   const timeForMoves = []
 
@@ -98,38 +100,42 @@ async function runThroughMoves(cmp) {
 
   for (const move of moves) {
     movesSoFar.push(move) 
-    const moveData = await engine.getMoveWithData(movesSoFar, cmp.out, secondsPerMove)
-    engineMoves.push(moveData.engineMove) 
+    const settings = { moves: movesSoFar, pVals: cmp.out, clockTime: 20000 }
+    const moveData = await engine.getMove(settings)
     depths.push(moveData.depth)
-    shortDepths.push(moveData.shortDepths) 
+    engineMoves.push(moveData.engineMove) 
+    times.push(moveData.time) 
     evals.push(moveData.eval)
-    longDepths.push(moveData.longDepth) 
-    timeForMoves.push(moveData.timeForMove) 
+    lineIds.push(moveData.lineId) 
+    algebraMoves.push(moveData.algebraMove)
+    // timesForMoves.push(moveData.timeForMove) 
   }
 
-  const averageTime = Math.round(
-    timeForMoves.reduce((a, b) => a + b) / timeForMoves.length
-  )
+  // const averageTime = Math.round(
+  //   timeForMoves.reduce((a, b) => a + b) / timeForMoves.length
+  // )
 
-  console.log(engineMoves)
   console.log(depths)
   console.log(evals)
-  console.log(longDepths)
-  console.log(timeForMoves)
-  console.log(averageTime)
+  console.log(times)
+  console.log(lineIds)
+  console.log(engineMoves)
+  console.log(algebraMoves)
+  // console.log(averageTime)
 
   return { 
     depths,
     evals,
-    longDepths,
+    times,
     engineMoves,
     timeForMoves,
-    averageTime
+    algebraMoves,
+    // averageTime,
   }
 }
 
 async function runContinously() {
-  const moveData = await engine.getMoveWithData(moves, cmp.out)
+  const moveData = await engine.getMoveWithData({ moves, pVals: cmp.out })
   // console.log(moveData)
   moves.push(moveData.engineMove)
   const chess = new ChessUtils()
@@ -140,7 +146,7 @@ async function runContinously() {
 }
 
 async function runOnce(moves) {
-  const moveData = await engine.getMoveWithData(moves, cmp.out)
+  const moveData = await engine.getMoveWithData({ moves, pVals: cmp.out })
 }
 
 async function runThroughMultiple(numberOfTimes) {
@@ -157,14 +163,15 @@ async function multiRun() {
   const asyncRunTimes = 1
   
   for (let i = 0; i < asyncRunTimes; i++) {
-    runs.push(engine.getMove(moves, cmp.out, secondsPerMove))
+    const settings = { moves, pVals: cmp.out, secondsPerMove, clockTime: 40000 }
+    runs.push(engine.getMove(settings))
   }
   
   const engineMoves = await Promise.all(runs) 
   console.log(engineMoves) 
 }
 
-runThroughMoves(cmp)
+// runThroughMoves(cmp)
 // runContinously()
 // runOnce(moves)
 // multiRun()

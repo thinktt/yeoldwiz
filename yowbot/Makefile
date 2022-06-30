@@ -1,7 +1,7 @@
 JS_FILES := $(wildcard *.txt)
 BINS := $(JS_FILES:%.txt=%)
 
-.PHONY: run dbuild drun clean books2bin rmbooks buildbooks reset fixking
+.PHONY: run dbuild drun clean books2bin rmbooks  reset eep testengine
 
 drun: dbuild
 	docker run --name yeoldwiz ace:5000/yeoldwiz 
@@ -52,3 +52,11 @@ rmbooks:
 
 dir:
 	echo ${CURDIR}
+
+# local creater function only
+eep:
+	scp -r dist/*.js eep:~/yowbot/
+
+testengine: 
+	cd dist; \
+	node testengine.js

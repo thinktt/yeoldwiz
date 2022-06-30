@@ -3,37 +3,49 @@ const { exec } = require('child_process')
 const chalk = require('chalk')
 const { moves } = require('chess-tools/opening-books/ctg/moves')
 
-
-async function getMove(moves, pvals, secondsPerMove) {
-  
-  const moveData = await getMoveWithData(moves, pvals, secondsPerMove)
-  return moveData.engineMove
+const defaultSettings = {
+  moves: [],
+  pVals: { 
+    "opp": "125", "opn": "104", "opb": "104", "opr": "104", "opq": "104", 
+    "myp": "125", "myn": "104", "myb": "104", "myr": "104", "myq": "104", 
+    "mycc": "96", "mymob": "96", "myks": "120", "mypp": "96", "mypw": "125", 
+    "opcc": "96", "opmob": "96", "opks": "120", "oppp": "96", "oppw": "125", 
+    "cfd": "250", "sop": "100", "avd": "30", "rnd": "0", "sel": "9", "md": "99", 
+    "tts": "16777216"
+  },
+  secondsPerMove: 5,
+  clockTime: null,
+  stopId: null,
 }
 
-// Start the engine and get next move using the given perosnality values (pvals)
-async function getMoveWithData(moves, pvals, secondsPerMove) {
+
+// Start the engine and get next move using given engine settings
+async function getMove(settings) {
+  settings = fillDefaultSettings(settings)
+  // moves, pVals, secondsPerMove, clockTime
 
   // start the chess engine process, using the proper engine command
-  // defaults to WSL setup, Dockerfile sets ENG_CMD /usr/bin/wine ./enginewrap
-  let cmd = './enginewrap'
-  cmd = process.env.ENG_CMD ||  cmd
+  // defaults is ./enginewrap and will work in WSL 
+  // Dockerfile sets ENG_CMD /usr/bin/wine ./enginewrap
+  const cmd = process.env.ENG_CMD ||  './enginewrap'
   console.log(`engine cmd: ${cmd}`)
   const child = exec(cmd)
   let moveData
  
   // on close event stop the process
-  child.on('close', function (code) {
-      // console.log('egine exited ' + code)
+  child.on('close', (code) => {
+      // console.log(`engine exited with ${code}`)
   })
 
 
   // create a movePromise, when engine responds with a move it resolves and
   // sends an exit command to the engine, closing the process
+  let startTime  
   const movePromise = new Promise(resolve => {
     child.stdout.on('data', (data) => {
       const engineLines = data.toString().replace('\r','\n').split('\n')
-
       for (let engineLine of engineLines) {
+       
         // ignore empty lines, add return char back to end of line
         if (engineLine === '') continue
         engineLine = engineLine + '\n'
@@ -43,10 +55,9 @@ async function getMoveWithData(moves, pvals, secondsPerMove) {
         if (parseInt(engineLine) > 1000) {
           process.stdout.write(chalk.yellow(engineLine))
           moveData = parseMoveLine(engineLine)
-          moveData.cordinateMove = getCordinateMove(moveData.algebraMove, moves)
-          moveData.willAcceptDraw = getDrawEval(moveData.eval, pvals.cfd, moves)
-          // console.log(moveData)
-        
+          moveData.coordinateMove = getCordinateMove(moveData.algebraMove, settings.moves)
+          moveData.willAcceptDraw = getDrawEval(moveData.eval, settings.pVals.cfd, settings.moves)
+
         // the engine has selected a move, stop engine, and reolve promise  
         // with current move data
         } else if (engineLine.includes('move')) {
@@ -54,10 +65,9 @@ async function getMoveWithData(moves, pvals, secondsPerMove) {
           process.stdout.write(chalk.blue(engineLine))
           child.stdin.write('quit\n')
           moveData.engineMove = engineLine.match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
-          // console.log(moveData)
           console.log('timeForMove:', moveData.timeForMove)
           console.log('willAcceptDraw:', moveData.willAcceptDraw)
-          console.log('cordanateMove:', moveData.cordinateMove)
+          console.log('coordinateMove:', moveData.coordinateMove)
           resolve(moveData)
         
         } else {
@@ -74,9 +84,21 @@ async function getMoveWithData(moves, pvals, secondsPerMove) {
   })
 
   startTime = Date.now()
-  startEngine(child, moves, pvals, secondsPerMove)
+  startEngine(child, settings)
  
   return movePromise
+}
+
+// fills any missing settings and logs when it happens
+// this could be done with spread operators but I wanted to see logs
+function fillDefaultSettings(settings) {
+  for (const key in defaultSettings) {
+    if (!settings[key] && defaultSettings[key] !== null) {
+      console.log(`using deafault ${key}: ${defaultSettings[key]}`)
+      settings[key] = defaultSettings[key]
+    }
+  }
+  return settings
 }
 
 function getDrawEval(currentEval, contemptForDraw, moves) {
@@ -92,15 +114,15 @@ function getDrawEval(currentEval, contemptForDraw, moves) {
 function parseMoveLine(engineLine) {
   const depth = parseInt(engineLine) 
   const eval = parseInt(engineLine.substring(5))
-  const shortDepth = parseInt(engineLine.substring(11))
-  const longDepth = parseInt(engineLine.substring(18))
-  const moveLine = engineLine.substring(29)
-  let algebraMove = moveLine.split(' ')[0].replace('\r\n', '')
+  const time = parseInt(engineLine.substring(11))
+  const lineId = parseInt(engineLine.substring(18))
+  const line = engineLine.substring(29)
+  let algebraMove = line.split(' ')[0].replace('\r\n', '')
   // cm egine uses 0 instead of O which breaks chess.js, this is the fix
   algebraMove = algebraMove.replace(/0/g, 'O')
   algebraMove = algebraMove.replace(/\s/, '')
 
-  return { depth, eval, shortDepth, longDepth, algebraMove }
+  return { depth, eval, time, lineId, algebraMove }
 }
 
 function getCordinateMove(algebraMove, moves) {
@@ -112,12 +134,15 @@ function getCordinateMove(algebraMove, moves) {
   if (longMove) return longMove.from + longMove.to
 
   // chess js didn't like the move for some reason
-  console.error('Failed to create cordinate move!')
+  console.error('Failed to create coordinate move!')
   return null
 }
 
 // startEngine sets up the engine and kicks off the move
-async function startEngine(child, moves, pvals, secondsPerMove) {
+async function startEngine(child, settings) {
+  const { moves, pVals, secondsPerMove, clockTime,  } = settings
+  pVals.rnd = 0
+  // pVals.md = 6
   
   // establish a working model of the game and find white or blacks turn
   const chess = chessTools.create()
@@ -130,25 +155,21 @@ async function startEngine(child, moves, pvals, secondsPerMove) {
   
   // Load personality values
   child.stdin.write('cm_parm default\n')
-  child.stdin.write(`cm_parm opp=${pvals.opp} opn=${pvals.opn} opb=${pvals.opb} opr=${pvals.opr} opq=${pvals.opq}\n`)
-  child.stdin.write(`cm_parm myp=${pvals.myp} myn=${pvals.myn} myb=${pvals.myb} myr=${pvals.myr} myq=${pvals.myq}\n`)
-  child.stdin.write(`cm_parm mycc=${pvals.mycc} mymob=${pvals.mymob} myks=${pvals.myks}  mypp=${pvals.mypp} mypw=${pvals.mypw}\n`)
-  child.stdin.write(`cm_parm opcc=${pvals.opcc} opmob=${pvals.opmob} opks=${pvals.opks} oppp=${pvals.oppp} oppw=${pvals.oppw}\n`)
-  child.stdin.write(`cm_parm cfd=${pvals.cfd} sop=${pvals.sop} avd=${pvals.avd} rnd=${pvals.rnd} sel=${pvals.sel} md=${pvals.md}\n`)
-  child.stdin.write(`cm_parm tts=${pvals.tts}\n`)
+  child.stdin.write(`cm_parm opp=${pVals.opp} opn=${pVals.opn} opb=${pVals.opb} opr=${pVals.opr} opq=${pVals.opq}\n`)
+  child.stdin.write(`cm_parm myp=${pVals.myp} myn=${pVals.myn} myb=${pVals.myb} myr=${pVals.myr} myq=${pVals.myq}\n`)
+  child.stdin.write(`cm_parm mycc=${pVals.mycc} mymob=${pVals.mymob} myks=${pVals.myks}  mypp=${pVals.mypp} mypw=${pVals.mypw}\n`)
+  child.stdin.write(`cm_parm opcc=${pVals.opcc} opmob=${pVals.opmob} opks=${pVals.opks} oppp=${pVals.oppp} oppw=${pVals.oppw}\n`)
+  child.stdin.write(`cm_parm cfd=${pVals.cfd} sop=${pVals.sop} avd=${pVals.avd} rnd=${pVals.rnd} sel=${pVals.sel} md=${pVals.md}\n`)
+  child.stdin.write(`cm_parm tts=${pVals.tts}\n`)
   child.stdin.write('easy\n')
 
-  // set time control
-  // child.stdin.write(`level 0 0 5\n`)
-  // const clockTime='0 3:20 0'
-  // child.stdin.write(`level ${clockTime}\n`)
-  if (!secondsPerMove) {
-    secondsPerMove = 5
-    console.log(`No seconds per move set, defaulting to ${secondsPerMove}`)
+  if (clockTime) {
+    console.log(`clock time manually set to ${clockTime}`)
   } else {
     console.log(`seconds per move is ${secondsPerMove}`)
-  }
-  const moveTime = (secondsPerMove * 100 * 40)
+  } 
+  const moveTime = clockTime || (secondsPerMove * 100 * 40)  
+
   console.log(`time ${moveTime}`)
   console.log(`otim ${moveTime}`)
   child.stdin.write(`time ${moveTime}\n`)
@@ -172,77 +193,4 @@ async function startEngine(child, moves, pvals, secondsPerMove) {
   child.stdin.write('go\n')
 }
 
-module.exports = { getMove, getMoveWithData }
-
-
-// Thes are engine commands I removed since they didn't seem necessary
-// keeping them here for reference for now though
-// child.stdin.write('black\n')
-// child.stdin.write('white\n')
-// set up the clock time
-// const clockTime='0 12:40 0'
-// const moveTime='80000'
-// const clockTime='0 3:20 0'
-// const moveTime='20000'
-// const clockTime='0 0:01 0'
-// const moveTime='5000'
-// child.stdin.write('new\n')
-// child.stdin.write(`level ${clockTime}\n`)
-// child.stdin.write('cm_parm opk=150308\n')
-// prepare to take move list
-// child.stdin.write('force\n')
-
-
-// function complexManualCoridnateParsing(algebraMove, moves) {
-    // // chess js didn't like the move let's try a more manual approach
-  // let disambiguation 
-  // let disambigCordinate
-  
-  // // first let's check for full disambiguation, if it exist just return it as
-  // // the move (ex. Qe4e5)
-  // if (disambiguation = algebraMove.match(/[a-h][1-8][a-h][1-8]/)) {
-  //   return disambiguation[0]
-  // }
-  
-  // // next check for a single disambiguation cordinate, if so save it (ex. Qea1)
-  // if (disambiguation = algebraMove.match(/([a-h|1-8])[a-h][1-8]/)) {
-  //   disambigCordinate = disambiguation[1]
-  // }
-
-  // //todo translate promotion move
-
-  // let toSquare = algebraMove.match(/[a-h][0-8]/)[0]
-  // let piece = algebraMove.match(/[KQBNR]/)[0]
-
-
-  // for (const square of chess.chess.SQUARES) {
-  //   // is this the type of piece we're looking for? if not move along
-  //   const boardPiece = chess.chess.get(square)
-  //   if (!boardPiece) continue
-  //   if (boardPiece.type !== piece.toLowerCase()) continue
-
-  //   // now we have a candidate move
-  //   let testMove = square + toSquare
-  //   console.log(testMove)
-
-  //   // if chessjs still doesn't like it move along
-  //   let longMove = chess.chess.move(testMove)
-  //   if (!longMove) continue
-
-  //   // if there's a diabiguation cordinate make sure this is the right square
-  //   // to move from (it should contain the cordinate) if not move on
-  //   if (disambigCordinate && !square.includes(disambigCordinate)) continue 
-
-    
-  //   // we found our move we can stop searching for it
-  //   cordinateMove = testMove
-  //   break
-  // }
-
-  
-  // // at this point if we never found a move we will be returning null
-  // if (cordinateMove === null) {
-  //   console.error('Failed to create cordinate move!')
-  // }
-  // return cordinateMove
-// } 
+module.exports = { getMove }

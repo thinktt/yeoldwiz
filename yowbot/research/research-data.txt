@@ -27,6 +27,13 @@ tts=1048576 ; Hash size (Transpostional Table Size)
 ttu=1       ; Hash unit 
 ana=0       ; Unknown (CM don’t use this)
 
+Depth Eval   Time  LineId   Move Line
+9003  +215   9218  12751757 Bb4+ c3 Be7 Nf3 c6 Bd3 a5 g4 Na6 0-0
+
+Time is amount of time to get to this line in centiseconds
+Depth is the first number so 9003 is depth depth 9. 
+Still not sure what the 003 means, this number counts up from 1
+
 
 allMaterial = 0.1
 mvsp= -100

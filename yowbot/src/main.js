@@ -7,7 +7,7 @@ start()
 
 async function  start() {
   account = await api.accountInfo();
-  // console.log("Playing as " + account.data.username)
+  console.log(`Connected to account ${account.data.username}`)
   api.streamEvents((event) => eventHandler(event))
   return account
 }

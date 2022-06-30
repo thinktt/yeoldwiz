@@ -42,7 +42,8 @@ async function getNextMove(moves, wizPlayer, gameId) {
   if (cmp.ponder === 'hard') secondsPerMove = 5
   if (cmp.rating >= 2700) secondsPerMove = 7
 
-  const moveData = await engine.getMoveWithData(moves, cmp.out, secondsPerMove)
+  const settings = { moves, pVals: cmp.out, secondsPerMove }
+  const moveData = await engine.getMove(settings)
   console.log(`engineMove: ${moveData.engineMove}`)
   return {move: moveData.engineMove, willAcceptDraw: moveData.willAcceptDraw}
 }
