@@ -22,6 +22,7 @@ const defaultSettings = {
 // Start the engine and get next move using given engine settings
 async function getMove(settings) {
   settings = fillDefaultSettings(settings)
+  if (settings.pVals.rnd === 0) console.log('random moves are off')
   // moves, pVals, secondsPerMove, clockTime
 
   // start the chess engine process, using the proper engine command
@@ -34,7 +35,7 @@ async function getMove(settings) {
  
   // on close event stop the process
   child.on('close', (code) => {
-      // console.log(`engine exited with ${code}`)
+      console.log(`engine exited with ${code}`)
   })
 
 
@@ -57,7 +58,11 @@ async function getMove(settings) {
           moveData = parseMoveLine(engineLine)
           moveData.coordinateMove = getCordinateMove(moveData.algebraMove, settings.moves)
           moveData.willAcceptDraw = getDrawEval(moveData.eval, settings.pVals.cfd, settings.moves)
-
+          if (settings.stopId && moveData.id === settings.stopId) {
+            process.stdout.write(chalk.red("reached stop id, stopping engine\n"))
+            child.stdin.write('quit\n')
+            resolve(moveData)
+          }
         // the engine has selected a move, stop engine, and reolve promise  
         // with current move data
         } else if (engineLine.includes('move')) {
@@ -115,14 +120,14 @@ function parseMoveLine(engineLine) {
   const depth = parseInt(engineLine) 
   const eval = parseInt(engineLine.substring(5))
   const time = parseInt(engineLine.substring(11))
-  const lineId = parseInt(engineLine.substring(18))
+  const id = parseInt(engineLine.substring(18))
   const line = engineLine.substring(29)
   let algebraMove = line.split(' ')[0].replace('\r\n', '')
   // cm egine uses 0 instead of O which breaks chess.js, this is the fix
   algebraMove = algebraMove.replace(/0/g, 'O')
   algebraMove = algebraMove.replace(/\s/, '')
 
-  return { depth, eval, time, lineId, algebraMove }
+  return { depth, eval, time, id, algebraMove }
 }
 
 function getCordinateMove(algebraMove, moves) {
@@ -141,7 +146,6 @@ function getCordinateMove(algebraMove, moves) {
 // startEngine sets up the engine and kicks off the move
 async function startEngine(child, settings) {
   const { moves, pVals, secondsPerMove, clockTime,  } = settings
-  pVals.rnd = 0
   // pVals.md = 6
   
   // establish a working model of the game and find white or blacks turn
