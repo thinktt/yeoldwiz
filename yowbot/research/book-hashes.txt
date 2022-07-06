@@ -1,0 +1,5 @@
+dist/books folder should hash to 
+809b35816d46591b4f06c7127d74f4bca508b3bfcf778b4b0aab133e68d919ce
+
+cd /dist/books
+sha256sum * | sha256sum

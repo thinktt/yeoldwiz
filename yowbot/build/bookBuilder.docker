@@ -5,7 +5,6 @@ RUN apt install time
 RUN wine cmd /c echo Wine is setup || true
 
 WORKDIR /opt
-RUN mkdir translate
 COPY assets/cm/books/ books/
 COPY assets/node books/
 COPY assets/tools/obk2bin.exe books/
@@ -13,5 +12,9 @@ COPY build/books2bin.sh books/
 COPY build/normalizeBooks.js books/
 
 WORKDIR /opt/books
+RUN for f in *.OBK; do mv "$f" "${f%.OBK}.obk"; done
+COPY assets/cm/fixed/ .
+RUN for f in *.OBK; do mv "$f" "${f%.OBK}.obk"; done
+
 
 CMD ["./books2bin.sh"]
