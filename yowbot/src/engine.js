@@ -60,6 +60,7 @@ async function getMove(settings) {
           moveData.willAcceptDraw = getDrawEval(moveData.eval, settings.pVals.cfd, settings.moves)
           if (settings.stopId && moveData.id === settings.stopId) {
             process.stdout.write(chalk.red("reached stop id, stopping engine\n"))
+            moveData.engineMove = null
             child.stdin.write('quit\n')
             resolve(moveData)
           }
