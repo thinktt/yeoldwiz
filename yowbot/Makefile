@@ -1,7 +1,7 @@
 JS_FILES := $(wildcard *.txt)
 BINS := $(JS_FILES:%.txt=%)
 
-.PHONY: run dbuild drun clean books2bin rmbooks  reset eep testengine
+.PHONY: run dbuild drun clean books2bin rmbooks  reset eep testengine cpbadbooks
 
 drun: dbuild
 	docker run --name yeoldwiz ace:5000/yeoldwiz 
@@ -30,7 +30,7 @@ books:
 	rm -r cmbooks || true
 	mkdir cmbooks
 	cp assets/cm/books/* cmbooks/
-	cp assets/cm/fixed/* cmbooks/
+	# cp assets/cm/fixed/* cmbooks/
 	docker rm bookbuilder || true
 	docker build -t bookbuilder -f build/bookBuilder.docker .
 	docker run --name bookbuilder bookbuilder
@@ -64,3 +64,9 @@ eep:
 testengine: 
 	cd dist; \
 	node testengine.js
+
+cpbadbooks:
+	rm -rf bad || true
+	mkdir bad
+	cd assets/cm/books; cp "Bipto.OBK" "CaptureBook.OBK" "DangerDon.OBK" "Depth2.OBK" "Depth4.OBK" "Depth6.OBK" "Drawish.OBK" "EarlyQueen.obk" "FastBook.obk" "FastLose.obk" "Gambit.obk" "KnightMoves.obk" "LowCaptureBook.obk"  "Merlin.obk" "NoBook.obk" "OldBook.obk" "PawnMoves.obk" "SlowBook.OBK" "Strong.OBK" "Trappee.OBK" "Trapper.obk" "Unorthodox.obk" "Weak.obk" ../../../bad/
+	cp build/normalizeBooks.js bad/

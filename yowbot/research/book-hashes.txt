@@ -1,5 +1,114 @@
-dist/books folder should hash to 
-809b35816d46591b4f06c7127d74f4bca508b3bfcf778b4b0aab133e68d919ce
 
-cd /dist/books
-sha256sum * | sha256sum
+
+
+script fixed
+d2b064fcea6dc2f6f7fc239adee7e726  Bipto.OBK
+fe92b26c03f7fa02adb78ad83197fba3  CaptureBook.OBK
+a8b99f3c6302b52a433c1e563ab31bde  DangerDon.OBK
+7c3db3594ddd4ec9e7c9ee8d3744d811  Depth2.OBK
+304206fe77f31a8b366b91e7979656f2  Depth4.OBK
+715af4579de1550875d786ab080564bb  Depth6.OBK
+c5fba1355473451e413655e68da284a9  Drawish.OBK
+568192c24b4013609d9e96a6b9bf6a08  EarlyQueen.obk
+8a40c27e70b3a1af0b176328f3a86de0  FastBook.obk
+f442f412088b03a6e0c98daf15cc5e33  FastLose.obk
+8402b9e1c618b2e84e7fb5bece3c5c0c  Gambit.obk
+1095cb933789fbf20ecd7ec0d68c7bbb  KnightMoves.obk
+34ea7352ec9639d0b2c03a596f776d69  LowCaptureBook.obk
+02873283d7dfc1452bfcf926923e7971  Merlin.obk
+414651546dbf6a9dfcb7c8a4108307e6  NoBook.obk
+959757d2a9c44b3696d57ddd4c41a58a  OldBook.obk
+8c6c6592ee4bcbedd534ffd379a780b3  PawnMoves.obk
+9528227caeff246a34124996df5db125  SlowBook.OBK
+c3bf362d8485e68b47018711607f732b  Strong.OBK
+30e94569019bf00e87f11ba912fd5fbd  Trappee.OBK
+68a184d48450bdf9f5048bb9d515099a  Trapper.obk
+3e870ca3ecc676ca10c714d41ab93d9c  Unorthodox.obk
+fb179cb286877bed271c0af54910f68f  Weak.obk
+
+
+
+CM fixed
+722487b04e16cfea2860107c3d6ceb11  Bipto.OBK
+f7d650603ce67faec302d618e2dcc774  CaptureBook.OBK
+04ead493a00c64de769b7610c0e9314d  DangerDon.OBK
+2a830dd5ebd7a5f023c714b773fd3f5f  Depth2.OBK
+b8faa024d246f6a1394cf7e0421f3f2c  Depth4.OBK
+cef721614e8a68d3afb930d032ce045f  Depth6.OBK
+73c161b9a45188e80de50fe66b03aa84  Drawish.OBK
+37220406794b3bed63aedf4854ffc667  EarlyQueen.obk
+2c5fd623ec95bad0a07ce93337f1e370  FastBook.obk
+c5052529bab82ce182d7d81ebdc61b61  FastLose.obk
+4d5058d264ecd666c74d8642f7a8921e  Gambit.obk
+b901406659c8cdff18c454f879837742  KnightMoves.obk
+34a98f82d48cb523320e426edfce8322  LowCaptureBook.obk
+3e66568eef188cc2982e5d565c9b3e91  Merlin.obk
+f18d3c0f9850312db4fcf1f272c40e74  NoBook.obk
+a1304e465e2ac9e7b7a7d63998a820ed  OldBook.obk
+55e5597aea750cb22dd4b9075954a50b  PawnMoves.obk
+717667d3c88efe33077e3936d6389a24  SlowBook.OBK
+f92ecd5928920b79f52bab2e4a28907a  Strong.OBK
+49de903f5c92c34d8cdadfc61a1f6cba  Trappee.OBK
+a708e6a12bd0176219468199a9677ce6  Trapper.obk
+e790f3e4234c046e03ed569ac55a4b85  Unorthodox.obk
+9ffad21ab7bc7688d9caacbe45aa1890  Weak.obk
+
+
+
+
+
+
+Original Bad Books: 
+<Buffer 55 47 57 53 10 0f 00 00 0c 1c 33 eb 0b 1b 7e ed 41 12 76 ee> Bipto.OBK
+<Buffer 55 47 57 53 2c e8 00 00 06 15 3e 6d 0a da 36 ae 01 d2 3d 36> CaptureBook.OBK
+<Buffer 55 47 57 53 63 0d 00 00 0c dc 34 e4 06 d5 39 ea 05 5a 3e ed> DangerDon.OBK
+<Buffer 55 47 57 53 4a 00 00 00 06 55 be ed b2 62 b6 2e b3 a3 b4 2c> Depth2.OBK
+<Buffer 55 47 57 53 0d 03 00 00 06 55 3e ed 0a da b6 ee b4 ec b1 a9> Depth4.OBK
+<Buffer 55 47 57 53 8b 0d 00 00 06 55 3e ed 0a da 36 ee 01 d2 bd f6> Depth6.OBK
+<Buffer 55 47 57 53 2c e8 00 00 06 d5 3e ed 0a 9a 36 ee 01 d2 3d f6> Drawish.OBK
+<Buffer 55 47 57 53 2c e8 00 00 06 95 3e 2d 0a 5a 36 2e 01 d2 3d 36> EarlyQueen.obk
+<Buffer 55 47 57 53 65 3b 00 00 06 55 3e ed 0a da 36 ae 01 d2 3d f6> FastBook.obk
+<Buffer 55 47 57 53 64 02 00 00 06 55 33 e3 0b 1b 79 ea 4a 1a 7a de> FastLose.obk
+<Buffer 55 47 57 53 2c e8 00 00 06 95 3e 2d 0a 9a 36 6e 01 d2 3d 36> Gambit.obk
+<Buffer 55 47 57 53 2c e8 00 00 06 d5 3e ed 0a da 36 ee 01 d2 3d b6> KnightMoves.obk
+<Buffer 55 47 57 53 2c e8 00 00 06 15 3e 2d 0a 1a 36 2e 01 12 3d 36> LowCaptureBook.obk
+<Buffer 55 47 57 53 57 a6 00 00 0c dc 34 e4 06 d5 39 ea 05 e1 30 e8> MentorFrench.obk
+<Buffer 55 47 57 53 57 a6 00 00 0c dc 34 e4 06 d5 39 ea 05 e1 30 e8> MentorGerman.OBK
+<Buffer 55 47 57 53 7f 47 00 00 0c dc 34 24 06 d5 79 ea 05 da 3d e2> Merlin.obk
+<Buffer 55 47 57 53 01 00 00 00 cc 1c> NoBook.obk
+<Buffer 55 47 57 53 70 4b 00 00 0b db 3e ed 01 0b 73 e3 4c d4 7a e5> OldBook.obk
+<Buffer 55 47 57 53 2c e8 00 00 06 95 3e ed 0a 9a 36 ae 01 d2 3d f6> PawnMoves.obk
+<Buffer 55 47 57 53 b7 1e 00 00 0b db 3e ed 06 55 36 ae 0a da 7d f6> SlowBook.OBK
+<Buffer 55 47 57 53 2c e8 00 00 06 d5 3e ad 0a da 36 ee 01 d2 3d f6> Strong.OBK
+<Buffer 55 47 57 53 52 0c 00 00 0c dc 34 e4 06 d5 35 2d 55 e4 2d e4> Trappee.OBK
+<Buffer 55 47 57 53 52 0c 00 00 0c dc 32 62 09 19 62 d9 48 10 73 e3> Trapper.obk
+<Buffer 55 47 57 53 d7 a6 00 00 0c 1c 37 2f 0b 1b 30 e8 0d 1d 71 e1> Unorthodox.obk
+<Buffer 55 47 57 53 2c e8 00 00 06 95 3e ad 0a 9a 36 ee 01 52 3d f6> Weak.obk
+
+
+Fixed Bad Books: 
+<Buffer 42 4f 4f 21 10 0f 00 00 00 00 00 00 0c 1c 33 eb 0b 1b 7e ed> Bipto.OBK
+<Buffer 42 4f 4f 21 2c e8 00 00 00 00 00 00 06 15 3e 6d 0a da 36 ae> CaptureBook.OBK
+<Buffer 42 4f 4f 21 63 0d 00 00 00 00 00 00 0c dc 34 e4 06 d5 39 ea> DangerDon.OBK
+<Buffer 42 4f 4f 21 4a 00 00 00 00 00 00 00 06 55 be ed b2 62 b6 2e> Depth2.OBK
+<Buffer 42 4f 4f 21 0d 03 00 00 00 00 00 00 06 55 3e ed 0a da b6 ee> Depth4.OBK
+<Buffer 42 4f 4f 21 8b 0d 00 00 00 00 00 00 06 55 3e ed 0a da 36 ee> Depth6.OBK
+<Buffer 42 4f 4f 21 2c e8 00 00 00 00 00 00 06 d5 3e ed 0a 9a 36 ee> Drawish.OBK
+<Buffer 42 4f 4f 21 2c e8 00 00 00 00 00 00 06 95 3e 2d 0a 5a 36 2e> EarlyQueen.obk
+<Buffer 42 4f 4f 21 65 3b 00 00 00 00 00 00 06 55 3e ed 0a da 36 ae> FastBook.obk
+<Buffer 42 4f 4f 21 64 02 00 00 00 00 00 00 06 55 33 e3 0b 1b 79 ea> FastLose.obk
+<Buffer 42 4f 4f 21 2c e8 00 00 00 00 00 00 06 95 3e 2d 0a 9a 36 6e> Gambit.obk
+<Buffer 42 4f 4f 21 2c e8 00 00 00 00 00 00 06 d5 3e ed 0a da 36 ee> KnightMoves.obk
+<Buffer 42 4f 4f 21 2c e8 00 00 00 00 00 00 06 15 3e 2d 0a 1a 36 2e> LowCaptureBook.obk
+<Buffer 42 4f 4f 21 57 a6 00 00 00 00 00 00 0c dc 34 e4 06 d5 39 ea> MentorFrench.obk
+<Buffer 42 4f 4f 21 57 a6 00 00 00 00 00 00 0c dc 34 e4 06 d5 39 ea> MentorGerman.OBK
+<Buffer 42 4f 4f 21 7f 47 00 00 00 00 00 00 0c dc 34 24 06 d5 79 ea> Merlin.obk
+<Buffer 42 4f 4f 21 01 00 00 00 00 00 00 00 cc 1c> NoBook.obk
+<Buffer 42 4f 4f 21 70 4b 00 00 00 00 00 00 0b db 3e ed 01 0b 73 e3> OldBook.obk
+<Buffer 42 4f 4f 21 2c e8 00 00 00 00 00 00 06 95 3e ed 0a 9a 36 ae> PawnMoves.obk
+<Buffer 42 4f 4f 21 b7 1e 00 00 00 00 00 00 0b db 3e ed 06 55 36 ae> SlowBook.OBK
+<Buffer 42 4f 4f 21 2c e8 00 00 00 00 00 00 06 d5 3e ad 0a da 36 ee> Strong.OBK
+<Buffer 42 4f 4f 21 52 0c 00 00 00 00 00 00 0c dc 34 e4 06 d5 35 2d> Trappee.OBK
+<Buffer 42 4f 4f 21 52 0c 00 00 00 00 00 00 0c dc 32 62 09 19 62 d9> Trapper.obk
+<Buffer 42 4f 4f 21 d7 a6 00 00 00 00 00 00 0c 1c 37 2f 0b 1b 30 e8> Unorthodox.obk
+<Buffer 42 4f 4f 21 2c e8 00 00 00 00 00 00 06 95 3e ad 0a 9a 36 ee> Weak.obk

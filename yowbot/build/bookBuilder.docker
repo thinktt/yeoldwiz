@@ -12,9 +12,5 @@ COPY build/books2bin.sh books/
 COPY build/normalizeBooks.js books/
 
 WORKDIR /opt/books
-RUN for f in *.OBK; do mv "$f" "${f%.OBK}.obk"; done
-COPY assets/cm/fixed/ .
-RUN for f in *.OBK; do mv "$f" "${f%.OBK}.obk"; done
-
 
 CMD ["./books2bin.sh"]
