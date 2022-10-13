@@ -4,7 +4,7 @@
 
 const fs = require('fs')
 
-const books = ['Bipto.OBK','CaptureBook.OBK','DangerDon.OBK','Depth2.OBK','Depth4.OBK','Depth6.OBK','Drawish.OBK','EarlyQueen.obk','FastBook.obk','FastLose.obk','Gambit.obk','KnightMoves.obk','LowCaptureBook.obk', 'Merlin.obk','NoBook.obk','OldBook.obk','PawnMoves.obk','SlowBook.OBK','Strong.OBK','Trappee.OBK','Trapper.obk','Unorthodox.obk','Weak.obk']
+const books = ['Bipto.obk','CaptureBook.obk','DangerDon.obk','Depth2.obk','Depth4.obk','Depth6.obk','Drawish.obk','EarlyQueen.obk','FastBook.obk','FastLose.obk','Gambit.obk','KnightMoves.obk','LowCaptureBook.obk', 'Merlin.obk','NoBook.obk','OldBook.obk','PawnMoves.obk','SlowBook.obk','Strong.obk','Trappee.obk','Trapper.obk','Unorthodox.obk','Weak.obk']
 
 
 // obk folder fixed hash 1acc78250646228ef3243066ba9d1882

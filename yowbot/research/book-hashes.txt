@@ -2,29 +2,29 @@
 
 
 script fixed
-d2b064fcea6dc2f6f7fc239adee7e726  Bipto.OBK
-fe92b26c03f7fa02adb78ad83197fba3  CaptureBook.OBK
-a8b99f3c6302b52a433c1e563ab31bde  DangerDon.OBK
-7c3db3594ddd4ec9e7c9ee8d3744d811  Depth2.OBK
-304206fe77f31a8b366b91e7979656f2  Depth4.OBK
-715af4579de1550875d786ab080564bb  Depth6.OBK
-c5fba1355473451e413655e68da284a9  Drawish.OBK
-568192c24b4013609d9e96a6b9bf6a08  EarlyQueen.obk
-8a40c27e70b3a1af0b176328f3a86de0  FastBook.obk
-f442f412088b03a6e0c98daf15cc5e33  FastLose.obk
-8402b9e1c618b2e84e7fb5bece3c5c0c  Gambit.obk
-1095cb933789fbf20ecd7ec0d68c7bbb  KnightMoves.obk
-34ea7352ec9639d0b2c03a596f776d69  LowCaptureBook.obk
-02873283d7dfc1452bfcf926923e7971  Merlin.obk
-414651546dbf6a9dfcb7c8a4108307e6  NoBook.obk
-959757d2a9c44b3696d57ddd4c41a58a  OldBook.obk
-8c6c6592ee4bcbedd534ffd379a780b3  PawnMoves.obk
-9528227caeff246a34124996df5db125  SlowBook.OBK
-c3bf362d8485e68b47018711607f732b  Strong.OBK
-30e94569019bf00e87f11ba912fd5fbd  Trappee.OBK
-68a184d48450bdf9f5048bb9d515099a  Trapper.obk
-3e870ca3ecc676ca10c714d41ab93d9c  Unorthodox.obk
-fb179cb286877bed271c0af54910f68f  Weak.obk
+722487b04e16cfea2860107c3d6ceb11  Bipto.obk
+f7d650603ce67faec302d618e2dcc774  CaptureBook.obk
+04ead493a00c64de769b7610c0e9314d  DangerDon.obk
+2a830dd5ebd7a5f023c714b773fd3f5f  Depth2.obk
+b8faa024d246f6a1394cf7e0421f3f2c  Depth4.obk
+cef721614e8a68d3afb930d032ce045f  Depth6.obk
+73c161b9a45188e80de50fe66b03aa84  Drawish.obk
+37220406794b3bed63aedf4854ffc667  EarlyQueen.obk
+2c5fd623ec95bad0a07ce93337f1e370  FastBook.obk
+c5052529bab82ce182d7d81ebdc61b61  FastLose.obk
+4d5058d264ecd666c74d8642f7a8921e  Gambit.obk
+b901406659c8cdff18c454f879837742  KnightMoves.obk
+34a98f82d48cb523320e426edfce8322  LowCaptureBook.obk
+3e66568eef188cc2982e5d565c9b3e91  Merlin.obk
+f18d3c0f9850312db4fcf1f272c40e74  NoBook.obk
+a1304e465e2ac9e7b7a7d63998a820ed  OldBook.obk
+55e5597aea750cb22dd4b9075954a50b  PawnMoves.obk
+717667d3c88efe33077e3936d6389a24  SlowBook.obk
+f92ecd5928920b79f52bab2e4a28907a  Strong.obk
+49de903f5c92c34d8cdadfc61a1f6cba  Trappee.obk
+a708e6a12bd0176219468199a9677ce6  Trapper.obk
+e790f3e4234c046e03ed569ac55a4b85  Unorthodox.obk
+9ffad21ab7bc7688d9caacbe45aa1890  Weak.obk
 
 
 
@@ -42,6 +42,8 @@ c5052529bab82ce182d7d81ebdc61b61  FastLose.obk
 4d5058d264ecd666c74d8642f7a8921e  Gambit.obk
 b901406659c8cdff18c454f879837742  KnightMoves.obk
 34a98f82d48cb523320e426edfce8322  LowCaptureBook.obk
+559013e7142de509561c1c2281591f63  MentorFrench.obk
+47687443e29f43afcbf54116bc175fd9  MentorGerman.OBK
 3e66568eef188cc2982e5d565c9b3e91  Merlin.obk
 f18d3c0f9850312db4fcf1f272c40e74  NoBook.obk
 a1304e465e2ac9e7b7a7d63998a820ed  OldBook.obk
