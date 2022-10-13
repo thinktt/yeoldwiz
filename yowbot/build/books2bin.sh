@@ -19,13 +19,10 @@ book2bin(){
 mkdir fixed
 ./node normalizeBooks.js
 mv fixed/* .
-
-echo "obk folder hash check, valid and actual:"  
-echo "1acc78250646228ef3243066ba9d1882"
-md5=$(md5sum * | md5sum | head -c 32)
+rm -rf fixed
 
 echo "Starting tranlsation of all obk books in parallel"
-obkCount=$(ls *.obk *.OBK | wc -l)
+obkCount=$(ls *.obk | wc -l)
 echo "$obkCount obk books to translate"
 
 

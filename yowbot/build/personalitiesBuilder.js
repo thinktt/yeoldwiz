@@ -35,6 +35,9 @@ async function run() {
   cmps['Wizard'].summary = wizSummary
   cmps['Wizard'].name = 'Wizard'
   delete cmps['Chessmaster']
+
+  // fix the Shakespeare book name from 'Pawnmoves.bin' to 'PawnMoves.bin'
+  cmps['Shakespeare'].book = 'PawnMoves.bin'
   fs.writeFileSync(outputPath, JSON.stringify(cmps, null, 2))
 }
 

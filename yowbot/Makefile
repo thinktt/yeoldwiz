@@ -27,10 +27,6 @@ dist: books
 	ln .env dist/.env
 
 books:
-	rm -r cmbooks || true
-	mkdir cmbooks
-	cp assets/cm/books/* cmbooks/
-	# cp assets/cm/fixed/* cmbooks/
 	docker rm bookbuilder || true
 	docker build -t bookbuilder -f build/bookBuilder.docker .
 	docker run --name bookbuilder bookbuilder
@@ -48,7 +44,9 @@ reset:
 	rm dist.tar || true
 
 clean:
+	rm books
 	rm -rf dist
+	rm dist.tar
 
 rmbooks:
 	rm -rf books

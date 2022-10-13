@@ -11,5 +11,3 @@ sa.json
 dist
 *.tar
 /books
-/newbooks
-/oldbooks
