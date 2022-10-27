@@ -12,47 +12,57 @@ const cmp = personalites.getSettings('Josh7')
 const uciGames = []
 
 // convert the the pgn games to uci games
-for (game of games) {
-  chess.load_pgn(game.pgn)
-  console.log(game.title)
-  if (game.url) console.log(game.url)
-  console.log(`moves: ${chess.moveNumber()}`)
-  console.log(chess.ascii())
-  // game.uciMoves = chess.getUciMovesFromPgn(game.pgn)
-}
+// for (game of games) {
+//   chess.load_pgn(game.pgn)
+//   console.log(game.title)
+//   if (game.url) console.log(game.url)
+//   console.log(`moves: ${chess.moveNumber()}`)
+//   console.log(chess.ascii())
+//   // game.uciMoves = chess.getUciMovesFromPgn(game.pgn)
+// }
 
-// console.log(games[1])
 
-// getRandoPosition(games)
+getRandoPosition(games)
 
-// console.log(uciGames[10])
 
 // takes a list of uci style games (list of moves) and createa a random uci 
 // positon from somwhere in all the games
 function getRandoPosition(games) {
+  
+  // pick a random game
   const gameNumber = Math.floor(Math.random() * games.length)
   const game = games[gameNumber]
-  const moveNumber = Math.floor(Math.random() * game.uciMoves.length)
   
-  const chess = chessTools.create()
-  for (let i = 0; i < moveNumber; i++)  {
-    const from = game.uciMoves[i].slice(0,2)
-    const to = game.uciMoves[i].slice(2)
-    chess.move({ from, to })
-  }
+  const originalGame = chessTools.create()
+  originalGame.load_pgn(game.pgn)
   
-  console.log(`game: ${gameNumber} move: ${moveNumber} gameMove: ` + 
-    `${chess.getLastMoveNumber()} turn: ${chess.turn()}`
-  )
-  console.log(game.title)
-  console.log(chess.history())
-  console.log(chess.uciMoves())
-  console.log(chess.ascii())
-    // chess.move({from game.uciMoves[i].slice(2)})
+  // pick a random move
+  const uciMoves = originalGame.uciMoves()
+  const moveNumber = Math.floor(Math.random() * uciMoves.length)
 
-  // const positionMoves = game.slice(moveNumber)
-  // console.log(chess.chess.moves(positionMoves))
-  // console.log(chess.chess.ascii())
+  // console.log(uciMoves)
+
+  
+  const position = chessTools.create()
+  for (let i = 0; i < moveNumber; i++)  {
+    const from = uciMoves[i].slice(0,2)
+    const to = uciMoves[i].slice(2)
+    position.move({ from, to })
+  }
+
+  console.log(`from: ${game.title}`) 
+  console.log(game.url)
+  console.log(`move: ${position.moveNumber()} turn: ${position.turn()}`)
+  console.log(`gameNumber: ${gameNumber}`) 
+  console.log(`uciMoveNumber: ${moveNumber} `)
+  console.log(position.pgn({ max_width: 80 }))
+  console.log(position.ascii())
+  
+  // console.log(game.title)
+  // console.log(position.history())
+  // console.log(position.uciMoves())
+  // console.log(position.ascii())
+
 }
 
 

@@ -37,6 +37,7 @@ function create(startFen) {
     history: chess.history,
     ascii: chess.ascii,
     load_pgn: chess.load_pgn,
+    pgn: chess.pgn,
   }
 
   return chessTools
