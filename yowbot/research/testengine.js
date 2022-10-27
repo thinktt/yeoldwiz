@@ -1,28 +1,73 @@
 require('dotenv').config()
-const ChessUtils = require("./chessTools.js")
+const chessTools = require("./chessTools.js")
 const chalk = require('chalk')
 const book = require('./book')
 const engine = require('./engine')
 const personalites = require('./personalities.js')
+const games = require('./testgames.json')
 
-// Fischer vs Tal 1960
-// const moves = [
-//   'e2e4', 'e7e6', 'd2d4', 'd7d5', 'b1c3', 'f8b4', 'e4e5', 
-//   'c7c5', 'a2a3', 'b4a5', 'b2b4', 'c5d4', 'd1g4', 'g8e7', 
-//   'b4a5', 'd4c3', 'g4g7', 'h8g8', 'g7h7', 'b8c6', 'g1f3', 
-//   'd8c7', 'f1b5', 'c8d7', 'e1g1', 'e8c8', 'c1g5', 'c6e5', 
-//   'f3e5', 'd7b5', 'e5f7', 'b5f1', 'f7d8', 'g8g5', 'd8e6', 
-//   'g5g2', 'g1h1', 'c7e5', 'a1f1', 'e5e6', 'h1g2', 'e6g4'
-// ] 
-// const cmp = personalites.getSettings('Marius')
-// const cmp = personalites.getSettings('Wizard')
-// const cmp = personalites.getSettings('Capablanca')
-// const cmp = personalites.getSettings('Fischer')
+const chess = chessTools.create() 
 
 const cmp = personalites.getSettings('Josh7')
-const moves = ['e2e4', 'e7e6', 'd2d4']
-cmp.out.rnd = 0
-const moveData = runThroughMoves(cmp)
+const uciGames = []
+
+// convert the the pgn games to uci games
+for (game of games) {
+  chess.load_pgn(game.pgn)
+  console.log(game.title)
+  if (game.url) console.log(game.url)
+  console.log(`moves: ${chess.moveNumber()}`)
+  console.log(chess.ascii())
+  // game.uciMoves = chess.getUciMovesFromPgn(game.pgn)
+}
+
+// console.log(games[1])
+
+// getRandoPosition(games)
+
+// console.log(uciGames[10])
+
+// takes a list of uci style games (list of moves) and createa a random uci 
+// positon from somwhere in all the games
+function getRandoPosition(games) {
+  const gameNumber = Math.floor(Math.random() * games.length)
+  const game = games[gameNumber]
+  const moveNumber = Math.floor(Math.random() * game.uciMoves.length)
+  
+  const chess = chessTools.create()
+  for (let i = 0; i < moveNumber; i++)  {
+    const from = game.uciMoves[i].slice(0,2)
+    const to = game.uciMoves[i].slice(2)
+    chess.move({ from, to })
+  }
+  
+  console.log(`game: ${gameNumber} move: ${moveNumber} gameMove: ` + 
+    `${chess.getLastMoveNumber()} turn: ${chess.turn()}`
+  )
+  console.log(game.title)
+  console.log(chess.history())
+  console.log(chess.uciMoves())
+  console.log(chess.ascii())
+    // chess.move({from game.uciMoves[i].slice(2)})
+
+  // const positionMoves = game.slice(moveNumber)
+  // console.log(chess.chess.moves(positionMoves))
+  // console.log(chess.chess.ascii())
+}
+
+
+async function repeatMove(cmp, movesSoFar, timesToRepeat) {
+  console.log(movesSoFar)
+  const settings = { moves: movesSoFar, pVals: cmp.out, clockTime: 40000, stopId: 0 }
+  const moves = []
+  for (let i = 0; i < timesToRepeat; i++) {
+    moves[i] = await engine.getMove(settings)
+  }
+
+  for (const move of moves) {
+    console.log(`${move.time} ${move.id} ${move.algebraMove} ${move.eval}`)
+  }
+}
 
 
 async function runThroughMoves(cmp) {

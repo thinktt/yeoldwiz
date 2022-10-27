@@ -1,6 +1,5 @@
 const Chess = require("chess.js").Chess
 
-
 // Wraps chess.js with useful extras.
 function create(startFen) {
   startFen = startFen || "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
@@ -9,8 +8,12 @@ function create(startFen) {
   const chessTools = {
     chess,
     reset,
+    moveNumber,
     applyMoves,
+    uciMoves,
     uci,
+    getUciMoves,
+    getUciMovesFromPgn,
     legalMoves,
     fen,
     move,
@@ -31,22 +34,53 @@ function create(startFen) {
     inStalemate,
     materialEval,
     material,
+    history: chess.history,
+    ascii: chess.ascii,
+    load_pgn: chess.load_pgn,
   }
 
   return chessTools
-
+  
 
   function reset() {
     chess.reset()
+  }
+
+  // returns the last whole move number in the game
+  function moveNumber() {
+    return chess.history({ verbose: true }).length / 2 
   }
 
   function applyMoves(moves) {
     moves.forEach(move => chess.move(move, { sloppy: true }))
   }
 
+  function uciMoves() {
+    const moves = chess.history({verbose: true})
+    const uciMoves = getUciMoves(moves)
+    return uciMoves
+  }
+
   // Convert a chess.js move to a uci move
   function uci(move) {
     return move.from + move.to + (move.flags === "p" ? move.piece : "")
+  }
+
+  // convert an array of chess.js moves to uci
+  function getUciMoves(moves) {
+    const uciMoves = []
+    for (move of moves) {
+      uciMoves.push(uci(move))
+    }
+    return uciMoves
+  }
+
+  // conversts a pgn to a uci move array
+  function getUciMovesFromPgn(pgn) {
+    const chess = new Chess()
+    chess.load_pgn(game.pgn) 
+    const uciMoves = getUciMoves(chess.history({ verbose: true }))
+    return uciMoves
   }
 
   // Legal moves from current position.

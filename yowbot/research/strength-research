@@ -22,6 +22,159 @@ If it's already past the time it has to cacluate (say 30 seconds) it move and
 If you don't do it's best guess for you it starts calculating from scratch
 
 
+..........................
+Josh7, random off, XPS, 5 times, 20,000 csecs (5sec per move) 
+start moves were supposed bo be 'e2e4', 'e7e6', 'd2d4' 
+actually start moves were probably defaulting due to bug entering moves
+params and all these until the next section were probably done of of a
+default starting position
+
+
+moveCSec, moveId, move
+1033 11099111 Nf3
+1035 11099111 Nf3
+1043 11099111 Nf3
+1052 11099111 Nf3
+1038 11099111 Nf3
+
+again using above stop id, nothing changed
+1056 11099111 Nf3
+1046 11099111 Nf3
+1041 11099111 Nf3
+1059 11099111 Nf3
+1040 11099111 Nf3
+
+again with 40,000 csecs and above stopId
+1035 11099111 Nf3
+1038 11099111 Nf3
+1038 11099111 Nf3
+1037 11099111 Nf3
+1037 11099111 Nf3
+
+eep with 40,000 csecs and stopId 
+It never reached the stopId even with 40,000 csecs
+735 1005160 Nf3
+712 1005160 Nf3
+710 1005160 Nf3
+713 1005160 Nf3
+716 1005160 Nf3
+
+......................
+simulating 10 secodns on old PC
+
+eep with 40,000 and no stopId
+728 1005160 Nf3
+728 1005160 Nf3
+710 1005160 Nf3
+712 1005160 Nf3
+713 1005160 Nf3
+
+xps with 4,000 (1s/m) and no stopId
+92 1005160 Nf3
+93 1005160 Nf3
+93 1005160 Nf3
+93 1005160 Nf3
+91 1005160 Nf3
+
+xps with 3720 (highest stopIdTime x 40 or .93s/m)
+93 1005160 Nf3
+92 1005160 Nf3
+93 1005160 Nf3
+93 1005160 Nf3
+93 1005160 Nf3
+
+..................
+simulating 15 secons on old pc 
+(for ponder moves)
+
+eep with 60,000 no stopId
+1855 2593223 Nc3
+1835 2593223 Nc3
+1827 2593223 Nc3
+1825 2593223 Nc3
+1834 2593223 Nc3
+
+xps with stopId
+240 2593223 Nc3
+240 2593223 Nc3
+242 2593223 Nc3
+240 2593223 Nc3
+242 2593223 Nc3
+
+xpx with 8,000 (2s/m)
+236 2593223 Nc3
+239 2593223 Nc3
+258 2593223 Nc3
+242 2593223 Nc3
+252 2593223 Nc3
+
+xps with 6,000 (1.5s/m)
+237 2593223 Nc3
+237 2593223 Nc3
+239 2593223 Nc3
+105 1005160 Nf3
+249 2593223 Nc3
+
+xps with 6,000 again
+236 2593223 Nc3
+238 2593223 Nc3
+238 2593223 Nc3
+240 2593223 Nc3
+241 2593223 Nc3
+
+xps with 5,580 (3720 from above * 1.5)
+93 1005160 Nf3
+95 1005160 Nf3
+96 1005160 Nf3
+99 1005160 Nf3
+108 1005160 Nf3
+trying to see if I can use the base old pc 10 second umber from above
+doesn't seem to work. This is due to the 2593223 move coming after some 
+negative evaluatinons so somehow it's not quite reaching the negative eval 
+threshold here that pushes it to use extra time
+
+
+...........
+eep with 80,000 csecs and stopId
+8005 11099111 Nf3
+7978 11099111 Nf3
+7971 11099111 Nf3
+7973 11099111 Nf3
+7969 11099111 Nf3
+
+
+
+*************************
+Bad Position Clock Test
+*************************
+Given a clear bad position how much time do CMPs take of their clock time?
+Given a clear good position how much time to CMPs take of their clock time?
+Is it predictable?
+Using Opera game as Morphy at move 6 White to move
+Using Josh 7 as CMP
+Colums are: moveCSec, moveId, move, eval
+
+move 6 white in good position 
+xps at 4000 (1s/m) 
+63 611943 c3 389
+63 611943 c3 389
+63 611943 c3 389
+63 611943 c3 389
+63 611943 c3 389
+
+Now move 7 black to move in bad position 
+xps at 4000 (1s/m) 
+55 537858 Bc5 -230
+56 537858 Bc5 -230
+55 537858 Bc5 -230
+55 537858 Bc5 -230
+54 537858 Bc5 -230
+
+
+
+
+
+
 
 Capablanca Move on XPS 3x same results
 Default Engine time control (no time control entered)
