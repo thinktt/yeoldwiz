@@ -25,6 +25,9 @@ dist: books
 	ln -rs node_modules dist/
 	ln src/*.js dist/
 	ln .env dist/.env
+	ln research/testengine.js dist/
+	ln research/testPositions.json dist/
+	ln research/testgames.json dist/
 
 books:
 	docker rm bookbuilder || true
