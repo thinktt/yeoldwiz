@@ -4,34 +4,42 @@ const chalk = require('chalk')
 const book = require('./book')
 const engine = require('./engine')
 const personalites = require('./personalities.js')
-const games = require('./testgames.json')
+// const games = require('./testgames.json')
 const positions = require('./testPositions.json')
 const fs = require('fs')
 const chess = chessTools.create() 
 
-const cmp = personalites.getSettings('Josh7')
-const uciGames = []
 
-// console.log(JSON.stringify(getRandoPosition([games[3]]), null, 2))
+runCmpPositions()
+async function runCmpPositions() {
+  await runPositions('Risa', positions, 40000)
+  await runPositions('Willow', positions, 40000)
+  await runPositions('Marius', positions, 40000)
+  await runPositions('Joey', positions, 40000)
+}
 
+async function runPositions(cmpName, positions, clockTime) {
+  const cmp = personalites.getSettings(cmpName)
+  cmp.out.rnd = "0"
 
-// console.log(positions)
-
-// runSinglePosisiton()
-// async function runSinglePosisiton() {
-//   console.log((positions[9].uciMoves).slice().push(positions[9].nextMove))
-//   const settings = { moves: positions[9].uciMoves, pVals: cmp.out, clockTime: 40000, stopId: 0 }
-//   move = await engine.getMove(settings)
-// }
-
-// buildTestPostionFile()
-runPositions(positions)
-async function runPositions(positions) {
   const moves = []
   for (let i = 0; i < positions.length; i++) {
     const position = positions[i]
-    const settings = { moves: position.uciMoves, pVals: cmp.out, clockTime: 20000, stopId: 0 }
-    let move = await engine.getMove(settings)
+    const settings = { moves: position.uciMoves, pVals: cmp.out, clockTime, stopId: 0 }
+    
+    // run the moves twice just to try and eliminate anamalies where the engine
+    // outputs a different move on occassion, keep going until we move ids match
+    let move = {id: "0"}
+    while(true) {
+      const verifyMove = await engine.getMove(settings)
+      if (move.id == verifyMove.id) {
+        console.log('Move verfied')
+        break
+      }
+      move = verifyMove
+    } 
+
+
     move.gameNumber = position.gameNumber
     move.gameMoveNumber = position.moveNumber
     moves.push(move)
@@ -50,10 +58,28 @@ async function runPositions(positions) {
 
   // console.log(moves)
   console.log('....................')
+  let timeSum = 0 
   for (const move of moves) {
+    timeSum = timeSum + move.time
     console.log(`${move.time} ${move.id} ${move.algebraMove} ${move.eval} ` + 
      `${move.gameNumber}:${move.gameMoveNumber}`)
   }
+  const averageTime = timeSum / moves.length
+  const clockTimeEstimate = (averageTime / .65) * 40
+
+  console.log('Average time: ', averageTime)
+  console.log('clock Estimate: ', clockTimeEstimate)
+
+  const calibration = { cmpName, averageTime, clockTimeEstimate, moves }
+  
+  fs.writeFileSync(`./calibrations/${cmp.name}.json`, JSON.stringify(calibration, null, 2))
+
+}
+
+async function runSinglePosisiton() {
+  console.log((positions[9].uciMoves).slice().push(positions[9].nextMove))
+  const settings = { moves: positions[9].uciMoves, pVals: cmp.out, clockTime: 40000, stopId: 0 }
+  move = await engine.getMove(settings)
 }
 
 function buildTestPostionFile() {
@@ -110,7 +136,7 @@ function getRandoPosition(games) {
 
 async function repeatMove(cmp, movesSoFar, timesToRepeat) {
   console.log(movesSoFar)
-  const settings = { moves: movesSoFar, pVals: cmp.out, clockTime: 40000, stopId: 0 }
+  const settings = { moves: movesSoFar, pVals: cmp.out, clockTime: 20000, stopId: 0 }
   const moves = []
   for (let i = 0; i < timesToRepeat; i++) {
     moves[i] = await engine.getMove(settings)

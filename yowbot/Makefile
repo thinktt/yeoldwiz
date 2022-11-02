@@ -1,7 +1,7 @@
 JS_FILES := $(wildcard *.txt)
 BINS := $(JS_FILES:%.txt=%)
 
-.PHONY: run dbuild drun clean books2bin rmbooks  reset eep testengine cpbadbooks
+.PHONY: run dbuild drun clean books2bin rmbooks  reset eep testengine cpbadbooks getcalibrations
 
 drun: dbuild
 	docker run --name yeoldwiz ace:5000/yeoldwiz 
@@ -28,6 +28,7 @@ dist: books
 	ln research/testengine.js dist/
 	ln research/testPositions.json dist/
 	ln research/testgames.json dist/
+	mkdir dist/calibrations
 
 books:
 	docker rm bookbuilder || true
@@ -61,6 +62,10 @@ dir:
 # local creater function only
 eep:
 	scp -r dist/*.js eep:~/yowbot/
+	scp -r dist/testPositions.json eep:~/yowbot/
+
+getcalibrations: 
+	scp -r eep:~/yowbot/calibrations/* dist/calibrations/
 
 testengine: 
 	cd dist; \
