@@ -8,14 +8,94 @@ const personalites = require('./personalities.js')
 const positions = require('./testPositions.json')
 const fs = require('fs')
 const chess = chessTools.create() 
+const target = require('./calibrations/Risa.json')
+
+// expandPositions(positions)
+async function expandPositions(positions) {
+  const newPositions = []
+
+  for (position of positions) {
+    position.moveNumber = position.moveNumber + .5
+    const nextMove = position.nextMove
+    delete position.nextMove
+    newPositions.push(position)   
+    
+    // create the next positions from position.nextMove
+    const chess = chessTools.create() 
+    const game = chess.load_pgn(position.pgn)
+    const to = nextMove.slice(2)
+    const from = nextMove.slice(0,2)
+    chess.move({from, to})
+    const nextPosition = {
+        title:  position.title, 
+        url: position.url,
+        moveNumber: position.moveNumber + .5,
+        gameNumber: position.gameNumber, 
+        turn: chess.turn(),
+        uciMoveNumber : chess.uciMoves().length,
+        pgn: chess.pgn({ max_width: 80 }),
+        uciMoves: chess.uciMoves(),
+        ascii: chess.ascii(),
+    }
+    newPositions.push(nextPosition)
+  }
+  
+  console.log(newPositions.length)
+  // fs.writeFileSync('./positions.json', JSON.stringify(newPositions, null, 2))
+  // return newPositions
+}
 
 
-runCmpPositions()
+
+// logMoves(target.moves)
+getStopTimes(target, positions)
+// runCmpPositions()
+
+
+async function getStopTimes(target, positions) {
+  const cmp = personalites.getSettings(target.cmpName)
+  cmp.out.rnd = "0"
+  
+  let i = 0
+  const moves = []
+
+  for (const position of positions) {
+    const settings = { 
+      moves: position.uciMoves, 
+      pVals: cmp.out, 
+      clockTime: 60000, 
+      stopId: target.moves[i].id 
+    }
+    let move = await engine.getMove(settings)
+    move.gameNumber = position.gameNumber
+    move.gameMoveNumber = position.moveNumber
+    moves.push(move)
+    i++
+  }
+
+  logMoves(moves)
+}
+
+function logMoves(moves) {
+  let timeSum = 0 
+  for (const move of moves) {
+    timeSum = timeSum + move.time
+    console.log(`${move.time} ${move.id} ${move.algebraMove} ${move.eval} ` + 
+     `${move.gameNumber}:${move.gameMoveNumber}`)
+  }
+  const averageTime = timeSum / moves.length
+  const clockTimeEstimate = Math.round(averageTime * 40)
+
+  console.log('Average time: ', averageTime)
+  console.log('clock Estimate: ', clockTimeEstimate)
+}
+
+
 async function runCmpPositions() {
-  await runPositions('Risa', positions, 40000)
-  await runPositions('Willow', positions, 40000)
-  await runPositions('Marius', positions, 40000)
-  await runPositions('Joey', positions, 40000)
+  await runPositions('Risa', positions, 4950)
+  // await runPositions('Willow', positions, 40000)
+  // await runPositions('Marius', positions, 40000)
+  // await runPositions('Joey', positions, 40000)
 }
 
 async function runPositions(cmpName, positions, clockTime) {
@@ -62,7 +142,7 @@ async function runPositions(cmpName, positions, clockTime) {
 
   const calibration = { cmpName, averageTime, clockTimeEstimate, moves }
   
-  fs.writeFileSync(`./calibrations/${cmp.name}.json`, JSON.stringify(calibration, null, 2))
+  // fs.writeFileSync(`./calibrations/${cmp.name}.json`, JSON.stringify(calibration, null, 2))
 
 }
 
