@@ -27,17 +27,7 @@ async function runPositions(cmpName, positions, clockTime) {
     const position = positions[i]
     const settings = { moves: position.uciMoves, pVals: cmp.out, clockTime, stopId: 0 }
     
-    // run the moves twice just to try and eliminate anamalies where the engine
-    // outputs a different move on occassion, keep going until we move ids match
-    let move = {id: "0"}
-    while(true) {
-      const verifyMove = await engine.getMove(settings)
-      if (move.id == verifyMove.id) {
-        console.log('Move verfied')
-        break
-      }
-      move = verifyMove
-    } 
+    let move = await getVerfiedMove(settings)
 
 
     move.gameNumber = position.gameNumber
@@ -49,7 +39,7 @@ async function runPositions(cmpName, positions, clockTime) {
     const moves2 = position.uciMoves.slice()
     moves2.push(position.nextMove)
     settings.moves = moves2
-    move = await engine.getMove(settings)
+    move = await getVerfiedMove(settings)
     move.gameNumber = position.gameNumber
     move.gameMoveNumber = position.moveNumber + .5
     moves.push(move)
@@ -74,6 +64,21 @@ async function runPositions(cmpName, positions, clockTime) {
   
   fs.writeFileSync(`./calibrations/${cmp.name}.json`, JSON.stringify(calibration, null, 2))
 
+}
+
+// run the moves twice just to try and eliminate anomalies where the engine
+// outputs a different move on occassion, keep going until we move ids match
+async function getVerfiedMove(settings) {
+    let move = {id: "0"}
+    while(true) {
+      const verifyMove = await engine.getMove(settings)
+      if (move.id == verifyMove.id) {
+        console.log('Move verfied')
+        break
+      }
+      move = verifyMove
+    } 
+  return move
 }
 
 async function runSinglePosisiton() {
