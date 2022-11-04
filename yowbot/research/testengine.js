@@ -8,51 +8,65 @@ const personalites = require('./personalities.js')
 const positions = require('./testPositions.json')
 const fs = require('fs')
 const chess = chessTools.create() 
+const risa = require('./calibrations/Risa2.json')
 const target = require('./calibrations/Risa.json')
 
-// expandPositions(positions)
-async function expandPositions(positions) {
-  const newPositions = []
 
-  for (position of positions) {
-    position.moveNumber = position.moveNumber + .5
-    const nextMove = position.nextMove
-    delete position.nextMove
-    newPositions.push(position)   
-    
-    // create the next positions from position.nextMove
-    const chess = chessTools.create() 
-    const game = chess.load_pgn(position.pgn)
-    const to = nextMove.slice(2)
-    const from = nextMove.slice(0,2)
-    chess.move({from, to})
-    const nextPosition = {
-        title:  position.title, 
-        url: position.url,
-        moveNumber: position.moveNumber + .5,
-        gameNumber: position.gameNumber, 
-        turn: chess.turn(),
-        uciMoveNumber : chess.uciMoves().length,
-        pgn: chess.pgn({ max_width: 80 }),
-        uciMoves: chess.uciMoves(),
-        ascii: chess.ascii(),
-    }
-    newPositions.push(nextPosition)
+logMoves(risa.moves, target.moves )
+// runCmpPositions()
+// calibrateMoves()
+// runCmpPositions() 
+
+
+// getMove()
+async function getMove() {
+  const cmp = personalites.getSettings('Risa')
+  cmp.out.rnd = "0"
+  cmp.out.md = "11"
+  const index = 2
+  let clockTime = 90000
+  const stepNumber = 50
+
+  const settings = { 
+    moves: positions[index].uciMoves, 
+    pVals: cmp.out, 
+    clockTime, 
   }
+
+  const move = await getVerfiedMove(settings)
+  console.log(move.time, move.id, target.moves[index].id, settings.clockTime)
+  return
   
-  console.log(newPositions.length)
-  // fs.writeFileSync('./positions.json', JSON.stringify(newPositions, null, 2))
-  // return newPositions
+  while(true) {
+    const move = await getVerfiedMove(settings)
+    console.log(move.time, move.id, target.moves[index].id, settings.clockTime)
+    if (move.id === target.moves[index].id) {
+      console.log('EQUAL')
+      break
+    } else if (move.id < target.moves[index].id) {
+      console.log('LOW')
+      settings.clockTime = settings.clockTime + stepNumber
+    } else {
+      console.log('HIGH')
+      break
+      // settings.clockTime = settings.clockTime - stepNumber
+    } 
+  }
+
 }
 
 
+function getAverageMoveTime(moves) {
+  let timeSum = 0
+  for (const move of moves) {
+    timeSum = timeSum + move.time
+  }
+  const averageTime = timeSum / moves.length
+  const clockTimeEstimate =  averageTime * 40
+  return { averageTime, clockTimeEstimate }
+}
 
-// logMoves(target.moves)
-getStopTimes(target, positions)
-// runCmpPositions()
-
-
-async function getStopTimes(target, positions) {
+async function getStopMoves(target, positions) {
   const cmp = personalites.getSettings(target.cmpName)
   cmp.out.rnd = "0"
   
@@ -76,12 +90,27 @@ async function getStopTimes(target, positions) {
   logMoves(moves)
 }
 
-function logMoves(moves) {
+function logMoves(moves, targetMoves = []) {
   let timeSum = 0 
-  for (const move of moves) {
+
+  for (const i of moves.keys()) {
+    const move = moves[i]
     timeSum = timeSum + move.time
-    console.log(`${move.time} ${move.id} ${move.algebraMove} ${move.eval} ` + 
-     `${move.gameNumber}:${move.gameMoveNumber}`)
+
+    let targetMoveId = ''
+    if (targetMoves[i]) {
+      targetMoveId = targetMoves[i].id
+    }
+
+    console.log(
+      String(i).padStart(2,'0'),
+      String(move.time).padStart(5), 
+      String(move.id).padStart(8),
+      String(targetMoveId).padStart(8),
+      '   ', 
+      move.algebraMove.padEnd(5),
+      String(move.eval).padStart(5),
+    )
   }
   const averageTime = timeSum / moves.length
   const clockTimeEstimate = Math.round(averageTime * 40)
@@ -90,12 +119,11 @@ function logMoves(moves) {
   console.log('clock Estimate: ', clockTimeEstimate)
 }
 
-
 async function runCmpPositions() {
-  await runPositions('Risa', positions, 4950)
-  // await runPositions('Willow', positions, 40000)
-  // await runPositions('Marius', positions, 40000)
-  // await runPositions('Joey', positions, 40000)
+  await runPositions('Risa', positions, 40000) // 8570
+  await runPositions('Willow', positions, 40000)
+  await runPositions('Marius', positions, 40000)
+  await runPositions('Joey', positions, 40000)
 }
 
 async function runPositions(cmpName, positions, clockTime) {
@@ -103,27 +131,13 @@ async function runPositions(cmpName, positions, clockTime) {
   cmp.out.rnd = "0"
 
   const moves = []
-  for (let i = 0; i < positions.length; i++) {
-    const position = positions[i]
+  for (const position of positions) {
     const settings = { moves: position.uciMoves, pVals: cmp.out, clockTime, stopId: 0 }
-    
-    let move = await getVerfiedMove(settings)
-
-
+    // let move = await getVerfiedMove(settings)
+    let move = await engine.getMove(settings)
     move.gameNumber = position.gameNumber
     move.gameMoveNumber = position.moveNumber
     moves.push(move)
-
-    // console.log(position.nextMove)
-
-    const moves2 = position.uciMoves.slice()
-    moves2.push(position.nextMove)
-    settings.moves = moves2
-    move = await getVerfiedMove(settings)
-    move.gameNumber = position.gameNumber
-    move.gameMoveNumber = position.moveNumber + .5
-    moves.push(move)
-    
   }
 
   // console.log(moves)
@@ -135,14 +149,14 @@ async function runPositions(cmpName, positions, clockTime) {
      `${move.gameNumber}:${move.gameMoveNumber}`)
   }
   const averageTime = timeSum / moves.length
-  const clockTimeEstimate = (averageTime / .65) * 40
+  const clockTimeEstimate = (averageTime * 40)
 
   console.log('Average time: ', averageTime)
   console.log('clock Estimate: ', clockTimeEstimate)
 
   const calibration = { cmpName, averageTime, clockTimeEstimate, moves }
-  
-  // fs.writeFileSync(`./calibrations/${cmp.name}.json`, JSON.stringify(calibration, null, 2))
+  // return calibration
+  fs.writeFileSync(`./calibrations/${cmp.name}2.json`, JSON.stringify(calibration, null, 2))
 
 }
 
@@ -325,3 +339,37 @@ async function multiRun() {
   console.log(engineMoves) 
 }
 
+// expandPositions(positions)
+async function expandPositions(positions) {
+  const newPositions = []
+
+  for (position of positions) {
+    position.moveNumber = position.moveNumber + .5
+    const nextMove = position.nextMove
+    delete position.nextMove
+    newPositions.push(position)   
+    
+    // create the next positions from position.nextMove
+    const chess = chessTools.create() 
+    const game = chess.load_pgn(position.pgn)
+    const to = nextMove.slice(2)
+    const from = nextMove.slice(0,2)
+    chess.move({from, to})
+    const nextPosition = {
+        title:  position.title, 
+        url: position.url,
+        moveNumber: position.moveNumber + .5,
+        gameNumber: position.gameNumber, 
+        turn: chess.turn(),
+        uciMoveNumber : chess.uciMoves().length,
+        pgn: chess.pgn({ max_width: 80 }),
+        uciMoves: chess.uciMoves(),
+        ascii: chess.ascii(),
+    }
+    newPositions.push(nextPosition)
+  }
+  
+  console.log(newPositions.length)
+  // fs.writeFileSync('./positions.json', JSON.stringify(newPositions, null, 2))
+  // return newPositions
+}
