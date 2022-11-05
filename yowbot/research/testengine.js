@@ -12,19 +12,39 @@ const risa = require('./calibrations/Risa2.json')
 const target = require('./calibrations/Risa.json')
 
 
-logMoves(risa.moves, target.moves )
-// runCmpPositions()
+// logMoves(risa.moves, target.moves )
+runCmpPositions()
 // calibrateMoves()
 // runCmpPositions() 
-
-
 // getMove()
+
+async function runCmpPositions() {
+  const results = []
+  for (let clockTime = 3000; clockTime < 8000; clockTime = clockTime + 50) {
+    const moves = await runPositions('Risa', positions, clockTime) // 8570
+    const result = logMoves(moves, risa.moves)
+    result.clockTime = clockTime
+    results.push(result)
+  }
+
+  for (const result of results) {
+    console.log(result.clockTime, result.discrepencyCount, 
+      result.accuracyPercent, result.lowPoints, result.hightPoints, 
+      result.averageTime)
+  }
+
+
+  // await runPositions('Willow', positions, 40000)
+  // await runPositions('Marius', positions, 40000)
+  // await runPositions('Joey', positions, 40000)
+}
+
 async function getMove() {
   const cmp = personalites.getSettings('Risa')
+  // cmp.out.md = "9"
   cmp.out.rnd = "0"
-  cmp.out.md = "11"
-  const index = 2
-  let clockTime = 90000
+  const index = 18
+  let clockTime = 5000
   const stepNumber = 50
 
   const settings = { 
@@ -93,16 +113,32 @@ async function getStopMoves(target, positions) {
 function logMoves(moves, targetMoves = []) {
   let timeSum = 0 
 
+  let discrepencyCount = 0
+  let hightPoints = 0
+  let lowPoints = 0
   for (const i of moves.keys()) {
     const move = moves[i]
     timeSum = timeSum + move.time
 
     let targetMoveId = ''
-    if (targetMoves[i]) {
-      targetMoveId = targetMoves[i].id
+    if (targetMoves[i]) targetMoveId = targetMoves[i].id
+
+    let color = 'blue'
+    let discrepency = ''
+    if (move.id !== targetMoveId) { 
+      color = 'red'
+      discrepencyCount++
+    }
+    if (move.id > targetMoveId) {
+      discrepency = 'HIGH'
+      hightPoints++
+    }
+    if (move.id < targetMoveId) {
+      discrepency = 'LOW'
+      lowPoints++
     }
 
-    console.log(
+    console.log(chalk[color](
       String(i).padStart(2,'0'),
       String(move.time).padStart(5), 
       String(move.id).padStart(8),
@@ -110,21 +146,30 @@ function logMoves(moves, targetMoves = []) {
       '   ', 
       move.algebraMove.padEnd(5),
       String(move.eval).padStart(5),
-    )
+      discrepency,
+    ))
   }
   const averageTime = timeSum / moves.length
   const clockTimeEstimate = Math.round(averageTime * 40)
+  const accuracyPercent = Math.round((moves.length - discrepencyCount) / moves.length * 100)
 
   console.log('Average time: ', averageTime)
   console.log('clock Estimate: ', clockTimeEstimate)
+  console.log('discrpency to moves:', discrepencyCount, moves.length)
+  console.log('Accuracy:', `${accuracyPercent}%`)
+  console.log('High:', hightPoints)
+  console.log('Low:', lowPoints)
+
+  return { 
+    averageTime,
+    clockTimeEstimate,
+    discrepencyCount,
+    hightPoints,
+    lowPoints, 
+    accuracyPercent, 
+  }
 }
 
-async function runCmpPositions() {
-  await runPositions('Risa', positions, 40000) // 8570
-  await runPositions('Willow', positions, 40000)
-  await runPositions('Marius', positions, 40000)
-  await runPositions('Joey', positions, 40000)
-}
 
 async function runPositions(cmpName, positions, clockTime) {
   const cmp = personalites.getSettings(cmpName)
@@ -139,24 +184,10 @@ async function runPositions(cmpName, positions, clockTime) {
     move.gameMoveNumber = position.moveNumber
     moves.push(move)
   }
+  return moves
 
-  // console.log(moves)
-  console.log('....................')
-  let timeSum = 0 
-  for (const move of moves) {
-    timeSum = timeSum + move.time
-    console.log(`${move.time} ${move.id} ${move.algebraMove} ${move.eval} ` + 
-     `${move.gameNumber}:${move.gameMoveNumber}`)
-  }
-  const averageTime = timeSum / moves.length
-  const clockTimeEstimate = (averageTime * 40)
-
-  console.log('Average time: ', averageTime)
-  console.log('clock Estimate: ', clockTimeEstimate)
-
-  const calibration = { cmpName, averageTime, clockTimeEstimate, moves }
-  // return calibration
-  fs.writeFileSync(`./calibrations/${cmp.name}2.json`, JSON.stringify(calibration, null, 2))
+  // const calibration = { cmpName, averageTime, clockTimeEstimate, moves }
+  // fs.writeFileSync(`./calibrations/${cmp.name}2.json`, JSON.stringify(calibration, null, 2))
 
 }
 
