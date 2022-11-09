@@ -23,11 +23,11 @@ const chess = chessTools.create()
 // chess.load_pgn(positions[18].pgn)
 // console.log(chess.uciMoves())
 
+getMove(0, 40000)
 // logMoves(risa9.moves, risa10.moves)
 // runCmpPositions('Risa')
 // calibrateMoves()
 // runCmpPositions() 
-// getMove()
 // getStopMoves(target, positions)
 // buildCalibrationFile('Risa', 'Risa10.json')
 // buildCalibrationFile('Risa', 'Risa4.json')
@@ -58,26 +58,25 @@ async function runCmpPositions(cmpName) {
 
 }
 
-async function getMove() {
+async function getMove(positionIndex, clockTime) {
   const cmp = personalites.getSettings('Risa')
   // cmp.out.md = "9"
   cmp.out.rnd = "0"
-  const index = 18
-  let clockTime = 2000
+  const index = positionIndex
   const stepNumber = 50
 
-  chess.load_pgn(positions[index].pgn)
-  // console.log(chess.uciMoves())
-
   const settings = { 
-    moves: chess.uciMoves(), 
+    moves: positions[index].uciMoves, 
     pVals: cmp.out, 
     clockTime, 
+    showPreviousMoves: true,
   }
 
-  const move = await getVerfiedMove(settings)
-  console.log(move.time, move.id, settings.clockTime)
-  console.log(positions[index].ascii)
+  const move = await engine.getMove(settings)
+  console.log(move)
+  // const move = await getVerfiedMove(settings)
+  // console.log(move.time, move.id, settings.clockTime)
+  // console.log(positions[index].ascii)
   return
   
   while(true) {

@@ -32,6 +32,7 @@ async function getMove(settings) {
   console.log(`engine cmd: ${cmd}`)
   const child = exec(cmd)
   let moveData
+  let previousMoves = []
  
   // on close event stop the process
   child.on('close', (code) => {
@@ -58,10 +59,12 @@ async function getMove(settings) {
           moveData = parseMoveLine(engineLine)
           moveData.coordinateMove = getCordinateMove(moveData.algebraMove, settings.moves)
           moveData.willAcceptDraw = getDrawEval(moveData.eval, settings.pVals.cfd, settings.moves)
+          previousMoves.push(moveData)
           if (settings.stopId && moveData.id === settings.stopId) {
             process.stdout.write(chalk.red("reached stop id, stopping engine\n"))
             moveData.engineMove = null
             child.stdin.write('quit\n')
+            if (settings.showPreviousMoves) moveData.previousMoves = previousMoves.slice(0,-1)
             resolve(moveData)
           }
         // the engine has selected a move, stop engine, and reolve promise  
@@ -76,6 +79,7 @@ async function getMove(settings) {
           console.log('timeForMove:', moveData.timeForMove)
           console.log('willAcceptDraw:', moveData.willAcceptDraw)
           console.log('coordinateMove:', moveData.coordinateMove)
+          if (settings.showPreviousMoves) moveData.previousMoves = previousMoves.slice(0,-1)
           resolve(moveData)
         
         } else {
