@@ -66,6 +66,8 @@ async function getMove(settings) {
           }
         // the engine has selected a move, stop engine, and reolve promise  
         // with current move data
+        // NOTE: if illegal move is sent to the egnine this crashes right now 
+        // as engineLine will say "Illegal move" but give no move
         } else if (engineLine.includes('move')) {
           moveData.timeForMove = Date.now() - startTime
           process.stdout.write(chalk.blue(engineLine))

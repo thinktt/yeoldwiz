@@ -64,7 +64,7 @@ function create(startFen) {
 
   // Convert a chess.js move to a uci move
   function uci(move) {
-    return move.from + move.to + (move.flags === "p" ? move.piece : "")
+    return move.from + move.to + (move.promotion || "")
   }
 
   // convert an array of chess.js moves to uci
