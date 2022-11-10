@@ -20,13 +20,33 @@ const chess = chessTools.create()
 // calibrateMoves()
 // runCmpPositions() 
 // getStopMoves(target, positions)
-buildCalibrationFile('Risa', 'Risa.json')
 
+runMultiCalibrations(5)
 
-async function  buildCalibrationFile(cmpName, fileName) {
+let badReads = 0
+async function runMultiCalibrations(numberOfRuns) {
+  for (let i = 0; i < numberOfRuns; i++) {
+    console.log(chalk.yellow(`...............Run ${i}..............`))
+    await runCalibrations(2000)
+  }
+  console.log('BAD READS: ', badReads)
+}
+
+async function runCalibrations(clockTime) {
+  // await buildCalibrationFile('Risa', clockTime)
+  // await buildCalibrationFile('Marius', clockTime)
+  // await buildCalibrationFile('Orin', clockTime)
+  await buildCalibrationFile('Joey', clockTime)
+  // await buildCalibrationFile('Willow', clockTime)
+}
+
+async function  buildCalibrationFile(cmpName, clockTime, fileName) {
+  clockTime = clockTime || 40000
+  fileName = fileName || `${cmpName}.json`
   const oldCalibration = await getCalibration(fileName)
+  if (!oldCalibration) badReads++
     
-  const moves = await runPositions(cmpName, positions, 2000)
+  const moves = await runPositions(cmpName, positions, clockTime)
   const { averageTime, clockTimeEstimate } = getAverageMoveTime(moves)
   
   let calibration
@@ -42,7 +62,7 @@ async function  buildCalibrationFile(cmpName, fileName) {
     calibration = {cmpName, runs: [ { averageTime } ], moves}   
   }
   
-  fs.writeFile(`./calibrations/${fileName}`, JSON.stringify(calibration, null, 2))
+  await fs.writeFile(`./calibrations/${fileName}`, JSON.stringify(calibration, null, 2))
 }
 
 function mergeMoves(oldMoves, newMoves) {
@@ -51,15 +71,18 @@ function mergeMoves(oldMoves, newMoves) {
     let move 
     if (newMove.id > oldMoves[i].id) {
       move = newMove
-      move.idCounts = oldMoves.idCounts
+      // carry over the moveIdCounts
+      move.idCounts = oldMoves[i].idCounts
     } else {
+      // keep the old move data since it's the top id still
       move = oldMoves[i]
     }
 
-    if ( move.idCounts[move.id] ) {
-      move.idCounts[move.id] ++
+    // record the new moveId in the idCounts
+    if ( move.idCounts[newMove.id] ) {
+      move.idCounts[newMove.id] ++
     } else {
-      move.idCounts[move.id] = 1
+      move.idCounts[newMove.id] = 1
     }
     moves.push(move) 
   })
@@ -76,7 +99,6 @@ async function getCalibration(fileName) {
     console.log('Error getting calibration: ', err.code)
     return null
   }
-  console.log(calibration)
   return calibration
 }
 
