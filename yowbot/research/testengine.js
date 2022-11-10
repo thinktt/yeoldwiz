@@ -4,11 +4,12 @@ const chalk = require('chalk')
 const book = require('./book')
 const engine = require('./engine')
 const personalites = require('./personalities.js')
-// const games = require('./testgames.json')
 const positions = require('./testPositions.json')
 const { moves } = require('chess-tools/opening-books/ctg/moves.js')
 const fs = require('fs').promises
+const crypto = require('crypto')
 const chess = chessTools.create() 
+// const games = require('./testgames.json')
 // const risa = require('./calibrations/Risa.json')
 
 // chess.load_pgn(positions[18].pgn)
@@ -21,7 +22,7 @@ const chess = chessTools.create()
 // runCmpPositions() 
 // getStopMoves(target, positions)
 
-runMultiCalibrations(5)
+runMultiCalibrations(2)
 
 let badReads = 0
 async function runMultiCalibrations(numberOfRuns) {
@@ -33,10 +34,10 @@ async function runMultiCalibrations(numberOfRuns) {
 }
 
 async function runCalibrations(clockTime) {
-  // await buildCalibrationFile('Risa', clockTime)
+  await buildCalibrationFile('Risa', clockTime)
   // await buildCalibrationFile('Marius', clockTime)
   // await buildCalibrationFile('Orin', clockTime)
-  await buildCalibrationFile('Joey', clockTime)
+  // await buildCalibrationFile('Joey', clockTime)
   // await buildCalibrationFile('Willow', clockTime)
 }
 
@@ -47,19 +48,20 @@ async function  buildCalibrationFile(cmpName, clockTime, fileName) {
   if (!oldCalibration) badReads++
     
   const moves = await runPositions(cmpName, positions, clockTime)
+  const movesHash = getMovesHash(moves) 
   const { averageTime, clockTimeEstimate } = getAverageMoveTime(moves)
   
   let calibration
   if (oldCalibration) {
     calibration = oldCalibration
-    calibration.runs.push({ averageTime })
+    calibration.runs.push({ averageTime, movesHash })
     calibration.moves = mergeMoves(oldCalibration.moves, moves) 
   } else {
     moves.forEach( (move) => {
       move.idCounts = {}
       move.idCounts[move.id] = 1
     })
-    calibration = {cmpName, runs: [ { averageTime } ], moves}   
+    calibration = {cmpName, runs: [ { averageTime, movesHash } ], moves}   
   }
   
   await fs.writeFile(`./calibrations/${fileName}`, JSON.stringify(calibration, null, 2))
@@ -88,6 +90,15 @@ function mergeMoves(oldMoves, newMoves) {
   })
 
   return moves
+}
+
+function getMovesHash(moves) {
+  let idMash = ''
+  for (const move of moves) {
+    idMash = idMash + move.id
+  }
+  const movesHash = crypto.createHash('md5').update(idMash).digest('hex')
+  return movesHash
 }
 
 async function getCalibration(fileName) {
@@ -263,7 +274,6 @@ async function runPositions(cmpName, positions, clockTime) {
     const settings = { 
       moves: position.uciMoves, pVals: cmp.out, clockTime, stopId: 0, showPreviousMoves: true 
     }
-    // let move = await getVerfiedMove(settings)
     let move = await engine.getMove(settings)
     move.gameNumber = position.gameNumber
     move.gameMoveNumber = position.moveNumber
