@@ -11,6 +11,9 @@ const crypto = require('crypto')
 const chess = chessTools.create() 
 const target = require('./calibrations/targets/Risa.json')
 const risa = require('./calibrations/Risa.json')
+const { start } = require('repl')
+const { exit } = require('process')
+const { getSystemErrorMap } = require('util')
 // const games = require('./testgames.json')
 // const risa = require('./calibrations/Risa.json')
 
@@ -18,14 +21,85 @@ const risa = require('./calibrations/Risa.json')
 // console.log(chess.uciMoves())
 
 // getMove(0, 40000)
-// logMoves(risa9.moves, risa10.moves)
+// logMoves(risa.moves, target.moves)
 // runCmpPositions('Risa')
 // calibrateMoves()
 // runCmpPositions() 
 // getStopMoves(positions)
 // runMultiCalibrations(1)
+// console.log(getMovesHash(risa.moves))
+// console.log(getMovesHash(target.moves))
+// getStopMoves(positions)
+// calibrateEngine('Risa')
+// initCalibrationFile('Risa')
+// buildCalibrationFile('Risa', 3820)
+// initMultipleCalibrations()
 
 
+
+longClockCrankDown()
+async function longClockCrankDown() {
+  const cmpNames = ['Joey', 'Marius', 'Orin', 'Risa', 'Willow']
+  let clockTime = 5920
+  for (const cmpName of cmpNames) {
+    const target = await loadCalibrationFile(`targets/${cmpName}.json`)
+    const calibration = await loadCalibrationFile(`${cmpName}.json`)
+    console.log(chalk.green(`............${cmpName}............`))
+    logMoves(calibration.moves, target.moves)
+    // await buildCalibrationFile(cmpName, 3720)
+    // clockTime = await crankClockDown(cmpName, clockTime)
+  }
+  console.log(clockTime)
+}
+
+// crankClockDown('Joey', 5920)
+async function crankClockDown(cmpName, startClockTime) {
+
+  // const cmpNames = ['Joey', 'Marius', 'Orin', 'Willow']
+
+  const calibration = await loadCalibrationFile(`${cmpName}.json`)
+  if (!calibration) {
+    console.log('Error loading calibration')
+    return
+  }
+  const idMash = calibration.movesHashMap[calibration.runs[0].movesHash]
+  const ids = idMash.split(',').slice(0,-1)
+
+  const position = positions[0]
+  let clockTime = startClockTime
+  
+  let i = 0
+  for (const position of positions) {
+    clockTime = await getTargetClockTime(cmpName, position, ids[i], clockTime)
+    i++
+  }
+
+  return clockTime
+
+}
+
+async function getTargetClockTime(cmpName, position, targetMoveId, startClockTime) {
+  const cmp = personalites.getSettings(cmpName)
+  cmp.out.rnd = "0"
+
+  const settings = { 
+    moves: position.uciMoves, 
+    pVals: cmp.out, 
+    clockTime: startClockTime, 
+    stopId: 0, 
+    showPreviousMoves: false, 
+  }
+  
+  let move
+  while(true) {
+    move = await engine.getMove(settings)
+    if (move.id <= targetMoveId) break
+    console.log(chalk.green('TOO HIGH'))
+    settings.clockTime = settings.clockTime - 50
+  } 
+
+  return settings.clockTime
+}
 
 let badReads = 0
 async function runMultiCalibrations(numberOfRuns) {
@@ -36,17 +110,15 @@ async function runMultiCalibrations(numberOfRuns) {
   console.log('BAD READS: ', badReads)
 }
 
-
-// logMoves(risa.moves, target.moves)
-// console.log(getMovesHash(risa.moves))
-// console.log(getMovesHash(target.moves))
-// getStopMoves(positions)
-// calibrateEngine('Risa')
-buildCalibrationFile('Risa', 2000)
-// initCalibrationFile('Risa')
+async function initMultipleCalibrations() {
+  const cmpNames = ['Joey', 'Marius', 'Orin', 'Willow']
+  for (const cmpName of cmpNames) {
+    await initCalibrationFile(cmpName)
+  }
+}
 
 async function buildCalibrationFile(cmpName, clockTime) {
-  let calibration = await getCalibration(`${cmpName}.json`)
+  let calibration = await loadCalibrationFile(`${cmpName}.json`)
 
   const moves = await runPositions(cmpName, positions, clockTime)
   const { movesHash, idMash } = getMovesHash(moves) 
@@ -61,7 +133,7 @@ async function buildCalibrationFile(cmpName, clockTime) {
 }
 
 async function initCalibrationFile(cmpName) {
-  const target = await getCalibration(`targets/${cmpName}.json`)
+  const target = await loadCalibrationFile(`targets/${cmpName}.json`)
   const moves = await getStopMoves(cmpName, positions) 
   const { movesHash, idMash } = getMovesHash(moves) 
   const { averageTime } = getAverageMoveTime(moves)
@@ -85,7 +157,7 @@ async function runCalibrations(clockTime) {
 async function  buildTargetFile(cmpName, clockTime, fileName) {
   clockTime = clockTime || 40000
   fileName = fileName || `${cmpName}.json`
-  const oldCalibration = await getCalibration(fileName)
+  const oldCalibration = await loadCalibrationFile(fileName)
   if (!oldCalibration) badReads++
     
   const moves = await runPositions(cmpName, positions, clockTime)
@@ -144,7 +216,7 @@ function getMovesHash(moves) {
   return { movesHash, idMash }
 }
 
-async function getCalibration(fileName) {
+async function loadCalibrationFile(fileName) {
   let calibration
   try {
     const data = await fs.readFile(`./calibrations/${fileName}`, 'utf8')
@@ -227,7 +299,7 @@ function getAverageMoveTime(moves) {
 }
 
 async function getStopMoves(cmpName, positions) {
-  const target = await getCalibration(`targets/${cmpName}.json`)
+  const target = await loadCalibrationFile(`targets/${cmpName}.json`)
   const cmp = personalites.getSettings(target.cmpName)
   cmp.out.rnd = "0"
   
@@ -266,7 +338,7 @@ function logMoves(moves, targetMoves = []) {
 
     let color = 'blue'
     let discrepency = ''
-    if (targetMoveId && move.id !== targetMoveId ) { 
+    if (targetMoveId && move.id !== targetMoveId) { 
       color = 'red'
       discrepencyCount++
     }
@@ -277,6 +349,11 @@ function logMoves(moves, targetMoves = []) {
     if (move.id < targetMoveId) {
       discrepency = 'LOW'
       lowPoints++
+    }
+
+    // highlight low moves that are also alt moves in the target file
+    if (targetMoves[i].previousMoves[move.id]) {
+      color = 'yellow'
     }
 
     console.log(chalk[color](
@@ -315,7 +392,7 @@ function logMoves(moves, targetMoves = []) {
 // runPositions('Risa', positions, 60000, targets)
 async function runPositions(cmpName, positions, clockTime, target, showPreviousMoves) {
   const cmp = personalites.getSettings(cmpName)
-  // const target = await getCalibration('targets/Risa.json')
+  // const target = await loadCalibrationFile('targets/Risa.json')
   cmp.out.rnd = "0"
 
   const moves = []
