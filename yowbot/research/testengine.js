@@ -21,17 +21,16 @@ async function doCalibrations() {
     averageTimeSum = averageTimeSum + averageTime
   }
 
-  let clockTime = Math.round(averageTimeSum / cmpNames.length) * 40
-  console.log(clockTime)
-  clockTime = await multiRunCrankDown(cmpNames, clockTime) 
+  let clockTime = Math.round((averageTimeSum / cmpNames.length) / 50) * 50 * 40
 
-  console.log(clockTime)
+  clockTime = await multiRunCrankDown(cmpNames, clockTime) 
 
   for (const cmpName of cmpNames) {
     await buildCalibrationFile(cmpName, clockTime)
   }
 
   logCalibrationSums(cmpNames)
+  console.log(chalk.red('Pipe Burst: ', pipeBurst))
 
 }
 
@@ -155,7 +154,7 @@ async function testClockTime(cmpName, position, targetMoveId, startClockTime) {
   
   let move
   while(true) {
-    move = await engine.getMove(settings)
+    move = await engineGetMove(settings)
     if (move.id <= targetMoveId || move.eval < -500) break
     console.log(chalk.green('TOO HIGH'))
     settings.clockTime = settings.clockTime - 50
@@ -329,7 +328,7 @@ async function getMove(positionIndex, clockTime) {
     showPreviousMoves: true,
   }
 
-  const move = await engine.getMove(settings)
+  const move = await engineGetMove(settings)
   console.log(move)
   // const move = await getVerfiedMove(settings)
   // console.log(move.time, move.id, settings.clockTime)
@@ -382,7 +381,7 @@ async function getStopMoves(cmpName, positions) {
       clockTime: 60000, 
       stopId: target.moves[i].id 
     }
-    let move = await engine.getMove(settings)
+    let move = await engineGetMove(settings)
     move.gameNumber = position.gameNumber
     move.gameMoveNumber = position.moveNumber
     moves.push(move)
@@ -504,7 +503,7 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
       stopId, 
       showPreviousMoves, 
     }
-    let move = await engine.getMove(settings)
+    let move = await engineGetMove(settings)
     move.gameNumber = position.gameNumber
     move.gameMoveNumber = position.moveNumber
     moves.push(move)
@@ -520,7 +519,7 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
 async function getVerfiedMove(settings) {
     let move = {id: "0"}
     while(true) {
-      const verifyMove = await engine.getMove(settings)
+      const verifyMove = await engineGetMove(settings)
       if (move.id == verifyMove.id) {
         console.log('Move verfied')
         break
@@ -533,7 +532,7 @@ async function getVerfiedMove(settings) {
 async function runSinglePosisiton() {
   console.log((positions[9].uciMoves).slice().push(positions[9].nextMove))
   const settings = { moves: positions[9].uciMoves, pVals: cmp.out, clockTime: 40000, stopId: 0 }
-  move = await engine.getMove(settings)
+  move = await engineGetMove(settings)
 }
 
 function buildTestPostionFile() {
@@ -593,7 +592,7 @@ async function repeatMove(cmp, movesSoFar, timesToRepeat) {
   const settings = { moves: movesSoFar, pVals: cmp.out, clockTime: 20000, stopId: 0 }
   const moves = []
   for (let i = 0; i < timesToRepeat; i++) {
-    moves[i] = await engine.getMove(settings)
+    moves[i] = await engineGetMove(settings)
   }
 
   for (const move of moves) {
@@ -624,7 +623,7 @@ async function runThroughMoves(cmp) {
     const settings = { moves: movesSoFar, pVals: cmp.out, clockTime: 20000, 
       stopId : 1302341 
     }
-    const moveData = await engine.getMove(settings)
+    const moveData = await engineGetMove(settings)
     console.log(moveData)
     depths.push(moveData.depth)
     engineMoves.push(moveData.engineMove) 
@@ -658,7 +657,7 @@ async function runThroughMoves(cmp) {
 }
 
 async function runContinously() {
-  const moveData = await engine.getMoveWithData({ moves, pVals: cmp.out })
+  const moveData = await engineGetMoveWithData({ moves, pVals: cmp.out })
   // console.log(moveData)
   moves.push(moveData.engineMove)
   const chess = new ChessUtils()
@@ -669,7 +668,7 @@ async function runContinously() {
 }
 
 async function runOnce(moves) {
-  const moveData = await engine.getMoveWithData({ moves, pVals: cmp.out })
+  const moveData = await engineGetMoveWithData({ moves, pVals: cmp.out })
 }
 
 async function runThroughMultiple(numberOfTimes) {
@@ -687,7 +686,7 @@ async function multiRun() {
   
   for (let i = 0; i < asyncRunTimes; i++) {
     const settings = { moves, pVals: cmp.out, secondsPerMove, clockTime: 40000 }
-    runs.push(engine.getMove(settings))
+    runs.push(engineGetMove(settings))
   }
   
   const engineMoves = await Promise.all(runs) 
@@ -727,4 +726,18 @@ async function expandPositions(positions) {
   console.log(newPositions.length)
   // fs.writeFileSync('./positions.json', JSON.stringify(newPositions, null, 2))
   // return newPositions
+}
+
+let pipeBurst = 0
+async function engineGetMove(settings) {
+  let moves
+  while(pipeBurst < 10) {
+    try {
+      moves = await engine.getMove(settings)
+    } catch (err) {
+      pipeBurst++
+      console.log(chalk.red('Pipe Burst number', pipeBurst))
+    }
+  }
+  return moves
 }
