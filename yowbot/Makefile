@@ -64,8 +64,9 @@ eep:
 	scp -r dist/*.js eep:~/yowbot/
 	scp -r dist/testPositions.json eep:~/yowbot/
 
-getcalibrations: 
-	scp -r eep:~/yowbot/calibrations/* dist/calibrations/
+gettargets: 
+	mkdir dist/calibrations/targets
+	scp -r eep:~/yowbot/calibrations/* dist/calibrations/targets
 
 testengine: 
 	cd dist; \

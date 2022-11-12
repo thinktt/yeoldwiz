@@ -8,61 +8,64 @@ const positions = require('./testPositions.json')
 const { moves } = require('chess-tools/opening-books/ctg/moves.js')
 const fs = require('fs').promises
 const crypto = require('crypto')
-const chess = chessTools.create() 
-const target = require('./calibrations/targets/Risa.json')
-const risa = require('./calibrations/Risa.json')
+const { time } = require('console')
 const { start } = require('repl')
-const { exit } = require('process')
-const { getSystemErrorMap } = require('util')
-// const games = require('./testgames.json')
-// const risa = require('./calibrations/Risa.json')
+const chess = chessTools.create() 
 
-// chess.load_pgn(positions[18].pgn)
-// console.log(chess.uciMoves())
+doCalibrations()
+async function doCalibrations() {
+  const cmpNames = ['Joey', 'Marius', 'Orin', 'Willow', 'Risa']
+  let averageTimeSum = 0
+  for (const cmpName of cmpNames) {
+    const averageTime = await initCalibrationFile(cmpName)
+    averageTimeSum = averageTimeSum + averageTime
+  }
 
-// getMove(0, 40000)
-// logMoves(risa.moves, target.moves)
-// runCmpPositions('Risa')
-// calibrateMoves()
-// runCmpPositions() 
-// getStopMoves(positions)
-// runMultiCalibrations(1)
-// console.log(getMovesHash(risa.moves))
-// console.log(getMovesHash(target.moves))
-// getStopMoves(positions)
-// calibrateEngine('Risa')
-// initCalibrationFile('Risa')
-// buildCalibrationFile('Risa', 3750)
-// initMultipleCalibrations()
-// logCalibrationSums()
-// multiRunCrankDown()
+  let clockTime = Math.round(averageTimeSum / cmpNames.length) * 40
+  console.log(clockTime)
+  clockTime = await multiRunCrankDown(cmpNames, clockTime) 
 
-async function multiRunCrankDown() {
+  console.log(clockTime)
+
+  for (const cmpName of cmpNames) {
+    await buildCalibrationFile(cmpName, clockTime)
+  }
+
+  logCalibrationSums(cmpNames)
+
+}
+
+async function multiRunCrankDown(cmpNames, startTime) {
+  startTime = startTime || 6000
   let clockTimes = []
   try {
     const data = await fs.readFile('./calibrations/clockTimes.json')
     clockTimes = JSON.parse(data)
+    startTime = clockTimes.slice(-1).pop() 
   } catch {}
+  const timesToRun = 10 - clockTimes.length
 
-  let startTime = 6000
-  for (let i = 0; i < 10; i++) {
-    const clockTime = await longClockCrankDown(startTime)
+  console.log(chalk.green(`${clockTimes.length} clock times found`))
+  console.log(chalk.green(`${timesToRun} clock runs left`))
+  console.log(chalk.green(`${startTime} is current clock time`))
+
+  for (let i = 0; i < timesToRun; i++) {
+    const clockTime = await longClockCrankDown(cmpNames, startTime)
     clockTimes.push(clockTime)
     await fs.writeFile(`./calibrations/clockTimes.json`, JSON.stringify(clockTimes))
     startTime = clockTime
   }
 
-  console.log(clockTimes)
+  return startTime
 }
 
 // longClockCrankDown()
-async function longClockCrankDown(startClockTime) {
-  const cmpNames = ['Joey', 'Marius', 'Orin', 'Risa', 'Willow']
+async function longClockCrankDown(cmpNames, startClockTime) {
   let clockTime = startClockTime || 6000
 
   for (const cmpName of cmpNames) {
     // const target = await loadCalibrationFile(`targets/${cmpName}.json`)
-    // const calibration = await loadCalibrationFile(`${cmpName}.json`)
+    // const calibration = await loadCalibrationFile(chslk.green(`${cmpName}.json`)
     console.log(chalk.green(`............${cmpName}............`))
     clockTime = await clockCrankDown(cmpName, clockTime)
     // await buildCalibrationFile(cmpName, 3920)
@@ -85,9 +88,8 @@ async function doCalibrationRuns(clockTime) {
 
 }
 
-logCalibrationSums()
-async function logCalibrationSums() {
-  const cmpNames = ['Joey', 'Marius', 'Orin', 'Risa', 'Willow']
+async function logCalibrationSums(cmpNames) {
+  // const cmpNames = ['Joey', 'Marius', 'Orin', 'Risa', 'Willow']
   let idAccuracySum = 0
   let realAcccuracySum = 0
   let underAccuracySum = 0
@@ -194,7 +196,12 @@ async function buildCalibrationFile(cmpName, clockTime) {
 }
 
 async function initCalibrationFile(cmpName) {
-  const target = await loadCalibrationFile(`targets/${cmpName}.json`)
+  const previousCalibration = await loadCalibrationFile(`${cmpName}.json`)
+  if (previousCalibration) {
+    console.log(chalk.green(`Calibration for ${cmpName} already intialized`))
+    return previousCalibration.runs[0].averageTime
+  }
+
   const moves = await getStopMoves(cmpName, positions) 
   const { movesHash, idMash } = getMovesHash(moves) 
   const { averageTime } = getAverageMoveTime(moves)
@@ -205,6 +212,7 @@ async function initCalibrationFile(cmpName) {
   calibration.movesHashMap[movesHash] = idMash
 
   await fs.writeFile(`./calibrations/${cmpName}.json`, JSON.stringify(calibration, null, 2))
+  return averageTime
 }
 
 async function runCalibrations(clockTime) {
