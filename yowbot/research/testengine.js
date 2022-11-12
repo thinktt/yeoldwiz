@@ -34,29 +34,74 @@ const { getSystemErrorMap } = require('util')
 // initCalibrationFile('Risa')
 // buildCalibrationFile('Risa', 3820)
 // initMultipleCalibrations()
+// logCalibrationSums()
+
+multiRunCrankDown()
+async function multiRunCrankDown() {
+  let clockTimes = []
+  try {
+    const data = await fs.readFile('./calibrations/clockTimes.json')
+    clockTimes = JSON.parse(data)
+  } catch {}
 
 
-
-longClockCrankDown()
-async function longClockCrankDown() {
-  const cmpNames = ['Joey', 'Marius', 'Orin', 'Risa', 'Willow']
-  let clockTime = 5920
-  for (const cmpName of cmpNames) {
-    const target = await loadCalibrationFile(`targets/${cmpName}.json`)
-    const calibration = await loadCalibrationFile(`${cmpName}.json`)
-    console.log(chalk.green(`............${cmpName}............`))
-    logMoves(calibration.moves, target.moves)
-    // await buildCalibrationFile(cmpName, 3720)
-    // clockTime = await crankClockDown(cmpName, clockTime)
+  for (let i = 0; i < 10; i++) {
+    const clockTime = await longClockCrankDown()
+    clockTimes.push(clockTime)
   }
-  console.log(clockTime)
+
+  console.log(clockTimes)
+  await fs.writeFile(`./calibrations/clockTimes.json`, JSON.stringify(clockTimes))
 }
 
-// crankClockDown('Joey', 5920)
-async function crankClockDown(cmpName, startClockTime) {
+// longClockCrankDown()
+async function longClockCrankDown() {
+  const cmpNames = ['Joey', 'Marius', 'Orin', 'Risa', 'Willow']
+  let clockTime = 6000
 
-  // const cmpNames = ['Joey', 'Marius', 'Orin', 'Willow']
+  for (const cmpName of cmpNames) {
+    // const target = await loadCalibrationFile(`targets/${cmpName}.json`)
+    // const calibration = await loadCalibrationFile(`${cmpName}.json`)
+    console.log(chalk.green(`............${cmpName}............`))
+    clockTime = await clockCrankDown(cmpName, clockTime)
+    // await buildCalibrationFile(cmpName, 3920)
+  }
+  console.log(clockTime)
+  return clockTime
+}
 
+async function logCalibrationSums() {
+  const cmpNames = ['Joey', 'Marius', 'Orin', 'Risa', 'Willow']
+  let idAccuracySum = 0
+  let realAcccuracySum = 0
+  let underAccuracySum = 0
+  let averageTimeSum = 0
+  let noDesperateAccuracySum = 0
+
+  for (const cmpName of cmpNames) {
+    const calibration = await loadCalibrationFile(`${cmpName}.json`)
+    const target = await loadCalibrationFile(`targets/${cmpName}.json`)
+
+    console.log(chalk.green(`............${cmpName}............`))
+    const moveStats = logMoves(calibration.moves, target.moves)
+    const {averageTime, idAccuracy, realAccuracy, underAccuracy, noDesperateAccuracy} = moveStats 
+    averageTimeSum = averageTimeSum + averageTime
+    idAccuracySum = idAccuracySum + idAccuracy 
+    realAcccuracySum = realAcccuracySum + realAccuracy
+    underAccuracySum = underAccuracySum + underAccuracy
+    noDesperateAccuracySum = noDesperateAccuracySum + noDesperateAccuracy
+  }
+  
+  console.log('.........Totals...........')
+  console.log('Average time: ', averageTimeSum / cmpNames.length )
+  console.log('ID Accuracy:', `${idAccuracySum / cmpNames.length}%`)
+  console.log(`Real Accuracy: ${realAcccuracySum / cmpNames.length}%`)
+  console.log(`Under Accuracy: ${underAccuracySum / cmpNames.length}%`)
+  console.log(`No Desperate: ${noDesperateAccuracySum / cmpNames.length}%`)
+}
+
+// clockCrankDown('Joey', 6000)
+async function clockCrankDown(cmpName, startClockTime) {
   const calibration = await loadCalibrationFile(`${cmpName}.json`)
   if (!calibration) {
     console.log('Error loading calibration')
@@ -70,15 +115,15 @@ async function crankClockDown(cmpName, startClockTime) {
   
   let i = 0
   for (const position of positions) {
-    clockTime = await getTargetClockTime(cmpName, position, ids[i], clockTime)
+    clockTime = await testClockTime(cmpName, position, ids[i], clockTime)
     i++
   }
-
+  
+  // console.log(clockTime)
   return clockTime
-
 }
 
-async function getTargetClockTime(cmpName, position, targetMoveId, startClockTime) {
+async function testClockTime(cmpName, position, targetMoveId, startClockTime) {
   const cmp = personalites.getSettings(cmpName)
   cmp.out.rnd = "0"
 
@@ -93,7 +138,7 @@ async function getTargetClockTime(cmpName, position, targetMoveId, startClockTim
   let move
   while(true) {
     move = await engine.getMove(settings)
-    if (move.id <= targetMoveId) break
+    if (move.id <= targetMoveId || move.eval < -500) break
     console.log(chalk.green('TOO HIGH'))
     settings.clockTime = settings.clockTime - 50
   } 
@@ -240,7 +285,7 @@ async function runCmpPositions(cmpName) {
 
   for (const result of results) {
     console.log(result.clockTime, result.discrepencyCount, 
-      result.accuracyPercent, result.lowPoints, result.hightPoints, 
+      result.idAccuracy, result.lowPoints, result.highPoints, 
       result.averageTime)
   }
 
@@ -328,7 +373,9 @@ function logMoves(moves, targetMoves = []) {
   let timeSum = 0 
 
   let discrepencyCount = 0
-  let hightPoints = 0
+  let desperateCount = 0
+  let realMoveAccurate = 0
+  let highPoints = 0
   let lowPoints = 0
   for (const i of moves.keys()) {
     const move = moves[i]
@@ -344,15 +391,27 @@ function logMoves(moves, targetMoves = []) {
     }
     if (targetMoveId && move.id > targetMoveId) {
       discrepency = 'HIGH'
-      hightPoints++
+      highPoints++
     }
     if (move.id < targetMoveId) {
       discrepency = 'LOW'
       lowPoints++
     }
 
+    if (move.id > targetMoveId  && move.eval < -500) {
+      desperateCount++
+    }
+
+    
+    // hilight if the ids don't match but they are the same move anyways
+    if (targetMoveId !== move.id && targetMoves[i].algebraMove === move.algebraMove) {
+      // color = 'magenta'
+      realMoveAccurate ++ 
+    }
+
+    
     // highlight low moves that are also alt moves in the target file
-    if (targetMoves[i].previousMoves[move.id]) {
+    if (discrepency && targetMoves[i].idCounts[move.id]) {
       color = 'yellow'
     }
 
@@ -363,28 +422,42 @@ function logMoves(moves, targetMoves = []) {
       String(targetMoveId).padStart(8),
       '   ', 
       move.algebraMove.padEnd(5),
+      targetMoves[i].algebraMove.padEnd(5),
       String(move.eval).padStart(5),
       discrepency,
     ))
   }
 
   const { averageTime, clockTimeEstimate } = getAverageMoveTime(moves)
-  const accuracyPercent = Math.round((moves.length - discrepencyCount) / moves.length * 100)
+  const idAccuracy = Math.round((moves.length - discrepencyCount) / moves.length * 100)
+  const realAccuracy = 
+    Math.round((moves.length - (discrepencyCount - realMoveAccurate) ) / moves.length * 100)
+  const underAccuracy = 
+    Math.round((moves.length - (discrepencyCount - lowPoints) ) / moves.length * 100)
+  const noDesperateAccuracy =  Math.round(
+      (moves.length - (discrepencyCount - lowPoints - desperateCount) ) / moves.length * 100
+    )
 
   console.log('Average time: ', averageTime)
   console.log('clock Estimate: ', clockTimeEstimate)
   console.log('discrpency to moves:', discrepencyCount, moves.length)
-  console.log('Accuracy:', `${accuracyPercent}%`)
-  console.log('High:', hightPoints)
+  console.log('ID Accuracy:', `${idAccuracy}%`)
+  console.log(`Real Accuracy: ${realAccuracy}%`)
+  console.log(`Under Accuracy: ${underAccuracy}%`)
+  console.log(`With Desperate Out: ${noDesperateAccuracy}%`)
+  console.log('High:', highPoints)
   console.log('Low:', lowPoints)
 
   return { 
     averageTime,
     clockTimeEstimate,
     discrepencyCount,
-    hightPoints,
+    highPoints,
     lowPoints, 
-    accuracyPercent, 
+    idAccuracy, 
+    realAccuracy,
+    underAccuracy,
+    noDesperateAccuracy,
   }
 }
 
