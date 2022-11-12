@@ -385,61 +385,61 @@ async function getStopMoves(cmpName, positions) {
   // logMoves(moves, target.moves)
 }
 
-function logMoves(moves, targetMoves = []) {
-  let timeSum = 0 
-
+function logMoves(moves, targetMoves) {
   let discrepencyCount = 0
   let desperateCount = 0
   let realMoveAccurate = 0
   let highPoints = 0
   let lowPoints = 0
+
   for (const i of moves.keys()) {
     const move = moves[i]
-
-    let targetMoveId = ''
-    if (targetMoves[i]) targetMoveId = targetMoves[i].id
+    const targetMove = targetMoves[i]
 
     let color = 'blue'
     let discrepency = ''
-    if (targetMoveId && move.id !== targetMoveId) { 
+    if (targetMove.id && move.id !== targetMove.id) { 
       color = 'red'
       discrepencyCount++
     }
-    if (targetMoveId && move.id > targetMoveId) {
+    if (targetMove.id && move.id > targetMove.id) {
       discrepency = 'HIGH'
       highPoints++
     }
-    if (move.id < targetMoveId) {
+    if (move.id < targetMove.id) {
       discrepency = 'LOW'
       lowPoints++
     }
 
-    if (move.id > targetMoveId  && move.eval < -500) {
+    if (move.id > targetMove.id  && move.eval < -500) {
       desperateCount++
     }
 
     
     // hilight if the ids don't match but they are the same move anyways
-    if (targetMoveId !== move.id && targetMoves[i].algebraMove === move.algebraMove) {
-      // color = 'magenta'
+    if (targetMove.id !== move.id && targetMove.algebraMove === move.algebraMove) {
+      color = 'yellow'
       realMoveAccurate ++ 
     }
 
     
     // highlight low moves that are also alt moves in the target file
-    if (discrepency && targetMoves[i].idCounts[move.id]) {
-      color = 'yellow'
+    if (discrepency && targetMove.idCounts[move.id]) {
+      color = 'magenta'
     }
 
     console.log(chalk[color](
       String(i).padStart(2,'0'),
       String(move.time).padStart(5), 
       String(move.id).padStart(8),
-      String(targetMoveId).padStart(8),
+      String(targetMove.id).padStart(8),
       '   ', 
       move.algebraMove.padEnd(5),
-      targetMoves[i].algebraMove.padEnd(5),
+      targetMove.algebraMove.padEnd(5),
       String(move.eval).padStart(5),
+      String(targetMove.eval).padStart(5),
+      String(move.depth).padStart(5),
+      String(targetMove.depth).padStart(5),
       discrepency,
     ))
   }
