@@ -32,11 +32,11 @@ const { getSystemErrorMap } = require('util')
 // getStopMoves(positions)
 // calibrateEngine('Risa')
 // initCalibrationFile('Risa')
-// buildCalibrationFile('Risa', 3820)
+// buildCalibrationFile('Risa', 3750)
 // initMultipleCalibrations()
 // logCalibrationSums()
+// multiRunCrankDown()
 
-multiRunCrankDown()
 async function multiRunCrankDown() {
   let clockTimes = []
   try {
@@ -44,20 +44,21 @@ async function multiRunCrankDown() {
     clockTimes = JSON.parse(data)
   } catch {}
 
-
+  let startTime = 6000
   for (let i = 0; i < 10; i++) {
-    const clockTime = await longClockCrankDown()
+    const clockTime = await longClockCrankDown(startTime)
     clockTimes.push(clockTime)
+    await fs.writeFile(`./calibrations/clockTimes.json`, JSON.stringify(clockTimes))
+    startTime = clockTime
   }
 
   console.log(clockTimes)
-  await fs.writeFile(`./calibrations/clockTimes.json`, JSON.stringify(clockTimes))
 }
 
 // longClockCrankDown()
-async function longClockCrankDown() {
+async function longClockCrankDown(startClockTime) {
   const cmpNames = ['Joey', 'Marius', 'Orin', 'Risa', 'Willow']
-  let clockTime = 6000
+  let clockTime = startClockTime || 6000
 
   for (const cmpName of cmpNames) {
     // const target = await loadCalibrationFile(`targets/${cmpName}.json`)
@@ -70,6 +71,21 @@ async function longClockCrankDown() {
   return clockTime
 }
 
+// doCalibrationRuns(3750)
+async function doCalibrationRuns(clockTime) {
+  const cmpNames = ['Joey', 'Marius', 'Orin', 'Risa', 'Willow']
+  clockTime = clockTime || 6000
+
+  for (const cmpName of cmpNames) {
+    console.log(chalk.green(`............${cmpName}............`))
+    await buildCalibrationFile(cmpName, clockTime)
+  }
+  console.log(clockTime)
+  return clockTime
+
+}
+
+logCalibrationSums()
 async function logCalibrationSums() {
   const cmpNames = ['Joey', 'Marius', 'Orin', 'Risa', 'Willow']
   let idAccuracySum = 0
