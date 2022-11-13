@@ -42,7 +42,8 @@ async function getMove(settings) {
 
   // create a movePromise, when engine responds with a move it resolves and
   // sends an exit command to the engine, closing the process
-  let startTime  
+  let startTime
+  let quitWasSent = false  
   const movePromise = new Promise(resolve => {
     child.stdout.on('data', (data) => {
       const engineLines = data.toString().replace('\r','\n').split('\n')
@@ -63,6 +64,7 @@ async function getMove(settings) {
           if (settings.stopId && moveData.id === settings.stopId) {
             process.stdout.write(chalk.red("reached stop id, stopping engine\n"))
             moveData.engineMove = null
+            quitWasSent = true
             child.stdin.write('quit\n')
             if (settings.showPreviousMoves) moveData.previousMoves = previousMoves.slice(0,-1)
             resolve(moveData)
@@ -71,7 +73,7 @@ async function getMove(settings) {
         // with current move data
         // NOTE: if illegal move is sent to the egnine this crashes right now 
         // as engineLine will say "Illegal move" but give no move
-        } else if (engineLine.includes('move')) {
+        } else if (engineLine.includes('move') && !quitWasSent) {
           moveData.timeForMove = Date.now() - startTime
           process.stdout.write(chalk.blue(engineLine))
           child.stdin.write('quit\n')

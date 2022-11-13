@@ -13,6 +13,7 @@ const { start } = require('repl')
 const chess = chessTools.create() 
 
 doCalibrations()
+
 async function doCalibrations() {
   const cmpNames = ['Joey', 'Marius', 'Orin', 'Willow', 'Risa']
   let averageTimeSum = 0
@@ -43,12 +44,25 @@ async function multiRunCrankDown(cmpNames, startTime) {
     startTime = clockTimes.slice(-1).pop() 
   } catch {}
   const timesToRun = 10 - clockTimes.length
+  
+  const has3Repeats = (clockTimes) => {
+    if (clockTimes.length < 3) return false
+    const c = clockTimes.slice(-3)
+    const hasRepeats = (c[0] == c[1] && c[1] == c[2])
+    return hasRepeats
+  }
 
   console.log(chalk.green(`${clockTimes.length} clock times found`))
   console.log(chalk.green(`${timesToRun} clock runs left`))
   console.log(chalk.green(`${startTime} is current clock time`))
 
   for (let i = 0; i < timesToRun; i++) {
+    // stop loop if we get three equal clock times in a row
+    if (has3Repeats(clockTimes)) {
+      console.log(chalk.green('three equal clockTimes of', startTime))
+      break
+    }
+
     const clockTime = await longClockCrankDown(cmpNames, startTime)
     clockTimes.push(clockTime)
     await fs.writeFile(`./calibrations/clockTimes.json`, JSON.stringify(clockTimes))
@@ -63,11 +77,8 @@ async function longClockCrankDown(cmpNames, startClockTime) {
   let clockTime = startClockTime || 6000
 
   for (const cmpName of cmpNames) {
-    // const target = await loadCalibrationFile(`targets/${cmpName}.json`)
-    // const calibration = await loadCalibrationFile(chslk.green(`${cmpName}.json`)
     console.log(chalk.green(`............${cmpName}............`))
     clockTime = await clockCrankDown(cmpName, clockTime)
-    // await buildCalibrationFile(cmpName, 3920)
   }
   console.log(clockTime)
   return clockTime
@@ -738,6 +749,6 @@ async function engineGetMove(settings) {
       pipeBurst++
       console.log(chalk.red('Pipe Burst number', pipeBurst))
     }
+    return moves
   }
-  return moves
 }
