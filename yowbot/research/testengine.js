@@ -13,7 +13,6 @@ const { start } = require('repl')
 const chess = chessTools.create() 
 
 doCalibrations()
-
 async function doCalibrations() {
   const cmpNames = ['Joey', 'Marius', 'Orin', 'Willow', 'Risa']
   let averageTimeSum = 0
@@ -45,10 +44,10 @@ async function multiRunCrankDown(cmpNames, startTime) {
   } catch {}
   const timesToRun = 10 - clockTimes.length
   
-  const has3Repeats = (clockTimes) => {
-    if (clockTimes.length < 3) return false
-    const c = clockTimes.slice(-3)
-    const hasRepeats = (c[0] == c[1] && c[1] == c[2])
+  const hasRepeats = (clockTimes) => {
+    if (clockTimes.length < 4) return false
+    const c = clockTimes.slice(-4)
+    const hasRepeats = (c[0] == c[1] && c[1] == c[2] && c[2] == c[3])
     return hasRepeats
   }
 
@@ -58,7 +57,7 @@ async function multiRunCrankDown(cmpNames, startTime) {
 
   for (let i = 0; i < timesToRun; i++) {
     // stop loop if we get three equal clock times in a row
-    if (has3Repeats(clockTimes)) {
+    if (hasRepeats(clockTimes)) {
       console.log(chalk.green('three equal clockTimes of', startTime))
       break
     }
@@ -98,6 +97,7 @@ async function doCalibrationRuns(clockTime) {
 
 }
 
+
 async function logCalibrationSums(cmpNames) {
   // const cmpNames = ['Joey', 'Marius', 'Orin', 'Risa', 'Willow']
   let idAccuracySum = 0
@@ -126,6 +126,7 @@ async function logCalibrationSums(cmpNames) {
   console.log(`Real Accuracy: ${realAcccuracySum / cmpNames.length}%`)
   console.log(`Under Accuracy: ${underAccuracySum / cmpNames.length}%`)
   console.log(`No Desperate: ${noDesperateAccuracySum / cmpNames.length}%`)
+
 }
 
 // clockCrankDown('Joey', 6000)
