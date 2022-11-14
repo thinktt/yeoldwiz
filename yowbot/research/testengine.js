@@ -11,28 +11,31 @@ const crypto = require('crypto')
 const { time } = require('console')
 const { start } = require('repl')
 const chess = chessTools.create() 
+let logData = ''
 
 doCalibrations()
 async function doCalibrations() {
   const cmpNames = ['Joey', 'Marius', 'Orin', 'Willow', 'Risa']
-  let averageTimeSum = 0
-  for (const cmpName of cmpNames) {
-    const averageTime = await initCalibrationFile(cmpName)
-    averageTimeSum = averageTimeSum + averageTime
-  }
+  // let averageTimeSum = 0
+  // for (const cmpName of cmpNames) {
+  //   const averageTime = await initCalibrationFile(cmpName)
+  //   averageTimeSum = averageTimeSum + averageTime
+  // }
 
-  let clockTime = Math.round((averageTimeSum / cmpNames.length) / 50) * 50 * 40
+  // let clockTime = Math.round((averageTimeSum / cmpNames.length) / 50) * 50 * 40
 
-  clockTime = await multiRunCrankDown(cmpNames, clockTime) 
+  // clockTime = await multiRunCrankDown(cmpNames, clockTime) 
 
-  for (const cmpName of cmpNames) {
-    await buildCalibrationFile(cmpName, clockTime)
-  }
+  // for (const cmpName of cmpNames) {
+  //   await buildCalibrationFile(cmpName, clockTime)
+  // }
 
-  logCalibrationSums(cmpNames)
-  console.log(chalk.red('Pipe Burst: ', pipeBurst))
+  await logCalibrationSums(cmpNames)
+  // console.log(chalk.red('Pipe Burst: ', pipeBurst))
 
-}
+  await fs.writeFile('./calibrations/finalLogs.txt', logData)
+
+}                                                          
 
 async function multiRunCrankDown(cmpNames, startTime) {
   startTime = startTime || 6000
@@ -98,8 +101,14 @@ async function doCalibrationRuns(clockTime) {
 }
 
 
+async function doLog(...args) {
+  regEx = /\[..m/g
+  logData = logData + args.join(' ') + '\n'
+  logData = logData.replace(regEx, '')
+  console.log(...args)
+}
+
 async function logCalibrationSums(cmpNames) {
-  // const cmpNames = ['Joey', 'Marius', 'Orin', 'Risa', 'Willow']
   let idAccuracySum = 0
   let realAcccuracySum = 0
   let underAccuracySum = 0
@@ -110,7 +119,7 @@ async function logCalibrationSums(cmpNames) {
     const calibration = await loadCalibrationFile(`${cmpName}.json`)
     const target = await loadCalibrationFile(`targets/${cmpName}.json`)
 
-    console.log(chalk.green(`............${cmpName}............`))
+    doLog(chalk.green(`............${cmpName}............`))
     const moveStats = logMoves(calibration.moves, target.moves)
     const {averageTime, idAccuracy, realAccuracy, underAccuracy, noDesperateAccuracy} = moveStats 
     averageTimeSum = averageTimeSum + averageTime
@@ -119,13 +128,15 @@ async function logCalibrationSums(cmpNames) {
     underAccuracySum = underAccuracySum + underAccuracy
     noDesperateAccuracySum = noDesperateAccuracySum + noDesperateAccuracy
   }
+
+  console.log(averageTimeSum / cmpNames.length)
   
-  console.log('.........Totals...........')
-  console.log('Average time: ', averageTimeSum / cmpNames.length )
-  console.log('ID Accuracy:', `${idAccuracySum / cmpNames.length}%`)
-  console.log(`Real Accuracy: ${realAcccuracySum / cmpNames.length}%`)
-  console.log(`Under Accuracy: ${underAccuracySum / cmpNames.length}%`)
-  console.log(`No Desperate: ${noDesperateAccuracySum / cmpNames.length}%`)
+  doLog('.........Totals...........')
+  doLog(`Average time: ${averageTimeSum / cmpNames.length}`)
+  doLog(`ID Accuracy: ${idAccuracySum / cmpNames.length}%`)
+  doLog(`Real Accuracy: ${realAcccuracySum / cmpNames.length}%`)
+  doLog(`Under Accuracy: ${underAccuracySum / cmpNames.length}%`)
+  doLog(`No Desperate: ${noDesperateAccuracySum / cmpNames.length}%`)
 
 }
 
@@ -447,7 +458,7 @@ function logMoves(moves, targetMoves) {
       color = 'magenta'
     }
 
-    console.log(chalk[color](
+    doLog(chalk[color](
       String(i).padStart(2,'0'),
       String(move.time).padStart(5), 
       String(move.id).padStart(8),
