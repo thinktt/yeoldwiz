@@ -257,26 +257,26 @@ async function buildTargets(numberOfRuns) {
   const doRuns = async (cmpNames, clockTime) => {
     for (let i=0; i < numberOfRuns; i++) {
       for (const cmpName of cmpNames) {
-        await buildTargetFile(cmpName, clockTime, null, numberOfRuns)
+        const oldTarget = await loadCalibrationFile(`${cmpName}.json`)
+        if (oldTarget && oldTarget.runs.length >= numberOfRuns) { 
+          console.log(chalk.green(`${cmpName}.json has reached it's run limit`))
+          cmpNames = cmpNames.filter(name => name !== cmpName )
+          continue
+        }
+        await buildTargetFile(cmpName, clockTime)
       }
     }
   }
   await doRuns(cmpEasyNames, 2000)
-  await doRuns(cmpHardNames, 2000)
-  await doRuns(cmpGmNames, 2000)
+  // await doRuns(cmpHardNames, 2000)
+  // await doRuns(cmpGmNames, 2000)
 }
 
-async function  buildTargetFile(cmpName, clockTime, fileName, runLimit) {
+async function  buildTargetFile(cmpName, clockTime, fileName) {
   clockTime = clockTime || 40000
-  runLimit = runLimit || 3
   fileName = fileName || `${cmpName}.json`
   const oldCalibration = await loadCalibrationFile(fileName)
   if (!oldCalibration) badReads++
-
-  if (oldCalibration && oldCalibration.runs.length >= runLimit) { 
-    // console.log(chalk.green(`${cmpName}.json has reached it's run limit`))
-    return
-  }
 
   const moves = await runPositions(cmpName, positions, clockTime)
   const { movesHash, idMash } = getMovesHash(moves) 
