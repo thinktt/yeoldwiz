@@ -15,6 +15,8 @@ let logData = ''
 const cmpEasyNames = ['Joey', 'Marius', 'Sam', 'Willow', 'Risa', 'Mark']
 const cmpHardNames = ['Orin', 'Josh7', 'Mariah', 'Ginger', "Mateo", 'Queenie']
 const cmpGmNames = ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard']
+let pipeBurst = 0
+
 
 
 
@@ -255,21 +257,27 @@ async function buildTargets(numberOfRuns) {
   const doRuns = async (cmpNames, clockTime) => {
     for (let i=0; i < numberOfRuns; i++) {
       for (const cmpName of cmpNames) {
-        await buildTargetFile(cmpName, clockTime)
+        await buildTargetFile(cmpName, clockTime, null, numberOfRuns)
       }
     }
   }
-  await doRuns(cmpEasyNames, 40000)
-  await doRuns(cmpHardNames, 60000)
-  await doRuns(cmpGmNames, 80000)
+  await doRuns(cmpEasyNames, 2000)
+  await doRuns(cmpHardNames, 2000)
+  await doRuns(cmpGmNames, 2000)
 }
 
-async function  buildTargetFile(cmpName, clockTime, fileName) {
+async function  buildTargetFile(cmpName, clockTime, fileName, runLimit) {
   clockTime = clockTime || 40000
+  runLimit = runLimit || 3
   fileName = fileName || `${cmpName}.json`
   const oldCalibration = await loadCalibrationFile(fileName)
   if (!oldCalibration) badReads++
-    
+
+  if (oldCalibration && oldCalibration.runs.length >= runLimit) { 
+    // console.log(chalk.green(`${cmpName}.json has reached it's run limit`))
+    return
+  }
+
   const moves = await runPositions(cmpName, positions, clockTime)
   const { movesHash, idMash } = getMovesHash(moves) 
   const { averageTime } = getAverageMoveTime(moves)
@@ -773,16 +781,16 @@ async function expandPositions(positions) {
   // return newPositions
 }
 
-let pipeBurst = 0
 async function engineGetMove(settings) {
   let moves
   while(pipeBurst < 10) {
     try {
       moves = await engine.getMove(settings)
+      return moves
     } catch (err) {
       pipeBurst++
-      console.log(chalk.red('Pipe Burst number', pipeBurst))
+      console.log(chalk.bgMagenta('Pipe Burst number', pipeBurst))
     }
-    return moves
   }
+  process.exit(1)
 }

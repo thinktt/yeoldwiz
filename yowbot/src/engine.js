@@ -98,7 +98,7 @@ async function getMove(settings) {
   })
 
   startTime = Date.now()
-  startEngine(child, settings)
+  await startEngine(child, settings)
  
   return movePromise
 }
@@ -152,8 +152,11 @@ function getCordinateMove(algebraMove, moves) {
   return null
 }
 
+
+let countToThrow = 0
 // startEngine sets up the engine and kicks off the move
 async function startEngine(child, settings) {
+
   const { moves, pVals, secondsPerMove, clockTime,  } = settings
   // pVals.md = 6
   
