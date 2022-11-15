@@ -12,26 +12,30 @@ const { time } = require('console')
 const { start } = require('repl')
 const chess = chessTools.create() 
 let logData = ''
+const cmpEasyNames = ['Joey', 'Marius', 'Sam', 'Willow', 'Risa', 'Mark']
+const cmpHardNames = ['Orin', 'Josh7', 'Mariah', 'Ginger', "Mateo", 'Queenie']
+const cmpGmNames = ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard']
 
-doCalibrations()
-async function doCalibrations() {
-  const cmpNames = ['Joey', 'Marius', 'Orin', 'Willow', 'Risa']
-  // let averageTimeSum = 0
-  // for (const cmpName of cmpNames) {
-  //   const averageTime = await initCalibrationFile(cmpName)
-  //   averageTimeSum = averageTimeSum + averageTime
-  // }
 
-  // let clockTime = Math.round((averageTimeSum / cmpNames.length) / 50) * 50 * 40
 
-  // clockTime = await multiRunCrankDown(cmpNames, clockTime) 
+// doCalibrations(cmpEasyNames)
+async function doCalibrations(cmpNames) {
+  let averageTimeSum = 0
+  for (const cmpName of cmpNames) {
+    const averageTime = await initCalibrationFile(cmpName)
+    averageTimeSum = averageTimeSum + averageTime
+  }
 
-  // for (const cmpName of cmpNames) {
-  //   await buildCalibrationFile(cmpName, clockTime)
-  // }
+  let clockTime = Math.round((averageTimeSum / cmpNames.length) / 50) * 50 * 40
+
+  clockTime = await multiRunCrankDown(cmpNames, clockTime) 
+
+  for (const cmpName of cmpNames) {
+    await buildCalibrationFile(cmpName, clockTime)
+  }
 
   await logCalibrationSums(cmpNames)
-  // console.log(chalk.red('Pipe Burst: ', pipeBurst))
+  console.log(chalk.red('Pipe Burst: ', pipeBurst))
 
   await fs.writeFile('./calibrations/finalLogs.txt', logData)
 
@@ -245,6 +249,21 @@ async function runCalibrations(clockTime) {
   // await buildTargetFile('Willow', clockTime)
 }
 
+buildTargets(5)
+async function buildTargets(numberOfRuns) {
+
+  const doRuns = async (cmpNames, clockTime) => {
+    for (let i=0; i < numberOfRuns; i++) {
+      for (const cmpName of cmpNames) {
+        await buildTargetFile(cmpName, clockTime)
+      }
+    }
+  }
+  await doRuns(cmpEasyNames, 40000)
+  await doRuns(cmpHardNames, 60000)
+  await doRuns(cmpGmNames, 80000)
+}
+
 async function  buildTargetFile(cmpName, clockTime, fileName) {
   clockTime = clockTime || 40000
   fileName = fileName || `${cmpName}.json`
@@ -252,21 +271,24 @@ async function  buildTargetFile(cmpName, clockTime, fileName) {
   if (!oldCalibration) badReads++
     
   const moves = await runPositions(cmpName, positions, clockTime)
-  const { movesHash } = getMovesHash(moves) 
-  const { averageTime, clockTimeEstimate } = getAverageMoveTime(moves)
+  const { movesHash, idMash } = getMovesHash(moves) 
+  const { averageTime } = getAverageMoveTime(moves)
   
   let calibration
   if (oldCalibration) {
     calibration = oldCalibration
-    calibration.runs.push({ averageTime, movesHash })
+    calibration.runs.push({ averageTime, movesHash, clockTime })
     calibration.moves = mergeMoves(oldCalibration.moves, moves) 
   } else {
     moves.forEach( (move) => {
       move.idCounts = {}
       move.idCounts[move.id] = 1
     })
-    calibration = {cmpName, runs: [ { averageTime, movesHash } ], moves}   
+    calibration = {cmpName, runs: [ { averageTime, movesHash, clockTime } ], moves}   
   }
+
+  if (!calibration.movesHashMap) calibration.movesHashMap = {}
+  calibration.movesHashMap[movesHash] = idMash
   
   await fs.writeFile(`./calibrations/${fileName}`, JSON.stringify(calibration, null, 2))
 }
