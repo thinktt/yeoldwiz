@@ -40,8 +40,32 @@ async function doCalibrations(cmpNames) {
   console.log(chalk.red('Pipe Burst: ', pipeBurst))
 
   await fs.writeFile('./calibrations/finalLogs.txt', logData)
-
 }                                                          
+
+buildTargets(5)
+async function buildTargets(numberOfRuns) {
+
+  const doRuns = async (cmpNames, clockTime) => {
+    for (let i=0; i < numberOfRuns; i++) {
+      for (const cmpName of cmpNames) {
+        console.log(chalk.green(`Starting target run for ${cmpName} at ${clockTime}`))
+        const oldTarget = await loadCalibrationFile(`${cmpName}.json`)
+        if (oldTarget && oldTarget.runs.length >= numberOfRuns) { 
+          console.log(chalk.green(`${cmpName}.json has reached it's run limit`))
+          // remove name from the list so it doesn't get tried again
+          cmpNames = cmpNames.filter(name => name !== cmpName )
+          continue
+        }
+        await buildTargetFile(cmpName, clockTime)
+        console.log(chalk.green(`Target run for ${cmpName} complete`))
+      }
+    }
+  }
+  await doRuns(cmpEasyNames, 40000)
+  await doRuns(cmpHardNames, 60000)
+  await doRuns(cmpGmNames, 80000)
+}
+
 
 async function multiRunCrankDown(cmpNames, startTime) {
   startTime = startTime || 6000
@@ -249,27 +273,6 @@ async function runCalibrations(clockTime) {
   // await buildTargetFile('Orin', clockTime)
   // await buildTargetFile('Joey', clockTime)
   // await buildTargetFile('Willow', clockTime)
-}
-
-buildTargets(5)
-async function buildTargets(numberOfRuns) {
-
-  const doRuns = async (cmpNames, clockTime) => {
-    for (let i=0; i < numberOfRuns; i++) {
-      for (const cmpName of cmpNames) {
-        const oldTarget = await loadCalibrationFile(`${cmpName}.json`)
-        if (oldTarget && oldTarget.runs.length >= numberOfRuns) { 
-          console.log(chalk.green(`${cmpName}.json has reached it's run limit`))
-          cmpNames = cmpNames.filter(name => name !== cmpName )
-          continue
-        }
-        await buildTargetFile(cmpName, clockTime)
-      }
-    }
-  }
-  await doRuns(cmpEasyNames, 2000)
-  // await doRuns(cmpHardNames, 2000)
-  // await doRuns(cmpGmNames, 2000)
 }
 
 async function  buildTargetFile(cmpName, clockTime, fileName) {
@@ -739,7 +742,7 @@ async function multiRun() {
   
   for (let i = 0; i < asyncRunTimes; i++) {
     const settings = { moves, pVals: cmp.out, secondsPerMove, clockTime: 40000 }
-    runs.push(engineGetMove(settings))
+    runs.push(await engineGetMove(settings))
   }
   
   const engineMoves = await Promise.all(runs) 
@@ -782,15 +785,18 @@ async function expandPositions(positions) {
 }
 
 async function engineGetMove(settings) {
-  let moves
-  while(pipeBurst < 10) {
-    try {
-      moves = await engine.getMove(settings)
-      return moves
-    } catch (err) {
-      pipeBurst++
-      console.log(chalk.bgMagenta('Pipe Burst number', pipeBurst))
-    }
-  }
-  process.exit(1)
+  const moves = await engine.getMove(settings)
+  return moves
+  
+  // let moves
+  // while(pipeBurst < 10) {
+  //   try {
+  //     moves = await engine.getMove(settings)
+  //     return moves
+  //   } catch (err) {
+  //     pipeBurst++
+  //     console.log(chalk.bgMagenta('Pipe Burst number', pipeBurst))
+  //   }
+  // }
+  // process.exit(1)
 }

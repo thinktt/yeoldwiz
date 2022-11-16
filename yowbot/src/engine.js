@@ -19,6 +19,8 @@ const defaultSettings = {
 }
 
 
+const console = {log() {}}
+
 // Start the engine and get next move using given engine settings
 async function getMove(settings) {
   settings = fillDefaultSettings(settings)
@@ -56,7 +58,7 @@ async function getMove(settings) {
         // if egineline starts with an int this is a move line, parse it and
         // store it in the moveData object
         if (parseInt(engineLine) > 1000) {
-          process.stdout.write(chalk.yellow(engineLine))
+          // process.stdout.write(chalk.yellow(engineLine))
           moveData = parseMoveLine(engineLine)
           moveData.coordinateMove = getCordinateMove(moveData.algebraMove, settings.moves)
           moveData.willAcceptDraw = getDrawEval(moveData.eval, settings.pVals.cfd, settings.moves)
@@ -75,7 +77,7 @@ async function getMove(settings) {
         // as engineLine will say "Illegal move" but give no move
         } else if (engineLine.includes('move') && !quitWasSent) {
           moveData.timeForMove = Date.now() - startTime
-          process.stdout.write(chalk.blue(engineLine))
+          // process.stdout.write(chalk.blue(engineLine))
           child.stdin.write('quit\n')
           moveData.engineMove = engineLine.match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
           console.log('timeForMove:', moveData.timeForMove)
@@ -85,7 +87,7 @@ async function getMove(settings) {
           resolve(moveData)
         
         } else {
-          process.stdout.write(chalk.red(engineLine))
+          // process.stdout.write(chalk.red(engineLine))
         }
       }
    

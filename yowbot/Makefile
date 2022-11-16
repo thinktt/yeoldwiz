@@ -65,7 +65,7 @@ eep:
 	scp -r dist/testPositions.json eep:~/yowbot/
 
 gettargets: 
-	mkdir dist/calibrations/targets
+	mkdir dist/calibrations/targets || true
 	scp -r eep:~/yowbot/calibrations/* dist/calibrations/targets
 
 testengine: 
