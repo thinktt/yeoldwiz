@@ -281,7 +281,7 @@ async function  buildTargetFile(cmpName, clockTime, fileName) {
   const oldCalibration = await loadCalibrationFile(fileName)
   if (!oldCalibration) badReads++
 
-  const moves = await runPositions(cmpName, positions, clockTime)
+  const moves = await runPositions(cmpName, positions, clockTime, null, true)
   const { movesHash, idMash } = getMovesHash(moves) 
   const { averageTime } = getAverageMoveTime(moves)
   
