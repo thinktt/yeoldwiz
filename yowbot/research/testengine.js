@@ -16,10 +16,9 @@ const cmpEasyNames = ['Joey', 'Marius', 'Sam', 'Willow', 'Risa', 'Mark']
 const cmpHardNames = ['Orin', 'Josh7', 'Mariah', 'Ginger', "Mateo", 'Queenie']
 const cmpGmNames = ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard']
 let pipeBurst = 0
+engine.setLogLevel('silent')
 
-
-
-
+logCalibrationSums(cmpEasyNames)
 // doCalibrations(cmpEasyNames)
 async function doCalibrations(cmpNames) {
   let averageTimeSum = 0
@@ -29,6 +28,9 @@ async function doCalibrations(cmpNames) {
   }
 
   let clockTime = Math.round((averageTimeSum / cmpNames.length) / 50) * 50 * 40
+
+  console.log(`Average time sum is ${averageTimeSum}`)
+  console.log(`Clock time for all cmps tested is ${clockTime}`)
 
   clockTime = await multiRunCrankDown(cmpNames, clockTime) 
 
@@ -40,9 +42,11 @@ async function doCalibrations(cmpNames) {
   console.log(chalk.red('Pipe Burst: ', pipeBurst))
 
   await fs.writeFile('./calibrations/finalLogs.txt', logData)
-}                                                          
+}   
 
-buildTargets(5)
+
+
+// buildTargets(5)
 async function buildTargets(numberOfRuns) {
 
   const doRuns = async (cmpNames, clockTime) => {
@@ -89,19 +93,33 @@ async function multiRunCrankDown(cmpNames, startTime) {
   console.log(chalk.green(`${startTime} is current clock time`))
 
   for (let i = 0; i < timesToRun; i++) {
-    // stop loop if we get three equal clock times in a row
+    // stop loop if we get 4 equal clock times in a row
     if (hasRepeats(clockTimes)) {
-      console.log(chalk.green('three equal clockTimes of', startTime))
+      console.log(chalk.green('four equal clockTimes of', startTime))
       break
     }
 
-    const clockTime = await longClockCrankDown(cmpNames, startTime)
+    // const clockTime = await longClockCrankDown(cmpNames, startTime)
+    const clockTime = await clockStrategy2(cmpNames, startTime)
+
     clockTimes.push(clockTime)
     await fs.writeFile(`./calibrations/clockTimes.json`, JSON.stringify(clockTimes))
     startTime = clockTime
   }
 
   return startTime
+}
+
+async function clockStrategy2(cmpNames, startTime) {
+  let clockTimeSum = 0
+  for (const cmpName of cmpNames) {
+    console.log(chalk.green(`............${cmpName}............`))
+    clockTimeSum = clockTimeSum + await clockCrankDown(cmpName, startTime)
+  }
+
+  const clockTime = Math.round(clockTimeSum / cmpNames.length)
+  console.log('Average time is', clockTime)
+  return clockTime
 }
 
 // longClockCrankDown()
@@ -116,61 +134,7 @@ async function longClockCrankDown(cmpNames, startClockTime) {
   return clockTime
 }
 
-// doCalibrationRuns(3750)
-async function doCalibrationRuns(clockTime) {
-  const cmpNames = ['Joey', 'Marius', 'Orin', 'Risa', 'Willow']
-  clockTime = clockTime || 6000
-
-  for (const cmpName of cmpNames) {
-    console.log(chalk.green(`............${cmpName}............`))
-    await buildCalibrationFile(cmpName, clockTime)
-  }
-  console.log(clockTime)
-  return clockTime
-
-}
-
-
-async function doLog(...args) {
-  regEx = /\[..m/g
-  logData = logData + args.join(' ') + '\n'
-  logData = logData.replace(regEx, '')
-  console.log(...args)
-}
-
-async function logCalibrationSums(cmpNames) {
-  let idAccuracySum = 0
-  let realAcccuracySum = 0
-  let underAccuracySum = 0
-  let averageTimeSum = 0
-  let noDesperateAccuracySum = 0
-
-  for (const cmpName of cmpNames) {
-    const calibration = await loadCalibrationFile(`${cmpName}.json`)
-    const target = await loadCalibrationFile(`targets/${cmpName}.json`)
-
-    doLog(chalk.green(`............${cmpName}............`))
-    const moveStats = logMoves(calibration.moves, target.moves)
-    const {averageTime, idAccuracy, realAccuracy, underAccuracy, noDesperateAccuracy} = moveStats 
-    averageTimeSum = averageTimeSum + averageTime
-    idAccuracySum = idAccuracySum + idAccuracy 
-    realAcccuracySum = realAcccuracySum + realAccuracy
-    underAccuracySum = underAccuracySum + underAccuracy
-    noDesperateAccuracySum = noDesperateAccuracySum + noDesperateAccuracy
-  }
-
-  console.log(averageTimeSum / cmpNames.length)
-  
-  doLog('.........Totals...........')
-  doLog(`Average time: ${averageTimeSum / cmpNames.length}`)
-  doLog(`ID Accuracy: ${idAccuracySum / cmpNames.length}%`)
-  doLog(`Real Accuracy: ${realAcccuracySum / cmpNames.length}%`)
-  doLog(`Under Accuracy: ${underAccuracySum / cmpNames.length}%`)
-  doLog(`No Desperate: ${noDesperateAccuracySum / cmpNames.length}%`)
-
-}
-
-// clockCrankDown('Joey', 6000)
+// clockCrankDown('Risa', 4000)
 async function clockCrankDown(cmpName, startClockTime) {
   const calibration = await loadCalibrationFile(`${cmpName}.json`)
   if (!calibration) {
@@ -189,9 +153,172 @@ async function clockCrankDown(cmpName, startClockTime) {
     i++
   }
   
-  // console.log(clockTime)
+  console.log(clockTime)
   return clockTime
 }
+
+async function doLog(...args) {
+  regEx = /\[..m/g
+  logData = logData + args.join(' ') + '\n'
+  logData = logData.replace(regEx, '')
+  console.log(...args)
+}
+
+async function logCalibrationSums(cmpNames) {
+  let idAccuracySum = 0
+  let realAcccuracySum = 0
+  let underAccuracySum = 0
+  let averageTimeSum = 0
+  let noDesperateAccuracySum = 0
+  let topDepth = 0
+  let topTargetDepth = 0
+  let depthSum = 0
+  let targetDepthSum = 0
+
+  for (const cmpName of cmpNames) {
+    const calibration = await loadCalibrationFile(`${cmpName}.json`)
+    const target = await loadCalibrationFile(`targets/${cmpName}.json`)
+
+    doLog(chalk.green(`............${cmpName}............`))
+    const moveStats = logMoves(calibration.moves, target.moves)
+    const {averageTime, idAccuracy, realAccuracy, underAccuracy, noDesperateAccuracy } = moveStats 
+
+    if (topDepth < moveStats.topDepth) topDepth = moveStats.topDepth
+    if (topTargetDepth < moveStats.topTargetDepth) topTargetDepth = moveStats.topTargetDepth
+    depthSum = depthSum + moveStats.depthSum 
+    targetDepthSum = targetDepthSum + moveStats.targetDepthSum
+
+    averageTimeSum = averageTimeSum + averageTime
+    idAccuracySum = idAccuracySum + idAccuracy 
+    realAcccuracySum = realAcccuracySum + realAccuracy
+    underAccuracySum = underAccuracySum + underAccuracy
+    noDesperateAccuracySum = noDesperateAccuracySum + noDesperateAccuracy
+  }
+  
+  doLog('.........Totals...........')
+  doLog(`Average time: ${ Math.round(averageTimeSum / cmpNames.length) }`)
+  doLog(`ID Accuracy: ${ Math.round(idAccuracySum / cmpNames.length) }%`)
+  doLog(`Real Accuracy: ${Math.round(realAcccuracySum / cmpNames.length) }%`)
+  doLog(`Under Accuracy: ${Math.round(underAccuracySum / cmpNames.length) }%`)
+  doLog(`No Desperate: ${Math.round(noDesperateAccuracySum / cmpNames.length) }%`)
+  doLog('Top Depth', topDepth)
+  doLog('Top Target Depth', topTargetDepth)
+  doLog('Depth Average', Math.round(depthSum / (cmpNames.length * 24)))
+  doLog('Target Depth Average', Math.round(targetDepthSum / (cmpNames.length * 24)))
+}
+
+
+function logMoves(moves, targetMoves) {
+  let discrepencyCount = 0
+  let desperateCount = 0
+  let realMoveAccurate = 0
+  let highPoints = 0
+  let lowPoints = 0
+  let topDepth = 0
+  let depthSum = 0
+  let topTargetDepth = 0
+  let targetDepthSum = 0
+  
+
+  for (const i of moves.keys()) {
+    const move = moves[i]
+    const targetMove = targetMoves[i]
+
+    const depth = Math.round(move.depth / 1000)
+    const targetDepth = Math.round(targetMove.depth / 1000)
+
+    if (depth > topDepth) topDepth = depth
+    depthSum = depthSum + depth
+
+    if (targetDepth > topTargetDepth) topTargetDepth = targetDepth
+    targetDepthSum = targetDepthSum + targetDepth
+
+    let color = 'blue'
+    let discrepency = ''
+    if (targetMove.id && move.id !== targetMove.id) { 
+      color = 'red'
+      discrepencyCount++
+    }
+    if (targetMove.id && move.id > targetMove.id) {
+      discrepency = 'HIGH'
+      highPoints++
+    }
+    if (move.id < targetMove.id) {
+      discrepency = 'LOW'
+      lowPoints++
+    }
+
+    if (move.id > targetMove.id  && move.eval < -500) {
+      desperateCount++
+    }
+
+    
+    // hilight if the ids don't match but they are the same move anyways
+    if (targetMove.id !== move.id && targetMove.algebraMove === move.algebraMove) {
+      color = 'yellow'
+      realMoveAccurate ++ 
+    }
+    
+    // highlight low moves that are also alt moves in the target file
+    if (discrepency && targetMove.idCounts[move.id]) {
+      color = 'magenta'
+    }
+
+    doLog(chalk[color](
+      String(i).padStart(2,'0'),
+      String(move.time).padStart(5), 
+      String(move.id).padStart(8),
+      String(targetMove.id).padStart(8),
+      '   ', 
+      move.algebraMove.padEnd(5),
+      targetMove.algebraMove.padEnd(5),
+      String(move.eval).padStart(5),
+      String(targetMove.eval).padStart(5),
+      String(move.depth).padStart(5),
+      String(targetMove.depth).padStart(5),
+      discrepency,
+    ))
+  }
+
+  const { averageTime, clockTimeEstimate } = getAverageMoveTime(moves)
+  const idAccuracy = Math.round((moves.length - discrepencyCount) / moves.length * 100)
+  const realAccuracy = 
+    Math.round((moves.length - (discrepencyCount - realMoveAccurate) ) / moves.length * 100)
+  const underAccuracy = 
+    Math.round((moves.length - (discrepencyCount - lowPoints) ) / moves.length * 100)
+  const noDesperateAccuracy =  Math.round(
+      (moves.length - (discrepencyCount - lowPoints - desperateCount) ) / moves.length * 100
+    )
+
+  console.log('Average time: ', averageTime)
+  console.log('clock Estimate: ', clockTimeEstimate)
+  console.log('discrpency to moves:', discrepencyCount, moves.length)
+  console.log('ID Accuracy:', `${idAccuracy}%`)
+  console.log(`Real Accuracy: ${realAccuracy}%`)
+  console.log(`Under Accuracy: ${underAccuracy}%`)
+  console.log(`With Desperate Out: ${noDesperateAccuracy}%`)
+  console.log('Top Depth', topDepth)
+  console.log('Top Target Depth', topTargetDepth)
+  console.log('High:', highPoints)
+  console.log('Low:', lowPoints)
+
+  return { 
+    averageTime,
+    clockTimeEstimate,
+    discrepencyCount,
+    highPoints,
+    lowPoints, 
+    idAccuracy, 
+    realAccuracy,
+    underAccuracy,
+    noDesperateAccuracy,
+    topDepth,
+    depthSum,
+    topTargetDepth,
+    targetDepthSum,
+  }
+}
+
 
 async function testClockTime(cmpName, position, targetMoveId, startClockTime) {
   const cmp = personalites.getSettings(cmpName)
@@ -208,28 +335,15 @@ async function testClockTime(cmpName, position, targetMoveId, startClockTime) {
   let move
   while(true) {
     move = await engineGetMove(settings)
-    if (move.id <= targetMoveId || move.eval < -500) break
-    console.log(chalk.green('TOO HIGH'))
+    if (move.id <= targetMoveId || move.eval < -500) {
+      // console.log(chalk.yellow(`${move.id} ${targetMoveId} GOOD @ ${settings.clockTime}`))
+      break
+    }
+    console.log(chalk.green(`${move.id} ${targetMoveId} TOO HIGH @ ${settings.clockTime}`))
     settings.clockTime = settings.clockTime - 50
   } 
 
   return settings.clockTime
-}
-
-let badReads = 0
-async function runMultiCalibrations(numberOfRuns) {
-  for (let i = 0; i < numberOfRuns; i++) {
-    console.log(chalk.yellow(`...............Run ${i}..............`))
-    await runCalibrations(2000)
-  }
-  console.log('BAD READS: ', badReads)
-}
-
-async function initMultipleCalibrations() {
-  const cmpNames = ['Joey', 'Marius', 'Orin', 'Willow']
-  for (const cmpName of cmpNames) {
-    await initCalibrationFile(cmpName)
-  }
 }
 
 async function buildCalibrationFile(cmpName, clockTime) {
@@ -247,12 +361,14 @@ async function buildCalibrationFile(cmpName, clockTime) {
   await fs.writeFile(`./calibrations/${cmpName}.json`, JSON.stringify(calibration, null, 2))
 }
 
+
 async function initCalibrationFile(cmpName) {
   const previousCalibration = await loadCalibrationFile(`${cmpName}.json`)
   if (previousCalibration) {
     console.log(chalk.green(`Calibration for ${cmpName} already intialized`))
     return previousCalibration.runs[0].averageTime
   }
+  console.log(chalk.green(`Intializing ${cmpName}.json`))
 
   const moves = await getStopMoves(cmpName, positions) 
   const { movesHash, idMash } = getMovesHash(moves) 
@@ -267,14 +383,8 @@ async function initCalibrationFile(cmpName) {
   return averageTime
 }
 
-async function runCalibrations(clockTime) {
-  await buildTargetFile('Risa', clockTime, null, true)
-  // await buildTargetFile('Marius', clockTime)
-  // await buildTargetFile('Orin', clockTime)
-  // await buildTargetFile('Joey', clockTime)
-  // await buildTargetFile('Willow', clockTime)
-}
-
+let badReads = 0
+// buildTargetFile('Risa', 2000)
 async function  buildTargetFile(cmpName, clockTime, fileName) {
   clockTime = clockTime || 40000
   fileName = fileName || `${cmpName}.json`
@@ -448,103 +558,10 @@ async function getStopMoves(cmpName, positions) {
   // logMoves(moves, target.moves)
 }
 
-function logMoves(moves, targetMoves) {
-  let discrepencyCount = 0
-  let desperateCount = 0
-  let realMoveAccurate = 0
-  let highPoints = 0
-  let lowPoints = 0
-
-  for (const i of moves.keys()) {
-    const move = moves[i]
-    const targetMove = targetMoves[i]
-
-    let color = 'blue'
-    let discrepency = ''
-    if (targetMove.id && move.id !== targetMove.id) { 
-      color = 'red'
-      discrepencyCount++
-    }
-    if (targetMove.id && move.id > targetMove.id) {
-      discrepency = 'HIGH'
-      highPoints++
-    }
-    if (move.id < targetMove.id) {
-      discrepency = 'LOW'
-      lowPoints++
-    }
-
-    if (move.id > targetMove.id  && move.eval < -500) {
-      desperateCount++
-    }
-
-    
-    // hilight if the ids don't match but they are the same move anyways
-    if (targetMove.id !== move.id && targetMove.algebraMove === move.algebraMove) {
-      color = 'yellow'
-      realMoveAccurate ++ 
-    }
-
-    
-    // highlight low moves that are also alt moves in the target file
-    if (discrepency && targetMove.idCounts[move.id]) {
-      color = 'magenta'
-    }
-
-    doLog(chalk[color](
-      String(i).padStart(2,'0'),
-      String(move.time).padStart(5), 
-      String(move.id).padStart(8),
-      String(targetMove.id).padStart(8),
-      '   ', 
-      move.algebraMove.padEnd(5),
-      targetMove.algebraMove.padEnd(5),
-      String(move.eval).padStart(5),
-      String(targetMove.eval).padStart(5),
-      String(move.depth).padStart(5),
-      String(targetMove.depth).padStart(5),
-      discrepency,
-    ))
-  }
-
-  const { averageTime, clockTimeEstimate } = getAverageMoveTime(moves)
-  const idAccuracy = Math.round((moves.length - discrepencyCount) / moves.length * 100)
-  const realAccuracy = 
-    Math.round((moves.length - (discrepencyCount - realMoveAccurate) ) / moves.length * 100)
-  const underAccuracy = 
-    Math.round((moves.length - (discrepencyCount - lowPoints) ) / moves.length * 100)
-  const noDesperateAccuracy =  Math.round(
-      (moves.length - (discrepencyCount - lowPoints - desperateCount) ) / moves.length * 100
-    )
-
-  console.log('Average time: ', averageTime)
-  console.log('clock Estimate: ', clockTimeEstimate)
-  console.log('discrpency to moves:', discrepencyCount, moves.length)
-  console.log('ID Accuracy:', `${idAccuracy}%`)
-  console.log(`Real Accuracy: ${realAccuracy}%`)
-  console.log(`Under Accuracy: ${underAccuracy}%`)
-  console.log(`With Desperate Out: ${noDesperateAccuracy}%`)
-  console.log('High:', highPoints)
-  console.log('Low:', lowPoints)
-
-  return { 
-    averageTime,
-    clockTimeEstimate,
-    discrepencyCount,
-    highPoints,
-    lowPoints, 
-    idAccuracy, 
-    realAccuracy,
-    underAccuracy,
-    noDesperateAccuracy,
-  }
-}
-
 
 // runPositions('Risa', positions, 60000, targets)
 async function runPositions(cmpName, positions, clockTime, target, showPreviousMoves) {
   const cmp = personalites.getSettings(cmpName)
-  // const target = await loadCalibrationFile('targets/Risa.json')
   cmp.out.rnd = "0"
 
   const moves = []
@@ -603,7 +620,6 @@ function buildTestPostionFile() {
   fs.writeFileSync('./testPositions.json', JSON.stringify(positions, null, 2))
 }
 
-
 // takes a list of uci style games (list of moves) and createa a random uci 
 // positon from somwhere in all the games
 function getRandoPosition(games) {
@@ -655,7 +671,6 @@ async function repeatMove(cmp, movesSoFar, timesToRepeat) {
     console.log(`${move.time} ${move.id} ${move.algebraMove} ${move.eval}`)
   }
 }
-
 
 async function runThroughMoves(cmp) {
 

@@ -17,28 +17,29 @@ const defaultSettings = {
   clockTime: null,
   stopId: null,
 }
+let logLevel = 'verbose'
+let console2 = console
 
 
-const console = {log() {}}
 
 // Start the engine and get next move using given engine settings
 async function getMove(settings) {
   settings = fillDefaultSettings(settings)
-  if (settings.pVals.rnd === 0) console.log('random moves are off')
+  if (settings.pVals.rnd === 0) console2.log('random moves are off')
   // moves, pVals, secondsPerMove, clockTime
 
   // start the chess engine process, using the proper engine command
   // defaults is ./enginewrap and will work in WSL 
   // Dockerfile sets ENG_CMD /usr/bin/wine ./enginewrap
   const cmd = process.env.ENG_CMD ||  './enginewrap'
-  console.log(`engine cmd: ${cmd}`)
+  console2.log(`engine cmd: ${cmd}`)
   const child = exec(cmd)
   let moveData
   let previousMoves = []
  
   // on close event stop the process
   child.on('close', (code) => {
-      console.log(`engine exited with ${code}`)
+      console2.log(`engine exited with ${code}`)
   })
 
 
@@ -58,13 +59,13 @@ async function getMove(settings) {
         // if egineline starts with an int this is a move line, parse it and
         // store it in the moveData object
         if (parseInt(engineLine) > 1000) {
-          // process.stdout.write(chalk.yellow(engineLine))
+          log(chalk.yellow(engineLine))
           moveData = parseMoveLine(engineLine)
           moveData.coordinateMove = getCordinateMove(moveData.algebraMove, settings.moves)
           moveData.willAcceptDraw = getDrawEval(moveData.eval, settings.pVals.cfd, settings.moves)
           previousMoves.push(moveData)
           if (settings.stopId && moveData.id === settings.stopId) {
-            process.stdout.write(chalk.red("reached stop id, stopping engine\n"))
+            log(chalk.red("reached stop id, stopping engine\n"))
             moveData.engineMove = null
             quitWasSent = true
             child.stdin.write('quit\n')
@@ -77,17 +78,17 @@ async function getMove(settings) {
         // as engineLine will say "Illegal move" but give no move
         } else if (engineLine.includes('move') && !quitWasSent) {
           moveData.timeForMove = Date.now() - startTime
-          // process.stdout.write(chalk.blue(engineLine))
+          log(chalk.blue(engineLine))
           child.stdin.write('quit\n')
           moveData.engineMove = engineLine.match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
-          console.log('timeForMove:', moveData.timeForMove)
-          console.log('willAcceptDraw:', moveData.willAcceptDraw)
-          console.log('coordinateMove:', moveData.coordinateMove)
+          console2.log('timeForMove:', moveData.timeForMove)
+          console2.log('willAcceptDraw:', moveData.willAcceptDraw)
+          console2.log('coordinateMove:', moveData.coordinateMove)
           if (settings.showPreviousMoves) moveData.previousMoves = previousMoves.slice(0,-1)
           resolve(moveData)
         
         } else {
-          // process.stdout.write(chalk.red(engineLine))
+          log(chalk.red(engineLine))
         }
       }
    
@@ -96,7 +97,7 @@ async function getMove(settings) {
 
   // log on process errors
   child.stderr.on('data', (data) => {
-    process.stdout.write(chalk.red(data.toString()))
+    log(chalk.red(data.toString()))
   })
 
   startTime = Date.now()
@@ -110,7 +111,7 @@ async function getMove(settings) {
 function fillDefaultSettings(settings) {
   for (const key in defaultSettings) {
     if (!settings[key] && defaultSettings[key] !== null) {
-      console.log(`using deafault ${key}: ${defaultSettings[key]}`)
+      console2.log(`using deafault ${key}: ${defaultSettings[key]}`)
       settings[key] = defaultSettings[key]
     }
   }
@@ -121,9 +122,9 @@ function getDrawEval(currentEval, contemptForDraw, moves) {
   // first the game must be at least 30 half moves (15 moves) long
   if (moves.length <= 30) return false
   contemptForDraw = parseInt(contemptForDraw)
-  // console.log('eval:', currentEval)
-  // console.log('cfd:', contemptForDraw)
-  // console.log('drawEval:', currentEval + contemptForDraw)
+  // console2.log('eval:', currentEval)
+  // console2.log('cfd:', contemptForDraw)
+  // console2.log('drawEval:', currentEval + contemptForDraw)
   return (currentEval + contemptForDraw) < 0
 }
 
@@ -150,7 +151,7 @@ function getCordinateMove(algebraMove, moves) {
   if (longMove) return longMove.from + longMove.to
 
   // chess js didn't like the move for some reason
-  console.error('Failed to create coordinate move!')
+  console2.error('Failed to create coordinate move!')
   return null
 }
 
@@ -182,33 +183,51 @@ async function startEngine(child, settings) {
   child.stdin.write('easy\n')
 
   if (clockTime) {
-    console.log(`clock time manually set to ${clockTime}`)
+    console2.log(`clock time manually set to ${clockTime}`)
   } else {
-    console.log(`seconds per move is ${secondsPerMove}`)
+    console2.log(`seconds per move is ${secondsPerMove}`)
   } 
   const moveTime = clockTime || (secondsPerMove * 100 * 40)  
 
-  console.log(`time ${moveTime}`)
-  console.log(`otim ${moveTime}`)
+  console2.log(`time ${moveTime}`)
+  console2.log(`otim ${moveTime}`)
   child.stdin.write(`time ${moveTime}\n`)
   child.stdin.write(`otim ${moveTime}\n`)
     
   // send all the moves to the engine
-  // console.log(moves)
-  console.log(`sending ${moves.length} moves to the engine`)  
+  // console2.log(moves)
+  console2.log(`sending ${moves.length} moves to the engine`)  
   for (const move of moves) {
     child.stdin.write(`${move}\n`)
   }
   
   // log which move the engine is playing
   if (turn == 'w') {
-    console.log('engine moving as white')
+    console2.log('engine moving as white')
   } else {
-    console.log('engine moving as black')
+    console2.log('engine moving as black')
   }
   
   // kick off the engine
   child.stdin.write('go\n')
 }
 
-module.exports = { getMove }
+function log(data) {
+  if (logLevel === 'quiet' || logLevel === 'silent') return 
+  process.stdout.write(data)
+}
+
+function log2(data) {
+
+}
+
+function setLogLevel(logLevelToSet) {
+  logLevel = logLevelToSet
+  if (logLevel === 'silent') {
+    console2 = { log() {} }
+  } else {
+    console2 = console
+  }
+}
+
+module.exports = { getMove, setLogLevel }
