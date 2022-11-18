@@ -19,8 +19,8 @@ const cmpGmNames = ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard'
 let pipeBurst = 0
 engine.setLogLevel('silent')
 
-// logCalibrationSums(cmpHardNames, 5100)
-calibrateGroups()
+logCalibrationSums(cmpHardNames, 5100)
+// calibrateGroups()
 async function calibrateGroups() {
   await doCalibrations(cmpHardNames, 'Hard')
   // const stats = await getAccurayStats('Ginger')
@@ -60,15 +60,21 @@ async function doCalibrations(cmpNames, groupName) {
     clockTime = runSums.initTime
   }
 
-  await buildCalibrationFile('Ginger', clockTime)
 
   const doRuns = async (cmpNames, clockTime) => {
+    const runs = []
     for (const cmpName of cmpNames) {
       console.log(chalk.green(`Building calibration for ${cmpName}`))
-      await buildCalibrationFile(cmpName, clockTime)
+      const run =await buildCalibrationFile(cmpName, clockTime)
+      runs.push(run) 
     }
+    const runSum = getRunSum(runs) 
+    runSums.runs.push(runSum)
+    await fs.writeFile(`./calibrations/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
+    return runSum
   }
 
+  await doRuns(cmpNames, clockTime)
 
   // await logCalibrationSums(cmpNames, clockTime)
   // console.log(chalk.red('Pipe Burst: ', pipeBurst))
@@ -102,6 +108,22 @@ async function buildTargets(numberOfRuns) {
   await doRuns(cmpGmNames, 80000)
 }
 
+
+function getRunSum(runs) {
+  let idAccuracySum = 0
+  let realAccuracySum = 0
+  let underAccuracySum = 0
+  for (const run of runs) {
+    idAccuracySum = idAccuracySum + run.idAccuracy
+    realAccuracySum = realAccuracySum + run.realAccuracy
+    underAccuracySum = underAccuracySum + run.underAccuracy
+  }
+  const idAccuracy = Math.round((idAccuracySum / runs.length) / 50) * 50
+  const realAccuracy = Math.round((realAccuracySum / runs.length) / 50) * 50
+  const underAccuracy = Math.round((underAccuracySum / runs.length) / 50) * 50
+
+  return { idAccuracy, realAccuracy, underAccuracy }
+}
 
 async function getAccurayStats(moves, targetMoves) {
   let discrepencyCount = 0
@@ -486,6 +508,7 @@ async function buildCalibrationFile(cmpName, clockTime) {
   
 
   await fs.writeFile(`./calibrations/${cmpName}.json`, JSON.stringify(calibration, null, 2))
+  return run
 }
 
 
