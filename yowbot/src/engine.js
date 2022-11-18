@@ -193,7 +193,8 @@ async function startEngine(child, settings) {
   console2.log(`otim ${moveTime}`)
   child.stdin.write(`time ${moveTime}\n`)
   child.stdin.write(`otim ${moveTime}\n`)
-    
+
+  
   // send all the moves to the engine
   // console2.log(moves)
   console2.log(`sending ${moves.length} moves to the engine`)  

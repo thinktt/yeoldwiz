@@ -29,4 +29,7 @@ level
   otim
     clock that belongs to the opponent?
 
+  nps
+    noderate per seconds, in theory could allow better control of the engine time
+    on different computers 
   
