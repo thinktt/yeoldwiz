@@ -19,12 +19,11 @@ const cmpGmNames = ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard'
 let pipeBurst = 0
 engine.setLogLevel('silent')
 
-// logCalibrationSums(cmpHardNames, 5100)
 calibrateGroups()
 async function calibrateGroups() {
-  // await doCalibrations(cmpHardNames, 'Hard')
   await doCalibrations(cmpEasyNames, 'Easy')
-  // await doCalibrations(cmpGmNames, 'Hard')
+  await doCalibrations(cmpHardNames, 'Hard')
+  await doCalibrations(cmpGmNames, 'Gm')
 }
 
 async function doCalibrations(cmpNames, groupName) {
@@ -35,8 +34,7 @@ async function doCalibrations(cmpNames, groupName) {
   }
 
   // attempt to create a good starting time from stopId move times
-  let clockTime = (Math.round((averageTimeSum / cmpNames.length) / 50) * 50 * 40) * 2
-
+  let clockTime = (Math.round((averageTimeSum / cmpNames.length) / 50) * 50 * 40) * 1.5
 
   // Load or any previous calibration run summaries, or create the run file
   let runSums = await loadCalibrationFile(`runSums${groupName}.json`)
@@ -75,50 +73,45 @@ async function doCalibrations(cmpNames, groupName) {
     return runSum
   }
 
-  const addCandidate = async (clockTime) => {
-    candidateTimes.push(clockTime)
-    await fs.writeFile(`./calibrations/clockTimes${groupName}.json`, JSON.stringify(runSums))
-  }
-
-  let candidateTimes = await loadCalibrationFile(`clockTimes${group}.json`)
-  if (!candidateTimes) candidateTimes = []
-
- 
   while(true) {
     clockTime = clockTime - 50
     const runSum = await doRuns(cmpNames, clockTime)
     console.log(chalk.magenta(runSum.idAccuracy, runSum.realAccuracy, runSum.underAccuracy))
-    
-    
-    // high accuracy
-    if (runSum.idAccuracy > 85 && runSum.highCount < 5) {
-      console.log(chalk.magentaBright('Cadidate! over 85'))
-      await logCalibrationSums(cmpNames, clockTime, groupName)
-      await showLog(groupName, clockTime)
-      addCandidate(clockTime)
-    }
-
-    // somewhat accurate and correctly under
-    if (runSum.idAccuracy > 80 && runSum.underAccuracy === 100) {
-      console.log(chalk.magentaBright('Candiate! over 80 only under discrepenies'))
-      await logCalibrationSums(cmpNames, clockTime, groupName)
-      await showLog(groupName, clockTime)
-      addCandidate(clockTime)
-    }
+    await logCalibrationSums(cmpNames, clockTime, groupName)
 
     // let's blow this taco stand and go home
     if (runSum.idAccuracy < 80 && runSum.underAccuracy > 90) {
       console.log(chalk.magentaBright('Low end and under 80, stopping runs'))
       break
     }
-
-    // finally elect a candidate here and write an .env file or something
-
   }
+
+  // find the best run from our pool of all runs
+  runSums = await loadCalibrationFile(`runSums${groupName}.json`) 
+  const runs = runSums.runs
+  const sortedRuns  = runs.sort((run0, run1) => run0.idAccuracy - run1.idAccuracy)
+  const topRuns = sortedRuns.slice(-4)
+  const bottomRuns = sortedRuns.slice(0, -4)
+
+  // add any other matches at the end of the list just so no top numbers are missed
+  while(true) {
+    const previousRun = bottomRuns.pop()
+    if (previousRun.idAccuracy === topRuns[0].idAccuracy) {
+       topRuns.unshift(previousRun)
+    } else {
+      break
+    }
+  }
+
+  const topUnder = topRuns.sort((run0, run1) => run0.underAccuracy - run1.underAccuracy)
+  const finalClockTime = topUnder.pop().clockTime
+  
+  let clockTimes = await loadCalibrationFile('clockTimes.json')
+  if (!clockTimes) clockTimes = {}
+  clockTimes[groupName] = finalClockTime
+  await fs.writeFile(`./calibrations/clockTimes.json`, JSON.stringify(clockTimes, null, 2))
 }   
 
-
-// buildTargets(5)
 async function buildTargets(numberOfRuns) {
 
   const doRuns = async (cmpNames, clockTime) => {
