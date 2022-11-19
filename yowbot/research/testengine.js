@@ -8,7 +8,7 @@ const positions = require('./testPositions.json')
 const { moves } = require('chess-tools/opening-books/ctg/moves.js')
 const fs = require('fs').promises
 const crypto = require('crypto')
-const { time } = require('console')
+const { time, group } = require('console')
 const { start } = require('repl')
 const { load } = require('dotenv')
 const chess = chessTools.create() 
@@ -19,12 +19,12 @@ const cmpGmNames = ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard'
 let pipeBurst = 0
 engine.setLogLevel('silent')
 
-logCalibrationSums(cmpHardNames, 5100)
-// calibrateGroups()
+// logCalibrationSums(cmpHardNames, 5100)
+calibrateGroups()
 async function calibrateGroups() {
-  await doCalibrations(cmpHardNames, 'Hard')
-  // const stats = await getAccurayStats('Ginger')
-  // console.log(stats)
+  // await doCalibrations(cmpHardNames, 'Hard')
+  await doCalibrations(cmpEasyNames, 'Easy')
+  // await doCalibrations(cmpGmNames, 'Hard')
 }
 
 async function doCalibrations(cmpNames, groupName) {
@@ -43,9 +43,8 @@ async function doCalibrations(cmpNames, groupName) {
   if (!runSums) {
     console.log(chalk.green('Finding  intitial clock calibration time'))
     console.log(chalk.green('cranking down from', clockTime))
-    // clockTime = await clockStrategy2(cmpNames, clockTime, groupName)
-    clockTime = 6250 
-    
+    clockTime = await clockStrategy2(cmpNames, clockTime, groupName)
+   
     console.log(chalk.green('Intitializing runSums.json file'))
     console.log(chalk.green('Setting init clock time to', clockTime))
     runSums = runSums || { initTime: clockTime, runs : [] }
@@ -53,6 +52,7 @@ async function doCalibrations(cmpNames, groupName) {
   } else {
     console.log(chalk.green('previous runSums loaded'))
   }
+  
   if (runSums.runs.length) {
     const lastRun = runSums.runs[runSums.runs.length - 1]
     clockTime = lastRun.clockTime
@@ -60,12 +60,13 @@ async function doCalibrations(cmpNames, groupName) {
     clockTime = runSums.initTime
   }
 
-
   const doRuns = async (cmpNames, clockTime) => {
     const runs = []
     for (const cmpName of cmpNames) {
-      console.log(chalk.green(`Building calibration for ${cmpName}`))
-      const run =await buildCalibrationFile(cmpName, clockTime)
+      process.stdout.write(chalk.green(`Running ${cmpName} @ ${clockTime} `))
+      const run = await buildCalibrationFile(cmpName, clockTime)
+      console.log(chalk.blue(run.idAccuracy, run.realAccuracy, run.underAccuracy, run.highCount, 
+        run.lowCount, run.desperados))
       runs.push(run) 
     }
     const runSum = getRunSum(runs) 
@@ -74,13 +75,46 @@ async function doCalibrations(cmpNames, groupName) {
     return runSum
   }
 
-  await doRuns(cmpNames, clockTime)
+  const addCandidate = async (clockTime) => {
+    candidateTimes.push(clockTime)
+    await fs.writeFile(`./calibrations/clockTimes${groupName}.json`, JSON.stringify(runSums))
+  }
 
-  // await logCalibrationSums(cmpNames, clockTime)
-  // console.log(chalk.red('Pipe Burst: ', pipeBurst))
+  let candidateTimes = await loadCalibrationFile(`clockTimes${group}.json`)
+  if (!candidateTimes) candidateTimes = []
 
-  // await fs.writeFile(`./calibrations/finalLogs${groupName}.txt`, logData)
-  // logData = ''
+ 
+  while(true) {
+    clockTime = clockTime - 50
+    const runSum = await doRuns(cmpNames, clockTime)
+    console.log(chalk.magenta(runSum.idAccuracy, runSum.realAccuracy, runSum.underAccuracy))
+    
+    
+    // high accuracy
+    if (runSum.idAccuracy > 85 && runSum.highCount < 5) {
+      console.log(chalk.magentaBright('Cadidate! over 85'))
+      await logCalibrationSums(cmpNames, clockTime, groupName)
+      await showLog(groupName, clockTime)
+      addCandidate(clockTime)
+    }
+
+    // somewhat accurate and correctly under
+    if (runSum.idAccuracy > 80 && runSum.underAccuracy === 100) {
+      console.log(chalk.magentaBright('Candiate! over 80 only under discrepenies'))
+      await logCalibrationSums(cmpNames, clockTime, groupName)
+      await showLog(groupName, clockTime)
+      addCandidate(clockTime)
+    }
+
+    // let's blow this taco stand and go home
+    if (runSum.idAccuracy < 80 && runSum.underAccuracy > 90) {
+      console.log(chalk.magentaBright('Low end and under 80, stopping runs'))
+      break
+    }
+
+    // finally elect a candidate here and write an .env file or something
+
+  }
 }   
 
 
@@ -113,23 +147,31 @@ function getRunSum(runs) {
   let idAccuracySum = 0
   let realAccuracySum = 0
   let underAccuracySum = 0
+  let highCount = 0
+  let lowCount = 0
+  let desperados = 0
+
   for (const run of runs) {
     idAccuracySum = idAccuracySum + run.idAccuracy
     realAccuracySum = realAccuracySum + run.realAccuracy
     underAccuracySum = underAccuracySum + run.underAccuracy
+    highCount = highCount + run.highCount
+    lowCount = lowCount + run.lowCount
+    desperados = desperados + run.desperados
   }
-  const idAccuracy = Math.round((idAccuracySum / runs.length) / 50) * 50
-  const realAccuracy = Math.round((realAccuracySum / runs.length) / 50) * 50
-  const underAccuracy = Math.round((underAccuracySum / runs.length) / 50) * 50
+  const idAccuracy = Math.round((idAccuracySum / runs.length)) 
+  const realAccuracy = Math.round((realAccuracySum / runs.length)) 
+  const underAccuracy = Math.round((underAccuracySum / runs.length)) 
+  const clockTime = runs[0].clockTime
 
-  return { idAccuracy, realAccuracy, underAccuracy }
+  return { clockTime, idAccuracy, realAccuracy, underAccuracy, highCount, lowCount, desperados }
 }
 
 async function getAccurayStats(moves, targetMoves) {
   let discrepencyCount = 0
   let highCount = 0
   let lowCount = 0
-  let desperadoCount = 0
+  let desperados = 0
   let realMoveAccurate = 0
   // const calibration = await loadCalibrationFile(`${cmpName}.json`)
   // const target = await loadCalibrationFile(`targets/${cmpName}.json`)
@@ -157,7 +199,7 @@ async function getAccurayStats(moves, targetMoves) {
       lowCount++
     }
     if (move.id > targetMove.id  && move.eval < -500) {
-      desperadoCount++
+      desperados++
     }
     // hilight if the ids don't match but they are the same move anyways
     if (targetMove.id !== move.id && targetMove.algebraMove === move.algebraMove) {
@@ -174,20 +216,20 @@ async function getAccurayStats(moves, targetMoves) {
   const underAccuracy = 
     Math.round((moves.length - (discrepencyCount - lowCount) ) / moves.length * 100)
   
-  const noDesperateAccuracy =  Math.round(
-    ( moves.length - (discrepencyCount - lowCount - desperadoCount) ) / moves.length * 100
-  )
+  // const noDesperateAccuracy =  Math.round(
+  //   ( moves.length - (discrepencyCount - lowCount - desperados) ) / moves.length * 100
+  // )
 
   return {
     averageTime,
     idAccuracy,
     realAccuracy,
     underAccuracy,
-    noDesperateAccuracy,
+    highCount,
+    lowCount,
+    desperados,
+    // noDesperateAccuracy,
     // discrepencyCount,
-    // highCount,
-    // lowCount,
-    // desperadoCount,
     // realMoveAccurate,
   }
 }
@@ -287,13 +329,18 @@ async function clockCrankDown(cmpName, startClockTime) {
 }
 
 async function doLog(...args) {
-  regEx = /\[..m/g
   logData = logData + args.join(' ') + '\n'
-  logData = logData.replace(regEx, '')
-  console.log(...args)
+  // regEx = /\[..m/g
+  // logData = logData.replace(regEx, '')
+  // console.log(...args)
 }
 
-async function logCalibrationSums(cmpNames, clockTime) {
+async function showLog(groupName, clockTime) {
+  const log = await fs.readFile(`./calibrations/logs/${groupName}${clockTime}.txt`, 'utf8')
+  console.log(log)
+}
+
+async function logCalibrationSums(cmpNames, clockTime, groupName) {
   let idAccuracySum = 0
   let realAccuracySum = 0
   let underAccuracySum = 0
@@ -326,7 +373,7 @@ async function logCalibrationSums(cmpNames, clockTime) {
     const run = calibration.runs[calibration.runs.length - 1]
     const newRun = { ...run, idAccuracy, realAccuracy, underAccuracy }
     calibration.runs[calibration.runs.length - 1] = newRun
-    await fs.writeFile(`./calibrations/${cmpName}.json`, JSON.stringify(calibration, null, 2))
+    // await fs.writeFile(`./calibrations/${cmpName}.json`, JSON.stringify(calibration, null, 2))
   }
   
   doLog('.........Totals...........')
@@ -341,7 +388,10 @@ async function logCalibrationSums(cmpNames, clockTime) {
   doLog('Target Depth Average', Math.round(targetDepthSum / (cmpNames.length * 24)))
   doLog('Clock Time', clockTime)
 
-  
+  if (groupName) {
+    await fs.writeFile(`./calibrations/logs/${groupName}${clockTime}.txt`, logData)
+    logData = ''
+  }
 }
 
 
@@ -427,17 +477,17 @@ function logMoves(moves, targetMoves) {
       (moves.length - (discrepencyCount - lowPoints - desperateCount) ) / moves.length * 100
     )
 
-  console.log('Average time: ', averageTime)
-  console.log('clock Estimate: ', clockTimeEstimate)
-  console.log('discrpency to moves:', discrepencyCount, moves.length)
-  console.log('ID Accuracy:', `${idAccuracy}%`)
-  console.log(`Real Accuracy: ${realAccuracy}%`)
-  console.log(`Under Accuracy: ${underAccuracy}%`)
-  console.log(`With Desperate Out: ${noDesperateAccuracy}%`)
-  console.log('Top Depth', topDepth)
-  console.log('Top Target Depth', topTargetDepth)
-  console.log('High:', highPoints)
-  console.log('Low:', lowPoints)
+  doLog('Average time: ', averageTime)
+  doLog('clock Estimate: ', clockTimeEstimate)
+  doLog('discrpency to moves:', discrepencyCount, moves.length)
+  doLog('ID Accuracy:', `${idAccuracy}%`)
+  doLog(`Real Accuracy: ${realAccuracy}%`)
+  doLog(`Under Accuracy: ${underAccuracy}%`)
+  doLog(`With Desperate Out: ${noDesperateAccuracy}%`)
+  doLog('Top Depth', topDepth)
+  doLog('Top Target Depth', topTargetDepth)
+  doLog('High:', highPoints)
+  doLog('Low:', lowPoints)
 
   return { 
     averageTime,
