@@ -22,8 +22,8 @@ engine.setLogLevel('silent')
 calibrateGroups()
 async function calibrateGroups() {
   await doCalibrations(cmpEasyNames, 'Easy')
-  await doCalibrations(cmpHardNames, 'Hard')
-  await doCalibrations(cmpGmNames, 'Gm')
+  // await doCalibrations(cmpHardNames, 'Hard')
+  // await doCalibrations(cmpGmNames, 'Gm')
 }
 
 async function doCalibrations(cmpNames, groupName) {
@@ -51,13 +51,15 @@ async function doCalibrations(cmpNames, groupName) {
     console.log(chalk.green('previous runSums loaded'))
   }
   
+  let lastRun
   if (runSums.runs.length) {
-    const lastRun = runSums.runs[runSums.runs.length - 1]
+    lastRun = runSums.runs[runSums.runs.length - 1]
     clockTime = lastRun.clockTime
   } else {
     clockTime = runSums.initTime
   }
 
+  
   const doRuns = async (cmpNames, clockTime) => {
     const runs = []
     for (const cmpName of cmpNames) {
@@ -86,31 +88,77 @@ async function doCalibrations(cmpNames, groupName) {
     }
   }
 
-  // find the best run from our pool of all runs
-  runSums = await loadCalibrationFile(`runSums${groupName}.json`) 
-  const runs = runSums.runs
-  const sortedRuns  = runs.sort((run0, run1) => run0.idAccuracy - run1.idAccuracy)
-  const topRuns = sortedRuns.slice(-4)
-  const bottomRuns = sortedRuns.slice(0, -4)
+  doBestAccurateClocks(groupName)
+  doBestUnderClocks(groupName)
 
-  // add any other matches at the end of the list just so no top numbers are missed
-  while(true) {
-    const previousRun = bottomRuns.pop()
-    if (previousRun.idAccuracy === topRuns[0].idAccuracy) {
-       topRuns.unshift(previousRun)
-    } else {
-      break
-    }
-  }
-
-  const topUnder = topRuns.sort((run0, run1) => run0.underAccuracy - run1.underAccuracy)
-  const finalClockTime = topUnder.pop().clockTime
-  
-  let clockTimes = await loadCalibrationFile('clockTimes.json')
-  if (!clockTimes) clockTimes = {}
-  clockTimes[groupName] = finalClockTime
-  await fs.writeFile(`./calibrations/clockTimes.json`, JSON.stringify(clockTimes, null, 2))
 }   
+
+async function doBestAccurateClocks(groupName) {
+    // find the best run from our pool of all runs
+    let runSums = await loadCalibrationFile(`runSums${groupName}.json`) 
+    const runs = runSums.runs
+    const sortedRuns  = runs.slice().sort((run0, run1) => run0.idAccuracy - run1.idAccuracy)
+    const topAccurateRuns = sortedRuns.slice(-4)
+    const bottomRuns = sortedRuns.slice(0, -4)
+  
+    // include any ties for the last spot in the candidate pool
+    while(true) {
+      const previousRun = bottomRuns.pop()
+      if (previousRun.idAccuracy === topAccurateRuns[0].idAccuracy) {
+         topAccurateRuns.unshift(previousRun)
+      } else {
+        break
+      }
+    }
+  
+    const topAccurateByUnder = topAccurateRuns.slice().sort((run0, run1) => 
+      run0.underAccuracy - run1.underAccuracy
+    )
+    const finalClockTime = topAccurateByUnder.slice(-1).pop().clockTime
+
+    // runSums = { ...runSums, topAccurateRuns, topAccurateByUnder }
+    // await fs.writeFile(`./calibrations/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
+    
+    let clockTimes = await loadCalibrationFile('clockTimes.json')
+    if (!clockTimes) clockTimes = {}
+    clockTimes[groupName] = finalClockTime
+    await fs.writeFile(`./calibrations/clockTimes.json`, JSON.stringify(clockTimes, null, 2))
+}
+
+// doBestUnderClocks('Easy')
+async function doBestUnderClocks(groupName) {
+    // find the best run from our pool of all runs
+    let runSums = await loadCalibrationFile(`runSums${groupName}.json`) 
+    const runs = runSums.runs
+    const sortedRuns  = runs.sort((run0, run1) => run0.underAccuracy - run1.underAccuracy)
+    const topUnderRuns = sortedRuns.slice(-4)
+    const bottomRuns = sortedRuns.slice(0, -4)
+
+    // include any ties for the last spot in the candidate pool
+    while(true) {
+      const previousRun = bottomRuns.pop()
+      if (previousRun.underAccuracy === topUnderRuns[0].underAccuracy) {
+         topUnderRuns.unshift(previousRun)
+      } else {
+        break
+      }
+    }
+  
+    const topUnderByAccurate = topUnderRuns.slice().sort((run0, run1) => 
+      run0.idAccuracy - run1.idAccuracy
+    )
+    const finalClockTime = topUnderByAccurate.slice(-1).pop().clockTime
+    
+    // runSums = { ...runSums, topUnderRuns, topUnderByAccurate }
+    // await fs.writeFile(`./calibrations/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
+
+    let clockTimes = await loadCalibrationFile('clockTimesUnder.json')
+    if (!clockTimes) clockTimes = {}
+    clockTimes[groupName] = finalClockTime
+    console.log(finalClockTime)
+    await fs.writeFile(`./calibrations/clockTimesUnder.json`, JSON.stringify(clockTimes, null, 2)) 
+}
+
 
 async function buildTargets(numberOfRuns) {
 
@@ -539,6 +587,14 @@ async function buildCalibrationFile(cmpName, clockTime) {
   let calibration = await loadCalibrationFile(`${cmpName}.json`)
   const target = await loadCalibrationFile(`targets/${cmpName}.json`)
 
+  // check if this clock time run has already been done
+  for (const run of calibration.runs) {
+    if (run.clockTime === clockTime){
+      process.stdout.write(chalk.green(`: previous run found `))
+      return run
+    }
+  }
+  
   const moves = await runPositions(cmpName, positions, clockTime)
   const { movesHash, idMash } = getMovesHash(moves) 
   const { averageTime } = getAverageMoveTime(moves)
