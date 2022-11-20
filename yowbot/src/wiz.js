@@ -38,11 +38,11 @@ async function getNextMove(moves, wizPlayer, gameId) {
   
   // set different times to think to give different strength levels to easy 
   // ponder players vs hard ponder players, vs over 2700 GM players
-  let secondsPerMove = 3 
-  if (cmp.ponder === 'hard') secondsPerMove = 5
-  if (cmp.rating >= 2700) secondsPerMove = 7
+  let clockTime = 4100 
+  if (cmp.ponder === 'hard') clockTime = 5750
+  if (cmp.rating >= 2700) clockTime = 8550
 
-  const settings = { moves, pVals: cmp.out, secondsPerMove }
+  const settings = { moves, pVals: cmp.out, clockTime }
   const moveData = await engine.getMove(settings)
   console.log(`engineMove: ${moveData.engineMove}`)
   return {move: moveData.engineMove, willAcceptDraw: moveData.willAcceptDraw}

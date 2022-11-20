@@ -1,0 +1,2922 @@
+{
+  "cmpName": "Orin",
+  "runs": [
+    {
+      "averageTime": 1131,
+      "movesHash": "643104303b87810e118633231bf54eb6",
+      "clockTime": 60000
+    },
+    {
+      "averageTime": 1275,
+      "movesHash": "277502cd72fa00f1ee49f4f7d8d690b0",
+      "clockTime": 60000
+    },
+    {
+      "averageTime": 1119,
+      "movesHash": "f86f10315bc8faf54cbac81b92cda77a",
+      "clockTime": 60000
+    },
+    {
+      "averageTime": 1166,
+      "movesHash": "ba20df358c2b97cbf5cf9dfeb4e30fdb",
+      "clockTime": 60000
+    },
+    {
+      "averageTime": 1308,
+      "movesHash": "64a48a52c5380414d28c1859f3e22381",
+      "clockTime": 60000
+    }
+  ],
+  "moves": [
+    {
+      "depth": 8003,
+      "eval": -62,
+      "time": 2120,
+      "id": 2890472,
+      "algebraMove": "Rd1",
+      "coordinateMove": "a1d1",
+      "willAcceptDraw": true,
+      "timeForMove": 22869,
+      "engineMove": "a1d1",
+      "previousMoves": [
+        {
+          "depth": 3001,
+          "eval": -491,
+          "time": 3,
+          "id": 1399,
+          "algebraMove": "Nxg7+",
+          "coordinateMove": "f5g7",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 3001,
+          "eval": -469,
+          "time": 5,
+          "id": 2754,
+          "algebraMove": "d4",
+          "coordinateMove": "d3d4",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4002,
+          "eval": -556,
+          "time": 7,
+          "id": 5185,
+          "algebraMove": "d4",
+          "coordinateMove": "d3d4",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4002,
+          "eval": -484,
+          "time": 16,
+          "id": 14304,
+          "algebraMove": "Kg2",
+          "coordinateMove": "f1g2",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4002,
+          "eval": -371,
+          "time": 19,
+          "id": 16872,
+          "algebraMove": "Rc1",
+          "coordinateMove": "a1c1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4002,
+          "eval": -242,
+          "time": 23,
+          "id": 21684,
+          "algebraMove": "Qd1",
+          "coordinateMove": "f3d1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4002,
+          "eval": -214,
+          "time": 27,
+          "id": 25773,
+          "algebraMove": "Rd1",
+          "coordinateMove": "a1d1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 5002,
+          "eval": -356,
+          "time": 35,
+          "id": 32913,
+          "algebraMove": "Rd1",
+          "coordinateMove": "a1d1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 5002,
+          "eval": -217,
+          "time": 50,
+          "id": 48740,
+          "algebraMove": "Qd1",
+          "coordinateMove": "f3d1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 5002,
+          "eval": -175,
+          "time": 76,
+          "id": 76589,
+          "algebraMove": "Re1",
+          "coordinateMove": "a1e1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 6002,
+          "eval": -138,
+          "time": 133,
+          "id": 132658,
+          "algebraMove": "Re1",
+          "coordinateMove": "a1e1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 7003,
+          "eval": -140,
+          "time": 492,
+          "id": 493670,
+          "algebraMove": "Re1",
+          "coordinateMove": "a1e1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 7003,
+          "eval": -131,
+          "time": 678,
+          "id": 697794,
+          "algebraMove": "Nc7+",
+          "coordinateMove": "d5c7",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 8003,
+          "eval": -120,
+          "time": 1304,
+          "id": 1699617,
+          "algebraMove": "Nc7+",
+          "coordinateMove": "d5c7",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 8003,
+          "eval": -107,
+          "time": 1764,
+          "id": 2384075,
+          "algebraMove": "Re1",
+          "coordinateMove": "a1e1",
+          "willAcceptDraw": true
+        }
+      ],
+      "gameNumber": 0,
+      "gameMoveNumber": 17.5,
+      "idCounts": {
+        "2890472": 5
+      }
+    },
+    {
+      "depth": 9003,
+      "eval": 580,
+      "time": 1363,
+      "id": 2101313,
+      "algebraMove": "Qxa1+",
+      "coordinateMove": "b2a1",
+      "willAcceptDraw": false,
+      "timeForMove": 14832,
+      "engineMove": "b2a1",
+      "previousMoves": [
+        {
+          "depth": 3001,
+          "eval": 1358,
+          "time": 4,
+          "id": 1554,
+          "algebraMove": "Qxa1+",
+          "coordinateMove": "b2a1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 1141,
+          "time": 8,
+          "id": 6270,
+          "algebraMove": "Qxa1+",
+          "coordinateMove": "b2a1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": 1299,
+          "time": 20,
+          "id": 18146,
+          "algebraMove": "Qxa1+",
+          "coordinateMove": "b2a1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 727,
+          "time": 54,
+          "id": 51630,
+          "algebraMove": "Qxa1+",
+          "coordinateMove": "b2a1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": 1008,
+          "time": 132,
+          "id": 135445,
+          "algebraMove": "Qxa1+",
+          "coordinateMove": "b2a1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8003,
+          "eval": 659,
+          "time": 282,
+          "id": 302032,
+          "algebraMove": "Qxa1+",
+          "coordinateMove": "b2a1",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 0,
+      "gameMoveNumber": 18,
+      "idCounts": {
+        "2101313": 5
+      }
+    },
+    {
+      "depth": 9006,
+      "eval": 1324,
+      "time": 1489,
+      "id": 1886225,
+      "algebraMove": "Rhf1",
+      "coordinateMove": "h1f1",
+      "willAcceptDraw": false,
+      "timeForMove": 19665,
+      "engineMove": "h1f1",
+      "previousMoves": [
+        {
+          "depth": 3002,
+          "eval": 1066,
+          "time": 4,
+          "id": 758,
+          "algebraMove": "Rhf1",
+          "coordinateMove": "h1f1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3002,
+          "eval": 1375,
+          "time": 4,
+          "id": 1546,
+          "algebraMove": "Rhe1+",
+          "coordinateMove": "h1e1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3002,
+          "eval": 1525,
+          "time": 5,
+          "id": 2175,
+          "algebraMove": "Rde1+",
+          "coordinateMove": "d1e1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4003,
+          "eval": 1041,
+          "time": 6,
+          "id": 2698,
+          "algebraMove": "Rde1+",
+          "coordinateMove": "d1e1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4003,
+          "eval": 1066,
+          "time": 7,
+          "id": 4078,
+          "algebraMove": "Rhf1",
+          "coordinateMove": "h1f1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5003,
+          "eval": 1144,
+          "time": 11,
+          "id": 8207,
+          "algebraMove": "Rhf1",
+          "coordinateMove": "h1f1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5003,
+          "eval": 1357,
+          "time": 23,
+          "id": 21240,
+          "algebraMove": "Rdf1",
+          "coordinateMove": "d1f1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6003,
+          "eval": 841,
+          "time": 34,
+          "id": 32310,
+          "algebraMove": "Rdf1",
+          "coordinateMove": "d1f1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6003,
+          "eval": 969,
+          "time": 52,
+          "id": 51268,
+          "algebraMove": "Rhe1+",
+          "coordinateMove": "h1e1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6003,
+          "eval": 1000,
+          "time": 83,
+          "id": 87725,
+          "algebraMove": "Bh7",
+          "coordinateMove": "g8h7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7004,
+          "eval": 993,
+          "time": 102,
+          "id": 110213,
+          "algebraMove": "Bh7",
+          "coordinateMove": "g8h7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7004,
+          "eval": 1100,
+          "time": 137,
+          "id": 152503,
+          "algebraMove": "Rhe1+",
+          "coordinateMove": "h1e1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7004,
+          "eval": 1152,
+          "time": 150,
+          "id": 165306,
+          "algebraMove": "Rdf1",
+          "coordinateMove": "d1f1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7004,
+          "eval": 1345,
+          "time": 168,
+          "id": 185013,
+          "algebraMove": "Rhf1",
+          "coordinateMove": "h1f1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8005,
+          "eval": 865,
+          "time": 291,
+          "id": 328785,
+          "algebraMove": "Rhf1",
+          "coordinateMove": "h1f1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8005,
+          "eval": 1055,
+          "time": 474,
+          "id": 537128,
+          "algebraMove": "Bh7",
+          "coordinateMove": "g8h7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 9006,
+          "eval": 1080,
+          "time": 928,
+          "id": 1061535,
+          "algebraMove": "Bh7",
+          "coordinateMove": "g8h7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 9006,
+          "eval": 1252,
+          "time": 1260,
+          "id": 1545328,
+          "algebraMove": "Rhe1+",
+          "coordinateMove": "h1e1",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 1,
+      "gameMoveNumber": 26.5,
+      "idCounts": {
+        "1886225": 5
+      }
+    },
+    {
+      "depth": 8005,
+      "eval": -1430,
+      "time": 438,
+      "id": 535358,
+      "algebraMove": "Qxg7",
+      "coordinateMove": "f6g7",
+      "willAcceptDraw": true,
+      "timeForMove": 5833,
+      "engineMove": "f6g7",
+      "previousMoves": [
+        {
+          "depth": 3002,
+          "eval": -1041,
+          "time": 3,
+          "id": 671,
+          "algebraMove": "Qxg7",
+          "coordinateMove": "f6g7",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4003,
+          "eval": -1013,
+          "time": 5,
+          "id": 2276,
+          "algebraMove": "Qxg7",
+          "coordinateMove": "f6g7",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 5003,
+          "eval": -945,
+          "time": 10,
+          "id": 7293,
+          "algebraMove": "Qxg7",
+          "coordinateMove": "f6g7",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 6003,
+          "eval": -1379,
+          "time": 33,
+          "id": 30876,
+          "algebraMove": "Qxg7",
+          "coordinateMove": "f6g7",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 7004,
+          "eval": -821,
+          "time": 159,
+          "id": 164417,
+          "algebraMove": "Qxg7",
+          "coordinateMove": "f6g7",
+          "willAcceptDraw": true
+        }
+      ],
+      "gameNumber": 1,
+      "gameMoveNumber": 27,
+      "idCounts": {
+        "535358": 5
+      }
+    },
+    {
+      "depth": 8003,
+      "eval": -231,
+      "time": 604,
+      "id": 672155,
+      "algebraMove": "Be7",
+      "coordinateMove": "f8e7",
+      "willAcceptDraw": true,
+      "timeForMove": 7684,
+      "engineMove": "f8e7",
+      "previousMoves": [
+        {
+          "depth": 3002,
+          "eval": -687,
+          "time": 3,
+          "id": 967,
+          "algebraMove": "Nc6",
+          "coordinateMove": "d4c6",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 3002,
+          "eval": -197,
+          "time": 3,
+          "id": 1124,
+          "algebraMove": "Be7",
+          "coordinateMove": "f8e7",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 3002,
+          "eval": 337,
+          "time": 4,
+          "id": 1840,
+          "algebraMove": "Qxg4",
+          "coordinateMove": "g6g4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": -297,
+          "time": 6,
+          "id": 3212,
+          "algebraMove": "Qxg4",
+          "coordinateMove": "g6g4",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4002,
+          "eval": -197,
+          "time": 7,
+          "id": 4060,
+          "algebraMove": "Be7",
+          "coordinateMove": "f8e7",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 5002,
+          "eval": -141,
+          "time": 15,
+          "id": 11936,
+          "algebraMove": "Be7",
+          "coordinateMove": "f8e7",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 6003,
+          "eval": -271,
+          "time": 62,
+          "id": 59503,
+          "algebraMove": "Be7",
+          "coordinateMove": "f8e7",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 7003,
+          "eval": -202,
+          "time": 221,
+          "id": 225435,
+          "algebraMove": "Be7",
+          "coordinateMove": "f8e7",
+          "willAcceptDraw": true
+        }
+      ],
+      "gameNumber": 2,
+      "gameMoveNumber": 22,
+      "idCounts": {
+        "672155": 5
+      }
+    },
+    {
+      "depth": 8003,
+      "eval": 212,
+      "time": 1212,
+      "id": 1620470,
+      "algebraMove": "Rc1",
+      "coordinateMove": "f1c1",
+      "willAcceptDraw": false,
+      "timeForMove": 20704,
+      "engineMove": "f1c1",
+      "previousMoves": [
+        {
+          "depth": 3002,
+          "eval": 177,
+          "time": 3,
+          "id": 661,
+          "algebraMove": "Qxg6+",
+          "coordinateMove": "g4g6",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 3002,
+          "eval": 255,
+          "time": 4,
+          "id": 1976,
+          "algebraMove": "h4",
+          "coordinateMove": "h2h4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 3,
+          "time": 5,
+          "id": 2769,
+          "algebraMove": "h4",
+          "coordinateMove": "h2h4",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4002,
+          "eval": 17,
+          "time": 12,
+          "id": 8598,
+          "algebraMove": "Kh1",
+          "coordinateMove": "g1h1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4002,
+          "eval": 74,
+          "time": 13,
+          "id": 9895,
+          "algebraMove": "Re1",
+          "coordinateMove": "f1e1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 5002,
+          "eval": 341,
+          "time": 21,
+          "id": 18220,
+          "algebraMove": "Re1",
+          "coordinateMove": "f1e1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6003,
+          "eval": 251,
+          "time": 75,
+          "id": 73540,
+          "algebraMove": "Re1",
+          "coordinateMove": "f1e1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": 328,
+          "time": 283,
+          "id": 288759,
+          "algebraMove": "Re1",
+          "coordinateMove": "f1e1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8003,
+          "eval": 156,
+          "time": 686,
+          "id": 803513,
+          "algebraMove": "Re1",
+          "coordinateMove": "f1e1",
+          "willAcceptDraw": true
+        }
+      ],
+      "gameNumber": 2,
+      "gameMoveNumber": 22.5,
+      "idCounts": {
+        "1620470": 5
+      }
+    },
+    {
+      "depth": 8003,
+      "eval": -129,
+      "time": 660,
+      "id": 762959,
+      "algebraMove": "c4",
+      "coordinateMove": "c5c4",
+      "willAcceptDraw": false,
+      "timeForMove": 17537,
+      "engineMove": "c5c4",
+      "previousMoves": [
+        {
+          "depth": 3001,
+          "eval": -277,
+          "time": 3,
+          "id": 269,
+          "algebraMove": "Rfc8",
+          "coordinateMove": "f8c8",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": -269,
+          "time": 3,
+          "id": 465,
+          "algebraMove": "Ne4",
+          "coordinateMove": "f6e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": -242,
+          "time": 3,
+          "id": 679,
+          "algebraMove": "c4",
+          "coordinateMove": "c5c4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": -104,
+          "time": 5,
+          "id": 2355,
+          "algebraMove": "c4",
+          "coordinateMove": "c5c4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 105,
+          "time": 6,
+          "id": 3338,
+          "algebraMove": "Ne4",
+          "coordinateMove": "f6e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": -183,
+          "time": 21,
+          "id": 15915,
+          "algebraMove": "Ne4",
+          "coordinateMove": "f6e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": -264,
+          "time": 85,
+          "id": 73448,
+          "algebraMove": "Ne4",
+          "coordinateMove": "f6e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": -33,
+          "time": 123,
+          "id": 113384,
+          "algebraMove": "Nd7",
+          "coordinateMove": "f6d7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": -301,
+          "time": 311,
+          "id": 298984,
+          "algebraMove": "Nd7",
+          "coordinateMove": "f6d7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": -75,
+          "time": 408,
+          "id": 418766,
+          "algebraMove": "c4",
+          "coordinateMove": "c5c4",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 3,
+      "gameMoveNumber": 13,
+      "idCounts": {
+        "762959": 5
+      }
+    },
+    {
+      "depth": 9003,
+      "eval": 207,
+      "time": 4519,
+      "id": 6020019,
+      "algebraMove": "Nh5",
+      "coordinateMove": "g3h5",
+      "willAcceptDraw": false,
+      "timeForMove": 69622,
+      "engineMove": "g3h5",
+      "previousMoves": [
+        {
+          "depth": 3001,
+          "eval": -331,
+          "time": 3,
+          "id": 246,
+          "algebraMove": "Rfb1",
+          "coordinateMove": "f1b1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": -146,
+          "time": 4,
+          "id": 534,
+          "algebraMove": "Qe1",
+          "coordinateMove": "e2e1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": -125,
+          "time": 5,
+          "id": 927,
+          "algebraMove": "Rf3",
+          "coordinateMove": "f1f3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": 28,
+          "time": 6,
+          "id": 1485,
+          "algebraMove": "Nf5",
+          "coordinateMove": "g3f5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": 307,
+          "time": 7,
+          "id": 1718,
+          "algebraMove": "Bxf6",
+          "coordinateMove": "e5f6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": -47,
+          "time": 7,
+          "id": 2306,
+          "algebraMove": "Bxf6",
+          "coordinateMove": "e5f6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 391,
+          "time": 11,
+          "id": 4705,
+          "algebraMove": "Nh5",
+          "coordinateMove": "g3h5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 519,
+          "time": 15,
+          "id": 7842,
+          "algebraMove": "Rfd1",
+          "coordinateMove": "f1d1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 597,
+          "time": 18,
+          "id": 10936,
+          "algebraMove": "Nh1",
+          "coordinateMove": "g3h1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": 52,
+          "time": 25,
+          "id": 16314,
+          "algebraMove": "Nh1",
+          "coordinateMove": "g3h1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": 107,
+          "time": 66,
+          "id": 51993,
+          "algebraMove": "h4",
+          "coordinateMove": "h2h4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": 124,
+          "time": 71,
+          "id": 55585,
+          "algebraMove": "c3",
+          "coordinateMove": "c2c3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 153,
+          "time": 98,
+          "id": 79173,
+          "algebraMove": "c3",
+          "coordinateMove": "c2c3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 277,
+          "time": 121,
+          "id": 98819,
+          "algebraMove": "Rfd1",
+          "coordinateMove": "f1d1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 289,
+          "time": 137,
+          "id": 112030,
+          "algebraMove": "h4",
+          "coordinateMove": "h2h4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": -47,
+          "time": 427,
+          "id": 367788,
+          "algebraMove": "h4",
+          "coordinateMove": "h2h4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": 80,
+          "time": 491,
+          "id": 426147,
+          "algebraMove": "Rfd1",
+          "coordinateMove": "f1d1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": 112,
+          "time": 706,
+          "id": 650126,
+          "algebraMove": "Rad1",
+          "coordinateMove": "a1d1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": 237,
+          "time": 788,
+          "id": 751102,
+          "algebraMove": "Nh5",
+          "coordinateMove": "g3h5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8003,
+          "eval": 24,
+          "time": 1087,
+          "id": 1186152,
+          "algebraMove": "Nh5",
+          "coordinateMove": "g3h5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8003,
+          "eval": 73,
+          "time": 1227,
+          "id": 1360213,
+          "algebraMove": "h4",
+          "coordinateMove": "h2h4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8003,
+          "eval": 174,
+          "time": 1419,
+          "id": 1611841,
+          "algebraMove": "Rad1",
+          "coordinateMove": "a1d1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8003,
+          "eval": 207,
+          "time": 1679,
+          "id": 1955311,
+          "algebraMove": "c3",
+          "coordinateMove": "c2c3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 9003,
+          "eval": -56,
+          "time": 3851,
+          "id": 5033933,
+          "algebraMove": "c3",
+          "coordinateMove": "c2c3",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 3,
+      "gameMoveNumber": 13.5,
+      "idCounts": {
+        "6020019": 5
+      }
+    },
+    {
+      "depth": 9003,
+      "eval": -115,
+      "time": 4524,
+      "id": 5720376,
+      "algebraMove": "Nf4",
+      "coordinateMove": "d5f4",
+      "willAcceptDraw": false,
+      "timeForMove": 50739,
+      "engineMove": "d5f4",
+      "previousMoves": [
+        {
+          "depth": 3001,
+          "eval": -881,
+          "time": 4,
+          "id": 469,
+          "algebraMove": "Qxe5",
+          "coordinateMove": "d4e5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": -474,
+          "time": 4,
+          "id": 619,
+          "algebraMove": "Qa7",
+          "coordinateMove": "d4a7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": -445,
+          "time": 5,
+          "id": 1565,
+          "algebraMove": "Qa7",
+          "coordinateMove": "d4a7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": -236,
+          "time": 6,
+          "id": 1863,
+          "algebraMove": "Qb6",
+          "coordinateMove": "d4b6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": -168,
+          "time": 6,
+          "id": 2195,
+          "algebraMove": "Qc5",
+          "coordinateMove": "d4c5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": -328,
+          "time": 12,
+          "id": 7307,
+          "algebraMove": "Qc5",
+          "coordinateMove": "d4c5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": -167,
+          "time": 20,
+          "id": 14701,
+          "algebraMove": "Qb6",
+          "coordinateMove": "d4b6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": -186,
+          "time": 39,
+          "id": 29988,
+          "algebraMove": "Qb6",
+          "coordinateMove": "d4b6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 51,
+          "time": 69,
+          "id": 53492,
+          "algebraMove": "Qc5",
+          "coordinateMove": "d4c5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": -399,
+          "time": 141,
+          "id": 116164,
+          "algebraMove": "Qc5",
+          "coordinateMove": "d4c5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": -212,
+          "time": 261,
+          "id": 223553,
+          "algebraMove": "Qb6",
+          "coordinateMove": "d4b6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": 69,
+          "time": 343,
+          "id": 295090,
+          "algebraMove": "Nf4",
+          "coordinateMove": "d5f4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8003,
+          "eval": -652,
+          "time": 376,
+          "id": 325986,
+          "algebraMove": "Nf4",
+          "coordinateMove": "d5f4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8003,
+          "eval": -149,
+          "time": 682,
+          "id": 630726,
+          "algebraMove": "Qb6",
+          "coordinateMove": "d4b6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8003,
+          "eval": -6,
+          "time": 1059,
+          "id": 1079214,
+          "algebraMove": "Qc5",
+          "coordinateMove": "d4c5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 9003,
+          "eval": -306,
+          "time": 3767,
+          "id": 4741489,
+          "algebraMove": "Qc5",
+          "coordinateMove": "d4c5",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 0,
+      "gameMoveNumber": 15,
+      "idCounts": {
+        "1079214": 3,
+        "5720376": 2
+      }
+    },
+    {
+      "depth": 8003,
+      "eval": 402,
+      "time": 1413,
+      "id": 1557952,
+      "algebraMove": "Qd3",
+      "coordinateMove": "e2d3",
+      "willAcceptDraw": false,
+      "timeForMove": 19146,
+      "engineMove": "e2d3",
+      "previousMoves": [
+        {
+          "depth": 3001,
+          "eval": -385,
+          "time": 2,
+          "id": 276,
+          "algebraMove": "c3",
+          "coordinateMove": "c2c3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": -331,
+          "time": 3,
+          "id": 385,
+          "algebraMove": "Qd2",
+          "coordinateMove": "e2d2",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": -124,
+          "time": 4,
+          "id": 1067,
+          "algebraMove": "g4",
+          "coordinateMove": "g2g4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": -96,
+          "time": 4,
+          "id": 1373,
+          "algebraMove": "Bh6",
+          "coordinateMove": "c1h6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 188,
+          "time": 6,
+          "id": 3002,
+          "algebraMove": "Bh6",
+          "coordinateMove": "c1h6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 370,
+          "time": 7,
+          "id": 3816,
+          "algebraMove": "g4",
+          "coordinateMove": "g2g4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 555,
+          "time": 10,
+          "id": 6096,
+          "algebraMove": "Qe4",
+          "coordinateMove": "e2e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": -229,
+          "time": 22,
+          "id": 15555,
+          "algebraMove": "Qe4",
+          "coordinateMove": "e2e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": -57,
+          "time": 27,
+          "id": 19041,
+          "algebraMove": "Qd1",
+          "coordinateMove": "e2d1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": 13,
+          "time": 51,
+          "id": 37657,
+          "algebraMove": "Qd3",
+          "coordinateMove": "e2d3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 335,
+          "time": 104,
+          "id": 82765,
+          "algebraMove": "Qd3",
+          "coordinateMove": "e2d3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 423,
+          "time": 194,
+          "id": 160273,
+          "algebraMove": "Kh1",
+          "coordinateMove": "g1h1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": -106,
+          "time": 339,
+          "id": 278500,
+          "algebraMove": "Kh1",
+          "coordinateMove": "g1h1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": 116,
+          "time": 522,
+          "id": 430002,
+          "algebraMove": "Qd3",
+          "coordinateMove": "e2d3",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 0,
+      "gameMoveNumber": 15.5,
+      "idCounts": {
+        "1557952": 5
+      }
+    },
+    {
+      "depth": 8003,
+      "eval": -429,
+      "time": 943,
+      "id": 1397598,
+      "algebraMove": "Na6",
+      "coordinateMove": "b8a6",
+      "willAcceptDraw": false,
+      "timeForMove": 10669,
+      "engineMove": "b8a6",
+      "previousMoves": [
+        {
+          "depth": 3001,
+          "eval": -274,
+          "time": 3,
+          "id": 845,
+          "algebraMove": "cxb5",
+          "coordinateMove": "c6b5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": -313,
+          "time": 8,
+          "id": 6076,
+          "algebraMove": "cxb5",
+          "coordinateMove": "c6b5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": -507,
+          "time": 23,
+          "id": 21695,
+          "algebraMove": "cxb5",
+          "coordinateMove": "c6b5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": -177,
+          "time": 55,
+          "id": 54390,
+          "algebraMove": "Qb4+",
+          "coordinateMove": "e7b4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": -333,
+          "time": 97,
+          "id": 97073,
+          "algebraMove": "Qb4+",
+          "coordinateMove": "e7b4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": -426,
+          "time": 191,
+          "id": 208120,
+          "algebraMove": "Qb4+",
+          "coordinateMove": "e7b4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8003,
+          "eval": -477,
+          "time": 378,
+          "id": 498499,
+          "algebraMove": "Qb4+",
+          "coordinateMove": "e7b4",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 5,
+      "gameMoveNumber": 10,
+      "idCounts": {
+        "1397598": 5
+      }
+    },
+    {
+      "depth": 8003,
+      "eval": 466,
+      "time": 832,
+      "id": 1171559,
+      "algebraMove": "Bxb5+",
+      "coordinateMove": "c4b5",
+      "willAcceptDraw": false,
+      "timeForMove": 11031,
+      "engineMove": "c4b5",
+      "previousMoves": [
+        {
+          "depth": 3001,
+          "eval": 344,
+          "time": 4,
+          "id": 1864,
+          "algebraMove": "Qxb5+",
+          "coordinateMove": "b3b5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 77,
+          "time": 10,
+          "id": 7989,
+          "algebraMove": "Qxb5+",
+          "coordinateMove": "b3b5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 235,
+          "time": 13,
+          "id": 10542,
+          "algebraMove": "Bxb5+",
+          "coordinateMove": "c4b5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": 302,
+          "time": 27,
+          "id": 24361,
+          "algebraMove": "Bxb5+",
+          "coordinateMove": "c4b5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": 331,
+          "time": 33,
+          "id": 29613,
+          "algebraMove": "Qxb5+",
+          "coordinateMove": "b3b5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 109,
+          "time": 87,
+          "id": 83783,
+          "algebraMove": "Qxb5+",
+          "coordinateMove": "b3b5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 451,
+          "time": 106,
+          "id": 103182,
+          "algebraMove": "Bxb5+",
+          "coordinateMove": "c4b5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": 394,
+          "time": 230,
+          "id": 232649,
+          "algebraMove": "Bxb5+",
+          "coordinateMove": "c4b5",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 5,
+      "gameMoveNumber": 10.5,
+      "idCounts": {
+        "1171559": 5
+      }
+    },
+    {
+      "depth": 8003,
+      "eval": 140,
+      "time": 3400,
+      "id": 4648428,
+      "algebraMove": "a5",
+      "coordinateMove": "a7a5",
+      "willAcceptDraw": false,
+      "timeForMove": 44797,
+      "engineMove": "a7a5",
+      "previousMoves": [
+        {
+          "depth": 3001,
+          "eval": -617,
+          "time": 3,
+          "id": 311,
+          "algebraMove": "Nf6",
+          "coordinateMove": "d5f6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": -604,
+          "time": 3,
+          "id": 597,
+          "algebraMove": "h6",
+          "coordinateMove": "h7h6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": -59,
+          "time": 4,
+          "id": 1031,
+          "algebraMove": "a5",
+          "coordinateMove": "a7a5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": 133,
+          "time": 5,
+          "id": 1965,
+          "algebraMove": "Qg5",
+          "coordinateMove": "d8g5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 205,
+          "time": 6,
+          "id": 3368,
+          "algebraMove": "Qg5",
+          "coordinateMove": "d8g5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 334,
+          "time": 9,
+          "id": 5846,
+          "algebraMove": "a5",
+          "coordinateMove": "a7a5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 428,
+          "time": 10,
+          "id": 6617,
+          "algebraMove": "a6",
+          "coordinateMove": "a7a6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": -74,
+          "time": 20,
+          "id": 15743,
+          "algebraMove": "a6",
+          "coordinateMove": "a7a6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": 205,
+          "time": 39,
+          "id": 32570,
+          "algebraMove": "Qf6",
+          "coordinateMove": "d8f6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": 247,
+          "time": 65,
+          "id": 57418,
+          "algebraMove": "Bb4+",
+          "coordinateMove": "f8b4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 63,
+          "time": 124,
+          "id": 126587,
+          "algebraMove": "Bb4+",
+          "coordinateMove": "f8b4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 93,
+          "time": 152,
+          "id": 160189,
+          "algebraMove": "a6",
+          "coordinateMove": "a7a6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 112,
+          "time": 179,
+          "id": 193457,
+          "algebraMove": "Qf6",
+          "coordinateMove": "d8f6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 199,
+          "time": 202,
+          "id": 220525,
+          "algebraMove": "b6",
+          "coordinateMove": "b7b6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 235,
+          "time": 217,
+          "id": 236762,
+          "algebraMove": "Nc6",
+          "coordinateMove": "b8c6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": 0,
+          "time": 297,
+          "id": 344456,
+          "algebraMove": "Nc6",
+          "coordinateMove": "b8c6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": 193,
+          "time": 403,
+          "id": 485145,
+          "algebraMove": "Bb4+",
+          "coordinateMove": "f8b4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8003,
+          "eval": -130,
+          "time": 955,
+          "id": 1256788,
+          "algebraMove": "Bb4+",
+          "coordinateMove": "f8b4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8003,
+          "eval": 71,
+          "time": 1739,
+          "id": 2339696,
+          "algebraMove": "Nc6",
+          "coordinateMove": "b8c6",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 6,
+      "gameMoveNumber": 4,
+      "idCounts": {
+        "4648428": 5
+      }
+    },
+    {
+      "depth": 8003,
+      "eval": 7,
+      "time": 1319,
+      "id": 1776540,
+      "algebraMove": "Bc4",
+      "coordinateMove": "f1c4",
+      "willAcceptDraw": false,
+      "timeForMove": 13879,
+      "engineMove": "f1c4",
+      "previousMoves": [
+        {
+          "depth": 3001,
+          "eval": -148,
+          "time": 3,
+          "id": 477,
+          "algebraMove": "Bb5",
+          "coordinateMove": "f1b5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": 49,
+          "time": 4,
+          "id": 1953,
+          "algebraMove": "e4",
+          "coordinateMove": "e3e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 49,
+          "time": 5,
+          "id": 2757,
+          "algebraMove": "e4",
+          "coordinateMove": "e3e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": -133,
+          "time": 23,
+          "id": 18208,
+          "algebraMove": "e4",
+          "coordinateMove": "e3e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 39,
+          "time": 83,
+          "id": 92613,
+          "algebraMove": "e4",
+          "coordinateMove": "e3e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": -135,
+          "time": 159,
+          "id": 194640,
+          "algebraMove": "e4",
+          "coordinateMove": "e3e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": -103,
+          "time": 547,
+          "id": 719266,
+          "algebraMove": "Bc4",
+          "coordinateMove": "f1c4",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 6,
+      "gameMoveNumber": 4.5,
+      "idCounts": {
+        "719266": 3,
+        "1776540": 2
+      }
+    },
+    {
+      "depth": 10010,
+      "eval": -2400,
+      "time": 809,
+      "id": 1293690,
+      "algebraMove": "fxe4",
+      "coordinateMove": "f3e4",
+      "willAcceptDraw": true,
+      "timeForMove": 10442,
+      "engineMove": "f3e4",
+      "previousMoves": [
+        {
+          "depth": 3003,
+          "eval": -2308,
+          "time": 3,
+          "id": 224,
+          "algebraMove": "f4",
+          "coordinateMove": "f3f4",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 3003,
+          "eval": -1928,
+          "time": 4,
+          "id": 843,
+          "algebraMove": "Kc3",
+          "coordinateMove": "c2c3",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 3003,
+          "eval": -1591,
+          "time": 5,
+          "id": 1493,
+          "algebraMove": "fxe4",
+          "coordinateMove": "f3e4",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4004,
+          "eval": -1678,
+          "time": 5,
+          "id": 2434,
+          "algebraMove": "fxe4",
+          "coordinateMove": "f3e4",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 5005,
+          "eval": -2088,
+          "time": 14,
+          "id": 13460,
+          "algebraMove": "fxe4",
+          "coordinateMove": "f3e4",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 6006,
+          "eval": -2050,
+          "time": 36,
+          "id": 43741,
+          "algebraMove": "fxe4",
+          "coordinateMove": "f3e4",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 7007,
+          "eval": -2331,
+          "time": 67,
+          "id": 91576,
+          "algebraMove": "fxe4",
+          "coordinateMove": "f3e4",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 8008,
+          "eval": -2260,
+          "time": 144,
+          "id": 215041,
+          "algebraMove": "fxe4",
+          "coordinateMove": "f3e4",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 9009,
+          "eval": -2417,
+          "time": 328,
+          "id": 515608,
+          "algebraMove": "fxe4",
+          "coordinateMove": "f3e4",
+          "willAcceptDraw": true
+        }
+      ],
+      "gameNumber": 7,
+      "gameMoveNumber": 59.5,
+      "idCounts": {
+        "1293690": 5
+      }
+    },
+    {
+      "depth": 9009,
+      "eval": 2449,
+      "time": 448,
+      "id": 678201,
+      "algebraMove": "Rxe4",
+      "coordinateMove": "b4e4",
+      "willAcceptDraw": false,
+      "timeForMove": 11814,
+      "engineMove": "b4e4",
+      "previousMoves": [
+        {
+          "depth": 3003,
+          "eval": 1475,
+          "time": 3,
+          "id": 426,
+          "algebraMove": "Ke5",
+          "coordinateMove": "e6e5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3003,
+          "eval": 1642,
+          "time": 5,
+          "id": 2300,
+          "algebraMove": "Rc4+",
+          "coordinateMove": "b4c4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4004,
+          "eval": 1642,
+          "time": 7,
+          "id": 4823,
+          "algebraMove": "Rc4+",
+          "coordinateMove": "b4c4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4004,
+          "eval": 1827,
+          "time": 8,
+          "id": 5721,
+          "algebraMove": "fxe4",
+          "coordinateMove": "f5e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4004,
+          "eval": 2120,
+          "time": 9,
+          "id": 6836,
+          "algebraMove": "f4",
+          "coordinateMove": "f5f4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5005,
+          "eval": 2108,
+          "time": 12,
+          "id": 9999,
+          "algebraMove": "f4",
+          "coordinateMove": "f5f4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6006,
+          "eval": 2060,
+          "time": 27,
+          "id": 30490,
+          "algebraMove": "f4",
+          "coordinateMove": "f5f4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6006,
+          "eval": 2198,
+          "time": 31,
+          "id": 36521,
+          "algebraMove": "fxe4",
+          "coordinateMove": "f5e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6006,
+          "eval": 2303,
+          "time": 51,
+          "id": 66328,
+          "algebraMove": "Rxe4",
+          "coordinateMove": "b4e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7007,
+          "eval": 2394,
+          "time": 65,
+          "id": 87446,
+          "algebraMove": "Rxe4",
+          "coordinateMove": "b4e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8008,
+          "eval": 2419,
+          "time": 166,
+          "id": 244224,
+          "algebraMove": "Rxe4",
+          "coordinateMove": "b4e4",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 7,
+      "gameMoveNumber": 60,
+      "idCounts": {
+        "678201": 5
+      }
+    },
+    {
+      "depth": 12012,
+      "eval": 2077,
+      "time": 1520,
+      "id": 1815816,
+      "algebraMove": "Kc1",
+      "coordinateMove": "d2c1",
+      "willAcceptDraw": false,
+      "timeForMove": 19424,
+      "engineMove": "d2c1",
+      "previousMoves": [
+        {
+          "depth": 3003,
+          "eval": 555,
+          "time": 3,
+          "id": 215,
+          "algebraMove": "c3",
+          "coordinateMove": "c4c3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3003,
+          "eval": 1026,
+          "time": 3,
+          "id": 272,
+          "algebraMove": "Bd1",
+          "coordinateMove": "c2d1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4004,
+          "eval": 967,
+          "time": 4,
+          "id": 872,
+          "algebraMove": "Bd1",
+          "coordinateMove": "c2d1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4004,
+          "eval": 1115,
+          "time": 5,
+          "id": 2085,
+          "algebraMove": "Bd3+",
+          "coordinateMove": "c2d3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5005,
+          "eval": 959,
+          "time": 9,
+          "id": 5973,
+          "algebraMove": "Bd3+",
+          "coordinateMove": "c2d3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6006,
+          "eval": 862,
+          "time": 16,
+          "id": 13588,
+          "algebraMove": "Bd3+",
+          "coordinateMove": "c2d3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6006,
+          "eval": 982,
+          "time": 19,
+          "id": 17055,
+          "algebraMove": "Be4",
+          "coordinateMove": "c2e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6006,
+          "eval": 1060,
+          "time": 26,
+          "id": 24669,
+          "algebraMove": "Bb3",
+          "coordinateMove": "c2b3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7007,
+          "eval": 829,
+          "time": 29,
+          "id": 26880,
+          "algebraMove": "Bb3",
+          "coordinateMove": "c2b3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7007,
+          "eval": 921,
+          "time": 34,
+          "id": 32147,
+          "algebraMove": "Be4",
+          "coordinateMove": "c2e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7007,
+          "eval": 960,
+          "time": 40,
+          "id": 38330,
+          "algebraMove": "Ke3",
+          "coordinateMove": "d2e3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7007,
+          "eval": 1057,
+          "time": 48,
+          "id": 46327,
+          "algebraMove": "Kc1",
+          "coordinateMove": "d2c1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7007,
+          "eval": 1121,
+          "time": 62,
+          "id": 61834,
+          "algebraMove": "Bd3+",
+          "coordinateMove": "c2d3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8008,
+          "eval": 1051,
+          "time": 94,
+          "id": 97900,
+          "algebraMove": "Bd3+",
+          "coordinateMove": "c2d3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8008,
+          "eval": 1336,
+          "time": 113,
+          "id": 119978,
+          "algebraMove": "Ke3",
+          "coordinateMove": "d2e3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 9009,
+          "eval": 1052,
+          "time": 171,
+          "id": 182902,
+          "algebraMove": "Ke3",
+          "coordinateMove": "d2e3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 9009,
+          "eval": 1588,
+          "time": 205,
+          "id": 221138,
+          "algebraMove": "Bd3+",
+          "coordinateMove": "c2d3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 9009,
+          "eval": 1867,
+          "time": 236,
+          "id": 257530,
+          "algebraMove": "Kc1",
+          "coordinateMove": "d2c1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 10010,
+          "eval": 1690,
+          "time": 318,
+          "id": 351816,
+          "algebraMove": "Kc1",
+          "coordinateMove": "d2c1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 11011,
+          "eval": 1755,
+          "time": 601,
+          "id": 679784,
+          "algebraMove": "Kc1",
+          "coordinateMove": "d2c1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 11011,
+          "eval": 1843,
+          "time": 737,
+          "id": 834967,
+          "algebraMove": "Bd3+",
+          "coordinateMove": "c2d3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 12012,
+          "eval": 1751,
+          "time": 1398,
+          "id": 1623553,
+          "algebraMove": "Bd3+",
+          "coordinateMove": "c2d3",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 8,
+      "gameMoveNumber": 47,
+      "idCounts": {
+        "1815816": 5
+      }
+    },
+    {
+      "depth": 11011,
+      "eval": -1856,
+      "time": 252,
+      "id": 271771,
+      "algebraMove": "Bb1",
+      "coordinateMove": "a2b1",
+      "willAcceptDraw": true,
+      "timeForMove": 6814,
+      "engineMove": "a2b1",
+      "previousMoves": [
+        {
+          "depth": 3003,
+          "eval": -644,
+          "time": 2,
+          "id": 115,
+          "algebraMove": "Bb1",
+          "coordinateMove": "a2b1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4004,
+          "eval": -349,
+          "time": 3,
+          "id": 464,
+          "algebraMove": "Bb1",
+          "coordinateMove": "a2b1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4004,
+          "eval": -121,
+          "time": 4,
+          "id": 1243,
+          "algebraMove": "Kg2",
+          "coordinateMove": "f1g2",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 5005,
+          "eval": -1133,
+          "time": 5,
+          "id": 2037,
+          "algebraMove": "Kg2",
+          "coordinateMove": "f1g2",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 5005,
+          "eval": -689,
+          "time": 5,
+          "id": 2772,
+          "algebraMove": "Bb1",
+          "coordinateMove": "a2b1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 6006,
+          "eval": -643,
+          "time": 8,
+          "id": 4841,
+          "algebraMove": "Bb1",
+          "coordinateMove": "a2b1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 7007,
+          "eval": -599,
+          "time": 22,
+          "id": 19543,
+          "algebraMove": "Bb1",
+          "coordinateMove": "a2b1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 8008,
+          "eval": -774,
+          "time": 43,
+          "id": 43377,
+          "algebraMove": "Bb1",
+          "coordinateMove": "a2b1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 9009,
+          "eval": -1242,
+          "time": 67,
+          "id": 68361,
+          "algebraMove": "Bb1",
+          "coordinateMove": "a2b1",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 10010,
+          "eval": -1404,
+          "time": 113,
+          "id": 117884,
+          "algebraMove": "Bb1",
+          "coordinateMove": "a2b1",
+          "willAcceptDraw": true
+        }
+      ],
+      "gameNumber": 8,
+      "gameMoveNumber": 47.5,
+      "idCounts": {
+        "271771": 5
+      }
+    },
+    {
+      "depth": 6006,
+      "eval": -9986,
+      "time": 38,
+      "id": 41207,
+      "algebraMove": "Kf3",
+      "coordinateMove": "e3f3",
+      "willAcceptDraw": true,
+      "timeForMove": 6090,
+      "engineMove": "e3f3",
+      "previousMoves": [
+        {
+          "depth": 3003,
+          "eval": -2700,
+          "time": 3,
+          "id": 462,
+          "algebraMove": "Kd2",
+          "coordinateMove": "e3d2",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 3003,
+          "eval": -2380,
+          "time": 4,
+          "id": 650,
+          "algebraMove": "Kf2",
+          "coordinateMove": "e3f2",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4004,
+          "eval": -2884,
+          "time": 5,
+          "id": 2111,
+          "algebraMove": "Kf2",
+          "coordinateMove": "e3f2",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4004,
+          "eval": -2843,
+          "time": 7,
+          "id": 4583,
+          "algebraMove": "Kd2",
+          "coordinateMove": "e3d2",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4004,
+          "eval": -2730,
+          "time": 8,
+          "id": 5436,
+          "algebraMove": "Kf3",
+          "coordinateMove": "e3f3",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 5005,
+          "eval": -3002,
+          "time": 12,
+          "id": 9870,
+          "algebraMove": "Kf3",
+          "coordinateMove": "e3f3",
+          "willAcceptDraw": true
+        }
+      ],
+      "gameNumber": 9,
+      "gameMoveNumber": 47.5,
+      "idCounts": {
+        "41207": 5
+      }
+    },
+    {
+      "depth": 7007,
+      "eval": 9989,
+      "time": 128,
+      "id": 162181,
+      "algebraMove": "Nb3+",
+      "coordinateMove": "c1b3",
+      "willAcceptDraw": false,
+      "timeForMove": 6779,
+      "engineMove": "c1b3",
+      "previousMoves": [
+        {
+          "depth": 3003,
+          "eval": 2962,
+          "time": 3,
+          "id": 708,
+          "algebraMove": "Nb3+",
+          "coordinateMove": "c1b3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4004,
+          "eval": 3271,
+          "time": 5,
+          "id": 3344,
+          "algebraMove": "Nb3+",
+          "coordinateMove": "c1b3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5005,
+          "eval": 3677,
+          "time": 18,
+          "id": 18073,
+          "algebraMove": "Nb3+",
+          "coordinateMove": "c1b3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5005,
+          "eval": 4016,
+          "time": 19,
+          "id": 19138,
+          "algebraMove": "Rc4",
+          "coordinateMove": "b4c4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6006,
+          "eval": 4016,
+          "time": 41,
+          "id": 47282,
+          "algebraMove": "Rc4",
+          "coordinateMove": "b4c4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6006,
+          "eval": 9989,
+          "time": 69,
+          "id": 82015,
+          "algebraMove": "Nb3+",
+          "coordinateMove": "c1b3",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 9,
+      "gameMoveNumber": 48,
+      "idCounts": {
+        "162181": 5
+      }
+    },
+    {
+      "depth": 8003,
+      "eval": -384,
+      "time": 1237,
+      "id": 1576586,
+      "algebraMove": "bxa5",
+      "coordinateMove": "b6a5",
+      "willAcceptDraw": false,
+      "timeForMove": 13140,
+      "engineMove": "b6a5",
+      "previousMoves": [
+        {
+          "depth": 3001,
+          "eval": -722,
+          "time": 3,
+          "id": 301,
+          "algebraMove": "b5",
+          "coordinateMove": "b6b5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": -672,
+          "time": 3,
+          "id": 622,
+          "algebraMove": "bxa5",
+          "coordinateMove": "b6a5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": -230,
+          "time": 4,
+          "id": 918,
+          "algebraMove": "Bxf3",
+          "coordinateMove": "c6f3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": -165,
+          "time": 6,
+          "id": 2285,
+          "algebraMove": "Bxf3",
+          "coordinateMove": "c6f3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": -586,
+          "time": 15,
+          "id": 10310,
+          "algebraMove": "Bxf3",
+          "coordinateMove": "c6f3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": -630,
+          "time": 46,
+          "id": 36019,
+          "algebraMove": "Bxf3",
+          "coordinateMove": "c6f3",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": -363,
+          "time": 79,
+          "id": 63115,
+          "algebraMove": "bxa5",
+          "coordinateMove": "b6a5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": -658,
+          "time": 279,
+          "id": 301857,
+          "algebraMove": "bxa5",
+          "coordinateMove": "b6a5",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 10,
+      "gameMoveNumber": 8,
+      "idCounts": {
+        "1576586": 5
+      }
+    },
+    {
+      "depth": 7003,
+      "eval": 435,
+      "time": 478,
+      "id": 482942,
+      "algebraMove": "Bg5",
+      "coordinateMove": "f4g5",
+      "willAcceptDraw": false,
+      "timeForMove": 8938,
+      "engineMove": "f4g5",
+      "previousMoves": [
+        {
+          "depth": 3001,
+          "eval": -5,
+          "time": 3,
+          "id": 438,
+          "algebraMove": "Nbd2",
+          "coordinateMove": "b1d2",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": 232,
+          "time": 3,
+          "id": 549,
+          "algebraMove": "Rg1",
+          "coordinateMove": "h1g1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 3001,
+          "eval": 571,
+          "time": 4,
+          "id": 979,
+          "algebraMove": "axb6",
+          "coordinateMove": "a5b6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 571,
+          "time": 7,
+          "id": 3319,
+          "algebraMove": "axb6",
+          "coordinateMove": "a5b6",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 741,
+          "time": 8,
+          "id": 3895,
+          "algebraMove": "Rg1",
+          "coordinateMove": "h1g1",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4002,
+          "eval": 811,
+          "time": 11,
+          "id": 5605,
+          "algebraMove": "e4",
+          "coordinateMove": "e3e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": 306,
+          "time": 23,
+          "id": 16390,
+          "algebraMove": "e4",
+          "coordinateMove": "e3e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": 314,
+          "time": 77,
+          "id": 60955,
+          "algebraMove": "Qd2",
+          "coordinateMove": "d1d2",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5002,
+          "eval": 414,
+          "time": 84,
+          "id": 67404,
+          "algebraMove": "Ne5",
+          "coordinateMove": "f3e5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 337,
+          "time": 103,
+          "id": 83221,
+          "algebraMove": "Ne5",
+          "coordinateMove": "f3e5",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 731,
+          "time": 131,
+          "id": 105393,
+          "algebraMove": "e4",
+          "coordinateMove": "e3e4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6002,
+          "eval": 740,
+          "time": 222,
+          "id": 178557,
+          "algebraMove": "c4",
+          "coordinateMove": "c3c4",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7003,
+          "eval": 411,
+          "time": 383,
+          "id": 368336,
+          "algebraMove": "c4",
+          "coordinateMove": "c3c4",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 10,
+      "gameMoveNumber": 8.5,
+      "idCounts": {
+        "482942": 5
+      }
+    },
+    {
+      "depth": 12012,
+      "eval": -22,
+      "time": 547,
+      "id": 798371,
+      "algebraMove": "Bxe8",
+      "coordinateMove": "g6e8",
+      "willAcceptDraw": true,
+      "timeForMove": 8239,
+      "engineMove": "g6e8",
+      "previousMoves": [
+        {
+          "depth": 3003,
+          "eval": 50,
+          "time": 2,
+          "id": 196,
+          "algebraMove": "Bxe8",
+          "coordinateMove": "g6e8",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 4004,
+          "eval": 50,
+          "time": 3,
+          "id": 497,
+          "algebraMove": "Bxe8",
+          "coordinateMove": "g6e8",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 5005,
+          "eval": -2,
+          "time": 5,
+          "id": 2788,
+          "algebraMove": "Bxe8",
+          "coordinateMove": "g6e8",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 6006,
+          "eval": 50,
+          "time": 12,
+          "id": 12592,
+          "algebraMove": "Bxe8",
+          "coordinateMove": "g6e8",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 7007,
+          "eval": -153,
+          "time": 21,
+          "id": 23984,
+          "algebraMove": "Bxe8",
+          "coordinateMove": "g6e8",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 8008,
+          "eval": -133,
+          "time": 55,
+          "id": 70117,
+          "algebraMove": "Bxe8",
+          "coordinateMove": "g6e8",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 9009,
+          "eval": -137,
+          "time": 82,
+          "id": 106878,
+          "algebraMove": "Bxe8",
+          "coordinateMove": "g6e8",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 10010,
+          "eval": -1,
+          "time": 139,
+          "id": 188198,
+          "algebraMove": "Bxe8",
+          "coordinateMove": "g6e8",
+          "willAcceptDraw": true
+        },
+        {
+          "depth": 11011,
+          "eval": -395,
+          "time": 275,
+          "id": 387940,
+          "algebraMove": "Bxe8",
+          "coordinateMove": "g6e8",
+          "willAcceptDraw": true
+        }
+      ],
+      "gameNumber": 11,
+      "gameMoveNumber": 47,
+      "idCounts": {
+        "798371": 5
+      }
+    },
+    {
+      "depth": 11011,
+      "eval": 1124,
+      "time": 1072,
+      "id": 1639070,
+      "algebraMove": "Ng7+",
+      "coordinateMove": "e8g7",
+      "willAcceptDraw": false,
+      "timeForMove": 12284,
+      "engineMove": "e8g7",
+      "previousMoves": [
+        {
+          "depth": 3003,
+          "eval": 808,
+          "time": 3,
+          "id": 370,
+          "algebraMove": "Ng7+",
+          "coordinateMove": "e8g7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4004,
+          "eval": 331,
+          "time": 4,
+          "id": 1247,
+          "algebraMove": "Ng7+",
+          "coordinateMove": "e8g7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 4004,
+          "eval": 470,
+          "time": 5,
+          "id": 2064,
+          "algebraMove": "Kd7",
+          "coordinateMove": "d6d7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5005,
+          "eval": 404,
+          "time": 6,
+          "id": 3374,
+          "algebraMove": "Kd7",
+          "coordinateMove": "d6d7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 5005,
+          "eval": 750,
+          "time": 9,
+          "id": 6909,
+          "algebraMove": "Ng7+",
+          "coordinateMove": "e8g7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6006,
+          "eval": 652,
+          "time": 18,
+          "id": 18569,
+          "algebraMove": "Ng7+",
+          "coordinateMove": "e8g7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 6006,
+          "eval": 678,
+          "time": 22,
+          "id": 23730,
+          "algebraMove": "Kd7",
+          "coordinateMove": "d6d7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7007,
+          "eval": 678,
+          "time": 35,
+          "id": 41275,
+          "algebraMove": "Kd7",
+          "coordinateMove": "d6d7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 7007,
+          "eval": 828,
+          "time": 59,
+          "id": 71369,
+          "algebraMove": "Ng7+",
+          "coordinateMove": "e8g7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 8008,
+          "eval": 750,
+          "time": 124,
+          "id": 156061,
+          "algebraMove": "Ng7+",
+          "coordinateMove": "e8g7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 9009,
+          "eval": 961,
+          "time": 227,
+          "id": 296031,
+          "algebraMove": "Ng7+",
+          "coordinateMove": "e8g7",
+          "willAcceptDraw": false
+        },
+        {
+          "depth": 10010,
+          "eval": 1080,
+          "time": 741,
+          "id": 988869,
+          "algebraMove": "Ng7+",
+          "coordinateMove": "e8g7",
+          "willAcceptDraw": false
+        }
+      ],
+      "gameNumber": 11,
+      "gameMoveNumber": 47.5,
+      "idCounts": {
+        "988869": 1,
+        "1639070": 4
+      }
+    }
+  ],
+  "movesHashMap": {
+    "643104303b87810e118633231bf54eb6": "2890472,2101313,1886225,535358,672155,1620470,762959,6020019,1079214,1557952,1397598,1171559,4648428,719266,1293690,678201,1815816,271771,41207,162181,1576586,482942,798371,1639070,",
+    "277502cd72fa00f1ee49f4f7d8d690b0": "2890472,2101313,1886225,535358,672155,1620470,762959,6020019,5720376,1557952,1397598,1171559,4648428,719266,1293690,678201,1815816,271771,41207,162181,1576586,482942,798371,1639070,",
+    "f86f10315bc8faf54cbac81b92cda77a": "2890472,2101313,1886225,535358,672155,1620470,762959,6020019,1079214,1557952,1397598,1171559,4648428,719266,1293690,678201,1815816,271771,41207,162181,1576586,482942,798371,988869,",
+    "ba20df358c2b97cbf5cf9dfeb4e30fdb": "2890472,2101313,1886225,535358,672155,1620470,762959,6020019,1079214,1557952,1397598,1171559,4648428,1776540,1293690,678201,1815816,271771,41207,162181,1576586,482942,798371,1639070,",
+    "64a48a52c5380414d28c1859f3e22381": "2890472,2101313,1886225,535358,672155,1620470,762959,6020019,5720376,1557952,1397598,1171559,4648428,1776540,1293690,678201,1815816,271771,41207,162181,1576586,482942,798371,1639070,"
+  }
+}

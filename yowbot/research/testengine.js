@@ -21,8 +21,8 @@ engine.setLogLevel('silent')
 
 calibrateGroups()
 async function calibrateGroups() {
-  await doCalibrations(cmpEasyNames, 'Easy')
-  // await doCalibrations(cmpHardNames, 'Hard')
+  // await doCalibrations(cmpEasyNames, 'Easy')
+  await doCalibrations(cmpHardNames, 'Hard')
   // await doCalibrations(cmpGmNames, 'Gm')
 }
 
