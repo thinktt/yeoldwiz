@@ -1,0 +1,194 @@
+{
+  "initTime": 6400,
+  "runs": [
+    {
+      "clockTime": 6350,
+      "idAccuracy": 84,
+      "realAccuracy": 92,
+      "underAccuracy": 95,
+      "highCount": 8,
+      "lowCount": 15,
+      "desperados": 2
+    },
+    {
+      "clockTime": 6300,
+      "idAccuracy": 83,
+      "realAccuracy": 91,
+      "underAccuracy": 94,
+      "highCount": 9,
+      "lowCount": 16,
+      "desperados": 1
+    },
+    {
+      "clockTime": 6250,
+      "idAccuracy": 86,
+      "realAccuracy": 91,
+      "underAccuracy": 96,
+      "highCount": 6,
+      "lowCount": 15,
+      "desperados": 1
+    },
+    {
+      "clockTime": 6200,
+      "idAccuracy": 84,
+      "realAccuracy": 90,
+      "underAccuracy": 95,
+      "highCount": 8,
+      "lowCount": 16,
+      "desperados": 1
+    },
+    {
+      "clockTime": 6150,
+      "idAccuracy": 83,
+      "realAccuracy": 90,
+      "underAccuracy": 95,
+      "highCount": 7,
+      "lowCount": 18,
+      "desperados": 1
+    },
+    {
+      "clockTime": 6100,
+      "idAccuracy": 85,
+      "realAccuracy": 91,
+      "underAccuracy": 97,
+      "highCount": 5,
+      "lowCount": 17,
+      "desperados": 0
+    },
+    {
+      "clockTime": 6050,
+      "idAccuracy": 86,
+      "realAccuracy": 91,
+      "underAccuracy": 97,
+      "highCount": 4,
+      "lowCount": 16,
+      "desperados": 0
+    },
+    {
+      "clockTime": 6000,
+      "idAccuracy": 84,
+      "realAccuracy": 90,
+      "underAccuracy": 97,
+      "highCount": 4,
+      "lowCount": 19,
+      "desperados": 1
+    },
+    {
+      "clockTime": 5950,
+      "idAccuracy": 86,
+      "realAccuracy": 91,
+      "underAccuracy": 99,
+      "highCount": 2,
+      "lowCount": 19,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5900,
+      "idAccuracy": 86,
+      "realAccuracy": 92,
+      "underAccuracy": 99,
+      "highCount": 2,
+      "lowCount": 18,
+      "desperados": 1
+    },
+    {
+      "clockTime": 5850,
+      "idAccuracy": 84,
+      "realAccuracy": 91,
+      "underAccuracy": 98,
+      "highCount": 3,
+      "lowCount": 21,
+      "desperados": 1
+    },
+    {
+      "clockTime": 5800,
+      "idAccuracy": 86,
+      "realAccuracy": 92,
+      "underAccuracy": 99,
+      "highCount": 1,
+      "lowCount": 19,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5750,
+      "idAccuracy": 86,
+      "realAccuracy": 93,
+      "underAccuracy": 99,
+      "highCount": 2,
+      "lowCount": 19,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5700,
+      "idAccuracy": 84,
+      "realAccuracy": 92,
+      "underAccuracy": 98,
+      "highCount": 3,
+      "lowCount": 20,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5650,
+      "idAccuracy": 85,
+      "realAccuracy": 92,
+      "underAccuracy": 99,
+      "highCount": 1,
+      "lowCount": 21,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5600,
+      "idAccuracy": 82,
+      "realAccuracy": 92,
+      "underAccuracy": 99,
+      "highCount": 2,
+      "lowCount": 24,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5550,
+      "idAccuracy": 83,
+      "realAccuracy": 92,
+      "underAccuracy": 99,
+      "highCount": 1,
+      "lowCount": 24,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5500,
+      "idAccuracy": 81,
+      "realAccuracy": 92,
+      "underAccuracy": 99,
+      "highCount": 2,
+      "lowCount": 25,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5450,
+      "idAccuracy": 81,
+      "realAccuracy": 93,
+      "underAccuracy": 100,
+      "highCount": 0,
+      "lowCount": 27,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5400,
+      "idAccuracy": 82,
+      "realAccuracy": 93,
+      "underAccuracy": 99,
+      "highCount": 1,
+      "lowCount": 25,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5350,
+      "idAccuracy": 79,
+      "realAccuracy": 92,
+      "underAccuracy": 99,
+      "highCount": 1,
+      "lowCount": 29,
+      "desperados": 0
+    }
+  ]
+}
