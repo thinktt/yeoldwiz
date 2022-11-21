@@ -100,10 +100,15 @@ async function getMove(settings) {
     log(chalk.red(data.toString()))
   })
 
+  child.stdin.on('error', (err) => {
+    console.log(chalk.redBright("error caught: ", err))
+  })
+
   startTime = Date.now()
   await startEngine(child, settings)
- 
-  return movePromise
+  const move = await movePromise
+
+  return move
 }
 
 // fills any missing settings and logs when it happens
@@ -169,7 +174,18 @@ async function startEngine(child, settings) {
   const turn = chess.turn()
   
   // setup basic params
-  child.stdin.write('xboard\n')
+
+  console.log(chalk.redBright('BEFORE'))
+  try {
+    child.stdin.cork()
+    let thing = child.stdin.write('xboard\n')
+    child.stdin.uncork();
+    console.log(thing)
+  } catch(err) {
+    console.log(chalk.redBright(err))
+    return
+  }
+  console.log(chalk.redBright('AFTER'))
   child.stdin.write('post\n')
   
   // Load personality values
