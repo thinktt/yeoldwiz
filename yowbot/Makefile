@@ -1,7 +1,7 @@
 JS_FILES := $(wildcard *.txt)
 BINS := $(JS_FILES:%.txt=%)
 
-.PHONY: run dbuild drun dcal clean books2bin rmbooks  reset eep testengine cpbadbooks getcalibrations
+.PHONY: run docal clocks dbuild drun dcal clean books2bin rmbooks  reset eep testengine cpbadbooks 
 
 drun: dbuild
 	docker run -v calibrations:/opt/yeoldwiz/calibrations --name yeoldwiz ace:5000/yeoldwiz 
@@ -11,7 +11,7 @@ dbuild: dist.tar
 	docker image rm ace:5000/yeoldwiz:latest || true
 	docker build -t ace:5000/yeoldwiz .
 
-dcalibrate: dbuild
+dcal: dbuild
 	docker rm calibrator || true
 	docker run -v calibrations:/opt/yeoldwiz/calibrations --name calibrator ace:5000/yeoldwiz ./node calibrate.js
 
@@ -42,7 +42,15 @@ books:
 	
 run: dist
 	cd dist; \
-	node main.js
+	./node main.js
+
+docal: dist
+	cd dist; \
+	./node docalibrate.js
+
+clocks: dist
+	cp ./research/calibrations/run1/clockTimes.json ./dist/calibrations/
+
 
 reset: 
 	rm -rf dist
@@ -52,9 +60,9 @@ reset:
 	rm dist.tar || true
 
 clean:
-	rm books
+	# rm books
+	# rm dist.tar
 	rm -rf dist
-	rm dist.tar
 
 rmbooks:
 	rm -rf books

@@ -22,11 +22,17 @@ engine.setLogLevel('silent')
 calibrateGroups()
 async function calibrateGroups() {
   await doCalibrations(cmpEasyNames, 'Easy')
-  // await doCalibrations(cmpHardNames, 'Hard')
-  // await doCalibrations(cmpGmNames, 'Gm')
+  await doCalibrations(cmpHardNames, 'Hard')
+  await doCalibrations(cmpGmNames, 'Gm')
 }
 
 async function doCalibrations(cmpNames, groupName) {
+  let doneClocks = await loadFile(`./calibrations/clockTimes.json`)
+  if(doneClocks && doneClocks[groupName]) {
+    console.log(chalk.magentaBright(`Found ${groupName} clock time: ${doneClocks[groupName]}`))
+    return
+  }
+
   let averageTimeSum = 0
   for (const cmpName of cmpNames) {
     const averageTime = await initCalibrationFile(cmpName)

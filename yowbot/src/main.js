@@ -35,7 +35,7 @@ function handleGameStart(id) {
 
 async function handleChallenge(challenge) {
   const validVariants = ['standard']
-  const validSpeeds = ['rapid', 'classical', 'correspondence']
+  const validSpeeds = ['bullet', 'blitz', 'rapid', 'classical', 'correspondence']
 
   console.log(challenge.variant.key)
   console.log( challenge.speed)
