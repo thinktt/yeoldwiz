@@ -1,7 +1,3 @@
-events.js:292
-      throw er; // Unhandled 'error' event
-      ^
-
 Error: write EPIPE
     at afterWriteDispatched (internal/stream_base_commons.js:156:25)
     at writeGeneric (internal/stream_base_commons.js:147:3)
@@ -9,10 +5,10 @@ Error: write EPIPE
     at Socket._write (net.js:797:8)
     at writeOrBuffer (internal/streams/writable.js:358:12)
     at Socket.Writable.write (internal/streams/writable.js:303:10)
-    at startEngine (/opt/yeoldwiz/engine.js:172:15)
-    at Object.getMove (/opt/yeoldwiz/engine.js:104:9)
+    at startEngine (/opt/yeoldwiz/engine.js:179:15)
+    at Object.getMove (/opt/yeoldwiz/engine.js:106:11)
     at engineGetMove (/opt/yeoldwiz/docalibrate.js:1058:30)
-    at getStopMoves (/opt/yeoldwiz/docalibrate.js:805:22)
+    at runPositions (/opt/yeoldwiz/docalibrate.js:834:22)
 Emitted 'error' event on Socket instance at:
     at emitErrorNT (internal/streams/destroy.js:106:8)
     at emitErrorCloseNT (internal/streams/destroy.js:74:3)
@@ -41,3 +37,45 @@ Emitted 'error' event on Socket instance at:
   code: 'EPIPE',
   syscall: 'write'
 }
+
+
+Error: write EPIPE
+    at afterWriteDispatched (internal/stream_base_commons.js:156:25)
+    at writeGeneric (internal/stream_base_commons.js:147:3)
+    at Socket._writeGeneric (net.js:785:11)
+    at Socket._write (net.js:797:8)
+    at writeOrBuffer (internal/streams/writable.js:358:12)
+    at Socket.Writable.write (internal/streams/writable.js:303:10)
+    at startEngine (/opt/yeoldwiz/engine.js:172:15)
+    at Object.getMove (/opt/yeoldwiz/engine.js:104:9)
+    at engineGetMove (/opt/yeoldwiz/docalibrate.js:1058:30)
+    at runPositions (/opt/yeoldwiz/docalibrate.js:834:22)
+Emitted 'error' event on Socket instance at:
+    at emitErrorNT (internal/streams/destroy.js:106:8)
+    at emitErrorCloseNT (internal/streams/destroy.js:74:3)
+    at processTicksAndRejections (internal/process/task_queues.js:80:21) {
+  errno: -32,
+  code: 'EPIPE',
+  syscall: 'write'
+}
+
+Error: write EPIPE
+    at afterWriteDispatched (internal/stream_base_commons.js:156:25)
+    at writeGeneric (internal/stream_base_commons.js:147:3)
+    at Socket._writeGeneric (net.js:785:11)
+    at Socket._write (net.js:797:8)
+    at writeOrBuffer (internal/streams/writable.js:358:12)
+    at Socket.Writable.write (internal/streams/writable.js:303:10)
+    at startEngine (/opt/yeoldwiz/engine.js:172:15)
+    at Object.getMove (/opt/yeoldwiz/engine.js:104:9)
+    at engineGetMove (/opt/yeoldwiz/docalibrate.js:1058:30)
+    at getStopMoves (/opt/yeoldwiz/docalibrate.js:805:22)
+Emitted 'error' event on Socket instance at:
+    at emitErrorNT (internal/streams/destroy.js:106:8)
+    at emitErrorCloseNT (internal/streams/destroy.js:74:3)
+    at processTicksAndRejections (internal/process/task_queues.js:80:21) {
+  errno: -32,
+  code: 'EPIPE',
+  syscall: 'write'
+}
+

@@ -1,0 +1,203 @@
+{
+  "initTime": 6350,
+  "runs": [
+    {
+      "clockTime": 6300,
+      "idAccuracy": 88,
+      "realAccuracy": 95,
+      "underAccuracy": 95,
+      "highCount": 7,
+      "lowCount": 10,
+      "desperados": 2
+    },
+    {
+      "clockTime": 6250,
+      "idAccuracy": 90,
+      "realAccuracy": 96,
+      "underAccuracy": 96,
+      "highCount": 6,
+      "lowCount": 9,
+      "desperados": 2
+    },
+    {
+      "clockTime": 6200,
+      "idAccuracy": 90,
+      "realAccuracy": 96,
+      "underAccuracy": 96,
+      "highCount": 6,
+      "lowCount": 9,
+      "desperados": 2
+    },
+    {
+      "clockTime": 6150,
+      "idAccuracy": 86,
+      "realAccuracy": 95,
+      "underAccuracy": 96,
+      "highCount": 6,
+      "lowCount": 14,
+      "desperados": 2
+    },
+    {
+      "clockTime": 6100,
+      "idAccuracy": 88,
+      "realAccuracy": 95,
+      "underAccuracy": 96,
+      "highCount": 6,
+      "lowCount": 12,
+      "desperados": 2
+    },
+    {
+      "clockTime": 6050,
+      "idAccuracy": 86,
+      "realAccuracy": 94,
+      "underAccuracy": 97,
+      "highCount": 5,
+      "lowCount": 15,
+      "desperados": 1
+    },
+    {
+      "clockTime": 6000,
+      "idAccuracy": 86,
+      "realAccuracy": 93,
+      "underAccuracy": 97,
+      "highCount": 5,
+      "lowCount": 16,
+      "desperados": 1
+    },
+    {
+      "clockTime": 5950,
+      "idAccuracy": 84,
+      "realAccuracy": 93,
+      "underAccuracy": 97,
+      "highCount": 5,
+      "lowCount": 18,
+      "desperados": 2
+    },
+    {
+      "clockTime": 5900,
+      "idAccuracy": 84,
+      "realAccuracy": 92,
+      "underAccuracy": 97,
+      "highCount": 5,
+      "lowCount": 18,
+      "desperados": 1
+    },
+    {
+      "clockTime": 5850,
+      "idAccuracy": 86,
+      "realAccuracy": 93,
+      "underAccuracy": 98,
+      "highCount": 3,
+      "lowCount": 18,
+      "desperados": 1
+    },
+    {
+      "clockTime": 5800,
+      "idAccuracy": 83,
+      "realAccuracy": 92,
+      "underAccuracy": 97,
+      "highCount": 5,
+      "lowCount": 19,
+      "desperados": 2
+    },
+    {
+      "clockTime": 5750,
+      "idAccuracy": 83,
+      "realAccuracy": 91,
+      "underAccuracy": 98,
+      "highCount": 3,
+      "lowCount": 21,
+      "desperados": 2
+    },
+    {
+      "clockTime": 5700,
+      "idAccuracy": 84,
+      "realAccuracy": 91,
+      "underAccuracy": 99,
+      "highCount": 2,
+      "lowCount": 21,
+      "desperados": 1
+    },
+    {
+      "clockTime": 5650,
+      "idAccuracy": 86,
+      "realAccuracy": 91,
+      "underAccuracy": 100,
+      "highCount": 0,
+      "lowCount": 21,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5600,
+      "idAccuracy": 85,
+      "realAccuracy": 92,
+      "underAccuracy": 99,
+      "highCount": 1,
+      "lowCount": 21,
+      "desperados": 1
+    },
+    {
+      "clockTime": 5550,
+      "idAccuracy": 83,
+      "realAccuracy": 91,
+      "underAccuracy": 100,
+      "highCount": 0,
+      "lowCount": 24,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5500,
+      "idAccuracy": 84,
+      "realAccuracy": 91,
+      "underAccuracy": 100,
+      "highCount": 0,
+      "lowCount": 23,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5450,
+      "idAccuracy": 83,
+      "realAccuracy": 91,
+      "underAccuracy": 100,
+      "highCount": 0,
+      "lowCount": 25,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5400,
+      "idAccuracy": 83,
+      "realAccuracy": 91,
+      "underAccuracy": 100,
+      "highCount": 0,
+      "lowCount": 25,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5350,
+      "idAccuracy": 82,
+      "realAccuracy": 91,
+      "underAccuracy": 100,
+      "highCount": 0,
+      "lowCount": 26,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5300,
+      "idAccuracy": 80,
+      "realAccuracy": 90,
+      "underAccuracy": 100,
+      "highCount": 0,
+      "lowCount": 29,
+      "desperados": 0
+    },
+    {
+      "clockTime": 5250,
+      "idAccuracy": 79,
+      "realAccuracy": 90,
+      "underAccuracy": 100,
+      "highCount": 0,
+      "lowCount": 30,
+      "desperados": 0
+    }
+  ]
+}
