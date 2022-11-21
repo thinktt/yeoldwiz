@@ -24,3 +24,6 @@ docker run -d --rm \
 -e MONGO_HOST=mongodb \
 --network mongonet \
 --name yowapi ace:5000/yowapi:latest \
+
+echo "NOTICE after you run this you must connect it to proxynet manually"
+echo "docker network connect proxynet yowapi"
