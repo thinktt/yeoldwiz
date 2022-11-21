@@ -13,7 +13,7 @@ const defaultSettings = {
     "cfd": "250", "sop": "100", "avd": "30", "rnd": "0", "sel": "9", "md": "99", 
     "tts": "16777216"
   },
-  secondsPerMove: 5,
+  secondsPerMove: null,
   clockTime: null,
   stopId: null,
 }

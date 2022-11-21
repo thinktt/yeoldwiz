@@ -1,21 +1,28 @@
 JS_FILES := $(wildcard *.txt)
 BINS := $(JS_FILES:%.txt=%)
 
-.PHONY: run dbuild drun clean books2bin rmbooks  reset eep testengine cpbadbooks getcalibrations
+.PHONY: run dbuild drun dcal clean books2bin rmbooks  reset eep testengine cpbadbooks getcalibrations
 
 drun: dbuild
-	docker run --name yeoldwiz ace:5000/yeoldwiz 
+	docker run -v calibrations:/opt/yeoldwiz/calibrations --name yeoldwiz ace:5000/yeoldwiz 
 
 dbuild: dist.tar
 	docker rm yeoldwiz || true
 	docker image rm ace:5000/yeoldwiz:latest || true
 	docker build -t ace:5000/yeoldwiz .
 
+dcalibrate: dbuild
+	docker rm calibrator || true
+	docker run -v calibrations:/opt/yeoldwiz/calibrations --name calibrator ace:5000/yeoldwiz ./node calibrate.js
+
 dist.tar: dist
 	tar -cvhf dist.tar -C dist/ .
 
 dist: books
 	mkdir dist
+	mkdir dist/calibrations
+	mkdir dist/calibrations/logs
+	cp -r targets dist/targets
 	docker cp bookbuilder:opt/binbooks/. dist/books/
 	cp assets/node dist/node
 	build/buildKing.sh
@@ -25,10 +32,7 @@ dist: books
 	ln -rs node_modules dist/
 	ln src/*.js dist/
 	ln .env dist/.env
-	ln research/testengine.js dist/
-	ln research/testPositions.json dist/
-	ln research/testgames.json dist/
-	mkdir dist/calibrations
+	ln src/testPositions.json dist/
 
 books:
 	docker rm bookbuilder || true

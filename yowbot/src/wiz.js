@@ -4,6 +4,17 @@ const book = require('./book')
 const engine = require('./engine')
 const personalites = require('./personalities.js')
 
+let clockTimes
+try {
+  clockTimes = require('./calibrations/clockTimes.json')
+  console.log(chalk.green('clockTimes.json found, will set calibrated times'))
+  console.log(chalk.green(`Easy: ${clockTimes.Easy}    Hard: ${clockTimes.Hard}   Gm: ${clockTimes.Gm}`))
+} catch {
+  console.log(chalk.yellow('Missing ./calibrations.clockTimes.json'))
+  console.log(chalk.yellow('Plese run calibrations'))
+  console.log(chalk.yellow(`clocks will use slow defaults`))
+}
+
 
 async function getNextMove(moves, wizPlayer, gameId) {
       
@@ -35,14 +46,24 @@ async function getNextMove(moves, wizPlayer, gameId) {
     console.log(`bookMove: ${bookMove}`)
     return {move: bookMove, willAcceptDraw: false}
   }
-  
+
   // set different times to think to give different strength levels to easy 
   // ponder players vs hard ponder players, vs over 2700 GM players
-  let clockTime = 4100 
-  if (cmp.ponder === 'hard') clockTime = 5750
-  if (cmp.rating >= 2700) clockTime = 8550
+  let clockTime
+  let secondsPerMove
+  if (clockTimes) {
+    clockTime = 4100 
+    if (cmp.ponder === 'hard') clockTime = 5750
+    if (cmp.rating >= 2700) clockTime = 8550
+  } else {
+    secondsPerMove = 3  
+    if (cmp.ponder === 'hard') secondsPerMove = 5
+    if (cmp.rating >= 2700) secondsPerMove = 7
+  }
+  
 
-  const settings = { moves, pVals: cmp.out, clockTime }
+
+  const settings = { moves, pVals: cmp.out, clockTime, secondsPerMove }
   const moveData = await engine.getMove(settings)
   console.log(`engineMove: ${moveData.engineMove}`)
   return {move: moveData.engineMove, willAcceptDraw: moveData.willAcceptDraw}
