@@ -175,17 +175,10 @@ async function startEngine(child, settings) {
   
   // setup basic params
 
-  console.log(chalk.redBright('BEFORE'))
-  try {
-    child.stdin.cork()
-    let thing = child.stdin.write('xboard\n')
-    child.stdin.uncork();
-    console.log(thing)
-  } catch(err) {
-    console.log(chalk.redBright(err))
-    return
-  }
-  console.log(chalk.redBright('AFTER'))
+  child.stdin.cork()
+  child.stdin.write('xboard\n')
+  child.stdin.uncork();
+
   child.stdin.write('post\n')
   
   // Load personality values
