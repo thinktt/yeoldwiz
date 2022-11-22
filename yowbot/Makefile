@@ -53,7 +53,7 @@ docal: dist
 	./node docalibrate.js
 
 getclocks: dist
-	cp ./research/calibrations/run1/clockTimes.json ./dist/calibrations/
+	cp ./cals/xps/run1/clockTimes.json ./dist/calibrations/
 
 
 reset: 
