@@ -52,9 +52,9 @@ async function getNextMove(moves, wizPlayer, gameId) {
   let clockTime
   let secondsPerMove
   if (clockTimes) {
-    clockTime = 4100 
-    if (cmp.ponder === 'hard') clockTime = 5750
-    if (cmp.rating >= 2700) clockTime = 8550
+    clockTime = clockTimes.Easy
+    if (cmp.ponder === 'hard') clockTime = clockTimes.Hard
+    if (cmp.rating >= 2700) clockTime = clockTimes.Gm
   } else {
     secondsPerMove = 3  
     if (cmp.ponder === 'hard') secondsPerMove = 5
