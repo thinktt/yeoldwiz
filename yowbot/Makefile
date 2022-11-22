@@ -20,6 +20,8 @@ dcal: dbuild
 	docker run -v calibrations:/opt/yeoldwiz/calibrations --name calibrator ace:5000/yeoldwiz ./node calibrate.js
 
 dist.tar: dist
+	rm ./dist/clockTimes.json
+	cp envAce.env ./dist/.env
 	tar -cvhf dist.tar -C dist/ .
 
 dist: books
@@ -45,6 +47,8 @@ books:
 	touch books
 	
 run: dist
+	make getclocks
+	cp envXps.env ./dist/.env
 	cd dist; \
 	./node main.js
 

@@ -12,6 +12,10 @@ function setToken(tokenToSet) {
   token = tokenToSet
 }
 
+function challenge(username) {
+  return post(`api/challenge/${username}`)
+}
+
 function acceptChallenge(challengeId) {
   return post(`api/challenge/${challengeId}/accept`)
 }
@@ -131,6 +135,7 @@ function stream(URL, handler) {
 
 module.exports = {
   setToken,
+  challenge,
   acceptChallenge,
   declineChallenge,
   upgrade,

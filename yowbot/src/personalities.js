@@ -67,23 +67,23 @@ function fuzzySearch(msg) {
     return gms[Math.floor(Math.random() * gms.length)];
   }
 
-  // check for a rating number
-  let num = msg.match(/\d+/g)
-  if (!num) return 
+  // // check for a rating number
+  // let num = msg.match(/\d+/g)
+  // if (!num) return 
   
-  // if there is a number in the msg we'll parse it and return 
-  // the nearest personality
-  num = parseInt(num) 
+  // // if there is a number in the msg we'll parse it and return 
+  // // the nearest personality
+  // num = parseInt(num) 
   
-  // this is a GM return a random one
-  if (num == 2700) {
-    return gms[Math.floor(Math.random() * gms.length)];
-  }
+  // // this is a GM return a random one
+  // if (num == 2700) {
+  //   return gms[Math.floor(Math.random() * gms.length)];
+  // }
   
-  // return the nearest personality at or below this rating
-  for (cmp of cmpsArr) {
-    if (num <= cmp.rating) return cmp
-  }
+  // // return the nearest personality at or below this rating
+  // for (cmp of cmpsArr) {
+  //   if (num <= cmp.rating) return cmp
+  // }
 
 
 

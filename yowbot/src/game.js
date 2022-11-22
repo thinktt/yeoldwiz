@@ -59,6 +59,13 @@ function create(gameId) {
   async function setupGame(event) {
     game.color = game.playingAs(event)
     game.rated = event.rated
+    game.lichessOpponent = getLichessOpponent(event, game.color)  
+
+    if (game.lichessOpponent === 'yeoldwiz' &&  !game.wizPlayer) {
+      await new Promise(r => setTimeout(r, 4000))
+      api.chat(game.gameId, 'player', 'Joey')
+    }
+
     if (event.state.bdraw || event.state.wdraw) {
       console.log('A draw was requested')
       game.hasDrawOffer = true
@@ -66,7 +73,22 @@ function create(gameId) {
     await game.findAndSetWizPlayer()
   }
 
+ 
+
+  function getLichessOpponent(event, color) {
+    let opponentColor
+    if (color === 'white') opponentColor = 'black'
+      else opponentColor = 'white'
+    return event[opponentColor].id
+  }
+
   async function handleGameState(gameState) {
+    const endStatuses = [ "mate", "resign", "stalemate", "timeout", "draw", "outoftime" ]
+    if (endStatuses.includes(gameState.status) && game.lichessOpponent === 'yeoldwiz') {
+      console.log('Starting a new challenge')
+      await api.challenge('yeoldwiz')
+    }
+
     if (gameState.status === 'draw') return
 
     if(!game.isMoving) {
@@ -74,7 +96,7 @@ function create(gameId) {
       await game.playNextMove(gameState)
       game.isMoving = false
     }
-    }
+  }
 
   function handleChatLine(event) {
     if (event.username === 'lichess' && event.room === 'player' && 
@@ -108,7 +130,7 @@ function create(gameId) {
       if (game.wizPlayer == '') {
         const cmp = personalites.fuzzySearch(message)
         if ( !cmp ) {
-          api.chat(game.gameId, 'player', "Sorry, I don't know that opponent");
+          // api.chat(game.gameId, 'player', "Sorry, I don't know that opponent");
           return
         }
 
@@ -137,10 +159,10 @@ function create(gameId) {
     
     // This means chat has no messages at all so we should ask who the player wants to play
     if (chatPlayer === 'should ask who to play' && !game.rated) {
-      api.chat(
-        game.gameId, 
-        'player', 'Who would you like to play? Give me a name or a rating number from 1 to 2750.'
-      );
+      // api.chat(
+      //   game.gameId, 
+      //   // 'player', 'Who would you like to play? Give me a name or a rating number from 1 to 2750.'
+      // );
       api.chat(game.gameId, 'spectator', 'Waiting for opponent selection');
       // clear this for next if
       chatPlayer = ''
