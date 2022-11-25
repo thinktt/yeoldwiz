@@ -51,6 +51,13 @@ async function getMove(settings) {
     child.stdout.on('data', (data) => {
       const engineLines = data.toString().replace('\r','\n').split('\n')
       for (let engineLine of engineLines) {
+
+        if (engineLine.includes('1/2-1/2 {Draw 50 moves}')) {
+          console.log(chalk.blue(engineLine))
+          console.log(chalk.red('Engine is claiming a draw'))
+          resolve(null)
+          return
+        }
        
         // ignore empty lines, add return char back to end of line
         if (engineLine === '') continue
@@ -81,7 +88,7 @@ async function getMove(settings) {
           log(chalk.blue(engineLine))
           child.stdin.write('quit\n')
           moveData.engineMove = engineLine.match(/move ([a-z][1-9][a-z][1-9]?.)/)[1]
-          console2.log('timeForMove:', moveData.timeForMove)
+          console2.log(chalk.green('timeForMove:', moveData.timeForMove))
           console2.log('willAcceptDraw:', moveData.willAcceptDraw)
           console2.log('coordinateMove:', moveData.coordinateMove)
           if (settings.showPreviousMoves) moveData.previousMoves = previousMoves.slice(0,-1)
@@ -97,7 +104,7 @@ async function getMove(settings) {
 
   // log on process errors
   child.stderr.on('data', (data) => {
-    log(chalk.red(data.toString()))
+    console2.log(chalk.red(data.toString()))
   })
 
   child.stdin.on('error', (err) => {
