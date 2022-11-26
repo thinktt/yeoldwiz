@@ -110,7 +110,13 @@ function post(URL, body) {
     .catch((err) => {
       console.log(chalk.cyan('Response Error'))
       console.log(chalk.red(`POST ${URL}`))
-      console.log(err.response || err)
+      if (err.response) {
+        console.log(chalk.red(err.response.status))
+        console.log(chalk.red(err.response.statusText))
+        if (err.response.data) console.log(chalk.red(JSON.stringify(err.response.data)))
+      }
+
+      console.log(chalk.red(err))
     })
 }
 

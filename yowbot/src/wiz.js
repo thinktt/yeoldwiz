@@ -4,6 +4,8 @@ const book = require('./book')
 const engine = require('./engine')
 const personalites = require('./personalities.js')
 
+engine.setLogLevel('quiet')
+
 let clockTimes
 try {
   clockTimes = require('./calibrations/clockTimes.json')
@@ -25,10 +27,7 @@ async function getNextMove(moves, wizPlayer, gameId) {
 
   const cmp = personalites.getSettings(wizPlayer)
 
-  console.log(chalk.blue(`Moving as ${cmp.name}`)) 
-  console.log(chalk.blue(`Using ${cmp.book} for book moves`))
-
-
+  
   const chess = chessTools.create()
   chess.applyMoves(moves)
   const legalMoves = chess.legalMoves()
@@ -38,6 +37,7 @@ async function getNextMove(moves, wizPlayer, gameId) {
     return
   }
 
+  console.log(chalk.blue(`Moving as ${cmp.name} using ${cmp.book} book`)) 
   const bookMove = await book.getHeavyMove(chess.fen(), cmp.book)
   // const bookMove = await book.getRandomMove(chess.fen())
   // const bookMove = ''
@@ -65,7 +65,9 @@ async function getNextMove(moves, wizPlayer, gameId) {
 
   const settings = { moves, pVals: cmp.out, clockTime, secondsPerMove }
   const moveData = await engine.getMove(settings)
-  console.log(`engineMove: ${moveData.engineMove}`)
+  if (!moveData) return
+
+  console.log(chalk.magenta(`engineMove: ${moveData.engineMove}`))
   return {move: moveData.engineMove, willAcceptDraw: moveData.willAcceptDraw}
 }
 

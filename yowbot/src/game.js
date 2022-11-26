@@ -14,6 +14,7 @@ function create(gameId) {
     handleGameState,
     handleChatLine,
     findAndSetWizPlayer,
+    sayWizPlayer,
     setWizPlayer,
     getWizPlayerFromChat,
     playNextMove,
@@ -37,18 +38,19 @@ function create(gameId) {
   // Below game object functions exposed above
 
   async function handler(event) {
-    console.log(chalk.yellow('event: ' + event.type))
+    if (event.type === 'gameState') {
+      console.log(chalk.yellow(`event: ${event.type} ${event.moves?.split(' ').length} moves`))
+    } else console.log(chalk.yellow(`event: ${event.type}`))
+    
     switch (event.type) {
       case "chatLine":
         game.handleChatLine(event)
         break;
       case "gameFull":
-        // console.log(event)
         await game.setupGame(event)
         game.handleGameState(event.state)
         break;
       case "gameState":
-        // console.log(event)
         game.handleGameState(event)
         break;
       default:
@@ -56,21 +58,19 @@ function create(gameId) {
     }
   }
 
+  
+  let selfGame = 0
   async function setupGame(event) {
     game.color = game.playingAs(event)
     game.rated = event.rated
     game.lichessOpponent = getLichessOpponent(event, game.color)  
-
-    if (game.lichessOpponent === 'yeoldwiz' &&  !game.wizPlayer) {
-      await new Promise(r => setTimeout(r, 4000))
-      api.chat(game.gameId, 'player', 'Joey')
-    }
+    await game.findAndSetWizPlayer()
 
     if (event.state.bdraw || event.state.wdraw) {
       console.log('A draw was requested')
       game.hasDrawOffer = true
     }
-    await game.findAndSetWizPlayer()
+    
   }
 
  
@@ -84,12 +84,16 @@ function create(gameId) {
 
   async function handleGameState(gameState) {
     const endStatuses = [ "mate", "resign", "stalemate", "timeout", "draw", "outoftime" ]
-    if (endStatuses.includes(gameState.status) && game.lichessOpponent === 'yeoldwiz') {
-      console.log('Starting a new challenge')
-      await api.challenge('yeoldwiz')
+    if (endStatuses.includes(gameState.status) && game.lichessOpponent === 'yeoldwiz' &&
+      process.env.IN_CHALLENGE_MODE === 'true') {
+        console.log('Starting a new challenge')
+        await api.challenge('yeoldwiz')
     }
 
-    if (gameState.status === 'draw') return
+    if (endStatuses.includes(game.status)) {
+      console.log(chalk.greenBright(`Game ${game.id} has ended with a ${game.status}`))
+      return
+    }
 
     if(!game.isMoving) {
       game.isMoving = true
@@ -100,8 +104,8 @@ function create(gameId) {
 
   function handleChatLine(event) {
     if (event.username === 'lichess' && event.room === 'player' && 
-        event.text.includes('offers draw')
-    ) {
+      event.text.includes('offers draw')) {
+
         console.log('A draw was requested')
         game.hasDrawOffer = true
     
@@ -111,18 +115,16 @@ function create(gameId) {
         }
 
         if (game.hasDrawOffer && !game.willAcceptDraw && !game.isMoving 
-          && !game.drawShouldWaitForMove
-        )  {
-          api.declineDraw(game.gameId)
-          return
+          && !game.drawShouldWaitForMove)  {
+            api.declineDraw(game.gameId)
+            return
         }
-    }
+    } 
 
     if (event.username === 'lichess' && event.room === 'player'  &&
-        event.text.includes('declines draw')
-    ) {
-      console.log('Draw was declined')
-      game.hasDrawOffer = false
+      event.text.includes('declines draw')) {
+        console.log('Draw was declined')
+        game.hasDrawOffer = false
     }
 
     if (event.username !== game.lichessBotName) {
@@ -130,7 +132,7 @@ function create(gameId) {
       if (game.wizPlayer == '') {
         const cmp = personalites.fuzzySearch(message)
         if ( !cmp ) {
-          // api.chat(game.gameId, 'player', "Sorry, I don't know that opponent");
+          api.chat(game.gameId, 'player', "Sorry, I don't know that opponent");
           return
         }
 
@@ -146,65 +148,73 @@ function create(gameId) {
   }
 
   async function findAndSetWizPlayer() {
-    let chatPlayer = await game.getWizPlayerFromChat()
+        
+    // search chat for a player
+    let { chatPlayer, chatIsEmpty } = await game.getWizPlayerFromChat()
     
-    // If no opponent has been set in chat and this is a rated game set
-    // the game to play as the default Wiz Player
-    if ((chatPlayer === '' || chatPlayer === 'should ask who to play') &&  game.rated) {
+    // make sure rated games always play with the rated wiz player
+    if (game.rated) {
       game.setWizPlayer(game.ratedWizPlayer)
+      if (chatIsEmpty) sayWizPlayer()
+      return 
+    }
+    
+    // if there is already a player in the chat then use as wiz player
+    if (chatPlayer) {
+      game.setWizPlayer(chatPlayer)
+      return 
+    }
+
+    // no player in chat and lichess bot is in challenge mode, use the challenge player
+    if (process.env.IN_CHALLENGE_MODE && game.lichessOpponent === 'yeoldwiz') {
+      console.log('In challenge mode against yeoldwiz, setting challenge opponent')
+      game.setWizPlayer(process.env.CHALLENGE_MODE_WIZ_PlAYER)
+      if (chatIsEmpty) sayWizPlayer()
       return
     }
 
-
-    
-    // This means chat has no messages at all so we should ask who the player wants to play
-    if (chatPlayer === 'should ask who to play' && !game.rated) {
-      // api.chat(
-      //   game.gameId, 
-      //   // 'player', 'Who would you like to play? Give me a name or a rating number from 1 to 2750.'
-      // );
+    // No wiz player found and chat is empty, ask for opponent
+    if (chatIsEmpty) {
+      api.chat(
+        game.gameId, 
+        'player', 'Who would you like to play? Give me a name or a rating number from 1 to 2750.'
+      );
       api.chat(game.gameId, 'spectator', 'Waiting for opponent selection');
-      // clear this for next if
-      chatPlayer = ''
     } 
 
-
-    // No player found in chat setting wizPlayer, still waiting to be told who to play as
-    if (chatPlayer === '') {
-      console.log(chalk.red(`No player found for game ${game.gameId}`))
-      // probably not necessary but just for safety go ahead and set wizPlayer to empty string
-      game.wizPlayer = ''
-      return 
-    } 
-    
-    // if gauntlet passed, a player was found in the chat
-    game.wizPlayer = chatPlayer
-    console.log(chalk.magenta(`Playing ${game.gameId} as ${game.wizPlayer}`))
+    // No player found in chat, still waiting to be told who to play as
+    console.log(chalk.red(`No player found for game ${game.gameId}`))
+    // probably not necessary but just for safety go ahead and set wizPlayer to empty string
+    game.wizPlayer = ''
+    return     
   }
 
   function setWizPlayer(wizPlayer) {
     game.wizPlayer = wizPlayer
-    api.chat(game.gameId, 'player', `Playing as ${wizPlayer}`);
-    api.chat(game.gameId, 'spectator', `Playing as ${wizPlayer}`);
-    // game.playNextMove(game.previousMoves)
+    console.log(chalk.magenta(`Playing ${game.gameId} as ${game.wizPlayer}`))
+  }
+
+  function sayWizPlayer() {
+    api.chat(game.gameId, `Playing as ${game.wizPlayer}. Wiz Rating ${cmp.rating}. ${cmp.summary}`)
+    api.chat(game.gameId, 'spectator', `Playing as ${game.wizPlayer}`)
   }
 
   async function getWizPlayerFromChat() {
     const {data: chatLines } = await api.getChat(game.gameId)
     // handle response errors
-
-    // we need to ask them who they wan to play
+    
+    // chat is empty right now
     const wizMessages = chatLines.filter(line => line.user === game.lichessBotName)
-    if (wizMessages.length === 0) return 'should ask who to play'
+    if (wizMessages.length === 0) return {chatPlayer : '', chatIsEmpty: true}
 
     // no opponent set in chat yet
     const playAsMessages = wizMessages.filter(line => line.text.includes('Playing as'))
-    if (playAsMessages.length === 0) return ''
+    if (playAsMessages.length === 0) return {chatPlayer : '', chatIsEmpty: false}
 
-    const opponent = 
+    const chatPlayer = 
       playAsMessages[0].text.match(/Playing as [A-Za-z0-9]*/)[0].replace('Playing as ', '')
 
-    return opponent
+    return { chatPlayer, chatIsEmpty: false }
   }
 
   async function playNextMove(gameState) {

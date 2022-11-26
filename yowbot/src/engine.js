@@ -205,8 +205,8 @@ async function startEngine(child, settings) {
   } 
   const moveTime = clockTime || (secondsPerMove * 100 * 40)  
 
-  console2.log(`time ${moveTime}`)
-  console2.log(`otim ${moveTime}`)
+  // console2.log(`time ${moveTime}`)
+  // console2.log(`otim ${moveTime}`)
   child.stdin.write(`time ${moveTime}\n`)
   child.stdin.write(`otim ${moveTime}\n`)
 
