@@ -53,6 +53,8 @@ function create(gameId) {
       case "gameState":
         game.handleGameState(event)
         break;
+      case "opponentGone":
+        break;
       default:
         console.log("Unhandled game event : " + JSON.stringify(event));
     }
@@ -168,7 +170,7 @@ function create(gameId) {
     // no player in chat and lichess bot is in challenge mode, use the challenge player
     if (process.env.IN_CHALLENGE_MODE && game.lichessOpponent === 'yeoldwiz') {
       console.log('In challenge mode against yeoldwiz, setting challenge opponent')
-      game.setWizPlayer(process.env.CHALLENGE_MODE_WIZ_PlAYER)
+      game.setWizPlayer(process.env.CHALLENGE_MODE_WIZ_PLAYER)
       if (chatIsEmpty) sayWizPlayer()
       return
     }
@@ -195,7 +197,9 @@ function create(gameId) {
   }
 
   function sayWizPlayer() {
-    api.chat(game.gameId, `Playing as ${game.wizPlayer}. Wiz Rating ${cmp.rating}. ${cmp.summary}`)
+    const cmp = personalites.fuzzySearch(game.wizPlayer)
+    api.chat(game.gameId, 'player', 
+      `Playing as ${game.wizPlayer}. Wiz Rating ${cmp.rating}. ${cmp.summary}`)
     api.chat(game.gameId, 'spectator', `Playing as ${game.wizPlayer}`)
   }
 

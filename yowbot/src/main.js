@@ -15,15 +15,18 @@ async function  start() {
 function eventHandler(event) {
   // console.log(chalk.blue(event.type)) 
   switch (event.type) {
-    case "challenge":
+    case 'challenge':
       handleChallenge(event.challenge);
       break;
-    case "gameStart":
+    case 'gameStart':
       handleGameStart(event.game.id);
       break;
-    case "gameFinish": 
+    case 'gameFinish': 
       console.log(`Game ${event.game.id} completed`)
       break; 
+    case 'challengeDeclined':
+      console.log(chalk.yellow(event.type))
+      break;
     default:
       console.log("Unhandled event : " + JSON.stringify(event));
   }
@@ -34,6 +37,14 @@ function handleGameStart(id) {
 }
 
 async function handleChallenge(challenge) {
+  // console.log(JSON.stringify(challenge, null, 2))
+  if (process.env.IN_CHALLENGE_MODE) {
+    const response = await api.declineChallenge(challenge.id, 'generic')
+    if (response) console.log("Declined", response.data || response)
+    return
+  }
+
+
   const validVariants = ['standard']
   const validSpeeds = ['bullet', 'blitz', 'rapid', 'classical', 'correspondence']
 

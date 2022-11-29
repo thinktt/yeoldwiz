@@ -42,7 +42,7 @@ const aliases = {
 // Parse a string with multiple possible configurations and find a personality
 function fuzzySearch(msg) {
   msg = msg.toLowerCase()
-  console.log('message:', msg)
+  // console.log('message:', msg)
   
   // check for random
   if ( msg.includes('random') ) {

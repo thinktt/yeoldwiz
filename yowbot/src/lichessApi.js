@@ -108,14 +108,13 @@ function post(URL, body) {
   return axios.post(URL, body || {}, axiosConfig)
     .then(logAndReturn)
     .catch((err) => {
-      console.log(chalk.cyan('Response Error'))
+      console.log(chalk.red('Response Error'))
       console.log(chalk.red(`POST ${URL}`))
       if (err.response) {
         console.log(chalk.red(err.response.status))
         console.log(chalk.red(err.response.statusText))
         if (err.response.data) console.log(chalk.red(JSON.stringify(err.response.data)))
       }
-
       console.log(chalk.red(err))
     })
 }
