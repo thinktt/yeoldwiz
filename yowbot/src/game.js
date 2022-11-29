@@ -36,11 +36,10 @@ function create(gameId) {
   api.streamGame(gameId, (event) => game.handler(event))
 
   // Below game object functions exposed above
-
   async function handler(event) {
     if (event.type === 'gameState') {
-      console.log(chalk.yellow(`event: ${event.type} ${event.moves?.split(' ').length} moves`))
-    } else console.log(chalk.yellow(`event: ${event.type}`))
+      logger(chalk.yellow(`event: ${event.type} ${event.moves?.split(' ').length} moves`))
+    } else logger(chalk.yellow(`event: ${event.type}`))
     
     switch (event.type) {
       case "chatLine":
@@ -56,7 +55,7 @@ function create(gameId) {
       case "opponentGone":
         break;
       default:
-        console.log("Unhandled game event : " + JSON.stringify(event));
+        logger("Unhandled game event : " + JSON.stringify(event));
     }
   }
 
@@ -69,7 +68,7 @@ function create(gameId) {
     await game.findAndSetWizPlayer()
 
     if (event.state.bdraw || event.state.wdraw) {
-      console.log('A draw was requested')
+      logger('A draw was requested')
       game.hasDrawOffer = true
     }
     
@@ -88,12 +87,12 @@ function create(gameId) {
     const endStatuses = [ "mate", "resign", "stalemate", "timeout", "draw", "outoftime" ]
     if (endStatuses.includes(gameState.status) && game.lichessOpponent === 'yeoldwiz' &&
       process.env.IN_CHALLENGE_MODE === 'true') {
-        console.log('Starting a new challenge')
+        logger('Starting a new challenge')
         await api.challenge('yeoldwiz')
     }
 
     if (endStatuses.includes(game.status)) {
-      console.log(chalk.greenBright(`Game ${game.id} has ended with a ${game.status}`))
+      logger(chalk.greenBright(`Game ${game.id} has ended with a ${game.status}`))
       return
     }
 
@@ -108,7 +107,7 @@ function create(gameId) {
     if (event.username === 'lichess' && event.room === 'player' && 
       event.text.includes('offers draw')) {
 
-        console.log('A draw was requested')
+        logger('A draw was requested')
         game.hasDrawOffer = true
     
         if (game.hasDrawOffer && game.willAcceptDraw && !game.isMoving)  {
@@ -125,7 +124,7 @@ function create(gameId) {
 
     if (event.username === 'lichess' && event.room === 'player'  &&
       event.text.includes('declines draw')) {
-        console.log('Draw was declined')
+        logger('Draw was declined')
         game.hasDrawOffer = false
     }
 
@@ -169,7 +168,7 @@ function create(gameId) {
 
     // no player in chat and lichess bot is in challenge mode, use the challenge player
     if (process.env.IN_CHALLENGE_MODE && game.lichessOpponent === 'yeoldwiz') {
-      console.log('In challenge mode against yeoldwiz, setting challenge opponent')
+      logger('In challenge mode against yeoldwiz, setting challenge opponent')
       game.setWizPlayer(process.env.CHALLENGE_MODE_WIZ_PLAYER)
       if (chatIsEmpty) sayWizPlayer()
       return
@@ -185,7 +184,7 @@ function create(gameId) {
     } 
 
     // No player found in chat, still waiting to be told who to play as
-    console.log(chalk.red(`No player found for game ${game.gameId}`))
+    logger(chalk.red(`No player found for game ${game.gameId}`))
     // probably not necessary but just for safety go ahead and set wizPlayer to empty string
     game.wizPlayer = ''
     return     
@@ -193,7 +192,7 @@ function create(gameId) {
 
   function setWizPlayer(wizPlayer) {
     game.wizPlayer = wizPlayer
-    console.log(chalk.magenta(`Playing ${game.gameId} as ${game.wizPlayer}`))
+    logger(chalk.magenta(`Playing ${game.gameId} as ${game.wizPlayer}`))
   }
 
   function sayWizPlayer() {
@@ -252,12 +251,19 @@ function create(gameId) {
     }
 
 
-    console.log(game.lichessBotName + " as " + game.color + " to move " + move);
+    logger(game.lichessBotName + " as " + game.color + " to move " + move);
     await api.makeMove(game.gameId, move)
   }
 
   function playingAs(event) {
     return (event.white.name === game.lichessBotName) ? "white" : "black";
+  }
+
+  function logger(data) {
+    process.stdout.write(data)
+    if(game.gameId && !data.includes(game.gameId)) { 
+      process.stdout.write(chalk.green(' ' + game.gameId + '\n'))
+    }
   }
 
   return game
