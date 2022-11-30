@@ -2,22 +2,16 @@
 
 
 ....Backend....
-better flow for and error handling
-make long running backend
-lichess streaming connection monitoring and correction
+backend sends game info to db
+bot problems
+  error handling 
+  stream handling? 
 
-separate engine into it's own API
-put engine api in it's own container for scaling
-run engine containers as a cloud function
+solve dropped lines?
 
-strenght experiments
-  x real ponder option
-  x simulated ponder option
-  old laptop abilities (5000?)
-  real old computer strength
 
-error handling 
-stream handling? 
+
+
 
 
 ....Frontend.....
@@ -103,10 +97,32 @@ x https proxy
   x reset the ngxin proxy dailey
 
 
+x strenght experiments
+  xcalibrations system
+  x real ponder option
+  x simulated ponder option
+  x old laptop abilities (5000?)
+  x real old computer strength
 
+
+
+..........Backlog.....
+separate engine into it's own API
+game/move
+game/offerDraw
+game/stream
 
 
 .........Ice Box..............
+
+better flow for and error handling
+make long running backend
+lichess streaming connection monitoring and correction
+
+put engine api in it's own container for scaling
+run engine containers as a cloud function                                                                              
+
+
 Independent From Lichess
   A playable game board
 

@@ -1,11 +1,14 @@
 JS_FILES := $(wildcard *.txt)
 BINS := $(JS_FILES:%.txt=%)
 
-.PHONY: run docal getclocks dbuild drun dcal clean books2bin \
+.PHONY: run docal getclocks dbuild drun din dcal clean books2bin \
 	rmbooks  reset eep testengine cpbadbooks push
 
 push:
 	docker push ace:5000/yeoldwiz
+
+din:
+	docker run --rm -it -v calibrations:/opt/yeoldwiz/calibrations --name yeoldwiz ace:5000/yeoldwiz /bin/bash 
 
 drun: dbuild
 	docker run -v calibrations:/opt/yeoldwiz/calibrations --name yeoldwiz ace:5000/yeoldwiz 
@@ -30,7 +33,6 @@ dist: books
 	mkdir dist/calibrations/logs
 	cp -r targets dist/targets
 	docker cp bookbuilder:opt/binbooks/. dist/books/
-	cp assets/node dist/node
 	build/buildKing.sh
 	GOOS=windows GOARCH=386 go build -o dist/enginewrap.exe  src/main.go 
 	GOOS=linux go build -o dist/enginewrap  src/main.go 

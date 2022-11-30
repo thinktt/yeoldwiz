@@ -137,6 +137,11 @@ function stream(URL, handler) {
     })
 }
 
+function stream2(URL, handler) {
+
+
+}
+
 
 module.exports = {
   setToken,

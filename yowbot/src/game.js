@@ -263,6 +263,8 @@ function create(gameId) {
     process.stdout.write(data)
     if(game.gameId && !data.includes(game.gameId)) { 
       process.stdout.write(chalk.green(' ' + game.gameId + '\n'))
+    } else {
+      process.stdout.write('\n')
     }
   }
 
