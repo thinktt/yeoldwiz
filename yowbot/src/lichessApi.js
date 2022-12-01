@@ -1,5 +1,4 @@
 const axios = require("axios")
-const oboe = require("oboe")
 const fetch = require('node-fetch')
 const chalk = require('chalk')
 let token = process.env.API_TOKEN
@@ -61,7 +60,7 @@ async function streamEvents(handler) {
     console.log(err)
   }
   const url = "api/stream/event"
-  const { res, controller } = await stream2(url, handler, onDone, onErr)
+  const { res, controller } = await stream(url, handler, onDone, onErr)
 
   if (!res.ok) {
     console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
@@ -80,7 +79,7 @@ async function streamGame(gameId, handler) {
     console.log(err)
   }
   const url = `api/bot/game/stream/${gameId}`
-  const { res, controller } = await stream2(url, handler, onDone, onErr)
+  const { res, controller } = await stream(url, handler, onDone, onErr)
 
   if (!res.ok) {
     console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
@@ -139,25 +138,7 @@ function post(URL, body) {
     })
 }
 
-// Connect to stream with handler.
-// The axios library does not support streams in the browser so use oboe.
-function stream(URL, handler) {
-  console.log(`GET ${URL} stream`)
-  return oboe({
-      method: "GET",
-      url: baseURL + URL,
-      headers: headers,
-    })
-    .node("!", (data) => {
-      handler(data)
-    })
-    .fail((errorReport) => {
-      console.log(chalk.red(`GET ${URL} stream`))
-      console.error(JSON.stringify(errorReport))
-    })
-}
-
-async function stream2(url, handler, onDone, onError) {
+async function stream(url, handler, onDone, onError) {
   const controller = new AbortController()
   const signal = controller.signal
   const res = await fetch(baseURL + url, { method: 'GET', headers, signal })
