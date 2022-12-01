@@ -63,7 +63,7 @@ async function getAllBookMoves(fen, bookName) {
   const bookPath = process.cwd() + `/books/${bookName}`
   const movePromise = new Promise((resolve) => {
     book.on("loaded", () => {
-      console.log("book loaded")
+      // console.log("book loaded")
       let moves = []
       try {
         moves = book.find(fen)

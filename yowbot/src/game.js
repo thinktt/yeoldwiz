@@ -5,7 +5,6 @@ const wiz = require('./wiz.js')
 const api = require('./lichessApi.js')
 const yowApi = require('./yowApi.js')
 
-
 // A factory that creates a game object and it's interface functions
 function create(gameId) {
 
@@ -39,25 +38,30 @@ function create(gameId) {
 
   // Below game object functions exposed above
   async function handler(event) {
-    if (event.type === 'gameState') {
-      logger(chalk.yellow(`event: ${event.type} ${event.moves?.split(' ').length} moves`))
-    } else logger(chalk.yellow(`event: ${event.type}`))
+    logger(chalk.yellow(`event: ${event.type} `), true)    
+    // if (event.type === 'gameState') {
+    //   logger(chalk.yellow(`event: ${event.type} ${event.moves?.split(' ').length} moves`))
+    // } else logger(chalk.yellow(`event: ${event.type}`))
     
     switch (event.type) {
       case "chatLine":
+        logger(chalk.yellow(``))
         game.handleChatLine(event)
         break;
       case "gameFull":
+        logger(chalk.yellow(``))
         await game.setupGame(event)
         game.handleGameState(event.state)
         break;
-      case "gameState":
+        case "gameState":
+        logger(chalk.yellow(`${event.moves?.split(' ').length} moves`))
         game.handleGameState(event)
         break;
       case "opponentGone":
+        logger(chalk.yellow(``))
         break;
       default:
-        logger("Unhandled game event : " + JSON.stringify(event));
+        logger(chalk.yellow(`unhandled`))
     }
   }
   
@@ -268,16 +272,18 @@ function create(gameId) {
     }
 
 
-    logger(game.lichessBotName + " as " + game.color + " to move " + move);
+    // logger(game.lichessBotName + " as " + game.color + " to move " + move)
     await api.makeMove(game.gameId, move)
   }
 
   function playingAs(event) {
-    return (event.white.name === game.lichessBotName) ? "white" : "black";
+    return (event.white.name === game.lichessBotName) ? "white" : "black"
   }
 
-  function logger(data) {
+  function logger(data, notEndOfLine) {
     process.stdout.write(data)
+    if (notEndOfLine) return 
+    
     if(game.gameId && !data.includes(game.gameId)) { 
       process.stdout.write(chalk.green(' ' + game.gameId + '\n'))
     } else {
