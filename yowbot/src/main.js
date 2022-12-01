@@ -22,11 +22,11 @@ function eventHandler(event) {
       handleChallenge(event.challenge);
       break;
     case 'gameStart':
-      console.log(` ${event.game.id}`)
+      console.log(chalk.green(`${event.game.id}`))
       handleGameStart(event.game.id);
       break;
     case 'gameFinish': 
-      console.log(`${event.game.id}`)
+      console.log(chalk.green(`${event.game.id}`))
       break; 
     case 'challengeDeclined':
       console.log(chalk.blueBright(`${event?.challenge.id}`))
