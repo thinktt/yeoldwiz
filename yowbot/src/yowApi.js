@@ -1,0 +1,65 @@
+const fetch = require('node-fetch')
+const chalk = require('chalk')
+
+module.exports ={ 
+  addGame,
+  getGame,
+}
+
+// we'll use this to mark the api as down if we get a refused connection
+// maybe not the best solution but will keep reques noise down if we 
+// if yowApi is down for now
+let yowApiIsDown = false
+
+// const yowApiUrl = 'http://localhost:5000'dock
+const yowApiUrl = 'https://yeoldwiz.duckdns.org:64355'
+const apiIsDownRes = {ok: false, status: 502, message: 'yowApi is marked as down' }
+
+async function addGame(game) {
+  if (yowApiIsDown) {
+    return apiIsDownRes
+  }
+  const res = await fetch(`${yowApiUrl}/games/`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(game)
+  }).catch((err) =>  {
+    console.log(chalk.red(`GET ${url} ${res.status} ${res.statusText}`))
+    return { err }
+  })
+
+  if (!res.ok) {
+    console.log(chalk.red(`GET ${url} ${res.status} ${res.statusText}`))
+    const err = new Error(res.status + ' ' + res.statusText)
+    return { err }
+  }
+} 
+
+
+async function getGame(id) {
+  const url = `${yowApiUrl}/games/${id}`
+  console.log(`GET ${url}`)
+  const res = await fetch(url, {
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+  }).catch((err) => {
+    yowApiIsDown = true
+    return { err }
+    // return {ok: false, status: 502, message: 'connection refused' }
+  })
+
+  if (!res.ok) {
+    console.log(chalk.red(`GET ${url} ${res.status} ${res.statusText}`))
+    const err = new Error(res.status + ' ' + res.statusText)
+    return { err }
+  }
+
+  const yowGame = await res.json()
+
+  return { yowGame }
+}
