@@ -22,10 +22,7 @@ function acceptChallenge(challengeId) {
 }
 
 function declineChallenge(challengeId, reason) {
-  console.log("Decline for a reason!")
-  return post(`api/challenge/${challengeId}/decline`, {
-    reason
-  })
+  return post(`api/challenge/${challengeId}/decline`, { reason })
 }
 
 function upgrade() {
@@ -56,24 +53,39 @@ function resignGame(gameId) {
   return post(`api/bot/game/${gameId}/resign`)
 }
 
-function streamEvents(handler) {
-  return stream("api/stream/event", handler)
+async function streamEvents(handler) {
+  const onDone = () => {
+    console.log(chalk.magentaBright(`main event stream has closed`))
+  }
+  const onErr = (err) => {
+    console.log(err)
+  }
+  const url = "api/stream/event"
+  const { res, controller } = await stream2(url, handler, onDone, onErr)
+
+  if (!res.ok) {
+    console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
+  }
+
+  //  await new Promise(resolve => setTimeout(resolve, 5000))
+  //  controller.abort()
+  //  console.log('Aborted main events')
 }
 
 async function streamGame(gameId, handler) {
   const onDone = () => {
-    console.log(chalk.blue(`game stream for ${gameId} has closed`))
+    console.log(chalk.magentaBright(`game stream for ${gameId} has closed`))
   }
   const onErr = (err) => {
     console.log(err)
   }
   const url = `api/bot/game/stream/${gameId}`
-  const { res, controller } = 
-    await stream2(url, handler, onDone, onErr)
+  const { res, controller } = await stream2(url, handler, onDone, onErr)
 
   if (!res.ok) {
     console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
   }
+
 }
 
 function chat(gameId, room, text) {
@@ -121,14 +133,9 @@ function post(URL, body) {
   return axios.post(URL, body || {}, axiosConfig)
     .then(logAndReturn)
     .catch((err) => {
-      console.log(chalk.red('Response Error'))
-      console.log(chalk.red(`POST ${URL}`))
-      if (err.response) {
-        console.log(chalk.red(err.response.status))
-        console.log(chalk.red(err.response.statusText))
-        if (err.response.data) console.log(chalk.red(JSON.stringify(err.response.data)))
-      }
-      console.log(chalk.red(err))
+      console.log(chalk.red(`POST ${URL} ${err?.response.status} ${err?.response.statusText}`))
+      if (err.response.data) console.log(chalk.red(JSON.stringify(err.response.data)))
+      // console.log(chalk.red(err))
     })
 }
 

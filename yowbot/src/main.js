@@ -1,7 +1,8 @@
 require('dotenv').config()
 const gameManager = require("./game.js");
 const chalk = require('chalk')
-const api = require('./lichessApi.js')
+const api = require('./lichessApi.js');
+const { json } = require('express');
 
 start()
 
@@ -13,22 +14,25 @@ async function  start() {
 }
 
 function eventHandler(event) {
-  // console.log(chalk.blue(event.type)) 
+  process.stdout.write(chalk.blueBright(`main event: ${event.type} `))
+
   switch (event.type) {
     case 'challenge':
+      console.log(chalk.blueBright(`${event?.challenge.id} from ${event?.challenge.challenger.id}`))
       handleChallenge(event.challenge);
       break;
     case 'gameStart':
+      console.log(` ${event.game.id}`)
       handleGameStart(event.game.id);
       break;
     case 'gameFinish': 
-      console.log(`Game ${event.game.id} completed`)
+      console.log(`${event.game.id}`)
       break; 
     case 'challengeDeclined':
-      console.log(chalk.yellow(event.type))
+      console.log(chalk.blueBright(`${event?.challenge.id}`))
       break;
     default:
-      console.log("Unhandled event : " + JSON.stringify(event));
+      console.log(chalk.yellow('unhandled event'))
   }
 }
 
@@ -37,13 +41,10 @@ function handleGameStart(id) {
 }
 
 async function handleChallenge(challenge) {
-  // console.log(JSON.stringify(challenge, null, 2))
   if (process.env.IN_CHALLENGE_MODE) {
     const response = await api.declineChallenge(challenge.id, 'generic')
-    if (response) console.log("Declined", response.data || response)
     return
   }
-
 
   const validVariants = ['standard']
   const validSpeeds = ['bullet', 'blitz', 'rapid', 'classical', 'correspondence']
@@ -60,7 +61,6 @@ async function handleChallenge(challenge) {
     declineReason = 'timeControl'
   }
 
-
   if (validVariants.includes(challenge.variant.key) && validSpeeds.includes(challenge.speed)) {
     console.log("Accepting unrated challenge from " + challenge.challenger.id)
     const response = await api.acceptChallenge(challenge.id)
@@ -68,7 +68,6 @@ async function handleChallenge(challenge) {
   } else {
     console.log("Declining  callenge from " + challenge.challenger.id)
     const response = await api.declineChallenge(challenge.id, declineReason)
-    if (response) console.log("Declined", response.data || response)
   }
 }
 

@@ -3,6 +3,7 @@ const chalk = require('chalk')
 const personalites = require('./personalities')
 const wiz = require('./wiz.js')
 const api = require('./lichessApi.js')
+const yowApi = require('./yowApi.js')
 
 
 // A factory that creates a game object and it's interface functions
@@ -27,6 +28,7 @@ function create(gameId) {
     previousMoves : '',
     lichessBotName : process.env.LICHESS_BOT_NAME,
     ratedWizPlayer : process.env.RATED_WIZ_PLAYER,
+    lichessOpponent: '',
     // if system restarts drawShouldWaitForMove is used to make sure  we don't
     // decline a draw when system doesn't know if it should draw or not yet
     drawShouldWaitForMove: true,
@@ -58,7 +60,6 @@ function create(gameId) {
         logger("Unhandled game event : " + JSON.stringify(event));
     }
   }
-
   
   let selfGame = 0
   async function setupGame(event) {
@@ -71,10 +72,7 @@ function create(gameId) {
       logger('A draw was requested')
       game.hasDrawOffer = true
     }
-    
   }
-
- 
 
   function getLichessOpponent(event, color) {
     let opponentColor
@@ -149,6 +147,9 @@ function create(gameId) {
   }
 
   async function findAndSetWizPlayer() {
+
+    // check yowApi for a player
+    let { yowGame} = await yowApi.getGame(game.gameId)
         
     // search chat for a player
     let { chatPlayer, chatIsEmpty } = await game.getWizPlayerFromChat()
@@ -159,6 +160,22 @@ function create(gameId) {
       if (chatIsEmpty) sayWizPlayer()
       return 
     }
+
+    // we have a game from the yowApi but no chat player set the chat player
+    if (yowGame && !chatPlayer) {
+      game.setWizPlayer(yowGame.opponent)
+      if (chatIsEmpty) sayWizPlayer()
+      return
+    }
+
+    // let's add the wiz player ot the db but skip it we're playing a yowbot 
+    const yowBotNames = ['yeoldwiz', 'yowCapablanca']
+    if (!yowGame && !yowBotNames.includes(game.lichessOpponent) && chatPlayer) {
+      const newYowGame = {user: game.lichessOpponent, id: game.gameId, opponent: chatPlayer}
+      console.log(newYowGame)
+      const { err } = await yowApi.addGame(newYowGame)
+    }
+
     
     // if there is already a player in the chat then use as wiz player
     if (chatPlayer) {
