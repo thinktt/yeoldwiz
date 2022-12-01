@@ -54,7 +54,7 @@ async function getNextMove(moves, wizPlayer, gameId) {
   let err
   const bookMove = await book.getHeavyMove(chess.fen(), cmp.book).catch(e => err = e)
   if (err) {
-    console.log(chalk.red(`book error: ${err}`))
+    console.error(chalk.red(`book error: ${err}`))
   }
 
   if (bookMove != "") {
@@ -66,9 +66,10 @@ async function getNextMove(moves, wizPlayer, gameId) {
   err = null
   const moveData = await engine.getMove(settings).catch(e => err = e)
   if (err) {
-    console.log(`engine error: ${err}`)
+    console.error(chalk.red(`engine error: ${err}`))
+    return 
   }
-  if (!moveData) return
+  if (!moveData) return 
 
   console.log(chalk.blue(`engineMove: ${moveData.engineMove}`))
   return {move: moveData.engineMove, willAcceptDraw: moveData.willAcceptDraw}

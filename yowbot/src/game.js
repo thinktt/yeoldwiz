@@ -153,7 +153,7 @@ function create(gameId) {
   async function findAndSetWizPlayer() {
 
     // check yowApi for a player
-    let { yowGame} = await yowApi.getGame(game.gameId)
+    let { yowGame } = await yowApi.getGame(game.gameId)
         
     // search chat for a player
     let { chatPlayer, chatIsEmpty } = await game.getWizPlayerFromChat()

@@ -10,48 +10,54 @@ module.exports ={
 // maybe not the best solution but will keep reques noise down if we 
 // if yowApi is down for now
 let yowApiIsDown = false
-
-// const yowApiUrl = 'http://localhost:5000'dock
-const yowApiUrl = 'https://yeoldwiz.duckdns.org:64355'
 const apiIsDownRes = {ok: false, status: 502, message: 'yowApi is marked as down' }
 
+// const yowApiUrl = '/fail'
+// const yowApiUrl = 'http://localhost:5000'dock
+// const yowApiUrl = 'https://www.google.com/gangalunnk'
+const yowApiUrl = 'https://yeoldwiz.duckdns.org:64355'
+const headers = {
+  'Accept': 'application/json, text/plain, */*',
+  'Content-Type': 'application/json'
+}
+
 async function addGame(game) {
-  if (yowApiIsDown) {
-    return apiIsDownRes
-  }
-  const res = await fetch(`${yowApiUrl}/games/`, {
+  const url = `${yowApiUrl}/games/`
+  console.log(`POST ${url}`)
+
+  let err = null 
+  const res = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Accept': 'application/json, text/plain, */*',
-      'Content-Type': 'application/json'
-    },
+    headers,
     body: JSON.stringify(game)
-  }).catch((err) =>  {
-    console.log(chalk.red(`GET ${url} ${res.status} ${res.statusText}`))
+  }).catch(e => err = e) 
+  
+  if (err) {
+    console.log(chalk.red(`POST ${url} fetch failure:  ${err.message}`))
     return { err }
-  })
+  }
 
   if (!res.ok) {
-    console.log(chalk.red(`GET ${url} ${res.status} ${res.statusText}`))
+    console.log(chalk.red(`POST ${url} ${res.status} ${res.statusText}`))
     const err = new Error(res.status + ' ' + res.statusText)
     return { err }
   }
+
+  return {}
 } 
 
 
 async function getGame(id) {
   const url = `${yowApiUrl}/games/${id}`
   console.log(`GET ${url}`)
-  const res = await fetch(url, {
-    headers: {
-      'Accept': 'application/json, text/plain, */*',
-      'Content-Type': 'application/json'
-    },
-  }).catch((err) => {
+
+  let err = null
+  const res = await fetch(url, { headers }).catch(e => err = e)
+  if (err) {
     yowApiIsDown = true
+    console.log(chalk.red(`GET ${url} fetch failure: ${err.message}`))
     return { err }
-    // return {ok: false, status: 502, message: 'connection refused' }
-  })
+  }
 
   if (!res.ok) {
     console.log(chalk.red(`GET ${url} ${res.status} ${res.statusText}`))
