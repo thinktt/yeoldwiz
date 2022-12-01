@@ -53,7 +53,7 @@ run: dist
 	cp envXps.env ./dist/.env
 	# cp envAce.env ./dist/.env
 	cd dist; \
-	./node main.js
+	node main.js
 
 docal: dist
 	cd dist; \

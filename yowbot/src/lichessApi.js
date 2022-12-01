@@ -1,5 +1,6 @@
 const axios = require("axios")
 const oboe = require("oboe")
+const fetch = require('node-fetch')
 const chalk = require('chalk')
 let token = process.env.API_TOKEN
 
@@ -59,8 +60,20 @@ function streamEvents(handler) {
   return stream("api/stream/event", handler)
 }
 
-function streamGame(gameId, handler) {
-  return stream(`api/bot/game/stream/${gameId}`, handler)
+async function streamGame(gameId, handler) {
+  const onDone = () => {
+    console.log(chalk.blue(`game stream for ${gameId} has closed`))
+  }
+  const onErr = (err) => {
+    console.log(err)
+  }
+  const url = `api/bot/game/stream/${gameId}`
+  const { res, controller } = 
+    await stream2(url, handler, onDone, onErr)
+
+  if (!res.ok) {
+    console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
+  }
 }
 
 function chat(gameId, room, text) {
@@ -128,20 +141,46 @@ function stream(URL, handler) {
       url: baseURL + URL,
       headers: headers,
     })
-    .node("!", function(data) {
-      // console.log("STREAM data : " + JSON.stringify(data))
+    .node("!", (data) => {
       handler(data)
-    }).fail(function(errorReport) {
+    })
+    .fail((errorReport) => {
       console.log(chalk.red(`GET ${URL} stream`))
       console.error(JSON.stringify(errorReport))
     })
 }
 
-function stream2(URL, handler) {
+async function stream2(url, handler, onDone, onError) {
+  const controller = new AbortController()
+  const signal = controller.signal
+  const res = await fetch(baseURL + url, { method: 'GET', headers, signal })
 
+  const decoder = new TextDecoder()
+  let buf = ''
+  res.body.on('data', (data) => {
+    const chunk = decoder.decode(data, { stream: true })
+    buf += chunk
+    const parts = buf.split(/\r?\n/)
+    buf = parts.pop()
 
+    for (const part of parts) {
+      if (!part) continue
+      let event
+      try {
+        event = JSON.parse(part)
+      } catch (err) {
+        console.log(chalk.red(`GET ${baseURL + url} stream`))
+        console.error(JSON.stringify(err))
+        onError(err)
+        continue
+      }
+      handler(event)
+    }
+  })
+
+  res.body.on('end', onDone)
+  return { res, controller }
 }
-
 
 module.exports = {
   setToken,
