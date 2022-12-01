@@ -31,7 +31,7 @@ dist: books
 	mkdir dist
 	mkdir dist/calibrations
 	mkdir dist/calibrations/logs
-	cp -r targets dist/targets
+	cp -r cals/targets dist/targets
 	docker cp bookbuilder:opt/binbooks/. dist/books/
 	build/buildKing.sh
 	GOOS=windows GOARCH=386 go build -o dist/enginewrap.exe  src/main.go 
