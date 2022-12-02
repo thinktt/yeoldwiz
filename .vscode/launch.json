@@ -21,7 +21,15 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${file}"
+      "program": "/home/toby/code/yeoldwiz-lnx/yowbot/dist/main.js"
+    },
+
+    {
+      "request": "launch",
+      "type": "node",
+      "name": "yowbot debug",
+      "envFile": "/home/toby/code/yeoldwiz-lnx/yowbot/dist/.env",
+      "program": "/home/toby/code/yeoldwiz-lnx/yowbot/dist/main.js"
     }
   ]
 }
