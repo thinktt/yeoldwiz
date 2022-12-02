@@ -35,14 +35,15 @@ function create(gameId) {
   }
 
   // turn on the stream via the lichess API
-  api.streamGame(gameId, (event) => game.handler(event))
+  let streamIsClosed = false
+  api.streamGame(gameId, (event) => game.handler(event), () => {
+    console.log(chalk.magentaBright(`game stream for ${gameId} has closed`))
+    streamIsClosed = true
+  })
 
   // Below game object functions exposed above
   async function handler(event) {
     logger(chalk.yellow(`event: ${event.type} `), true)    
-    // if (event.type === 'gameState') {
-    //   logger(chalk.yellow(`event: ${event.type} ${event.moves?.split(' ').length} moves`))
-    // } else logger(chalk.yellow(`event: ${event.type}`))
     
     switch (event.type) {
       case "chatLine":
@@ -64,6 +65,10 @@ function create(gameId) {
       default:
         logger(chalk.yellow(`unhandled`))
     }
+  }
+
+  function onDone() {
+
   }
   
   let selfGame = 0

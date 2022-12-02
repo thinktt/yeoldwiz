@@ -72,10 +72,7 @@ async function streamEvents(handler, onDone, onErr) {
   //  console.log('Aborted main events')
 }
 
-async function streamGame(gameId, handler) {
-  const onDone = () => {
-    console.log(chalk.magentaBright(`game stream for ${gameId} has closed`))
-  }
+async function streamGame(gameId, handler, onDone) {
   const onErr = (err) => {
     console.log(err)
   }
