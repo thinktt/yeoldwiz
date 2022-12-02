@@ -52,13 +52,14 @@ function resignGame(gameId) {
   return post(`api/bot/game/${gameId}/resign`)
 }
 
-async function streamEvents(handler) {
-  const onDone = () => {
+async function streamEvents(handler, onDone, onErr) {
+  onDone = onDone || (() => {
     console.log(chalk.magentaBright(`main event stream has closed`))
-  }
-  const onErr = (err) => {
+  })
+
+  onErr = onErr || ((err) => {
     console.log(err)
-  }
+  })
   const url = "api/stream/event"
   const { res, controller } = await stream(url, handler, onDone, onErr)
 
