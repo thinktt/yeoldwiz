@@ -49,10 +49,12 @@ async function handleChallenge(challenge) {
   const validVariants = ['standard']
   const validSpeeds = ['bullet', 'blitz', 'rapid', 'classical', 'correspondence']
 
-  console.log(challenge.variant.key)
-  console.log( challenge.speed)
-  console.log('validVariant: ' + validVariants.includes(challenge.variant.key))
-  console.log('validSpeed:' + validSpeeds.includes(challenge.speed))
+  const isValidVariatn = validVariants.includes(challenge.variant.key)
+  const isValidSpeed = validSpeeds.includes(challenge.speed)
+  console.log(`${challenge.id} validVariant: ${isValidVariatn} validSpeed ${isValidSpeed}`)
+  // console.log(challenge.variant.key)
+  // console.log( challenge.speed)
+
     
   let declineReason = 'generic'
   if (!validVariants.includes(challenge.variant.key)) {
@@ -61,13 +63,12 @@ async function handleChallenge(challenge) {
     declineReason = 'timeControl'
   }
 
-  if (validVariants.includes(challenge.variant.key) && validSpeeds.includes(challenge.speed)) {
-    console.log("Accepting unrated challenge from " + challenge.challenger.id)
-    const response = await api.acceptChallenge(challenge.id)
-    if (response) console.log("Accepted", response.data || response)
+  if (isValidVariatn && isValidSpeed) {
+    console.log(`Accepting challenge ${challenge.id} from ${challenge.challenger.id}`)
+    const res = await api.acceptChallenge(challenge.id)
   } else {
-    console.log("Declining  callenge from " + challenge.challenger.id)
-    const response = await api.declineChallenge(challenge.id, declineReason)
+    console.log(`Declining  callenge from ${challenge.id} from ${challenge.challenger.id}`)
+    const res = await api.declineChallenge(challenge.id, declineReason)
   }
 }
 
