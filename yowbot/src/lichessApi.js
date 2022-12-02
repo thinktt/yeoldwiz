@@ -52,39 +52,6 @@ function resignGame(gameId) {
   return post(`api/bot/game/${gameId}/resign`)
 }
 
-async function streamEvents(handler, onDone, onErr) {
-  onDone = onDone || (() => {
-    console.log(chalk.magentaBright(`main event stream has closed`))
-  })
-
-  onErr = onErr || ((err) => {
-    console.log(err)
-  })
-  const url = "api/stream/event"
-  const { res, controller } = await stream(url, handler, onDone, onErr)
-
-  if (!res.ok) {
-    console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
-  }
-
-  //  await new Promise(resolve => setTimeout(resolve, 5000))
-  //  controller.abort()
-  //  console.log('Aborted main events')
-}
-
-async function streamGame(gameId, handler, onDone) {
-  const onErr = (err) => {
-    console.log(err)
-  }
-  const url = `api/bot/game/stream/${gameId}`
-  const { res, controller } = await stream(url, handler, onDone, onErr)
-
-  if (!res.ok) {
-    console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
-  }
-
-}
-
 function chat(gameId, room, text) {
   return post(`api/bot/game/${gameId}/chat`, {
     room,
@@ -116,25 +83,52 @@ function gamePage(gameId) {
 function get(URL) {
   // temporary hack to supress health check logging
   // if (URL != 'https://lichess.org/api/account/playing') console.log(`GET ${URL}`)
+  // URL = URL + '/fail'
   console.log(`GET ${URL}`)
-  return axios.get(URL + "?v=" + Date.now(), axiosConfig)
-    .then(logAndReturn)
-    .catch((err) => {
-      console.log(chalk.red(`GET ${URL}`))
-      console.log(err)
-    })
-  }
+  return  axios.get(URL + "?v=" + Date.now(), axiosConfig).catch((err) => {
+    console.error(chalk.red(`GET ${URL}  ${err.message}`))
+  })
+}
 
 function post(URL, body) {
   console.log(`POST ${URL} ` + JSON.stringify(body || {}))
-  return axios.post(URL, body || {}, axiosConfig)
-    .then(logAndReturn)
-    .catch((err) => {
-      console.log(chalk.red(`POST ${URL} ${err?.response.status} ${err?.response.statusText}`))
-      if (err.response.data) console.log(chalk.red(JSON.stringify(err.response.data)))
-      // console.log(chalk.red(err))
-    })
+  return axios.post(URL, body || {}, axiosConfig).catch((err) => {
+    console.error(chalk.red(`POST ${URL} ${err.message}`))
+  })
 }
+
+async function streamEvents(handler, onDone, onErr) {
+  onDone = onDone || (() => {
+    console.log(chalk.magentaBright(`main event stream has closed`))
+  })
+
+  onErr = onErr || ((err) => {
+    console.log(err)
+  })
+  const url = "api/stream/event"
+  const { res, controller } = await stream(url, handler, onDone, onErr)
+
+  if (!res.ok) {
+    console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
+  }
+
+  //  await new Promise(resolve => setTimeout(resolve, 5000))
+  //  controller.abort()
+  //  console.log('Aborted main events')
+}
+
+async function streamGame(gameId, handler, onDone) {
+  const onErr = (err) => {
+    console.log(err)
+  }
+  const url = `api/bot/game/stream/${gameId}`
+  const { res, controller } = await stream(url, handler, onDone, onErr)
+
+  if (!res.ok) {
+    console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
+  }
+}
+
 
 async function stream(url, handler, onDone, onError) {
   const controller = new AbortController()

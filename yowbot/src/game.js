@@ -20,7 +20,7 @@ function create(gameId) {
     playNextMove,
     playingAs,
     sendWizPlayerToYowApi,
-    gameId,
+    id: gameId,
     willAcceptDraw : false,
     isMoving : false,
     isAcceptingDraws : false,
@@ -93,14 +93,12 @@ function create(gameId) {
 
   async function handleGameState(gameState) {
     const endStatuses = [ "mate", "resign", "stalemate", "timeout", "draw", "outoftime" ]
-    if (endStatuses.includes(gameState.status) && game.lichessOpponent === 'yeoldwiz' &&
-      process.env.IN_CHALLENGE_MODE === 'true') {
-        logger('Starting a new challenge')
-        await api.challenge('yeoldwiz')
-    }
 
-    if (endStatuses.includes(game.status)) {
-      logger(chalk.greenBright(`Game ${game.id} has ended with a ${game.status}`))
+    if (endStatuses.includes(gameState.status)) {
+      logger(chalk.greenBright(`Game ${game.id} has ended with a ${gameState.status}`))
+      if (game.lichessOpponent === 'yeoldwiz' && process.env.IN_CHALLENGE_MODE === 'true') {
+        sendWizChallenge()
+      }
       return
     }
 
@@ -111,6 +109,12 @@ function create(gameId) {
     }
   }
 
+  async function sendWizChallenge() {
+    logger('Starting a new challenge in five seconds')
+    await new Promise(r => setTimeout(r, 5000))
+    api.challenge('yeoldwiz')
+  } 
+
   function handleChatLine(event) {
     // check if a draw was offered
     if (event.username === 'lichess' && event.room === 'player' && 
@@ -120,13 +124,13 @@ function create(gameId) {
         game.hasDrawOffer = true
     
         if (game.hasDrawOffer && game.willAcceptDraw && !game.isMoving)  {
-          api.acceptDraw(game.gameId)
+          api.acceptDraw(game.id)
           return
         }
 
         if (game.hasDrawOffer && !game.willAcceptDraw && !game.isMoving 
           && !game.drawShouldWaitForMove)  {
-            api.declineDraw(game.gameId)
+            api.declineDraw(game.id)
             return
         }
     } 
@@ -144,7 +148,7 @@ function create(gameId) {
       if (game.wizPlayer == '') {
         const cmp = personalites.fuzzySearch(message)
         if ( !cmp ) {
-          api.chat(game.gameId, 'player', "Sorry, I don't know that opponent");
+          api.chat(game.id, 'player', "Sorry, I don't know that opponent");
           return
         }
 
@@ -158,13 +162,13 @@ function create(gameId) {
   }
 
   async function sendWizPlayerToYowApi() {
-    const yowBotNames = ['yeoldwiz', 'yowCapablanca']
+    const yowBotNames = ['yeoldwiz', 'yowcapablanca']
     const user = game.lichessOpponent
-    const id = game.gameId
+    const id = game.id
     const opponent = game.wizPlayer
     
-    // add the wiz player ot the db but skip if lichess playing is a yowbot
-    if (user && id && opponent && !yowBotNames.includes(opponent)) {
+    // add the wiz player to the db but skip if playing is a yowbot
+    if (user && id && opponent && !yowBotNames.includes(user)) {
       const yowGame = {user, id, opponent}
       const { err } = await yowApi.addGame(yowGame)
     }
@@ -172,7 +176,7 @@ function create(gameId) {
 
   async function findAndSetWizPlayer() {
     // check yowApi for a player
-    const { yowGame } = await yowApi.getGame(game.gameId)
+    const { yowGame } = await yowApi.getGame(game.id)
     const yowWizPlayer = yowGame?.opponent
         
     // search chat for a player
@@ -201,31 +205,31 @@ function create(gameId) {
 
     // no wiz player was found
     if (chatIsEmpty) askWhoToPlay()
-    logger(chalk.red(`No player found for game ${game.gameId}`))
+    logger(chalk.red(`No player found for game ${game.id}`))
     // probably not necessary but just to be safe
     game.wizPlayer = ''
   }
 
   function askWhoToPlay() {
-    api.chat(game.gameId, 'player', 
+    api.chat(game.id, 'player', 
       'Who would you like to play? Give me a name or a rating number from 1 to 2750.')
-    api.chat(game.gameId, 'spectator', 'Waiting for opponent selection');
+    api.chat(game.id, 'spectator', 'Waiting for opponent selection');
   }
 
   function setWizPlayer(wizPlayer) {
     game.wizPlayer = wizPlayer
-    logger(chalk.magenta(`Playing ${game.gameId} as ${game.wizPlayer}`))
+    logger(chalk.magenta(`Playing ${game.id} as ${game.wizPlayer}`))
   }
 
   function sayWizPlayer() {
     const cmp = personalites.fuzzySearch(game.wizPlayer)
-    api.chat(game.gameId, 'player', 
+    api.chat(game.id, 'player', 
       `Playing as ${game.wizPlayer}. Wiz Rating ${cmp.rating}. ${cmp.summary}`)
-    api.chat(game.gameId, 'spectator', `Playing as ${game.wizPlayer}`)
+    api.chat(game.id, 'spectator', `Playing as ${game.wizPlayer}`)
   }
 
   async function getWizPlayerFromChat() {
-    const {data: chatLines } = await api.getChat(game.gameId)
+    const {data: chatLines } = await api.getChat(game.id)
     // handle response errors
     
     // chat is empty right now
@@ -255,7 +259,7 @@ function create(gameId) {
     // if it's not the bots turn then exit
     if (!isTurn(game.color, moves)) return
 
-    const moveData = await wiz.getNextMove(moves, game.wizPlayer, game.gameId);
+    const moveData = await wiz.getNextMove(moves, game.wizPlayer, game.id);
     
     // no move was found or move setup was invalid, go about your business
     if (!moveData) return 
@@ -268,13 +272,13 @@ function create(gameId) {
     if (game.hasDrawOffer && game.willAcceptDraw)  {
       // this will keep susequent events from triggering draw request
       game.willAcceptDraw=false
-      await api.acceptDraw(game.gameId)
+      await api.acceptDraw(game.id)
       return
     }
 
 
     // logger(game.lichessBotName + " as " + game.color + " to move " + move)
-    await api.makeMove(game.gameId, move)
+    await api.makeMove(game.id, move)
   }
 
   function playingAs(event) {
@@ -285,8 +289,8 @@ function create(gameId) {
     process.stdout.write(data)
     if (notEndOfLine) return 
     
-    if(game.gameId && !data.includes(game.gameId)) { 
-      process.stdout.write(chalk.green(' ' + game.gameId + '\n'))
+    if(game.id && !data.includes(game.id)) { 
+      process.stdout.write(chalk.green(' ' + game.id + '\n'))
     } else {
       process.stdout.write('\n')
     }

@@ -7,7 +7,13 @@ const { json } = require('express')
 start()
 
 async function  start() {
-  account = await api.accountInfo();
+  let err = null
+  account = await api.accountInfo()
+  if (!account) {
+    console.error(chalk.red('failed to initialize lichess account, exiting'))
+    process.exit()
+  }
+
   console.log(`Connected to account ${account.data.username}`)
   api.streamEvents((event) => eventHandler(event))
   return account
@@ -19,18 +25,18 @@ function eventHandler(event) {
   switch (event.type) {
     case 'challenge':
       console.log(chalk.blueBright(`${event?.challenge.id} from ${event?.challenge.challenger.id}`))
-      handleChallenge(event.challenge);
-      break;
+      handleChallenge(event.challenge)
+      break
     case 'gameStart':
       console.log(chalk.green(`${event.game.id}`))
-      handleGameStart(event.game.id);
-      break;
+      handleGameStart(event.game.id)
+      break
     case 'gameFinish': 
       console.log(chalk.green(`${event.game.id}`))
-      break; 
+      break 
     case 'challengeDeclined':
       console.log(chalk.blueBright(`${event?.challenge.id}`))
-      break;
+      break
     default:
       console.log(chalk.yellow('unhandled event'))
   }
@@ -42,7 +48,7 @@ function handleGameStart(id) {
 
 async function handleChallenge(challenge) {
   if (process.env.IN_CHALLENGE_MODE) {
-    const response = await api.declineChallenge(challenge.id, 'generic')
+    const res = await api.declineChallenge(challenge.id, 'generic')
     return
   }
 
