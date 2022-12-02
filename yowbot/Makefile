@@ -74,6 +74,7 @@ clean:
 	# rm books
 	# rm dist.tar
 	rm -rf dist
+	make dist
 
 rmbooks:
 	rm -rf books
