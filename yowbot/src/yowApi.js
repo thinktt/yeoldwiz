@@ -23,7 +23,7 @@ const headers = {
 
 async function addGame(game) {
   const url = `${yowApiUrl}/games/`
-  console.log(`POST ${url}`)
+  console.log(`POST ${url}`, game)
 
   let err = null 
   const res = await fetch(url, {

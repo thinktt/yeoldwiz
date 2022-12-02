@@ -1,8 +1,8 @@
 require('dotenv').config()
-const gameManager = require("./game.js");
+const gameManager = require("./game.js")
 const chalk = require('chalk')
-const api = require('./lichessApi.js');
-const { json } = require('express');
+const api = require('./lichessApi.js')
+const { json } = require('express')
 
 start()
 

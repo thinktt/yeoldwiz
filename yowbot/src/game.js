@@ -19,6 +19,7 @@ function create(gameId) {
     getWizPlayerFromChat,
     playNextMove,
     playingAs,
+    sendWizPlayerToYowApi,
     gameId,
     willAcceptDraw : false,
     isMoving : false,
@@ -106,6 +107,7 @@ function create(gameId) {
   }
 
   function handleChatLine(event) {
+    // check if a draw was offered
     if (event.username === 'lichess' && event.room === 'player' && 
       event.text.includes('offers draw')) {
 
@@ -124,12 +126,14 @@ function create(gameId) {
         }
     } 
 
+    // check if a draw was declined
     if (event.username === 'lichess' && event.room === 'player'  &&
       event.text.includes('declines draw')) {
         logger('Draw was declined')
         game.hasDrawOffer = false
     }
 
+    // check if an opponent was requested
     if (event.username !== game.lichessBotName) {
       const message = event.text.toLowerCase()
       if (game.wizPlayer == '') {
@@ -139,76 +143,68 @@ function create(gameId) {
           return
         }
 
-        game.wizPlayer = personalites.getProperName(cmp.name)
-        api.chat(game.gameId,'player', 
-          `Playing as ${game.wizPlayer}. Wiz Rating ${cmp.rating}. ${cmp.summary}`
-        );
-        api.chat(game.gameId, 'spectator', `Playing as ${game.wizPlayer}`);
-
+        const wizPlayer = personalites.getProperName(cmp.name)
+        game.setWizPlayer(wizPlayer)
+        game.sayWizPlayer()
+        game.sendWizPlayerToYowApi()
         game.playNextMove()
       }
     }
   }
 
-  async function findAndSetWizPlayer() {
+  async function sendWizPlayerToYowApi() {
+    const yowBotNames = ['yeoldwiz', 'yowCapablanca']
+    const user = game.lichessOpponent
+    const id = game.gameId
+    const opponent = game.wizPlayer
+    
+    // add the wiz player ot the db but skip if lichess playing is a yowbot
+    if (user && id && opponent && !yowBotNames.includes(opponent)) {
+      const yowGame = {user, id, opponent}
+      const { err } = await yowApi.addGame(yowGame)
+    }
+  }
 
+  async function findAndSetWizPlayer() {
     // check yowApi for a player
-    let { yowGame } = await yowApi.getGame(game.gameId)
+    const { yowGame } = await yowApi.getGame(game.gameId)
+    const yowWizPlayer = yowGame?.opponent
         
     // search chat for a player
-    let { chatPlayer, chatIsEmpty } = await game.getWizPlayerFromChat()
+    const { chatPlayer, chatIsEmpty } = await game.getWizPlayerFromChat()
     
-    // make sure rated games always play with the rated wiz player
-    if (game.rated) {
-      game.setWizPlayer(game.ratedWizPlayer)
-      if (chatIsEmpty) sayWizPlayer()
-      return 
-    }
+    // check if this is a rated game if it is set a ratedWizPlayer
+    let ratedWizPlayer = null
+    if (game.rated) ratedWizPlayer = game.ratedWizPlayer
 
-    // we have a game from the yowApi but no chat player set the chat player
-    if (yowGame && !chatPlayer) {
-      game.setWizPlayer(yowGame.opponent)
-      if (chatIsEmpty) sayWizPlayer()
-      return
-    }
-
-    // let's add the wiz player ot the db but skip it we're playing a yowbot 
-    const yowBotNames = ['yeoldwiz', 'yowCapablanca']
-    if (!yowGame && !yowBotNames.includes(game.lichessOpponent) && chatPlayer) {
-      const newYowGame = {user: game.lichessOpponent, id: game.gameId, opponent: chatPlayer}
-      console.log(newYowGame)
-      const { err } = await yowApi.addGame(newYowGame)
-    }
-
-    
-    // if there is already a player in the chat then use as wiz player
-    if (chatPlayer) {
-      game.setWizPlayer(chatPlayer)
-      return 
-    }
-
-    // no player in chat and lichess bot is in challenge mode, use the challenge player
+    // this is a way for dev to play against prod for testing
+    let challengeWizPlayer = null
     if (process.env.IN_CHALLENGE_MODE && game.lichessOpponent === 'yeoldwiz') {
-      logger('In challenge mode against yeoldwiz, setting challenge opponent')
-      game.setWizPlayer(process.env.CHALLENGE_MODE_WIZ_PLAYER)
-      if (chatIsEmpty) sayWizPlayer()
-      return
+      challengeWizPlayer = process.env.CHALLENGE_MODE_WIZ_PLAYER
+      logger(`In challenge mode, challenge wiz player is ${challengeWizPlayer}`)
     }
 
-    // No wiz player found and chat is empty, ask for opponent
-    if (chatIsEmpty) {
-      api.chat(
-        game.gameId, 
-        'player', 'Who would you like to play? Give me a name or a rating number from 1 to 2750.'
-      );
-      api.chat(game.gameId, 'spectator', 'Waiting for opponent selection');
-    } 
+    // order of operations for all the way sto find the wizPlayer
+    const wizPlayer = yowWizPlayer ||  ratedWizPlayer ||  chatPlayer || challengeWizPlayer
 
-    // No player found in chat, still waiting to be told who to play as
+    if (wizPlayer) {
+      game.setWizPlayer(wizPlayer)
+      if (chatIsEmpty) game.sayWizPlayer()
+      if (!yowWizPlayer) game.sendWizPlayerToYowApi()
+      return 
+    }
+
+    // no wiz player was found
+    if (chatIsEmpty) askWhoToPlay()
     logger(chalk.red(`No player found for game ${game.gameId}`))
-    // probably not necessary but just for safety go ahead and set wizPlayer to empty string
+    // probably not necessary but just to be safe
     game.wizPlayer = ''
-    return     
+  }
+
+  function askWhoToPlay() {
+    api.chat(game.gameId, 'player', 
+      'Who would you like to play? Give me a name or a rating number from 1 to 2750.')
+    api.chat(game.gameId, 'spectator', 'Waiting for opponent selection');
   }
 
   function setWizPlayer(wizPlayer) {

@@ -50,8 +50,8 @@ books:
 	
 run: dist
 	make getclocks
-	cp envXps.env ./dist/.env
-	# cp envAce.env ./dist/.env
+	# cp envXps.env ./dist/.env
+	cp envAce.env ./dist/.env
 	cd dist; \
 	node main.js
 
