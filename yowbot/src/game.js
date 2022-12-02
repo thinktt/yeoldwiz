@@ -58,7 +58,7 @@ function create(gameId) {
         game.handleGameState(event)
         break;
       case "opponentGone":
-        logger(chalk.yellow(``))
+        logger(chalk.yellow(`${event.gone}`))
         break;
       default:
         logger(chalk.yellow(`unhandled`))
