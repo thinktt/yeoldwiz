@@ -25,7 +25,11 @@ function create(gameId) {
     isMoving : false,
     isAcceptingDraws : false,
     hasDrawOffer : false,
+    isOver: false, 
+    streamIsClosed: false,
     previousMoves : '',
+    isInChallengMode: process.env.IN_CHALLENGE_MODE,
+    challengeWizPlayer: process.env.CHALLENGE_MODE_WIZ_PLAYER,
     lichessBotName : process.env.LICHESS_BOT_NAME,
     ratedWizPlayer : process.env.RATED_WIZ_PLAYER,
     lichessOpponent: '',
@@ -34,11 +38,10 @@ function create(gameId) {
     drawShouldWaitForMove: true,
   }
 
-  // turn on the stream via the lichess API
-  let streamIsClosed = false
-  api.streamGame(gameId, (event) => game.handler(event), () => {
+  // turn on the stream via the lichess API, end callback is onClose callback
+  api.streamGame(gameId, game.handler, () => {
     console.log(chalk.magentaBright(`game stream for ${gameId} has closed`))
-    streamIsClosed = true
+    game.streamIsClosed = true
   })
 
   // Below game object functions exposed above
@@ -77,10 +80,17 @@ function create(gameId) {
     game.rated = event.rated
     game.lichessOpponent = getLichessOpponent(event, game.color)  
     await game.findAndSetWizPlayer()
-
+    
     if (event.state.bdraw || event.state.wdraw) {
       logger('A draw was requested')
       game.hasDrawOffer = true
+    }
+
+    if (game.isInChallengMode) {
+      logger(`challenge mode is on and challenge player is ${game.challengeWizPlayer}`)
+      // wait a while then tell the other bot who to play as
+      await new Promise(r => setTimeout(r, 3000))
+      game.sayWizPlayer()
     }
   }
 
@@ -96,9 +106,10 @@ function create(gameId) {
 
     if (endStatuses.includes(gameState.status)) {
       logger(chalk.greenBright(`Game ${game.id} has ended with a ${gameState.status}`))
-      if (game.lichessOpponent === 'yeoldwiz' && process.env.IN_CHALLENGE_MODE === 'true') {
+      if (game.lichessOpponent === 'yeoldwiz' && game.isInChallengMode === 'true') {
         sendWizChallenge()
       }
+      game.isOver = true
       return
     }
 
@@ -110,9 +121,9 @@ function create(gameId) {
   }
 
   async function sendWizChallenge() {
-    logger('Starting a new challenge in five seconds')
+    logger('Starting a new challenge in a few seconds')
     await new Promise(r => setTimeout(r, 5000))
-    api.challenge('yeoldwiz')
+    await api.challenge('yeoldwiz')
   } 
 
   function handleChatLine(event) {
@@ -188,17 +199,18 @@ function create(gameId) {
 
     // this is a way for dev to play against prod for testing
     let challengeWizPlayer = null
-    if (process.env.IN_CHALLENGE_MODE && game.lichessOpponent === 'yeoldwiz') {
-      challengeWizPlayer = process.env.CHALLENGE_MODE_WIZ_PLAYER
-      logger(`In challenge mode, challenge wiz player is ${challengeWizPlayer}`)
+    if (game.isInChallengMode && game.lichessOpponent === 'yeoldwiz') {
+      challengeWizPlayer = game.challengeWizPlayer
     }
 
-    // order of operations for all the way sto find the wizPlayer
+    // order of operations for all the ways to find the wizPlayer
     const wizPlayer = yowWizPlayer ||  ratedWizPlayer ||  chatPlayer || challengeWizPlayer
 
     if (wizPlayer) {
       game.setWizPlayer(wizPlayer)
-      if (chatIsEmpty) game.sayWizPlayer()
+      // if we're in challenge mode don't send anything to chat as we can confuse 
+      // the other bot, instead we'll do it a few seconds after game starts
+      if (chatIsEmpty && !game.isInChallengMode) game.sayWizPlayer()
       if (!yowWizPlayer) game.sendWizPlayerToYowApi()
       return 
     }
@@ -254,15 +266,20 @@ function create(gameId) {
     // if we are still under 15 moves (30 half moves) any draws can be immediately accepted
     if (previousMoves.length <= 30) game.drawShouldWaitForMove = false
     
-    const moves = (previousMoves === "") ? [] : previousMoves.split(" ");
+    const moves = (previousMoves === "") ? [] : previousMoves.split(" ")
 
     // if it's not the bots turn then exit
     if (!isTurn(game.color, moves)) return
 
-    const moveData = await wiz.getNextMove(moves, game.wizPlayer, game.id);
+    const moveData = await wiz.getNextMove(moves, game.wizPlayer, game.id)
     
     // no move was found or move setup was invalid, go about your business
     if (!moveData) return 
+    
+    if (game.isOver) {
+      logger(chalk.yellow('move received but game is over'))
+      return
+    }  
 
     const { move, willAcceptDraw } = moveData
     game.willAcceptDraw = willAcceptDraw

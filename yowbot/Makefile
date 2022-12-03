@@ -24,7 +24,8 @@ dcal: dbuild
 
 dist.tar: dist
 	rm ./dist/clockTimes.json || true
-	cp envAce.env ./dist/.env
+	# cp envAce.env ./dist/.env
+	cp envXps.env ./dist/.env
 	tar -cvhf dist.tar -C dist/ .
 
 dist: books
@@ -47,11 +48,16 @@ books:
 	docker build -t bookbuilder -f build/bookBuilder.docker .
 	docker run --name bookbuilder bookbuilder
 	touch books
-	
+
+runasprod: dist
+	make getclocks
+	cp envAce.env ./dist/.env
+	cd dist; \
+	node main.js
+
 run: dist
 	make getclocks
 	cp envXps.env ./dist/.env
-	# cp envAce.env ./dist/.env
 	cd dist; \
 	node main.js
 

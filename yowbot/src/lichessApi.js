@@ -127,6 +127,7 @@ async function streamGame(gameId, handler, onDone) {
   if (!res.ok) {
     console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
   }
+  return controller
 }
 
 

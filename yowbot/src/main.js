@@ -47,7 +47,15 @@ function handleGameStart(id) {
 }
 
 async function handleChallenge(challenge) {
-  if (process.env.IN_CHALLENGE_MODE) {
+
+  // if this is a challenge we sent to someone else just ignore it
+  const botName = process.env.LICHESS_BOT_NAME
+  const challengerName = challenge.challenger.name
+  if (challengerName === botName) return
+  
+  // if we're in challenge mode decline any external challenges
+  const isInChallengeMode = process.env.IN_CHALLENGE_MODE 
+  if (isInChallengeMode) {
     const res = await api.declineChallenge(challenge.id, 'generic')
     return
   }
