@@ -99,16 +99,15 @@ function post(URL, body) {
 
 async function streamEvents(handler, onDone, onErr) {
   onDone = onDone || (() => {
-    console.log(chalk.magentaBright(`main event stream has closed`))
+    console.error(chalk.magentaBright(`main event stream has closed`))
   })
-
   
   const url = "api/stream/event"
   console.log(`GET ${url}`)
   const { res, controller } = await stream(url, handler, onDone, onErr)
 
   if (!res.ok) {
-    console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
+    console.error(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
   }
 
   return {res, controller}
@@ -124,7 +123,7 @@ async function streamGame(gameId, handler, onDone, onErr) {
   const { res, controller } = await stream(url, handler, onDone, onErr)
 
   if (!res.ok) {
-    console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
+    console.error(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
   }
  
   return controller

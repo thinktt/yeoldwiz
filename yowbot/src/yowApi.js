@@ -33,12 +33,12 @@ async function addGame(game) {
   }).catch(e => err = e) 
   
   if (err) {
-    console.log(chalk.red(`POST ${url} fetch failure:  ${err.message}`))
+    console.error(chalk.red(`POST ${url} fetch failure:  ${err.message}`))
     return { err }
   }
 
   if (!res.ok) {
-    console.log(chalk.red(`POST ${url} ${res.status} ${res.statusText}`))
+    console.error(chalk.red(`POST ${url} ${res.status} ${res.statusText}`))
     const err = new Error(res.status + ' ' + res.statusText)
     return { err }
   }
@@ -55,12 +55,12 @@ async function getGame(id) {
   const res = await fetch(url, { headers }).catch(e => err = e)
   if (err) {
     yowApiIsDown = true
-    console.log(chalk.red(`GET ${url} fetch failure: ${err.message}`))
+    console.error(chalk.red(`GET ${url} fetch failure: ${err.message}`))
     return { err }
   }
 
   if (!res.ok) {
-    console.log(chalk.red(`GET ${url} ${res.status} ${res.statusText}`))
+    console.error(chalk.red(`GET ${url} ${res.status} ${res.statusText}`))
     const err = new Error(res.status + ' ' + res.statusText)
     return { err }
   }
