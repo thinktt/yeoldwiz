@@ -102,9 +102,9 @@ async function streamEvents(handler, onDone, onErr) {
     console.log(chalk.magentaBright(`main event stream has closed`))
   })
 
-  onErr = onErr || ((err) => {
-    console.error(chalk.red(`GET ${url} ${err.message || err}`))
-  })
+  // onErr = onErr || ((err) => {
+  //   console.error(chalk.red(`GET ${url} ${err.message || err}`))
+  // })
 
   const url = "api/stream/event"
   console.log(`GET ${url}`)
@@ -129,14 +129,27 @@ async function streamGame(gameId, handler, onDone, onErr) {
   if (!res.ok) {
     console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
   }
+
+  
   return controller
 }
 
 
-async function stream(url, handler, onDone, onErr) {
+async function stream(url, handler, onDone) {
   const controller = new AbortController()
   const signal = controller.signal
   const res = await fetch(baseURL + url, { method: 'GET', headers, signal })
+
+  const onErr = (err) => {
+    if (err.type === 'aborted') {
+      console.error(chalk.magentaBright(`${url} event stream has been aborted`)) 
+      // return 
+    } 
+    console.error(chalk.red(`${url} stream error: ${err}`))
+    console.error(chalk.magentaBright(`stopping ${url} stream and restarting`)) 
+    controller.abort()
+    restartStream(url, handler, onDone, onErr)
+  }
 
   const decoder = new TextDecoder()
   let buf = ''
@@ -159,11 +172,46 @@ async function stream(url, handler, onDone, onErr) {
       handler(event)
     }
   })
-  res.body.on('end', onDone)
-  res.body.on('error', onErr)
 
+  res.body.on('error', onErr)
+  res.body.on('end', onDone)
+
+  // test the stream faillure by aborting the stream
+  // if (url.includes('event')) {
+  //   testStreamFailure(controller, 5000)
+  // }
+  
   return { res, controller }
 }
+
+async function testStreamFailure(controller, failTime ) {
+  console.log(chalk.green('Testing failure, aborting a stream'))
+  await new Promise(r => setTimeout(r, failTime))
+  controller.abort()
+}
+
+let backoff = 5000
+let lastFailureTime = Date.now()
+async function restartStream(url, handler, onDone, onErr) {
+  console.error(chalk.magentaBright(`restarting ${url} stream in ${backoff/1000} seconds`))
+
+  const backoffThreshold = 60 * 1000
+  const maxBackoff = 10 * 60 * 1000
+  const failureInterval = Date.now() - lastFailureTime
+  await new Promise(r => setTimeout(r, backoff))
+  
+  // if it's been a long time since the last error reset the backoff
+  if (failureInterval > backoffThreshold) {
+     backoff = 5000
+  } else {
+     backoff = backoff * 2  
+  }
+  if (backoff > maxBackoff) backoff = maxBackoff
+  lastFailureTime = Date.now()
+
+  stream(url, handler, onDone, onErr)
+}
+
 
 module.exports = {
   setToken,

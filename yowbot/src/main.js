@@ -17,45 +17,13 @@ async function  start() {
   console.log(`Connected to account ${account.data.username}`)
 
   // start the stream and set an error handler to restart if it crashes using a backoff strategy
-  const { controller } = await api.streamEvents(eventHandler, null, (err) => {    
-    if (err.type === 'aborted') {
-      console.error(chalk.magentaBright('main event stream has been aborted')) 
-      return 
-    } 
-    console.error(chalk.red(`main event stream error: ${err}`))
-    console.error(chalk.magentaBright('stopping main event stream and restarting')) 
-    controller.abort()
-    restart()
-  })
+  const { controller } = await api.streamEvents(eventHandler)
 
   // test the restart on failure functionality by aboriting the stream
   // await new Promise(r => setTimeout(r, 3000))
   // controller.abort()
 
   return account
-}
-
-let backoff = 5000
-let lastFailureTime = Date.now()
-async function restart() {
-  console.error(chalk.magentaBright(`restarting in ${backoff/1000} seconds`))
-
-  const backoffThreshold = 60 * 1000
-  const maxBackoff = 10 * 60 * 1000
-  const failureInterval = Date.now() - lastFailureTime
-  await new Promise(r => setTimeout(r, backoff))
-  
-  // if it's been a long time since the last error reset the backoff
-  if (failureInterval > backoffThreshold) {
-     backoff = 5000
-  } else {
-     backoff = backoff * 2  
-  }
-  if (backoff > maxBackoff) backoff = maxBackoff
-
-
-  lastFailureTime = Date.now()
-  start()
 }
 
 function eventHandler(event) {
