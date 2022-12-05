@@ -102,10 +102,7 @@ async function streamEvents(handler, onDone, onErr) {
     console.log(chalk.magentaBright(`main event stream has closed`))
   })
 
-  // onErr = onErr || ((err) => {
-  //   console.error(chalk.red(`GET ${url} ${err.message || err}`))
-  // })
-
+  
   const url = "api/stream/event"
   console.log(`GET ${url}`)
   const { res, controller } = await stream(url, handler, onDone, onErr)
@@ -129,8 +126,7 @@ async function streamGame(gameId, handler, onDone, onErr) {
   if (!res.ok) {
     console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
   }
-
-  
+ 
   return controller
 }
 

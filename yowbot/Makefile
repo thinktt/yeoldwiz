@@ -24,8 +24,8 @@ dcal: dbuild
 
 dist.tar: dist
 	rm ./dist/clockTimes.json || true
-	# cp envAce.env ./dist/.env
-	cp envXps.env ./dist/.env
+	cp envAce.env ./dist/.env
+	# cp envXps.env ./dist/.env
 	tar -cvhf dist.tar -C dist/ .
 
 dist: books
