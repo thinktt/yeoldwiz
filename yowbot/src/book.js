@@ -68,7 +68,7 @@ async function getAllBookMoves(fen, bookName) {
       try {
         moves = book.find(fen)
       } catch (err) {
-        console.error('Failed to get book moves')
+        console.error(`Failed to get book moves: ${err.message}`)
       }
       resolve(moves)
     }, (reject) => {

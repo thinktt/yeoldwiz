@@ -66,7 +66,7 @@ async function getNextMove(moves, wizPlayer, gameId) {
   err = null
   const moveData = await engine.getMove(settings).catch(e => err = e)
   if (err) {
-    console.error(chalk.red(`engine error: ${err}`))
+    console.error(chalk.red(`unhandled engine error: ${err}`))
     return 
   }
   if (!moveData) return 

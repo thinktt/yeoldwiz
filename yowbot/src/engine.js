@@ -36,6 +36,8 @@ async function getMove(settings) {
   const child = exec(cmd)
   let moveData
   let previousMoves = []
+
+  // testEngineCrash(child)
  
   // on close event stop the process
   child.on('close', (code) => {
@@ -47,7 +49,19 @@ async function getMove(settings) {
   // sends an exit command to the engine, closing the process
   let startTime
   let quitWasSent = false  
-  const movePromise = new Promise(resolve => {
+  const movePromise = new Promise((resolve, reject) => {
+    
+    // handle process errors
+    child.stderr.on('data', (data) => {
+      console.error(chalk.red(data.toString()))
+      reject(data)
+    })
+
+    child.stdin.on('error', (err) => {
+      console.error(chalk.redBright("engine process error : ", err))
+      reject(err)
+    })
+
     child.stdout.on('data', (data) => {
       const engineLines = data.toString().replace('\r','\n').split('\n')
       for (let engineLine of engineLines) {
@@ -102,20 +116,52 @@ async function getMove(settings) {
     })
   })
 
-  // log on process errors
-  child.stderr.on('data', (data) => {
-    console2.log(chalk.red(data.toString()))
-  })
-
-  child.stdin.on('error', (err) => {
-    console.log(chalk.redBright("error caught: ", err))
-  })
 
   startTime = Date.now()
   await startEngine(child, settings)
-  const move = await movePromise
+
+  let err = null
+  const move = await movePromise.catch(e => {err = e})
+  if (err)  {
+    console.error(chalk.red('engine process failed to get an engine move'))
+    return retryMove(settings, child)
+  }
 
   return move
+}
+
+let engineRunNumber = 0
+function testEngineCrash(child) {
+  const failPoints = [2, 5, 10]
+  if(failPoints.includes(engineRunNumber)) child.kill()
+  engineRunNumber++
+}
+
+
+let backoff = 5000
+let lastFailureTime = Date.now()
+async function retryMove(settings, child) {
+  if (!child.killed) {
+    console.error(chalk.magenta('original process still sems to be alive, sending kill'))
+    child.kill()
+  }
+  console.error(chalk.magentaBright(`will retry failed engine move in ${backoff / 1000} seconds`))
+
+  const backoffThreshold = 60 * 1000
+  const maxBackoff = 10 * 60 * 1000
+  const failureInterval = Date.now() - lastFailureTime
+  await new Promise(r => setTimeout(r, backoff))
+  
+  // if it's been a long time since the last error reset the backoff
+  if (failureInterval > backoffThreshold) {
+     backoff = 5000
+  } else {
+     backoff = backoff * 2  
+  }
+  if (backoff > maxBackoff) backoff = maxBackoff
+  lastFailureTime = Date.now()
+
+  return getMove(settings)
 }
 
 // fills any missing settings and logs when it happens
