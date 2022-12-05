@@ -103,25 +103,27 @@ async function streamEvents(handler, onDone, onErr) {
   })
 
   onErr = onErr || ((err) => {
-    console.log(err)
+    console.error(chalk.red(`GET ${url} ${err.message || err}`))
   })
+
   const url = "api/stream/event"
+  console.log(`GET ${url}`)
   const { res, controller } = await stream(url, handler, onDone, onErr)
 
   if (!res.ok) {
     console.log(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
   }
 
-  //  await new Promise(resolve => setTimeout(resolve, 5000))
-  //  controller.abort()
-  //  console.log('Aborted main events')
+  return {res, controller}
 }
 
-async function streamGame(gameId, handler, onDone) {
-  const onErr = (err) => {
-    console.log(err)
-  }
+async function streamGame(gameId, handler, onDone, onErr) {
+  onErr = onErr ||  ((err) => {
+    console.error(chalk.red(`Stream error: ${err.message || err}`))
+  })
+   
   const url = `api/bot/game/stream/${gameId}`
+  console.log(`GET ${url}`)
   const { res, controller } = await stream(url, handler, onDone, onErr)
 
   if (!res.ok) {
@@ -131,7 +133,7 @@ async function streamGame(gameId, handler, onDone) {
 }
 
 
-async function stream(url, handler, onDone, onError) {
+async function stream(url, handler, onDone, onErr) {
   const controller = new AbortController()
   const signal = controller.signal
   const res = await fetch(baseURL + url, { method: 'GET', headers, signal })
@@ -150,16 +152,16 @@ async function stream(url, handler, onDone, onError) {
       try {
         event = JSON.parse(part)
       } catch (err) {
-        console.log(chalk.red(`GET ${baseURL + url} stream`))
-        console.error(JSON.stringify(err))
-        onError(err)
+        const jsonErr = `JSON error ${err}`
+        onErr(jsonErr)
         continue
       }
       handler(event)
     }
   })
-
   res.body.on('end', onDone)
+  res.body.on('error', onErr)
+
   return { res, controller }
 }
 
