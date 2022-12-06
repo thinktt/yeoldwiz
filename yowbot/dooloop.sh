@@ -1,9 +1,10 @@
 # /bin/bash
 cd dist
 
-while true
+for i in {1..100}
 do
-node main.js
-echo "RESTARTING RESTARTING RESTARTING"
-sleep 10
+  echo "$i" >> restartlog
+  node main.js
+  sleep 10
+  echo "RESTARTING RESTARTING RESTARTING"
 done
