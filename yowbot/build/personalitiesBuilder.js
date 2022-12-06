@@ -36,8 +36,11 @@ async function run() {
   cmps['Wizard'].name = 'Wizard'
   delete cmps['Chessmaster']
 
-  // fix the Shakespeare book name from 'Pawnmoves.bin' to 'PawnMoves.bin'
+  // fix some incorrect book names from the cmp files
   cmps['Shakespeare'].book = 'PawnMoves.bin'
+  cmps['Smyslov'].book = 'SmyslovV.bin'
+  cmps['Shirov'].book = 'ShirovA.bin'
+  
   fs.writeFileSync(outputPath, JSON.stringify(cmps, null, 2))
 }
 
