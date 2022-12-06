@@ -4,6 +4,8 @@ const OpeningBook = ChessTools.OpeningBooks.Polyglot
 const chess = new require('chess.js').Chess()
 const fs = require("fs")
 const { rejects } = require('assert')
+const cmps = require('./personalities.json')
+const { channel } = require('diagnostics_channel')
 
 
 // get's any random move from the book
@@ -61,7 +63,7 @@ async function getAllBookMoves(fen, bookName) {
   // console.log(bookName)
   const book = new OpeningBook()
   const bookPath = process.cwd() + `/books/${bookName}`
-  const movePromise = new Promise((resolve) => {
+  const movePromise = new Promise((resolve, reject) => {
     book.on("loaded", () => {
       // console.log("book loaded")
       let moves = []
@@ -81,6 +83,53 @@ async function getAllBookMoves(fen, bookName) {
 }
 
 // testMove()
+
+const bookShelf = {}
+// loadAllBooks()
+async function loadAllBooks() {
+  for (const name in cmps) {
+    const bookName = cmps[name].book
+    
+    if (!bookShelf[bookName]) {
+      console.log(bookName)
+      let err = null
+      try {
+        bookShelf[bookName] = await loadBook(bookName)
+      } catch (err) {
+        console.log(err.message)
+      }
+    }
+  }
+
+  // const used = process.memoryUsage().heapUsed / 1024 / 1024
+  // console.log(`${Math.round(used * 100) / 100} MB`)
+  const used = process.memoryUsage()
+  console.log()
+  for (let key in used) {
+    console.log(`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`);
+  }
+  console.log(`${Object.keys(bookShelf).length} books loaded`)
+}
+
+async function loadBook(bookName) {
+  const book = new OpeningBook()
+  const bookPath = process.cwd() + `/books/${bookName}`
+
+  const bookPromise = new Promise((resolve, reject) => {
+    const fileStream = fs.createReadStream(bookPath)
+    fileStream.on('error', (err) => {
+      console.log(err.message) 
+      resolve(null) 
+    }) 
+    // resolve(fileStream)
+    book.load_book(fs.createReadStream(bookPath))
+    book.on("loaded", () => resolve(book))
+  })
+
+  return bookPromise
+}
+
+
 
 module.exports =  { getHeavyMove , getRandomMove}
 
