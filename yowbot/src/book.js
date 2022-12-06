@@ -8,6 +8,11 @@ const cmps = require('./personalities.json')
 const { channel } = require('diagnostics_channel')
 
 
+// load all the books when the module is loaded
+// let booksAreLoaded = false
+// const bookShelf = {}
+// loadAllBooks()
+
 // get's any random move from the book
 async function getRandomMove(fen, book) {
   const bookMoves = await getAllBookMoves(fen, book)
@@ -73,42 +78,49 @@ async function getAllBookMoves(fen, bookName) {
         console.error(`Failed to get book moves: ${err.message}`)
       }
       resolve(moves)
-    }, (reject) => {
-      rejects('Error from opening book')
     })
   })
   book.load_book(fs.createReadStream(bookPath))
-
   return movePromise
 }
 
-// testMove()
+// experiment with loading all the books at once and keeping them in mem
+async function getAllBookMovesExp(fen, bookName) {
+  if (!booksAreLoaded) {
+    console.log('still waiting for books to load')
+    await whenBooksareLoaded()
+  }
+  const book = bookShelf[bookName] 
+  const moves = book.find(fen)
+  return moves
+}
 
-const bookShelf = {}
-// loadAllBooks()
 async function loadAllBooks() {
+  console.log('Loading all opening books in the background')
   for (const name in cmps) {
     const bookName = cmps[name].book
     
     if (!bookShelf[bookName]) {
-      console.log(bookName)
-      let err = null
+      // console.log(bookName)
       try {
         bookShelf[bookName] = await loadBook(bookName)
       } catch (err) {
-        console.log(err.message)
+        console.error(err.message)
       }
     }
   }
 
   // const used = process.memoryUsage().heapUsed / 1024 / 1024
   // console.log(`${Math.round(used * 100) / 100} MB`)
-  const used = process.memoryUsage()
-  console.log()
-  for (let key in used) {
-    console.log(`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`);
-  }
+
+  booksAreLoaded = true
   console.log(`${Object.keys(bookShelf).length} books loaded`)
+}
+
+async function whenBooksareLoaded() {
+  while(!booksAreLoaded) {
+    await new Promise(r => setTimeout(r, 250))
+  }
 }
 
 async function loadBook(bookName) {

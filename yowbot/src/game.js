@@ -177,7 +177,7 @@ async function create(gameId) {
         game.sayWizPlayer()
         game.sendWizPlayerToYowApi()
         
-        await game.playNextMove(gameState).catch(e => err = e)
+        await game.playNextMove().catch(e => err = e)
         if (err && !game.isOver) {
           console.error(chalk.red(`Failed to make move for ${game.id}, restarting stream`))
           game.streamController.abort('forReset')
