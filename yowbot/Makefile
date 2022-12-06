@@ -58,8 +58,9 @@ runasprod: dist
 run: dist
 	make getclocks
 	cp envXps.env ./dist/.env
-	cd dist; \
-	node main.js
+	bash ./doloop.sh
+	# cd dist; \
+	# node main.js
 
 docal: dist
 	cd dist; \
