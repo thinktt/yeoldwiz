@@ -6,7 +6,7 @@ const api = require('./lichessApi.js')
 const yowApi = require('./yowApi.js')
 
 // A factory that creates a game object and it's interface functions
-function create(gameId) {
+async function create(gameId) {
 
   const game = {
     handler,
@@ -33,13 +33,16 @@ function create(gameId) {
     lichessBotName : process.env.LICHESS_BOT_NAME,
     ratedWizPlayer : process.env.RATED_WIZ_PLAYER,
     lichessOpponent: '',
+    streamController: null,
     // if system restarts drawShouldWaitForMove is used to make sure  we don't
     // decline a draw when system doesn't know if it should draw or not yet
     drawShouldWaitForMove: true,
   }
 
+
+
   // turn on the stream via the lichess API, end callback is onClose callback
-  api.streamGame(gameId, game.handler, () => {
+  game.streamController = await api.streamGame(gameId, game.handler, () => {
     console.log(chalk.magentaBright(`game stream for ${gameId} has closed`))
     game.streamIsClosed = true
   })
@@ -115,7 +118,13 @@ function create(gameId) {
 
     if(!game.isMoving) {
       game.isMoving = true
-      await game.playNextMove(gameState)
+      let err = null 
+      await game.playNextMove(gameState).catch(e => err = e)
+      // if playing the next move broke let's try to restart game stream to reset things
+      if (err && !game.isOver) {
+        console.error(chalk.red(`Failed to make move for ${game.id}, restarting stream`))
+        game.streamController.abort('forReset')
+      }
       game.isMoving = false
     }
   }
@@ -126,7 +135,7 @@ function create(gameId) {
     await api.challenge('yeoldwiz')
   } 
 
-  function handleChatLine(event) {
+  async function handleChatLine(event) {
     // check if a draw was offered
     if (event.username === 'lichess' && event.room === 'player' && 
       event.text.includes('offers draw')) {
@@ -167,7 +176,13 @@ function create(gameId) {
         game.setWizPlayer(wizPlayer)
         game.sayWizPlayer()
         game.sendWizPlayerToYowApi()
-        game.playNextMove()
+        
+        await game.playNextMove(gameState).catch(e => err = e)
+        if (err && !game.isOver) {
+          console.error(chalk.red(`Failed to make move for ${game.id}, restarting stream`))
+          game.streamController.abort('forReset')
+        }
+        
       }
     }
   }
@@ -292,7 +307,6 @@ function create(gameId) {
       await api.acceptDraw(game.id)
       return
     }
-
 
     // logger(game.lichessBotName + " as " + game.color + " to move " + move)
     await api.makeMove(game.id, move)

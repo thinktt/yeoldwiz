@@ -49,7 +49,7 @@ function eventHandler(event) {
   }
 }
 
-function handleGameStart(id) {
+async function handleGameStart(id) {
   const game = gameManager.create(id)
 }
 

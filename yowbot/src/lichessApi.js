@@ -33,7 +33,13 @@ function accountInfo() {
 }
 
 function makeMove(gameId, move) {
-  return post(`api/bot/game/${gameId}/move/${move}`)
+  // test move failure
+  // if (failTime === 2) move = move + '/gagalunk'
+  // failTime++
+
+  return post(`api/bot/game/${gameId}/move/${move}`, null, (err) => {
+    throw err
+  })
 }
 
 function acceptDraw(gameId) {
@@ -90,10 +96,11 @@ function get(URL) {
   })
 }
 
-function post(URL, body) {
+function post(URL, body, onErr) {
   console.log(`POST ${URL} ` + JSON.stringify(body || {}))
   return axios.post(URL, body || {}, axiosConfig).catch((err) => {
     console.error(chalk.red(`POST ${URL} ${err.message}`))
+    if (onErr) onErr(err)
   })
 }
 
@@ -129,20 +136,19 @@ async function streamGame(gameId, handler, onDone, onErr) {
   return controller
 }
 
-
 async function stream(url, handler, onDone) {
   const controller = new AbortController()
   const signal = controller.signal
   const res = await fetch(baseURL + url, { method: 'GET', headers, signal })
 
   const onErr = (err) => {
-    if (err.type === 'aborted') {
-      console.error(chalk.magentaBright(`${url} event stream has been aborted`)) 
-      // return 
-    } 
     console.error(chalk.red(`${url} stream error: ${err}`))
-    console.error(chalk.magentaBright(`stopping ${url} stream and restarting`)) 
-    controller.abort()
+    
+    if (!controller.signal.aborted) {
+      console.error(chalk.red(`${url} aborting stream`))
+      controller.abort()
+      return 
+    }
     restartStream(url, handler, onDone, onErr)
   }
 
@@ -151,9 +157,8 @@ async function stream(url, handler, onDone) {
   res.body.on('data', (data) => {
     const chunk = decoder.decode(data, { stream: true })
     buf += chunk
-    const parts = buf.split(/\r?\n/)
-    buf = parts.pop()
-
+    let parts = buf.split(/\r?\n/)
+    buf = parts.pop() 
     for (const part of parts) {
       if (!part) continue
       let event
