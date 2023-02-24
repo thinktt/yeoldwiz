@@ -21,10 +21,12 @@ console.log('Building personalites.json file')
 run()
 async function run() {
   const cmps = parseCmpCfg()
-  for (key in cmps) {
-    const cmpFileVals = await parseCmpFile(key)
-    cmps[key] = { ...cmps[key], ...cmpFileVals }
-    debrand(cmps[key])
+  for (const name in cmps) {
+    const cmpFileVals = await parseCmpFile(name)
+    cmps[name] = { ...cmps[name], ...cmpFileVals }
+    // replace cpm opptrophe sub char with actual opostrophe
+    cmps[name].bio = cmps[name].bio.replace('', "'")
+    debrand(cmps[name])
   }
   // console.log(await parseCmpFile(name))
   // console.log(cmps[name])
