@@ -1,54 +1,186 @@
-....Today....
+....Next....
+iOS enlarging things when clicked
+progressive web app
+board sounds
+
+
+
+....Frontend.....
+phone nav
+  x see bio  x see chess style
+  x navigate to games
+  x history navigation
+  x restore groups nav
+  x fix phone navigation
+  x lock router on game starts to mitigate funky states
+  x fix group nav for phone mode
+
+fix error and start messages
+  x make more logical component layout
+  x get everything working again
+
+groups area
+  x fix return to last scroll position
+  x new group order
+  x new groupings
+  x fix scroll return ghosting >:(
+  x fix return to groups sometimes not doing scroll return
+  x merge ladder badges into score mode
+  
+logged out page behaviour 
+  x navigate back from sellected
+  x not showing groups
+  x ability to browse users when logged out 
+
+game page
+  x games listed with win loss next to them
+  x go to lichess analysis when clicking
+  x game listed with endgame picture
+  x filter games 
+  x fix weird offset from resignation message
+  x go to lichess as color played
+  x center game loading message
+  x always scroll to top when games load
+  don't reload all games when going back from specific game
+  show live games on games page
+
+group trophies
+  x extract all golden pieces from
+  x next to group titles
+  x trophy room
+
+stats area
+  x Badges and explanations
+  xx Games won, lost and drawn
+  xx move game button here
+
+board page
+  review board
+    x board
+    x basic pgn viewer
+    x basic navigator working
+    x show date
+    x show crown
+    x phone layout
+    x lock board
+    x don't highlight buttons in phone mode
+    x keyboard controls
+    x pgn viewer scroll center current move
+    x arrow key nav 
+    x selecatble moves
+    x on game end get draw by message working
+    x board not locking
+    x hide action buttons while waiting for action result
+    x draw messages
+    x get playboard working in phone mode
+    x restore lichess links as an icon
+    x ability to go back to games from board room 
+    
+    sounds
+    move game status to top
+    move moves to top
+    move navigation buttons to bottom
+    re-arange nav buttons
+
+
+play board
+  x connect to game stream
+  x on move update board moves
+  x unlock board on live position
+  x working draw button 
+  x working resign button
+  x working abort button
+  x on move
+    x lock board
+    x turn on stream
+  x on receive move 
+    x make move on board
+    xb turn off stream
+  x on game end
+    x update board state
+    x update current games list
+    x update general game list  
+
+Visibilty Flow Desktop
+  x Signed Out Arrive
+  x Signed In Arrive
+  x Signed In Arrive Need Load
+  x Sign In Return
+  x Sign In Return Load
+
+  x Signed In Arrive Live Game
+  x Sign In Return Live Game
+  x Sign In Load Live Game
+  x Game Start
+
+Visibility Flow Phone
+  x Signed Out Arrive
+  x Signed In Arrive
+  x Signed In Arrive Need Load
+  x Sign In Return
+  x Sign In Return Load
+  
+  x Signed In Arrive Live Game
+  x Sing In Return Live Game
+  x Sign In Load Live Game
+  x Game Start 
+
+
+General fixes
+  x iOS badge css is off
+  x chess boards not showing up in iOS 
+  x going back to board room state state issues after group nav
+  x fix blocking on cmp selection for long game list
+  x game loading screen on startup
+  x fix even badge on selected view
+  x need to show go to game in deskptop mode
+  x back button in board room for phone 
+  x lichess button next to abort button
+  x game fail to start due to chat messages
+  x db versioning
+  x use proper usernames instead of user ids 
+  x restore checking chat for opponent
+  x board moves lose animation on phone
+  manipulate route history on start game
+  remember location when going back to games page
+
+progressive web app
+  need service workers to work properly?
+
+
+
+
+misc
+  x Use Vue component files
+  x Split into vue component files
+  x better score crowns
+  x fix score crowns on phones
+  x trophy points
+
+
+...Frontend Backlog...
+piece count on main board
+Ability to watch bot games
+8bit Art Faces?
+Player Ratings based on games
+What would Capablanca do
+fix no chat message sent after aborted game
+  probably caused by duplicate messages sent to chat in quick sequence
+
+
+
+
+
+
 
 
 ....Backend....
-backend sends game info to db
+x? backend sends game info to db
 bot problems
   error handling 
   stream handling? 
 
 solve dropped lines?
-
-
-
-
-
-
-....Frontend.....
-fix no chat message sent after aborted game
-  probably caused by duplicate messages sent to chat in quick sequence
-fix score crowns on phones
-Use Chat API
-golden crowns
-
-Vue Components
-  Use Vue component files
-  Split into vue component files
-better score crowns
-8bit Art Faces?
-
-score board
-  Games won, lost and drawn
-  See Games button
-game page
-  games listed with win loss next to them
-  go to lichess analysis when clicking
-  game listed with endgame picture
-  play through on game page
-  sort games?
-  filter games?
-Groups
-  More Groupings
-  Group Trophies?
-Player Ratings based on games
-What would Capablanca do
-
-...Moon Shot...
-Playable In App Board
-Ability to watch bot games
-
-
-
 
 ....Issues.....
 longer running backend

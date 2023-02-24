@@ -215,23 +215,25 @@ async function testStreamFailure(controller, failTime ) {
   controller.abort()
 }
 
-let backoff = 1000
-let lastFailureTime = Date.now()
+// let backoff = 1000
+// let lastFailureTime = Date.now()
+const backoffMap = {}
 const backoffThreshold = 60 * 1000
 const maxBackoff = 10 * 60 * 1000
 async function restartStream(url, handler, onDone, onErr) {
-  const failureInterval = Date.now() - lastFailureTime
+  backoffMap[url] = backoffMap[url] || { lastFailureTime: Date.now(), backoff: 1000 }
+  const failureInterval = Date.now() - backoffMap[url].lastFailureTime
 
   // if it's been a long time since the last error reset the backoff
-  if (failureInterval > backoffThreshold) backoff = 1000
-  lastFailureTime = Date.now()
+  if (failureInterval > backoffThreshold) backoffMap[url].backoff = 1000
+  backoffMap[url].lastFailureTime = Date.now()
   
-  console.error(chalk.magentaBright(`restarting ${url} stream in ${backoff/1000} seconds`))
-  await new Promise(r => setTimeout(r, backoff))
+  console.error(chalk.magentaBright(`restarting ${url} stream in ${backoffMap[url].backoff/1000} seconds`))
+  await new Promise(r => setTimeout(r, backoffMap[url].backoff))
 
   // increase the backoff for the next restart up to the max backoff
-  backoff = backoff * 2
-  if (backoff > maxBackoff) backoff = maxBackoff
+  backoffMap[url].backoff = backoffMap[url].backoff * 2
+  if (backoffMap[url].backoff > maxBackoff) backoffMap[url].backoff = maxBackoff
 
   let err
   const { res } = await stream(url, handler, onDone, onErr).catch(e => err = e)
