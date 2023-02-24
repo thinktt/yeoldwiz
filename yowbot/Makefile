@@ -11,7 +11,7 @@ din:
 	docker run --rm -it -v calibrations:/opt/yeoldwiz/calibrations --name yeoldwiz ace:5000/yeoldwiz /bin/bash 
 
 drun: dbuild
-	docker run -v calibrations:/opt/yeoldwiz/calibrations --name yeoldwiz ace:5000/yeoldwiz 
+	docker run -v calibrations:/opt/yeoldwiz/cals/xps --name yeoldwiz ace:5000/yeoldwiz 
 
 dbuild: dist.tar
 	docker rm yeoldwiz || true
