@@ -121,6 +121,8 @@ async function streamEvents(handler, onDone, onErr) {
 }
 
 async function streamGame(gameId, handler, onDone, onErr) {
+  let gameIsClosed = false
+  
   onErr = onErr ||  ((err) => {
     console.error(chalk.red(`Stream error: ${err.message || err}`))
   })
@@ -139,22 +141,40 @@ async function streamGame(gameId, handler, onDone, onErr) {
 async function stream(url, handler, onDone) {
   const controller = new AbortController()
   const signal = controller.signal
+  let lastStreamPing
+  let streamIsOpen = true
   const res = await fetch(baseURL + url, { method: 'GET', headers, signal })
 
-  const onErr = (err) => {
+  const onErr = async (err) => {
     console.error(chalk.red(`${url} stream error: ${err}`))
+    streamIsOpen = false
     
     if (!controller.signal.aborted) {
       console.error(chalk.red(`${url} aborting stream`))
       controller.abort()
       return 
     }
-    restartStream(url, handler, onDone, onErr)
+    await restartStream(url, handler, onDone, onErr)
   }
+
+  const watchForIdleStream = async () => {
+    while(streamIsOpen) {
+      const streamPingGap = Date.now() - lastStreamPing || 0
+      // console.log(url, streamPingGap)
+      if (streamPingGap > 6500) {
+        console.log(chalk.magenta(url, ' stream is idle, restarting'))
+        restartStream(url, handler, onDone, onErr)
+        break
+      }
+      await new Promise(r => setTimeout(r, 3000))
+    }
+  }
+
 
   const decoder = new TextDecoder()
   let buf = ''
   res.body.on('data', (data) => {
+    lastStreamPing = Date.now()
     const chunk = decoder.decode(data, { stream: true })
     buf += chunk
     let parts = buf.split(/\r?\n/)
@@ -174,42 +194,56 @@ async function stream(url, handler, onDone) {
   })
 
   res.body.on('error', onErr)
-  res.body.on('end', onDone)
+  res.body.on('end', () => {
+    streamIsOpen = false
+    onDone()
+  })
 
   // test the stream faillure by aborting the stream
   // if (url.includes('event')) {
-  //   testStreamFailure(controller, 5000)
+  //   testStreamFailure(controller, 20000)
   // }
   
+  watchForIdleStream()
+
   return { res, controller }
 }
 
 async function testStreamFailure(controller, failTime ) {
-  console.log(chalk.green('Testing failure, aborting a stream'))
   await new Promise(r => setTimeout(r, failTime))
+  console.log(chalk.green('Testing failure, aborting a stream'))
   controller.abort()
 }
 
-let backoff = 5000
+let backoff = 1000
 let lastFailureTime = Date.now()
+const backoffThreshold = 60 * 1000
+const maxBackoff = 10 * 60 * 1000
 async function restartStream(url, handler, onDone, onErr) {
-  console.error(chalk.magentaBright(`restarting ${url} stream in ${backoff/1000} seconds`))
-
-  const backoffThreshold = 60 * 1000
-  const maxBackoff = 10 * 60 * 1000
   const failureInterval = Date.now() - lastFailureTime
-  await new Promise(r => setTimeout(r, backoff))
-  
-  // if it's been a long time since the last error reset the backoff
-  if (failureInterval > backoffThreshold) {
-     backoff = 5000
-  } else {
-     backoff = backoff * 2  
-  }
-  if (backoff > maxBackoff) backoff = maxBackoff
-  lastFailureTime = Date.now()
 
-  stream(url, handler, onDone, onErr)
+  // if it's been a long time since the last error reset the backoff
+  if (failureInterval > backoffThreshold) backoff = 1000
+  lastFailureTime = Date.now()
+  
+  console.error(chalk.magentaBright(`restarting ${url} stream in ${backoff/1000} seconds`))
+  await new Promise(r => setTimeout(r, backoff))
+
+  // increase the backoff for the next restart up to the max backoff
+  backoff = backoff * 2
+  if (backoff > maxBackoff) backoff = maxBackoff
+
+  let err
+  const { res } = await stream(url, handler, onDone, onErr).catch(e => err = e)
+  if (err) {
+    console.error(chalk.red(`GET ${url} stream ${err.code}`))
+    restartStream(url, handler, onDone, onErr)
+    return
+  }
+  if (!res.ok) {
+    console.error(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
+    restartStream(url, handler, onDone, onErr)
+  }
 }
 
 

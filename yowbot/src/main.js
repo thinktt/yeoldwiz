@@ -2,7 +2,8 @@ require('dotenv').config()
 const gameManager = require("./game.js")
 const chalk = require('chalk')
 const api = require('./lichessApi.js')
-const { json } = require('express')
+// const whip = require('./whip.js') 
+// const { json } = require('express')
 
 start()
 
@@ -18,6 +19,7 @@ async function  start() {
 
   // start the stream and set an error handler to restart if it crashes using a backoff strategy
   const { controller } = await api.streamEvents(eventHandler)
+  // whip.start(controller)
 
   // test the restart on failure functionality by aboriting the stream
   // await new Promise(r => setTimeout(r, 3000))
