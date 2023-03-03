@@ -9,6 +9,9 @@ const gameMap = {}
 
 // A factory that creates a game object and it's interface functions
 async function create(gameId) {
+
+  // if we've created this game before we just use that one this keeps us
+  // from creating extra streams well that can lead to endless loops
   if (gameMap[gameId]) return gameMap[gameId]
 
   const game = {
