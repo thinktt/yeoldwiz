@@ -5,8 +5,11 @@ const wiz = require('./wiz.js')
 const api = require('./lichessApi.js')
 const yowApi = require('./yowApi.js')
 
+const gameMap = {}
+
 // A factory that creates a game object and it's interface functions
 async function create(gameId) {
+  if (gameMap[gameId]) return gameMap[gameId]
 
   const game = {
     handler,
@@ -38,8 +41,6 @@ async function create(gameId) {
     // decline a draw when system doesn't know if it should draw or not yet
     drawShouldWaitForMove: true,
   }
-
-
 
   // turn on the stream via the lichess API, end callback is onClose callback
   game.streamController = await api.streamGame(gameId, game.handler, () => {
@@ -328,6 +329,7 @@ async function create(gameId) {
     }
   }
 
+  gameMap[gameId] = game
   return game
 }
 

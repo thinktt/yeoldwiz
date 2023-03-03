@@ -122,7 +122,7 @@ async function streamEvents(handler, onDone, onErr) {
 
 async function streamGame(gameId, handler, onDone, onErr) {
   let gameIsClosed = false
-  
+ 
   onErr = onErr ||  ((err) => {
     console.error(chalk.red(`Stream error: ${err.message || err}`))
   })
@@ -134,16 +134,49 @@ async function streamGame(gameId, handler, onDone, onErr) {
   if (!res.ok) {
     console.error(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
   }
- 
+  
   return controller
 }
+
+
+const reqQue = []
+let queIsRunning = false
+
+function queReq(url, signal) {
+  let resolve
+  let reject
+  const reqPromise = new Promise((r, x) => {
+    resolve = r
+    reject = x
+  })
+  reqQue.push({ url, signal, resolve, reject })
+  startQue()
+  return reqPromise
+}
+
+async function startQue() {
+  if (queIsRunning) return
+  queIsRunning = true
+  while (reqQue.length) {
+    const { url, signal, resolve, reject } = reqQue.pop()
+    let err
+    const res = await fetch(baseURL + url, { method: 'GET', headers, signal }).catch(e => err = e)
+    await new Promise(r => setTimeout(r, 300))
+    if (err) {
+      reject(err)
+    }
+    resolve(res) 
+  }
+  queIsRunning = false
+}
+
 
 async function stream(url, handler, onDone) {
   const controller = new AbortController()
   const signal = controller.signal
   let lastStreamPing
   let streamIsOpen = true
-  const res = await fetch(baseURL + url, { method: 'GET', headers, signal })
+  const res = await queReq(url, signal) //fetch(baseURL + url, { method: 'GET', headers, signal })
 
   const onErr = async (err) => {
     console.error(chalk.red(`${url} stream error: ${err}`))
@@ -169,7 +202,6 @@ async function stream(url, handler, onDone) {
       await new Promise(r => setTimeout(r, 3000))
     }
   }
-
 
   const decoder = new TextDecoder()
   let buf = ''
