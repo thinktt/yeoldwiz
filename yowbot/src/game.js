@@ -39,17 +39,19 @@ async function create(gameId) {
     lichessBotName : process.env.LICHESS_BOT_NAME,
     ratedWizPlayer : process.env.RATED_WIZ_PLAYER,
     lichessOpponent: '',
-    streamController: null,
+    stream: null,
     // if system restarts drawShouldWaitForMove is used to make sure  we don't
     // decline a draw when system doesn't know if it should draw or not yet
     drawShouldWaitForMove: true,
   }
 
   // turn on the stream via the lichess API, end callback is onClose callback
-  game.streamController = await api.streamGame(gameId, game.handler, () => {
+  game.stream = await api.streamGame(gameId, game.handler, () => {
     console.log(chalk.magentaBright(`game stream for ${gameId} has closed`))
     game.streamIsClosed = true
   })
+
+  // console.log(game.stream)
 
   // Below game object functions exposed above
   async function handler(event) {
@@ -127,7 +129,8 @@ async function create(gameId) {
       // if playing the next move broke let's try to restart game stream to reset things
       if (err && !game.isOver) {
         console.error(chalk.red(`Failed to make move for ${game.id}, restarting stream`))
-        game.streamController.abort('forReset')
+        // game.stream.abort('forReset')
+        game.stream.restart()
       }
       game.isMoving = false
     }
@@ -185,7 +188,7 @@ async function create(gameId) {
         await game.playNextMove().catch(e => err = e)
         if (err && !game.isOver) {
           console.error(chalk.red(`Failed to make move for ${game.id}, restarting stream`))
-          game.streamController.abort('forReset')
+          game.stream.restart()
         }
         
       }
@@ -278,6 +281,8 @@ async function create(gameId) {
     return { chatPlayer, chatIsEmpty: false }
   }
 
+  // let shouldThrow = false
+  // setTimeout(() => shouldThrow = false, 3000)
   async function playNextMove(gameState) {
     // cache the moves if we end up not moving right due to missing Wiz Player
     if (gameState) game.previousMoves = gameState.moves
@@ -292,7 +297,8 @@ async function create(gameId) {
     if (!isTurn(game.color, moves)) return
 
     const moveData = await wiz.getNextMove(moves, game.wizPlayer, game.id)
-    
+    // if (shouldThrow) throw new Error('no move for you')
+
     // no move was found or move setup was invalid, go about your business
     if (!moveData) return 
     

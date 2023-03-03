@@ -7,6 +7,30 @@ const baseURL = "https://lichess.org/"
 const headers = { "Authorization": `Bearer ${token}` }
 const axiosConfig = { baseURL, headers }
 
+module.exports = {
+  setToken,
+  challenge,
+  acceptChallenge,
+  declineChallenge,
+  upgrade,
+  accountInfo,
+  makeMove,
+  acceptDraw,
+  declineDraw,
+  abortGame,
+  resignGame,
+  streamEvents,
+  streamGame,
+  chat,
+  getChat,
+  currentGames,
+  logAndReturn,
+  gamePage,
+  get,
+  post,
+  stream,
+}
+
 
 function setToken(tokenToSet) {
   token = tokenToSet
@@ -111,13 +135,13 @@ async function streamEvents(handler, onDone, onErr) {
   
   const url = "api/stream/event"
   console.log(`GET ${url}`)
-  const { res, controller } = await stream(url, handler, onDone, onErr)
+  const { res, restart } = await stream(url, handler, onDone, onErr)
 
   if (!res.ok) {
     console.error(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
   }
 
-  return {res, controller}
+  return {res, restart}
 }
 
 async function streamGame(gameId, handler, onDone, onErr) {
@@ -129,19 +153,18 @@ async function streamGame(gameId, handler, onDone, onErr) {
    
   const url = `api/bot/game/stream/${gameId}`
   console.log(`GET ${url}`)
-  const { res, controller } = await stream(url, handler, onDone, onErr)
+  const streamObj = await stream(url, handler, onDone, onErr)
 
-  if (!res.ok) {
+  if (!streamObj.res.ok) {
     console.error(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
   }
   
-  return controller
+  return streamObj
 }
 
 
 const reqQue = []
 let queIsRunning = false
-
 function queReq(url, signal) {
   let resolve
   let reject
@@ -178,6 +201,8 @@ async function stream(url, handler, onDone) {
   let streamIsOpen = true
   const res = await queReq(url, signal) //fetch(baseURL + url, { method: 'GET', headers, signal })
 
+  const restart = async () => restartStream(url, handler, onDone, onErr)
+
   const onErr = async (err) => {
     console.error(chalk.red(`${url} stream error: ${err}`))
     streamIsOpen = false
@@ -187,7 +212,13 @@ async function stream(url, handler, onDone) {
       controller.abort()
       return 
     }
-    await restartStream(url, handler, onDone, onErr)
+    await restart() // restartStream(url, handler, onDone, onErr)
+  }
+
+  if (!res.ok) {
+    console.log(res.status)
+    restart() // restartStream(url, handler, onDone, onErr)
+    return { res, restart }
   }
 
   const watchForIdleStream = async () => {
@@ -196,7 +227,7 @@ async function stream(url, handler, onDone) {
       // console.log(url, streamPingGap)
       if (streamPingGap > 6500) {
         console.log(chalk.magenta(url, ' stream is idle, restarting'))
-        restartStream(url, handler, onDone, onErr)
+        restart() // restartStream(url, handler, onDone, onErr)
         break
       }
       await new Promise(r => setTimeout(r, 3000))
@@ -217,7 +248,8 @@ async function stream(url, handler, onDone) {
       try {
         event = JSON.parse(part)
       } catch (err) {
-        const jsonErr = `JSON error ${err}`
+        const jsonErr = `JSON error parsing ${part}`
+        console.log(res)
         onErr(jsonErr)
         continue
       }
@@ -232,13 +264,15 @@ async function stream(url, handler, onDone) {
   })
 
   // test the stream faillure by aborting the stream
-  // if (url.includes('event')) {
-  //   testStreamFailure(controller, 20000)
+  // if (url.includes('i2XAu64t')) {
+  //   console.log(chalk.blue('testing lost stream'))
+  //   // testStreamFailure(controller, 20000)
+  //   restart()
   // }
   
   watchForIdleStream()
 
-  return { res, controller }
+  return { res, restart }
 }
 
 async function testStreamFailure(controller, failTime ) {
@@ -278,29 +312,4 @@ async function restartStream(url, handler, onDone, onErr) {
     console.error(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
     restartStream(url, handler, onDone, onErr)
   }
-}
-
-
-module.exports = {
-  setToken,
-  challenge,
-  acceptChallenge,
-  declineChallenge,
-  upgrade,
-  accountInfo,
-  makeMove,
-  acceptDraw,
-  declineDraw,
-  abortGame,
-  resignGame,
-  streamEvents,
-  streamGame,
-  chat,
-  getChat,
-  currentGames,
-  logAndReturn,
-  gamePage,
-  get,
-  post,
-  stream,
 }
