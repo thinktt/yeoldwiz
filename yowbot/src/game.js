@@ -264,8 +264,16 @@ async function create(gameId) {
   }
 
   async function getWizPlayerFromChat() {
-    const {data: chatLines } = await api.getChat(game.id)
+    const data = await api.getChat(game.id)
+    // const data = undefined
+    
     // handle response errors
+    if (!data) {
+      logger(chalk.red('unable to get chat repsonse'))
+      return {chatPlayer : '', chatIsEmpty: false}
+    }
+    const chatLines = data.data 
+
     
     // chat is empty right now
     const wizMessages = chatLines.filter(line => line.user === game.lichessBotName)
