@@ -111,7 +111,7 @@ async function create(gameId) {
   }
 
   async function handleGameState(gameState) {
-    const endStatuses = [ "mate", "resign", "stalemate", "timeout", "draw", "outoftime" ]
+    const endStatuses = [ "mate", "resign", "stalemate", "timeout", "draw", "outoftime", "aborted" ]
 
     if (endStatuses.includes(gameState.status)) {
       logger(chalk.greenBright(`Game ${game.id} has ended with a ${gameState.status}`))
