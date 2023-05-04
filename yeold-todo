@@ -1,12 +1,15 @@
 ....Next....
-iOS enlarging things when clicked
-progressive web app
-board sounds
+retistration page
+  disclaimer
+  upload engine
+  api to save registrations  
 
 
 
 ....Frontend.....
 phone nav
+  x iOS enlarging things when clicked
+  x progressive web app
   x see bio  x see chess style
   x navigate to games
   x history navigation
@@ -159,6 +162,7 @@ misc
 
 
 ...Frontend Backlog...
+board sounds
 piece count on main board
 Ability to watch bot games
 8bit Art Faces?
