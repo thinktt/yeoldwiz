@@ -3,6 +3,14 @@ const mongoHost = process.env.MONGO_HOST || 'localhost:27017'
 const uri = `mongodb://${mongoHost}/?maxPoolSize=20&w=majority`
 const client = new MongoClient(uri)
 
+module.exports =  {
+  get,
+  create,
+  getUser,
+  createUser,
+  client, 
+}
+
 async function get(id) {
   const res = await client.db('yow').collection('games').findOne({ 'id': id }) 
   
@@ -23,9 +31,22 @@ async function create(game) {
   return res
 }
 
+async function getUser(id) {
+  const res = await client.db('yow').collection('users').findOne({ 'id': id })
 
-module.exports =  {
-  get,
-  create,
-  client, 
+  // clear the mongodb id, as the user id is all we need
+  if (res !== null) res._id = undefined
+  return res
+}
+
+
+async function createUser(user) {
+  const { id, kingCmVersion, hasAcceptedDisclaimer } = user
+  // create the entry if it doesn't exist already
+  const res = await client.db("yow").collection('users').updateOne(
+    {id, kingCmVersion, hasAcceptedDisclaimer},
+    {$setOnInsert: user},
+    {upsert: true},
+  )
+  return res
 }

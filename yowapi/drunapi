@@ -19,8 +19,8 @@
 # --name yowapi ace:5000/yowapi:latest \
 # /bin/sh 
 
-docker run -d --rm \
--p 6000:64355 \
+docker run --rm \
+-p 64355:64355 \
 -e MONGO_HOST=mongodb \
 --network mongonet \
 --name yowapi ace:5000/yowapi:latest \
