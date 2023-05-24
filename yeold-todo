@@ -1,8 +1,35 @@
-....Next....
-retistration page
+......Launch Version......
+registration frontend
+  x signin
+  x signin error redirect
   disclaimer
-  upload engine
-  api to save registrations  
+    x accept
+    don't accept?
+  x upload engine
+  upload error
+  x intro text
+  x demo bypass
+end of game message frontend
+
+frontend uses backend registration
+registration backend
+fake demo games when bot browsing
+
+
+
+github readme describing technical aspects
+chess.com post
+
+user stats
+disable direct lichess play
+FAQ
+demo video
+publishable backend with injected CM assets
+seo
+disclaimer in main app
+
+real demo games  
+
 
 
 
