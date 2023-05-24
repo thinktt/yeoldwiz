@@ -8,6 +8,7 @@ module.exports =  {
   create,
   getUser,
   createUser,
+  getAllUsers,
   client, 
 }
 
@@ -39,9 +40,25 @@ async function getUser(id) {
   return res
 }
 
+// currently just returns the count
+async function getAllUsers() {
+  //get count of all users
+  let err = null
+  const count = await client
+    .db('yow')
+    .collection('users')
+    .countDocuments({})
+    .catch((e) => err = e)
+
+  if(err) {
+    throw err
+  }
+
+  return { count }
+}
+
 
 async function createUser(user) {
-  // const { id, kingCmVersion, hasAcceptedDisclaimer } = user
   // create the entry if it doesn't exist already
   const res = await client.db("yow").collection('users').updateOne(
     {id: user.id},

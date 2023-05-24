@@ -22,12 +22,10 @@ async function getVersion(blob) {
   if (!keys.includes(hash)) {
     console.log('incorrect king hash')
     console.log(hash)
-    this.verificationFailed = true
     return
   }
   
   return kingHashMap[hash]
-
 }
 
 async function getStringHash(str) {

@@ -19,6 +19,18 @@ app.get('/health', async (rec, res) => {
   res.json({message: 'API is healthy'})
 })
 
+app.get('/users/', async (req, res) => {
+  let err = null  
+  const users = await db.getAllUsers().catch((e) => err = e)
+  if (err) {
+    res.status(500)
+    res.json('error getting users', err.message)
+    return
+  }
+
+  res.json(users)
+})
+
 app.get('/users/:id', async (req, res) => {
   let [result, err] = await safeCall(db.getUser(req.params.id))
   if (err) {
@@ -156,7 +168,6 @@ async function safeCall(promise) {
 
 async function throwErr() {
   throw Error('Bad stuff')
-  return 'Howdy!'
 }
 
 async function main() {
