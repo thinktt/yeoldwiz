@@ -6,13 +6,14 @@ module.exports = {
 }
 
 const kingHashMap = {
-  '9bd6c1b16251e3a462c61c63b4811605a6072fbeb2311ebe7c05842dd0bfc236' : '9',
-  'bc4d67847a6c34ce6792e4b0e52e53abba46e71438e1c4e7b22c91122b48e554' : '10',
-  '511de09ec25fd8de0a41640c8e53ced4ebab1daeac01a8a9a3116a04f4ed7585' : '11', 
+  'b2837d3214c7dc0790bc48d25105631bb0aa3c72cc66acffc6b75db964705d2c' : '9',
+  '958db8f0e51f3d3648b6a15541c79f0de84765f8829505b19f3100591abd0f41' : '10',
+  '40bea41fe03dc9c00a83708bccfbbe45bce28d920eb0fa45900d91c6227f0462' : '11', 
 }
 
 // returns a version number if the blob hash is found in the kingHashMap
 async function getVersion(blob) {
+  // console.log(blob)
   const hash = await getStringHash(blob)
   
   const keys = Object.keys(kingHashMap)

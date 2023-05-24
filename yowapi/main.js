@@ -9,7 +9,7 @@ const ajv = new Ajv()
 const db = require('./db')
 const schema = require('./schema')
 
-app.use(express.json())
+app.use(express.json({limit: '300kb'}))
 app.use(cors())
 
 app.get('/health', async (rec, res) => {

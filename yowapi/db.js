@@ -41,10 +41,10 @@ async function getUser(id) {
 
 
 async function createUser(user) {
-  const { id, kingCmVersion, hasAcceptedDisclaimer } = user
+  // const { id, kingCmVersion, hasAcceptedDisclaimer } = user
   // create the entry if it doesn't exist already
   const res = await client.db("yow").collection('users').updateOne(
-    {id, kingCmVersion, hasAcceptedDisclaimer},
+    {id: user.id},
     {$setOnInsert: user},
     {upsert: true},
   )
