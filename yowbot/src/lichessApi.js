@@ -155,7 +155,8 @@ async function streamGame(gameId, handler, onDone, onErr) {
   console.log(`GET ${url}`)
   const streamObj = await stream(url, handler, onDone, onErr)
 
-  if (!streamObj.res.ok) {
+  const res = streamObj.res
+  if (!res.ok) {
     console.error(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
   }
   
