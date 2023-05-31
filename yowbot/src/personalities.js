@@ -33,6 +33,7 @@ const aliases = {
   'jw6':  'Josh6',
   'jw7': 'Josh7',
   'jw8': 'Josh8',
+  'jw9': 'Josh9',
   'jw12': 'Josh12',
   'the wizard': 'Wizard',
   'pawnmaster': 'Shakespeare',
