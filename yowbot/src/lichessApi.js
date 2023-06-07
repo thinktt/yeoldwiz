@@ -163,46 +163,18 @@ async function streamGame(gameId, handler, onDone, onErr) {
   return streamObj
 }
 
-
-const reqQue = []
-let queIsRunning = false
-function queReq(url, signal) {
-  let resolve
-  let reject
-  const reqPromise = new Promise((r, x) => {
-    resolve = r
-    reject = x
-  })
-  reqQue.push({ url, signal, resolve, reject })
-  startQue()
-  return reqPromise
-}
-
-async function startQue() {
-  if (queIsRunning) return
-  queIsRunning = true
-  while (reqQue.length) {
-    const { url, signal, resolve, reject } = reqQue.pop()
-    let err
-    const res = await fetch(baseURL + url, { method: 'GET', headers, signal }).catch(e => err = e)
-    await new Promise(r => setTimeout(r, 300))
-    if (err) {
-      reject(err)
-    }
-    resolve(res) 
-  }
-  queIsRunning = false
-}
-
-
-async function stream(url, handler, onDone) {
+async function stream(url, handler, onDone, isRestart) {
   const controller = new AbortController()
   const signal = controller.signal
   let lastStreamPing
   let streamIsOpen = true
-  const res = await queReq(url, signal) //fetch(baseURL + url, { method: 'GET', headers, signal })
+  const res = await queReq(url, signal, isRestart)
 
-  const restart = async () => restartStream(url, handler, onDone, onErr)
+  const restart = async (reason) => {
+    console.log(chalk.magentaBright(`restarting ${url} stream for ${reason}`))
+    reportFailure()
+    stream(url, handler, onDone, onErr)
+  }
 
   const onErr = async (err) => {
     console.error(chalk.red(`${url} stream error: ${err}`))
@@ -213,12 +185,11 @@ async function stream(url, handler, onDone) {
       controller.abort()
       return 
     }
-    await restart() // restartStream(url, handler, onDone, onErr)
+    await restart('stream error') 
   }
 
   if (!res.ok) {
-    console.log(res.status)
-    restart() // restartStream(url, handler, onDone, onErr)
+    restart('bad response') 
     return { res, restart }
   }
 
@@ -227,8 +198,7 @@ async function stream(url, handler, onDone) {
       const streamPingGap = Date.now() - lastStreamPing || 0
       // console.log(url, streamPingGap)
       if (streamPingGap > 6500) {
-        console.log(chalk.magenta(url, ' stream is idle, restarting'))
-        restart() // restartStream(url, handler, onDone, onErr)
+        restart('idle stream') 
         break
       }
       await new Promise(r => setTimeout(r, 3000))
@@ -282,35 +252,69 @@ async function testStreamFailure(controller, failTime ) {
   controller.abort()
 }
 
-// let backoff = 1000
-// let lastFailureTime = Date.now()
+const reqQue = []
+let queIsRunning = false
+function queReq(url, signal, isRestart) {
+  let resolve
+  let reject
+  const reqPromise = new Promise((r, x) => {
+    resolve = r
+    reject = x
+  })
+  reqQue.push({ url, signal, resolve, reject, isRestart })
+  startQue()
+  return reqPromise
+}
+
+async function startQue() {
+  if (queIsRunning) return
+  queIsRunning = true
+  while (reqQue.length) {
+    const { url, signal, resolve, reject, isRestart } = reqQue.pop()
+
+    let waitTime = getBackoffTime()
+    // console.log('waiting', waitTime)
+    await new Promise(r => setTimeout(r, waitTime))
+
+    let err
+    const res = await fetch(baseURL + url, { method: 'GET', headers, signal }).catch(e => err = e)
+    if (err) {
+      reject(err)
+      continue
+    }
+
+    resolve(res) 
+  }
+  queIsRunning = false
+}
+
 const backoffMap = {}
 const backoffThreshold = 60 * 1000
 const maxBackoff = 10 * 60 * 1000
-async function restartStream(url, handler, onDone, onErr) {
-  backoffMap[url] = backoffMap[url] || { lastFailureTime: Date.now(), backoff: 1000 }
-  const failureInterval = Date.now() - backoffMap[url].lastFailureTime
+const backoffStart = 500
+let lastFailureTime = Date.now() - backoffThreshold
+let backoff = backoffStart
+function getBackoffTime() {
+  const failureInterval = Date.now() - lastFailureTime
 
   // if it's been a long time since the last error reset the backoff
-  if (failureInterval > backoffThreshold) backoffMap[url].backoff = 1000
-  backoffMap[url].lastFailureTime = Date.now()
-  
-  console.error(chalk.magentaBright(`restarting ${url} stream in ${backoffMap[url].backoff/1000} seconds`))
-  await new Promise(r => setTimeout(r, backoffMap[url].backoff))
-
-  // increase the backoff for the next restart up to the max backoff
-  backoffMap[url].backoff = backoffMap[url].backoff * 2
-  if (backoffMap[url].backoff > maxBackoff) backoffMap[url].backoff = maxBackoff
-
-  let err
-  const { res } = await stream(url, handler, onDone, onErr).catch(e => err = e)
-  if (err) {
-    console.error(chalk.red(`GET ${url} stream ${err.code}`))
-    restartStream(url, handler, onDone, onErr)
-    return
+  if (backoff > backoffStart && failureInterval > backoffThreshold) { 
+    console.log(chalk.magentaBright(`resetting backoff time to ${backoffStart}`))
+    backoff = backoffStart
   }
-  if (!res.ok) {
-    console.error(chalk.red(`GET ${url} stream ${res.status}  ${res.statusText}`))
-    restartStream(url, handler, onDone, onErr)
-  }
+  return backoff
 }
+
+function reportFailure() {
+  lastFailureTime = Date.now()
+  
+  // increase the backoff for the next restart up to the max backoff
+  backoff = backoff * 2
+  if (backoff > maxBackoff) {
+    backoff = maxBackoff
+    console.log(chalk.magentaBright(`max backoff time reached ${backoff}`))
+    return 
+  }
+  console.log(chalk.magentaBright(`backoff time set to ${backoff}`))
+}
+

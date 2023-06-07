@@ -1,25 +1,48 @@
-......Launch Version......
-registration frontend
-  x signin
-  x signin error redirect
-  disclaimer
-    x accept
-    don't accept?
-  x upload engine
-  upload error
-  x intro text
-  x demo bypass
+...Today...
 end of game message frontend
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+......Launch Version......
+.....launch ideas backlog...........
 
 frontend uses backend registration
 registration backend
 fake demo games when bot browsing
 
-
-
 github readme describing technical aspects
 chess.com post
-
 user stats
 disable direct lichess play
 FAQ
@@ -27,7 +50,6 @@ demo video
 publishable backend with injected CM assets
 seo
 disclaimer in main app
-
 real demo games  
 
 
@@ -44,6 +66,16 @@ phone nav
   x fix phone navigation
   x lock router on game starts to mitigate funky states
   x fix group nav for phone mode
+  x registration frontend
+  x signin
+  x signin error redirect
+  x disclaimer
+    x accept
+    /don't accept?
+  x upload engine
+  upload error?
+  x intro text
+  x demo bypass
 
 fix error and start messages
   x make more logical component layout
@@ -199,12 +231,6 @@ fix no chat message sent after aborted game
   probably caused by duplicate messages sent to chat in quick sequence
 
 
-
-
-
-
-
-
 ....Backend....
 x? backend sends game info to db
 bot problems
@@ -212,6 +238,7 @@ bot problems
   stream handling? 
 
 solve dropped lines?
+
 
 ....Issues.....
 longer running backend
