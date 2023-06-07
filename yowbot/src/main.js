@@ -74,7 +74,9 @@ async function handleChallenge(challenge) {
 
   const isValidVariatn = validVariants.includes(challenge.variant.key)
   const isValidSpeed = validSpeeds.includes(challenge.speed)
-  console.log(`${challenge.id} validVariant: ${isValidVariatn} validSpeed ${isValidSpeed}`)
+  const isValidUser = gameManager.checkIsValidUser(challenge.challenger.id)
+
+  console.log(`${challenge.id} validVariant: ${isValidVariatn} validSpeed: ${isValidSpeed} validUser: ${isValidUser}`)
   // console.log(challenge.variant.key)
   // console.log( challenge.speed)
 
@@ -84,9 +86,11 @@ async function handleChallenge(challenge) {
     declineReason = 'standard'
   } else if (!validSpeeds.includes(challenge.speed)) {
     declineReason = 'timeControl'
+  } else if (!isValidUser) {
+    declineReason = 'later'
   }
 
-  if (isValidVariatn && isValidSpeed) {
+  if (isValidVariatn && isValidSpeed && isValidUser) {
     console.log(`Accepting challenge ${challenge.id} from ${challenge.challenger.id}`)
     const res = await api.acceptChallenge(challenge.id)
   } else {

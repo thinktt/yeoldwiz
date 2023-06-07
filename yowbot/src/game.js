@@ -350,14 +350,23 @@ async function create(gameId) {
   return game
 }
 
-
 // given a color and a list of move determine if it's this colors move
 function isTurn(color, moves) {
   var parity = moves.length % 2;
   return (color === "white") ? (parity === 0) : (parity === 1);
 }
 
+function checkIsValidUser(user) {
+  // if this user is currently playing any games they cannot play more
+  for (const gameId in gameMap) {
+    const game = gameMap[gameId]
+    if (game.lichessOpponent === user && !game.streamIsClosed) return false
+  }
+  return true
+}
+
 
 module.exports = {
   create,
+  checkIsValidUser,
 }
