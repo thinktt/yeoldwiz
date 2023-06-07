@@ -70,27 +70,36 @@ async function handleChallenge(challenge) {
   }
 
   const validVariants = ['standard']
-  const validSpeeds = ['bullet', 'blitz', 'rapid', 'classical', 'correspondence']
+  const validSpeeds = ['blitz', 'rapid', 'classical', 'correspondence']
 
   const isValidVariatn = validVariants.includes(challenge.variant.key)
   const isValidSpeed = validSpeeds.includes(challenge.speed)
   const isValidUser = gameManager.checkIsValidUser(challenge.challenger.id)
+  const isValidPlayerType = challenge.challenger.title !== 'BOT'
+  const isRated = challenge.rated
 
-  console.log(`${challenge.id} validVariant: ${isValidVariatn} validSpeed: ${isValidSpeed} validUser: ${isValidUser}`)
-  // console.log(challenge.variant.key)
-  // console.log( challenge.speed)
+  console.log(
+    `${challenge.id} ` + 
+    `validVariant: ${isValidVariatn} ` +
+    `validSpeed: ${isValidSpeed} validUser: ${isValidUser} ` +
+    `validPlayerType: ${isValidPlayerType} ` + 
+    `isRated: ${isRated}`
+  )
+  // console.log(challenge)
 
     
   let declineReason = 'generic'
-  if (!validVariants.includes(challenge.variant.key)) {
+  if (!isValidPlayerType) {
+    declineReason = 'noBot'
+  } else  if (!validVariants.includes(challenge.variant.key)) {
     declineReason = 'standard'
   } else if (!validSpeeds.includes(challenge.speed)) {
-    declineReason = 'timeControl'
+    declineReason = 'tooFast' // 'timeControl'
   } else if (!isValidUser) {
     declineReason = 'later'
   }
 
-  if (isValidVariatn && isValidSpeed && isValidUser) {
+  if (isValidVariatn && isValidSpeed && isValidUser && isValidPlayerType) {
     console.log(`Accepting challenge ${challenge.id} from ${challenge.challenger.id}`)
     const res = await api.acceptChallenge(challenge.id)
   } else {
