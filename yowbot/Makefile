@@ -37,6 +37,7 @@ dist: books
 	build/buildKing.sh
 	GOOS=windows GOARCH=386 go build -o dist/enginewrap.exe  src/main.go 
 	GOOS=linux go build -o dist/enginewrap  src/main.go 
+	
 	node build/personalitiesBuilder.js
 	ln -rs node_modules dist/
 	ln src/*.js dist/
