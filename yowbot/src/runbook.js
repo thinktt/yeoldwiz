@@ -22,6 +22,14 @@ async function getNextMove(moves, bookName) {
 
   const chess = chessTools.create()
   chess.applyMoves(moves)
+  
+  // need a quick hack to check if there was a iliegal move
+  // if there was one history will be shorter than what we put in
+  if (chess.history().length != moves.length) {
+    console.error("illegal move detected")
+    process.exit(1)
+  }
+
   const legalMoves = chess.legalMoves()
   
   // if there are no legal moves then return

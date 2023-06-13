@@ -2,7 +2,22 @@ JS_FILES := $(wildcard *.txt)
 BINS := $(JS_FILES:%.txt=%)
 
 .PHONY: run docal getclocks dbuild drun din dcal clean books2bin \
-	rmbooks  reset eep testengine cpbadbooks push
+	rmbooks  reset eep testengine cpbadbooks push runbook runbinbook\
+	brunbook
+
+runbook: dist
+	cd dist; \
+	node runbook.js '{"moves": ["d2d4", "c7c5", "c2c4", "c5d4"], "book": "EarlyQueen.bin"}'
+	# node runbook.js '{"moves": [], "book": "EarlyQueen.bin"}'
+
+runbinbook: dist
+	cd dist; \
+	./runbook '{"moves": ["d2d4"], "book": "EarlyQueen.bin"}'
+
+brunbook:
+	cd dist; \
+	pkg runbook.js -o runbook -t node18-linux-x64
+
 
 push:
 	docker push ace:5000/yeoldwiz
