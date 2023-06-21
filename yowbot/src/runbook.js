@@ -8,7 +8,7 @@ let input
 try {
   input = JSON.parse(jsonStr)
 } catch (e) {
-  console.error(`error parsing json input: ${e}`)
+  process.stderr.write(`error parsing json input: ${e}`)
   process.exit(1)
 }
 
@@ -26,7 +26,7 @@ async function getNextMove(moves, bookName) {
   // need a quick hack to check if there was a iliegal move
   // if there was one history will be shorter than what we put in
   if (chess.history().length != moves.length) {
-    console.error("illegal move detected")
+    process.stderr.write("illegal move detected")
     process.exit(1)
   }
 
@@ -34,23 +34,23 @@ async function getNextMove(moves, bookName) {
   
   // if there are no legal moves then return
   if (!legalMoves.length) {
-    console.error("no legal moves")
+    process.stderr.write("no legal moves")
     process.exit(1)
   }
 
   let err = null 
   const bookMove = await book.getHeavyMove(chess.fen(), bookName).catch(e => err = e)
   if (err) {
-    console.error(`error getting book move: ${err.message}`)
+    process.stderr.write(`error getting book move: ${err.message}`)
     process.exit(1)
   }
 
   if (bookMove == "") {
-    console.error("no book move")
+    process.stderr.write("no book move")
     process.exit(1) 
   }
 
-  console.log(`${bookMove}`)
+  process.stdout.write(`${bookMove}`)
   process.exit(0)
 }
 

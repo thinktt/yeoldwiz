@@ -17,7 +17,7 @@ async function getHeavyMove(fen, book) {
   let err = null
   let bookMoves = await getAllBookMoves(fen, book).catch(e => err = e)
   if (err) {
-    console.error(`error getting book moves: ${err.message}`)
+    process.stderr.write(`error getting book moves: ${err.message}`)
     process.exit(1)
   }
   if (!bookMoves) return ""
@@ -50,7 +50,7 @@ async function getAllBookMoves(fen, bookName) {
       try {
         moves = book.find(fen)
       } catch (err) {
-        console.error(`Failed to get book moves: ${err.message}`)
+        process.stderr.write(`Failed to get book moves: ${err.message}`)
         // reject(err)
       }
       resolve(moves)
@@ -59,7 +59,7 @@ async function getAllBookMoves(fen, bookName) {
   
   const bookStream = fs.createReadStream(bookPath)
   bookStream.on("error", (err) => {
-    console.error(`Failed to get book: ${err.message}`)
+    process.stderr.write(`Failed to get book: ${err.message}`)
     process.exit(1)
   })
   book.load_book(bookStream)
