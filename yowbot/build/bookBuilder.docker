@@ -6,10 +6,12 @@ RUN wine cmd /c echo Wine is setup || true
 
 WORKDIR /opt
 COPY assets/cm/books/ books/
-COPY assets/node books/
 COPY assets/tools/obk2bin.exe books/
 COPY build/books2bin.sh books/
 COPY build/normalizeBooks.js books/
+
+COPY --from=node:16-buster-slim /usr/local/bin/node books/
+
 
 WORKDIR /opt/books
 

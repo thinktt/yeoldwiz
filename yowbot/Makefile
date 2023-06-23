@@ -90,9 +90,9 @@ getclocks: dist
 
 reset: 
 	rm -rf dist
-	rm books
-	docker rm bookbuilder
-	docker rmi bookbuilder
+	rm books || true
+	docker rm bookbuilder || true
+	docker rmi bookbuilder || true
 	rm dist.tar || true
 
 clean:

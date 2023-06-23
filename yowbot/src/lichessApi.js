@@ -202,6 +202,7 @@ async function stream(url, handler, onDone, isRestart) {
         break
       }
       await new Promise(r => setTimeout(r, 3000))
+      // if (url === "api/stream/event") console.log(streamPingGap)
     }
   }
 
