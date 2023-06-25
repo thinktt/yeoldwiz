@@ -15,7 +15,8 @@ dorunbinbook: dist
 	./runbook '{"moves": ["d2d4"], "book": "EarlyQueen.bin"}'; \
 	echo
 
-runbook:
+
+:
 	cd dist; \
 	pkg runbook.js -o runbook -t node18-linux-x64
 
@@ -36,7 +37,8 @@ dbuild: dist.tar
 
 dcal: dbuild
 	docker rm calibrator || true
-	docker run -v calibrations:/opt/yeoldwiz/calibrations --name calibrator ace:5000/yeoldwiz ./node calibrate.js
+	# docker run -v calibrations:/opt/yeoldwiz/calibrations --name calibrator ace:5000/yeoldwiz ./node docalibrate.js
+	docker run -it -v calibrations:/opt/yeoldwiz/calibrations --name calibrator ace:5000/yeoldwiz /bin/bash
 
 dist.tar: dist
 	rm ./dist/clockTimes.json || true
@@ -51,7 +53,8 @@ dist: books
 	cp -r cals/targets dist/targets
 	docker cp bookbuilder:opt/binbooks/. dist/books/
 	build/buildKing.sh
-	GOOS=windows GOARCH=386 go build -o dist/enginewrap.exe  src/main.go 
+	# GOOS=windows GOARCH=386 go build -o dist/enginewrap.exe  src/main.go
+	cp assets/enginewrap.exe dist/enginewrap.exe 
 	GOOS=linux go build -o dist/enginewrap  src/main.go 
 	
 	node build/personalitiesBuilder.js
