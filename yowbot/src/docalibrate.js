@@ -20,19 +20,26 @@ let pipeBurst = 0
 engine.setLogLevel('silent')
 
 calibrateGroups()
+// doBestAccurateClocks('Easy')
+console.log('Howdy')
+
 async function calibrateGroups() {
-  await doCalibrations(cmpEasyNames, 'Easy')
+  // await doCalibrations(cmpEasyNames, 'Easy')
   await doCalibrations(cmpHardNames, 'Hard')
   await doCalibrations(cmpGmNames, 'Gm')
 }
 
 async function doCalibrations(cmpNames, groupName) {
+
+  // check to see if we have clocks for this group already, if so no calibration needed
   let doneClocks = await loadFile(`./calibrations/clockTimes.json`)
   if(doneClocks && doneClocks[groupName]) {
     console.log(chalk.magentaBright(`Found ${groupName} clock time: ${doneClocks[groupName]}`))
     return
   }
 
+  // initalize the calibration files and run the engine to the target stop ids
+  // then find an average time to reach the targets for each player
   let averageTimeSum = 0
   for (const cmpName of cmpNames) {
     const averageTime = await initCalibrationFile(cmpName)
@@ -94,19 +101,25 @@ async function doCalibrations(cmpNames, groupName) {
     }
   }
 
-  doBestAccurateClocks(groupName)
-  doBestUnderClocks(groupName)
+  // doBestAccurateClocks(groupName)
+  // doBestUnderClocks(groupName)
 
 }   
 
+
+// I think the idea of this mess (since I've kind of forgotren) is to cross select
+// the most accurate (by id) with the most "under accuracy" which means it's
+// less strong than the original move ids
 async function doBestAccurateClocks(groupName) {
     // find the best run from our pool of all runs
     let runSums = await loadFile(`./calibrations/runSums${groupName}.json`) 
     const runs = runSums.runs
     const sortedRuns  = runs.slice().sort((run0, run1) => run0.idAccuracy - run1.idAccuracy)
     const topAccurateRuns = sortedRuns.slice(-4)
-    const bottomRuns = sortedRuns.slice(0, -4)
-  
+    const bottomRuns = sortedRuns.slice(4)
+    const previousRun = bottomRuns.pop()
+    console.log(previousRun)
+
     // include any ties for the last spot in the candidate pool
     while(true) {
       const previousRun = bottomRuns.pop()
@@ -616,7 +629,8 @@ async function buildCalibrationFile(cmpName, clockTime) {
   return run
 }
 
-
+// using the target stop ids we record run[0] in a calibration file using
+// the moves from this run we get average time used as start time for run[1]  
 async function initCalibrationFile(cmpName) {
   const previousCalibration = await loadFile(`./calibrations/${cmpName}.json`)
   if (previousCalibration) {

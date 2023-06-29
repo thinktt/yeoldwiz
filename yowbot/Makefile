@@ -1,13 +1,19 @@
 JS_FILES := $(wildcard *.txt)
 BINS := $(JS_FILES:%.txt=%)
 
-.PHONY: run docal getclocks dbuild drun din dcal clean books2bin \
-	rmbooks  reset eep testengine cpbadbooks push dorunbook dorunbinbook
+.PHONY: run docal getclocks dbuild drun din dodcal clean books2bin \
+	rmbooks  reset eep testengine cpbadbooks push dorunbook dorunbinbook \
+	dopushdcal
+
+dopushdcal:
+	scp dist/docalibrate.js yowking:/home/toby/
+	ssh yowking 'sudo docker cp /home/toby/docalibrate.js cal1:/opt/yeoldwiz/'
+
 
 dorunbook: dist
 	cd dist; \
 	node runbook.js '{"moves": ["d2d4", "c7c5", "c2c4", "c5d4"], "book": "EarlyQueen.bin"}'; \
-	echo 
+	echo
 	# node runbook.js '{"moves": [], "book": "EarlyQueen.bin"}'
 
 dorunbinbook: dist
@@ -15,8 +21,20 @@ dorunbinbook: dist
 	./runbook '{"moves": ["d2d4"], "book": "EarlyQueen.bin"}'; \
 	echo
 
+docal: dist
+	cd dist; \
+	./node docalibrate.js
 
-:
+export CAL_NAME=cal1-1cpu
+
+dodcal: dbuild
+	docker rm ${CAL_NAME} || true
+	docker run --cpus=1 --cpuset-cpus=4 \
+		-v ${CAL_NAME}:/opt/yeoldwiz/calibrations \
+		--name ${CAL_NAME} -it ace:5000/yeoldwiz /bin/sh
+		# ace:5000/yeoldwiz ./node docalibrate.js
+
+runbook:
 	cd dist; \
 	pkg runbook.js -o runbook -t node18-linux-x64
 
@@ -25,20 +43,15 @@ push:
 	docker push ace:5000/yeoldwiz
 
 din:
-	docker run --rm -it -v calibrations:/opt/yeoldwiz/calibrations --name yeoldwiz ace:5000/yeoldwiz /bin/bash 
+	docker run --rm -it -v calibrations:/opt/yeoldwiz/calibrations --name yeoldwiz ace:5000/yeoldwiz /bin/bash
 
 drun: dbuild
-	docker run -v calibrations:/opt/yeoldwiz/cals/xps --name yeoldwiz ace:5000/yeoldwiz 
+	docker run -v calibrations:/opt/yeoldwiz/cals/xps --name yeoldwiz ace:5000/yeoldwiz
 
 dbuild: dist.tar
 	docker rm yeoldwiz || true
 	docker image rm ace:5000/yeoldwiz:latest || true
 	docker build -t ace:5000/yeoldwiz .
-
-dcal: dbuild
-	docker rm calibrator || true
-	# docker run -v calibrations:/opt/yeoldwiz/calibrations --name calibrator ace:5000/yeoldwiz ./node docalibrate.js
-	docker run -it -v calibrations:/opt/yeoldwiz/calibrations --name calibrator ace:5000/yeoldwiz /bin/bash
 
 dist.tar: dist
 	rm ./dist/clockTimes.json || true
@@ -54,9 +67,9 @@ dist: books
 	docker cp bookbuilder:opt/binbooks/. dist/books/
 	build/buildKing.sh
 	# GOOS=windows GOARCH=386 go build -o dist/enginewrap.exe  src/main.go
-	cp assets/enginewrap.exe dist/enginewrap.exe 
-	GOOS=linux go build -o dist/enginewrap  src/main.go 
-	
+	cp assets/enginewrap.exe dist/enginewrap.exe
+	GOOS=linux go build -o dist/enginewrap  src/main.go
+
 	node build/personalitiesBuilder.js
 	ln -rs node_modules dist/
 	ln src/*.js dist/
@@ -82,15 +95,11 @@ run: dist
 	# cd dist; \
 	# node main.js
 
-docal: dist
-	cd dist; \
-	./node docalibrate.js
-
 getclocks: dist
 	cp ./cals/xps/run1/clockTimes.json ./dist/calibrations/
 
 
-reset: 
+reset:
 	rm -rf dist
 	rm books || true
 	docker rm bookbuilder || true
@@ -115,11 +124,11 @@ eep:
 	scp -r dist/*.js eep:~/yowbot/
 	scp -r dist/testPositions.json eep:~/yowbot/
 
-gettargets: 
+gettargets:
 	mkdir dist/calibrations/targets || true
 	scp -r eep:~/yowbot/calibrations/* dist/calibrations/targets
 
-testengine: 
+testengine:
 	cd dist; \
 	node testengine.js
 
