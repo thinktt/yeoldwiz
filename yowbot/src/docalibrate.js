@@ -25,8 +25,8 @@ calibrateGroups()
 async function calibrateGroups() {
   
   
-  await doCalibrations(cmpEasyNames, 'Easy')
-  // await doBestAccurateClocks('Easy')
+  // await doCalibrations(cmpEasyNames, 'Easy')
+  await doBestAccurateClocks('Easy')
   // await doCalibrations(cmpHardNames, 'Hard')
   // await doCalibrations(cmpGmNames, 'Gm')
 }
@@ -35,7 +35,7 @@ async function doCalibrations(cmpNames, groupName) {
 
   // check to see if we have clocks for this group already, if so no calibration needed
   let doneClocks = await loadFile(`./calibrations/clockTimes.json`)
-  if(doneClocks && doneClocks[groupName]) {
+  if (doneClocks && doneClocks[groupName]) {
     console.log(chalk.magentaBright(`Found ${groupName} clock time: ${doneClocks[groupName]}`))
     return
   }
@@ -71,18 +71,28 @@ async function doCalibrations(cmpNames, groupName) {
     lastRun = runSums.runs[runSums.runs.length - 1]
     clockTime = lastRun.clockTime
   } else {
-    clockTime = runSums.initTime
+    // set the clock time add 50 so we start at the actual averged time
+    clockTime = runSums.initTime + 50
+    console.log(chalk.green(`Starting with intial time ${runSums.initTime} from crank down`))
   }
 
   while(true) {
     clockTime = clockTime - 50
     const runSum = await doRuns(cmpNames, clockTime)
     console.log(chalk.magenta(runSum.idAccuracy, runSum.realAccuracy, runSum.underAccuracy))
+    
     await logCalibrationSums(cmpNames, clockTime, groupName)
     
     runSums.runs.push(runSum)
     await fs.writeFile(`./calibrations/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
-    
+
+    // if we have low match rate but under four runs move up 300 clock points
+    if (runSum.idAccuracy < 80 && runSums.runs.length < 4) {
+      console.log(chalk.yellow("Low id accuracy, under 4 runs, increasing clock time"))
+      clockTime = clockTime + 300
+      continue
+    }
+
     // let's blow this taco stand and go home
     if (runSum.idAccuracy < 80 && runSum.underAccuracy > 90) {
       console.log(chalk.magentaBright('Low end and under 80, stopping runs'))
@@ -114,34 +124,55 @@ async function doBestAccurateClocks(groupName) {
     // find the best run from our pool of all runs
     let runSums = await loadFile(`./calibrations/runSums${groupName}.json`) 
     const runs = runSums.runs
+    
+    // get the top 4 most accurate runs
     const sortedRuns  = runs.slice().sort((run0, run1) => run0.idAccuracy - run1.idAccuracy)
     const topAccurateRuns = sortedRuns.slice(-4)
-    const bottomRuns = sortedRuns.slice(4)
-    const previousRun = bottomRuns.pop()
-    console.log(previousRun)
 
-    // include any ties for the last spot in the candidate pool
-    while(true) {
-      const previousRun = bottomRuns.pop()
-      if (previousRun.idAccuracy === topAccurateRuns[0].idAccuracy) {
-         topAccurateRuns.unshift(previousRun)
-      } else {
-        break
-      }
-    }
-  
     const topAccurateByUnder = topAccurateRuns.slice().sort((run0, run1) => 
       run0.underAccuracy - run1.underAccuracy
-    )
-    const finalClockTime = topAccurateByUnder.slice(-1).pop().clockTime
+    ) 
 
-    // runSums = { ...runSums, topAccurateRuns, topAccurateByUnder }
-    // await fs.writeFile(`./calibrations/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
-    
+    const winningRun = topAccurateByUnder.slice(-1)
+    const finalClockTime = winningRun[0].clockTime
+
+    // load any previous clock times
     let clockTimes = await loadFile('./calibrations/clockTimes.json')
     if (!clockTimes) clockTimes = {}
+
+    // add clock time to previous clock times and save
     clockTimes[groupName] = finalClockTime
     await fs.writeFile(`./calibrations/clockTimes.json`, JSON.stringify(clockTimes, null, 2))
+    console.log(chalk.yellow(JSON.stringify(topAccurateByUnder, null, 2)))
+    console.log(chalk.yellow('picked clockTime: ', finalClockTime))
+
+
+    // const bottomRuns = sortedRuns.slice(4)
+    // const previousRun = bottomRuns.pop()
+    // console.log(previousRun)
+
+    // // include any ties for the last spot in the candidate pool
+    // while(true) {
+    //   const previousRun = bottomRuns.pop()
+    //   if (previousRun.idAccuracy === topAccurateRuns[0].idAccuracy) {
+    //      topAccurateRuns.unshift(previousRun)
+    //   } else {
+    //     break
+    //   }
+    // }
+  
+    // const topAccurateByUnder = topAccurateRuns.slice().sort((run0, run1) => 
+    //   run0.underAccuracy - run1.underAccuracy
+    // )
+    // const finalClockTime = topAccurateByUnder.slice(-1).pop().clockTime
+
+    // // runSums = { ...runSums, topAccurateRuns, topAccurateByUnder }
+    // // await fs.writeFile(`./calibrations/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
+    
+    // let clockTimes = await loadFile('./calibrations/clockTimes.json')
+    // if (!clockTimes) clockTimes = {}
+    // clockTimes[groupName] = finalClockTime
+    // await fs.writeFile(`./calibrations/clockTimes.json`, JSON.stringify(clockTimes, null, 2))
 }
 
 // doBestUnderClocks('Easy')

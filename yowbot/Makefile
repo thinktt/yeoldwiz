@@ -25,7 +25,7 @@ docal: dist
 	cd dist; \
 	./node docalibrate.js
 
-export LOGICAL_PROCESSOR=2
+export LOGICAL_PROCESSOR=5
 export CAL_NAME=cal${LOGICAL_PROCESSOR}
 
 dodcal:
