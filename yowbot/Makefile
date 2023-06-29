@@ -25,13 +25,16 @@ docal: dist
 	cd dist; \
 	./node docalibrate.js
 
-export CAL_NAME=cal1-1cpu
+export LOGICAL_PROCESSOR=2
+export CAL_NAME=cal${LOGICAL_PROCESSOR}
 
-dodcal: dbuild
+dodcal:
 	docker rm ${CAL_NAME} || true
-	docker run --cpus=1 --cpuset-cpus=4 \
+	docker run --cpus=1 --cpuset-cpus=${LOGICAL_PROCESSOR} \
+		--platform linux/386 \
 		-v ${CAL_NAME}:/opt/yeoldwiz/calibrations \
-		--name ${CAL_NAME} -it ace:5000/yeoldwiz /bin/sh
+		--name ${CAL_NAME} -it ace:5000/yeoldwiz \
+		/bin/sh
 		# ace:5000/yeoldwiz ./node docalibrate.js
 
 runbook:

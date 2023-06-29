@@ -13,20 +13,22 @@ const { start } = require('repl')
 const { load } = require('dotenv')
 const chess = chessTools.create() 
 let logData = ''
-const cmpEasyNames = ['Joey', 'Marius', 'Sam', 'Willow', 'Risa', 'Mark']
+// const cmpEasyNames = ['Joey', 'Marius', 'Sam', 'Willow', 'Risa', 'Mark']
+const cmpEasyNames = ['Joey', 'Marius', 'Sam']
 const cmpHardNames = ['Orin', 'Josh7', 'Mariah', 'Ginger', "Mateo", 'Queenie']
 const cmpGmNames = ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard']
 let pipeBurst = 0
 engine.setLogLevel('silent')
 
 calibrateGroups()
-// doBestAccurateClocks('Easy')
-console.log('Howdy')
 
 async function calibrateGroups() {
-  // await doCalibrations(cmpEasyNames, 'Easy')
-  await doCalibrations(cmpHardNames, 'Hard')
-  await doCalibrations(cmpGmNames, 'Gm')
+  
+  
+  await doCalibrations(cmpEasyNames, 'Easy')
+  // await doBestAccurateClocks('Easy')
+  // await doCalibrations(cmpHardNames, 'Hard')
+  // await doCalibrations(cmpGmNames, 'Gm')
 }
 
 async function doCalibrations(cmpNames, groupName) {
@@ -56,7 +58,7 @@ async function doCalibrations(cmpNames, groupName) {
     console.log(chalk.green('cranking down from', clockTime))
     clockTime = await clockStrategy2(cmpNames, clockTime, groupName)
    
-    console.log(chalk.green('Intitializing runSums.json file'))
+    console.log(chalk.green(`Intitializing runSums${groupName}.json file`))
     console.log(chalk.green('Setting init clock time to', clockTime))
     runSums = runSums || { initTime: clockTime, runs : [] }
     await fs.writeFile(`./calibrations/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
@@ -72,39 +74,37 @@ async function doCalibrations(cmpNames, groupName) {
     clockTime = runSums.initTime
   }
 
-  
-  const doRuns = async (cmpNames, clockTime) => {
-    const runs = []
-    for (const cmpName of cmpNames) {
-      process.stdout.write(chalk.green(`Running ${cmpName} @ ${clockTime} `))
-      const run = await buildCalibrationFile(cmpName, clockTime)
-      console.log(chalk.blue(run.idAccuracy, run.realAccuracy, run.underAccuracy, run.highCount, 
-        run.lowCount, run.desperados))
-      runs.push(run) 
-    }
-    const runSum = getRunSum(runs) 
-    runSums.runs.push(runSum)
-    await fs.writeFile(`./calibrations/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
-    return runSum
-  }
-
   while(true) {
     clockTime = clockTime - 50
     const runSum = await doRuns(cmpNames, clockTime)
     console.log(chalk.magenta(runSum.idAccuracy, runSum.realAccuracy, runSum.underAccuracy))
     await logCalibrationSums(cmpNames, clockTime, groupName)
-
+    
+    runSums.runs.push(runSum)
+    await fs.writeFile(`./calibrations/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
+    
     // let's blow this taco stand and go home
     if (runSum.idAccuracy < 80 && runSum.underAccuracy > 90) {
       console.log(chalk.magentaBright('Low end and under 80, stopping runs'))
       break
     }
   }
+}
 
-  // doBestAccurateClocks(groupName)
-  // doBestUnderClocks(groupName)
-
-}   
+// given a cmpName and a clocktime run through every test move
+// return the run summary of all the moves for this personality
+async function doRuns(cmpNames, clockTime) {
+  const runs = []
+  for (const cmpName of cmpNames) {
+    process.stdout.write(chalk.green(`Running ${cmpName} @ ${clockTime} `))
+    const run = await buildCalibrationFile(cmpName, clockTime)
+    console.log(chalk.blue(run.idAccuracy, run.realAccuracy, run.underAccuracy, run.highCount, 
+      run.lowCount, run.desperados))
+    runs.push(run) 
+  }
+  const runSum = getRunSum(runs) 
+  return runSum
+}
 
 
 // I think the idea of this mess (since I've kind of forgotren) is to cross select
