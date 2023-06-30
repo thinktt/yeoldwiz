@@ -17,7 +17,7 @@ book2bin(){
 
 # first we make all the books compatible with obk2bin.exe
 mkdir fixed
-./node normalizeBooks.js
+node normalizeBooks.js
 mv fixed/* .
 rm -rf fixed
 

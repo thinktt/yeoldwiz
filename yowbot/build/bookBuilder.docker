@@ -1,16 +1,22 @@
-FROM benjymous/docker-wine-headless
+FROM i386/alpine
 
-RUN apt update
-RUN apt install time
-RUN wine cmd /c echo Wine is setup || true
+RUN apk update
+RUN apk add wine
+RUN apk add nodejs
+RUN apk add vim
+RUN winecfg
+RUN apk add xvfb
+RUN apk add bash
+# RUN apk add time
+
+ENV WINEDEBUG=-all
+ENV DISPLAY=:0.0
 
 WORKDIR /opt
 COPY assets/cm/books/ books/
 COPY assets/tools/obk2bin.exe books/
 COPY build/books2bin.sh books/
 COPY build/normalizeBooks.js books/
-
-COPY --from=node:16-buster-slim /usr/local/bin/node books/
 
 
 WORKDIR /opt/books
