@@ -23,24 +23,19 @@ engine.setLogLevel('silent')
 calibrateGroups()
 
 async function calibrateGroups() {
-  
-  
-  // await doCalibrations(cmpEasyNames, 'Easy')
-  await doBestAccurateClocks('Easy')
+  // if (clockTimeExists('Easy')) return
+  let initClocktime = await getInitColckTime(cmpEasyNames)
+  await doCalibrations(cmpEasyNames, 'Easy', initClocktime)
+  // await doBestAccurateClocks('Easy')
+
   // await doCalibrations(cmpHardNames, 'Hard')
+  // await doBestAccurateClocks('Hard')
   // await doCalibrations(cmpGmNames, 'Gm')
+  // await doBestAccurateClocks('Gm')
 }
 
-async function doCalibrations(cmpNames, groupName) {
-
-  // check to see if we have clocks for this group already, if so no calibration needed
-  let doneClocks = await loadFile(`./calibrations/clockTimes.json`)
-  if (doneClocks && doneClocks[groupName]) {
-    console.log(chalk.magentaBright(`Found ${groupName} clock time: ${doneClocks[groupName]}`))
-    return
-  }
-
-  // initalize the calibration files and run the engine to the target stop ids
+async function getInitColckTime(cmpNames) {
+   // initalize the calibration files and run the engine to the target stop ids
   // then find an average time to reach the targets for each player
   let averageTimeSum = 0
   for (const cmpName of cmpNames) {
@@ -50,6 +45,22 @@ async function doCalibrations(cmpNames, groupName) {
 
   // attempt to create a good starting time from stopId move times
   let clockTime = (Math.round((averageTimeSum / cmpNames.length) / 50) * 50 * 40) * 1.5
+  return clockTime
+}
+
+async function clockTimeExists(groupName) {
+  // check to see if we have clocks for this group already, if so no calibration needed
+  let doneClocks = await loadFile(`./calibrations/clockTimes.json`)
+  if (doneClocks && doneClocks[groupName]) {
+    console.log(chalk.magentaBright(`Found ${groupName} clock time: ${doneClocks[groupName]}`))
+    return true
+  }
+  return false
+}
+
+
+async function doCalibrations(cmpNames, groupName, initClockTime) {
+  let clockTime = initClockTime
 
   // Load or any previous calibration run summaries, or create the run file
   let runSums = await loadFile(`./calibrations/runSums${groupName}.json`)
@@ -86,18 +97,21 @@ async function doCalibrations(cmpNames, groupName) {
     runSums.runs.push(runSum)
     await fs.writeFile(`./calibrations/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
 
-    // if we have low match rate but under four runs move up 300 clock points
-    if (runSum.idAccuracy < 80 && runSums.runs.length < 4) {
-      console.log(chalk.yellow("Low id accuracy, under 4 runs, increasing clock time"))
-      clockTime = clockTime + 300
-      continue
-    }
-
-    // let's blow this taco stand and go home
+    // id accuracy is ver low and under accuracy is high, consider stopping
     if (runSum.idAccuracy < 80 && runSum.underAccuracy > 90) {
+     
+      // this should happening at the bottom of the runs, if it's not let's 
+      // increase our clock time to see if we can correct
+      if (runSums.runs.length < 4) {
+        console.log(chalk.yellow("Low id accuracy, under 4 runs, increasing clock time"))
+        clockTime = clockTime + 300
+        continue
+      }
+     
       console.log(chalk.magentaBright('Low end and under 80, stopping runs'))
       break
     }
+
   }
 }
 
@@ -665,10 +679,13 @@ async function buildCalibrationFile(cmpName, clockTime) {
 async function initCalibrationFile(cmpName) {
   const previousCalibration = await loadFile(`./calibrations/${cmpName}.json`)
   if (previousCalibration) {
-    console.log(chalk.green(`Calibration for ${cmpName} already intialized`))
-    return previousCalibration.runs[0].averageTime
+    const averageTime = previousCalibration.runs[0].averageTime
+    console.log(chalk.green(
+      `Calibration for ${cmpName} already intialized: ${averageTime} ${averageTime * 40}`)
+    )
+    return averageTime
   }
-  console.log(chalk.green(`Intializing ${cmpName}.json`))
+  process.stdout.write(chalk.green(`Intializing ${cmpName}.json `))
 
   const moves = await getStopMoves(cmpName, positions) 
   const { movesHash, idMash } = getMovesHash(moves) 
@@ -680,6 +697,7 @@ async function initCalibrationFile(cmpName) {
   calibration.movesHashMap[movesHash] = idMash
 
   await fs.writeFile(`./calibrations/${cmpName}.json`, JSON.stringify(calibration, null, 2))
+  console.log(chalk.blue(averageTime, averageTime * 40))
   return averageTime
 }
 

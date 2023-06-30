@@ -1,0 +1,13 @@
+6 threads, 3 cores
+All threads at same time, so 2 threads on a core
+Hard 11550
+
+1 thread 1 core no competition
+Hard 8550
+
+1cpu provision, 2 logical cpus, 1 core, 1 thread
+docker run --cpus=1 --cpuset-cpus=4,5
+Original Average 6000
+Start Clock 9000
+Crank Down Clock 6500
+Final Clock 6100

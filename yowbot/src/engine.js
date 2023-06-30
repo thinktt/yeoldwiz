@@ -287,7 +287,7 @@ function log2(data) {
 function setLogLevel(logLevelToSet) {
   logLevel = logLevelToSet
   if (logLevel === 'silent') {
-    console2 = { log() {} }
+    console2 = { log() {}, error: console.error}
   } else {
     console2 = console
   }

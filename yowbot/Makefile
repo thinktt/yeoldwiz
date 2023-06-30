@@ -9,6 +9,9 @@ dopushdcal:
 	scp dist/docalibrate.js yowking:/home/toby/
 	ssh yowking 'sudo docker cp /home/toby/docalibrate.js cal1:/opt/yeoldwiz/'
 
+dopushengine:
+	scp dist/engine.js 
+
 
 dorunbook: dist
 	cd dist; \
@@ -25,8 +28,8 @@ docal: dist
 	cd dist; \
 	./node docalibrate.js
 
-export LOGICAL_PROCESSOR=5
-export CAL_NAME=cal${LOGICAL_PROCESSOR}
+export LOGICAL_PROCESSOR=4,5
+export CAL_NAME=cal4and5
 
 dodcal:
 	docker rm ${CAL_NAME} || true
