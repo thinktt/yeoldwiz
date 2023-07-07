@@ -7,7 +7,359 @@ Hard 8550
 
 1cpu provision, 2 logical cpus, 1 core, 1 thread
 docker run --cpus=1 --cpuset-cpus=4,5
-Original Average 6000
-Start Clock 9000
-Crank Down Clock 6500
-Final Clock 6100
+  Original Average 6000
+  Start Clock 9000
+  Crank Down Clock 6500
+  Final Clock 6100
+
+1 logical cpus per container, 2 logic cpus total, 1 core
+docker run --cpus=1 --cpuset-cpus=4
+  Start Clock 9000
+  Crank Down Clock 6050
+  Final Clock Guess 6250
+docker run --cpus=1 --cpuset-cpus=5
+  Start Clock 9000
+  Crank Down Clock 6100
+  Final clock (guess) 6250
+
+
+1 logical cpu, 1 logic cpu total, 1core, no copentitor
+docker run --cpus=1 --cpuset-cpus=4
+  start clock 9000
+  crank down clock 6300
+  Final clock guess 5650
+
+Taskset cpu 2
+taskset -c 2 node docalibrate.js
+  Intializing Joey.json 154 6160
+  Intializing Marius.json 71 2840
+  Intializing Sam.json 86 3440
+  Intializing Willow.json 117 4680
+  Intializing Risa.json 143 5720
+  Intializing Mark.json 66 2640
+  Finding  intitial clock calibration time
+  cranking down from 6000
+looks like cpu 2 is loaded on windows
+htop on wsl shows load running on cpu 3
+  but does not show it at capacity
+
+docker container on cpu 2
+  Intializing Joey.json 194 7760
+  Intializing Marius.json 93 3720
+  Intializing Sam.json 114 4560
+  Intializing Willow.json 141 5640
+  Intializing Risa.json 173 6920
+  Intializing Mark.json 90 3600
+  Finding  intitial clock calibration time
+  cranking down from 9000
+htop shows load full load on cpu 3 in wsl
+Windows shows cpu 4 loading up
+recreated the container just to see if I saw consistent results
+  everything looks the same
+
+docker container cpu 2, docker container cpu 3,both running the load
+Windows
+  can see cpu 4 and 5 running, should be a single real core
+Cal2
+  Intializing Joey.json 194 7760
+  Intializing Marius.json 99 3960
+  Intializing Sam.json 120 4800
+  Intializing Willow.json 152 6080
+  Intializing Risa.json 182 7280
+  Intializing Mark.json 97 3880
+  Finding  intitial clock calibration time
+  cranking down from 9000
+Cal3
+  Intializing Joey.json 196 7840
+  Intializing Marius.json 100 4000
+  Intializing Sam.json 121 4840
+  Intializing Willow.json 152 6080
+  Intializing Risa.json 182 7280
+  Intializing Mark.json 97 3880
+  Finding  intitial clock calibration time
+  cranking down from 9000
+Notes
+ notice slight increases from previous above but not by much
+ still averaging out to about the same but may indictate  that we are
+ getting a bit higher due to simulatneou load on real core
+
+same as above add core 4, 3 container total, 3 logical cpus
+Windows 
+  see ;pad pm 4, 5, 6 as expected
+Cal2 
+  Intializing Joey.json 205 8200
+  Intializing Marius.json 106 4240
+  Intializing Sam.json 133 5320
+  Intializing Willow.json 164 6560
+  Intializing Risa.json 194 7760
+  Intializing Mark.json 103 4120
+  Finding  intitial clock calibration time
+  cranking down from 9000
+Cal3 
+  Intializing Joey.json 206 8240
+  Intializing Marius.json 106 4240
+  Intializing Sam.json 133 5320
+  Intializing Willow.json 165 6600
+  Intializing Risa.json 196 7840
+  Intializing Mark.json 104 4160
+  Finding  intitial clock calibration time
+  cranking down from 9000
+Cal4 
+  Intializing Joey.json 202 8080
+  Intializing Marius.json 105 4200
+  Intializing Sam.json 131 5240
+  Intializing Willow.json 163 6520
+  Intializing Risa.json 196 7840
+  Intializing Mark.json 103 4120
+  Finding  intitial clock calibration time
+  cranking down from 9000
+Notes
+  consistent increase across all cores, showing cores are not isolating
+
+XPS 5 Containers, 2 Logics per container, 1 Core per container
+docker cpu=2 cpuset=2,3 (5x for logic cpus across cores)
+  One running Alone:
+    Intializing Joey.json 165 6600
+    Intializing Marius.json 76 3040
+    Intializing Sam.json 92 3680
+    Intializing Willow.json 123 4920
+    Intializing Risa.json 151 6040
+    Intializing Mark.json 72 2880
+    Finding  intitial clock calibration time
+    cranking down from 6000
+  All Together:
+    Intializing Joey.json 199 7960
+    Intializing Marius.json 105 4200
+    Intializing Sam.json 131 5240
+    Intializing Willow.json 168 6720
+    Intializing Risa.json 199 7960
+    Intializing Mark.json 91 3640
+    Finding  intitial clock calibration time
+    cranking down from 9000
+
+XPS 5 Containers, 1 Logic per container, 1 core per container
+docker cpu=1 cpuset=2 (5x for single logic cpus across cores)
+  One Running alone:
+    Intializing Joey.json 179 7160
+    Intializing Marius.json 93 3720
+    Intializing Sam.json 115 4600
+    Intializing Willow.json 140 5600
+    Intializing Risa.json 168 6720
+    Intializing Mark.json 87 3480
+    Finding  intitial clock calibration time
+    cranking down from 9000
+  All together:
+    Intializing Joey.json 238 9520
+    Intializing Marius.json 129 5160
+    Intializing Sam.json 163 6520
+    Intializing Willow.json 205 8200
+    Intializing Risa.json 243 9720
+    Intializing Mark.json 130 5200
+    Finding  intitial clock calibration time
+    cranking down from 12000
+
+
+Azure VM 2vcpu, 1cpu per container, 2 containers
+Running together
+  Cal0
+    Intializing Joey.json 374 14960
+    Intializing Marius.json 198 7920
+    Intializing Sam.json 247 9880
+    Intializing Willow.json 300 12000
+    Intializing Risa.json 356 14240
+    Intializing Mark.json 171 6840
+    Finding  intitial clock calibration time
+    cranking down from 15000
+  Cal1 
+    Intializing Joey.json 384 15360
+    Intializing Marius.json 201 8040
+    Intializing Sam.json 250 10000
+    Intializing Willow.json 302 12080
+    Intializing Risa.json 360 14400
+    Intializing Mark.json 173 6920
+    Finding  intitial clock calibration time
+    cranking down from 18000
+Running 1 alone
+  Cal0
+    Intializing Joey.json 237 9480
+    Intializing Marius.json 122 4880
+    Intializing Sam.json 148 5920
+    Intializing Willow.json 187 7480
+    Intializing Risa.json 222 8880
+    Intializing Mark.json 117 4680
+    Finding  intitial clock calibration time
+    cranking down from 9000
+
+Ace 2 Containers, 2 Logic per container, 1 Core per container
+docker cpu=2 core=0,1
+docker cp2=2 core=2,3
+  Both Together: 
+    Intializing Joey.json 278 11120
+    Intializing Marius.json 136 5440
+    Intializing Sam.json 170 6800
+    Intializing Willow.json 214 8560
+    Intializing Risa.json 258 10320
+    Intializing Mark.json 117 4680
+    Finding  intitial clock calibration time
+    cranking down from 12000
+  One Alone:
+    Intializing Joey.json 259 10360
+    Intializing Marius.json 128 5120
+    Intializing Sam.json 160 6400
+    Intializing Willow.json 200 8000
+    Intializing Risa.json 241 9640
+    Intializing Mark.json 123 4920
+
+Ace 2 Containers, 1 Logic per container, 1 Core per Logic
+docker cpu=1 core=0
+docker cpu=1 core=2
+  Both Together:
+    Intializing Joey.json 292 11680
+    Intializing Marius.json 149 5960
+    Intializing Sam.json 186 7440
+    Intializing Willow.json 227 9080
+    Intializing Risa.json 272 10880
+    Intializing Mark.json 130 5200
+    Finding  intitial clock calibration time
+    cranking down from 12000
+  One Alone: 
+    Intializing Joey.json 272 10880
+    Intializing Marius.json 140 5600
+    Intializing Sam.json 174 6960
+    Intializing Willow.json 213 8520
+    Intializing Risa.json 255 10200
+    Intializing Mark.json 135 5400
+    Finding  intitial clock calibration time
+    cranking down from 12000
+
+
+Ace 2 CPU, one logical CPU per core
+  Cal0
+    Intializing Joey.json 292 11680
+    Intializing Marius.json 149 5960
+    Intializing Sam.json 186 7440
+    Intializing Willow.json 227 9080
+    Intializing Risa.json 272 10880
+    Intializing Mark.json 130 5200
+    Finding  intitial clock calibration time
+    cranking down from 12000
+  Cal2
+    Intializing Joey.json 291 11640
+    Intializing Marius.json 149 5960
+    Intializing Sam.json 186 7440
+    Intializing Willow.json 227 9080
+    Intializing Risa.json 272 10880
+    Intializing Mark.json 129 5160
+    Finding  intitial clock calibration time
+    cranking down from 12000
+
+
+Ace 1 CPU, 2 Logical CPUs together
+  Cal0
+    Intializing Joey.json 444 17760
+    Intializing Marius.json 231 9240
+    Intializing Sam.json 290 11600
+    Intializing Willow.json 349 13960
+    Intializing Risa.json 411 16440
+    Intializing Mark.json 222 8880
+    Finding  intitial clock calibration time
+    cranking down from 18000
+  Cal1 
+    Intializing Joey.json 438 17520
+    Intializing Marius.json 231 9240
+    Intializing Sam.json 291 11640
+    Intializing Willow.json 350 14000
+    Intializing Risa.json 414 16560
+    Intializing Mark.json 223 8920
+    Finding  intitial clock calibration time
+    cranking down from 18000
+
+Ace no cpu restrictions one cotainer
+  Intializing Joey.json 239 9560
+  Intializing Marius.json 109 4360
+  Intializing Sam.json 135 5400
+  Intializing Willow.json 181 7240
+  Intializing Risa.json 221 8840
+  Intializing Mark.json 103 4120
+  Finding  intitial clock calibration time
+  cranking down from 9000
+
+
+Ace no cpu restriction, 2 containers at once
+  Intializing Joey.json 282 11280
+  Intializing Marius.json 141 5640
+  Intializing Sam.json 175 7000
+  Intializing Willow.json 216 8640
+  Intializing Risa.json 261 10440
+  Intializing Mark.json 212 8480
+  Finding  intitial clock calibration time
+  cranking down from 12000
+
+Ace no cpu restrictions, 3 containers at once
+  Intializing Joey.json 385 15400
+  Intializing Marius.json 197 7880
+  Intializing Sam.json 240 9600
+  Intializing Willow.json 294 11760
+  Intializing Risa.json 521 20840
+  Intializing Mark.json 164 6560
+  Finding  intitial clock calibration time
+  cranking down from 18000
+
+Ace no cpu restrictions, 4 containers, all together
+  Cal2 (just shwoing one, they are on par with each other)
+    Intializing Joey.json 463 18520
+    Intializing Marius.json 256 10240
+    Intializing Sam.json 305 12200
+    Intializing Willow.json 465 18600
+    Intializing Risa.json 551 22040
+    Intializing Mark.json 281 11240
+    Finding  intitial clock calibration time
+    cranking down from 24000
+Note: seems kind of close to the 2 threads 1 core run
+
+Ace 4 logcial cpus all together, each @.75 of a cpu
+  Intializing Joey.json 664 26560
+  Intializing Marius.json 345 13800
+  Intializing Sam.json 431 17240
+  Intializing Willow.json 523 20920
+  Intializing Risa.json 615 24600
+  Intializing Mark.json 334 13360
+  Finding  intitial clock calibration time
+  cranking down from 30000
+
+Ace container @ .75 CPU, logical CPU 0, and 2 (two cores)
+  Intializing Joey.json 395 15800
+  Intializing Marius.json 204 8160
+  Intializing Sam.json 259 10360
+  Intializing Willow.json 307 12280
+  Intializing Risa.json 364 14560
+  Intializing Mark.json 172 6880
+  Finding  intitial clock calibration time
+  cranking down from 18000
+
+Ace container @ .75 CPU, logical CPU 0, and 2 (two cores)
+  Intializing Joey.json 404 16160
+  Intializing Marius.json 207 8280
+  Intializing Sam.json 258 10320
+  Intializing Willow.json 319 12760
+  Intializing Risa.json 381 15240
+  Intializing Mark.json 182 7280
+  Finding  intitial clock calibration time
+  cranking down from 18000
+
+Ace 4 Containers @.5CPU, 4 Logical processors total, all together
+  Intializing Joey.json 982 39280
+  Intializing Marius.json 541 21640
+  Intializing Sam.json 680 27200
+  Intializing Willow.json 816 32640
+  Intializing Risa.json 970 38800
+  Intializing Mark.json 518 20720
+  Finding  intitial clock calibration time
+  cranking down from 45000
+
+Ace 1 Container @.5CPU 
+  Intializing Joey.json 622 24880
+  Intializing Marius.json 317 12680
+  Intializing Sam.json 399 15960
+Note: 
+  cut it off because it didn't work

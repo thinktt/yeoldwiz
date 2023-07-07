@@ -13,25 +13,26 @@ const { start } = require('repl')
 const { load } = require('dotenv')
 const chess = chessTools.create() 
 let logData = ''
-// const cmpEasyNames = ['Joey', 'Marius', 'Sam', 'Willow', 'Risa', 'Mark']
-const cmpEasyNames = ['Joey', 'Marius', 'Sam']
-const cmpHardNames = ['Orin', 'Josh7', 'Mariah', 'Ginger', "Mateo", 'Queenie']
-const cmpGmNames = ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard']
+
+const groups = {
+  'Easy': ['Joey', 'Marius', 'Sam', 'Willow', 'Risa', 'Mark'],
+  'Hard': ['Orin', 'Josh7', 'Mariah', 'Ginger', "Mateo", 'Queenie'],
+  'GM': ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard'],
+}
+
 let pipeBurst = 0
 engine.setLogLevel('silent')
 
-calibrateGroups()
+calibrateGroups('Easy')
 
-async function calibrateGroups() {
-  // if (clockTimeExists('Easy')) return
-  let initClocktime = await getInitColckTime(cmpEasyNames)
-  await doCalibrations(cmpEasyNames, 'Easy', initClocktime)
-  // await doBestAccurateClocks('Easy')
-
-  // await doCalibrations(cmpHardNames, 'Hard')
-  // await doBestAccurateClocks('Hard')
-  // await doCalibrations(cmpGmNames, 'Gm')
-  // await doBestAccurateClocks('Gm')
+async function calibrateGroups(groupName) {
+  let clockTime = await getClockTime(groupName)
+  if (!clockTime) {
+    let initClocktime = await getInitColckTime(groups[groupName])
+    await doCalibrations(groups[groupName], groupName, initClocktime)
+    clockTime = await doBestAccurateClocks(groupName)
+  }
+  runLoad(groups[groupName], clockTime)
 }
 
 async function getInitColckTime(cmpNames) {
@@ -48,12 +49,12 @@ async function getInitColckTime(cmpNames) {
   return clockTime
 }
 
-async function clockTimeExists(groupName) {
+async function getClockTime(groupName) {
   // check to see if we have clocks for this group already, if so no calibration needed
   let doneClocks = await loadFile(`./calibrations/clockTimes.json`)
   if (doneClocks && doneClocks[groupName]) {
     console.log(chalk.magentaBright(`Found ${groupName} clock time: ${doneClocks[groupName]}`))
-    return true
+    return doneClocks[groupName]
   }
   return false
 }
@@ -115,9 +116,11 @@ async function doCalibrations(cmpNames, groupName, initClockTime) {
   }
 }
 
+
+
 // given a cmpName and a clocktime run through every test move
 // return the run summary of all the moves for this personality
-async function doRuns(cmpNames, clockTime) {
+async function doRuns(cmpNames, clockTime, buildFile = true) {
   const runs = []
   for (const cmpName of cmpNames) {
     process.stdout.write(chalk.green(`Running ${cmpName} @ ${clockTime} `))
@@ -129,6 +132,8 @@ async function doRuns(cmpNames, clockTime) {
   const runSum = getRunSum(runs) 
   return runSum
 }
+
+
 
 
 // I think the idea of this mess (since I've kind of forgotren) is to cross select
@@ -159,6 +164,7 @@ async function doBestAccurateClocks(groupName) {
     await fs.writeFile(`./calibrations/clockTimes.json`, JSON.stringify(clockTimes, null, 2))
     console.log(chalk.yellow(JSON.stringify(topAccurateByUnder, null, 2)))
     console.log(chalk.yellow('picked clockTime: ', finalClockTime))
+    return finalClockTime
 
 
     // const bottomRuns = sortedRuns.slice(4)
@@ -646,6 +652,20 @@ async function testClockTime(cmpName, position, targetMoveId, startClockTime) {
 
   return settings.clockTime
 }
+
+async function runLoad(cmpNames, clockTime) {
+  console.log(chalk.green('running continous load'))
+  while(true) {
+    for (const cmpName of cmpNames) {
+      const target = await loadFile(`./targets/${cmpName}.json`)
+      // process.stdout.write(chalk.green(`Running ${cmpName} @ ${clockTime} `))
+      const moves = await runPositions(cmpName, positions, clockTime)
+      const accuracyStats = await getAccurayStats(moves, target.moves)
+      // console.log(accuracyStats)
+    }
+  }
+}
+
 
 async function buildCalibrationFile(cmpName, clockTime) {
   let calibration = await loadFile(`./calibrations/${cmpName}.json`)

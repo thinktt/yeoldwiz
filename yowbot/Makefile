@@ -6,8 +6,13 @@ BINS := $(JS_FILES:%.txt=%)
 	dopushdcal
 
 dopushdcal:
-	scp dist/docalibrate.js yowking:/home/toby/
-	ssh yowking 'sudo docker cp /home/toby/docalibrate.js cal1:/opt/yeoldwiz/'
+	# scp dist/docalibrate.js yowking:/home/toby/
+	# ssh yowking 'sudo docker cp /home/toby/docalibrate.js cal1:/opt/yeoldwiz/'
+	docker cp dist/docalibrate.js cal23:/opt/yeoldwiz/docalibrate.js
+	docker cp dist/docalibrate.js cal45:/opt/yeoldwiz/docalibrate.js
+	docker cp dist/docalibrate.js cal67:/opt/yeoldwiz/docalibrate.js
+	docker cp dist/docalibrate.js cal89:/opt/yeoldwiz/docalibrate.js
+	docker cp dist/docalibrate.js cal1011:/opt/yeoldwiz/docalibrate.js
 
 dopushengine:
 	scp dist/engine.js 
@@ -28,11 +33,12 @@ docal: dist
 	cd dist; \
 	./node docalibrate.js
 
-export LOGICAL_PROCESSOR=4,5
-export CAL_NAME=cal4and5
+export LOGICAL_PROCESSOR=10,11
+export CAL_NAME=cal1011#${LOGICAL_PROCESSOR}
 
 dodcal:
 	docker rm ${CAL_NAME} || true
+	docker volume rm ${CAL_NAME} || true
 	docker run --cpus=1 --cpuset-cpus=${LOGICAL_PROCESSOR} \
 		--platform linux/386 \
 		-v ${CAL_NAME}:/opt/yeoldwiz/calibrations \

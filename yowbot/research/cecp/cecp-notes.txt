@@ -33,3 +33,11 @@ level
     noderate per seconds, in theory could allow better control of the engine time
     on different computers 
   
+  hint
+    gives a hint, works for the king
+  undo 
+    remove last move
+  remove 
+    reoves last two moves    
+
+Thing I've called the id is actually "nodes searched"
