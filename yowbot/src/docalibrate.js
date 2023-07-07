@@ -22,17 +22,23 @@ const groups = {
 
 let pipeBurst = 0
 engine.setLogLevel('silent')
+calibrateAllGroups()
 
-calibrateGroups('Easy')
+async function calibrateAllGroups() {
+  calibrateGroup('Easy')
+  calibrateGroup('Hard')
+  calibrateGroup('GM')
+}
 
-async function calibrateGroups(groupName) {
+
+async function calibrateGroup(groupName) {
   let clockTime = await getClockTime(groupName)
   if (!clockTime) {
     let initClocktime = await getInitColckTime(groups[groupName])
     await doCalibrations(groups[groupName], groupName, initClocktime)
     clockTime = await doBestAccurateClocks(groupName)
   }
-  runLoad(groups[groupName], clockTime)
+  return clockTime
 }
 
 async function getInitColckTime(cmpNames) {
