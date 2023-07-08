@@ -33,12 +33,12 @@ docal: dist
 	cd dist; \
 	./node docalibrate.js
 
-export LOGICAL_PROCESSOR=10,11
-export CAL_NAME=cal1011#${LOGICAL_PROCESSOR}
+export LOGICAL_PROCESSOR=4,5
+export CAL_NAME=cal45#${LOGICAL_PROCESSOR}
 
 dodcal:
+	# docker volume rm ${CAL_NAME} || true
 	docker rm ${CAL_NAME} || true
-	docker volume rm ${CAL_NAME} || true
 	docker run --cpus=1 --cpuset-cpus=${LOGICAL_PROCESSOR} \
 		--platform linux/386 \
 		-v ${CAL_NAME}:/opt/yeoldwiz/calibrations \

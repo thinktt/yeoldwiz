@@ -25,9 +25,35 @@ engine.setLogLevel('silent')
 calibrateAllGroups()
 
 async function calibrateAllGroups() {
-  calibrateGroup('Easy')
-  calibrateGroup('Hard')
-  calibrateGroup('GM')
+  const easyClocks = await calibrateGroup('Easy')
+  const hardClocks = await calibrateGroup('Hard')
+  const gmClocks = await calibrateGroup('GM')
+
+  matches = 0
+  over = 0
+  under = 0 
+  desperados = 0
+
+  await runClock('Easy', easyClocks)
+  await runClock('Hard', hardClocks)
+  await runClock('GM', gmClocks)
+
+}
+
+
+async function runClock(groupName, clockTime) {
+  const cmpNames = groups[groupName]
+  for (const cmpName of cmpNames) {
+    console.log(chalk.green(`............${cmpName}............`))
+    await clockCrankDown(cmpName, clockTime, 0)
+    console.log(
+      chalk.green('totals so far:'),
+      chalk.blue('matches', matches),
+      chalk.red('over', over), 
+      chalk.yellow('under', under), 
+      chalk.magenta('desperados', desperados)
+    )
+  }
 }
 
 
@@ -423,7 +449,7 @@ async function clockStrategy2(cmpNames, startTime) {
 
 
 // clockCrankDown('Risa', 4000)
-async function clockCrankDown(cmpName, startClockTime) {
+async function clockCrankDown(cmpName, startClockTime, decrement) {
   const calibration = await loadFile(`./calibrations/${cmpName}.json`)
   if (!calibration) {
     console.log('Error loading calibration')
@@ -437,7 +463,7 @@ async function clockCrankDown(cmpName, startClockTime) {
   
   let i = 0
   for (const position of positions) {
-    clockTime = await testClockTime(cmpName, position, ids[i], clockTime)
+    clockTime = await testClockTime(cmpName, position, ids[i], clockTime, decrement)
     i++
   }
   
@@ -623,8 +649,13 @@ function logMoves(moves, targetMoves) {
   }
 }
 
+let matches = 0
+let over = 0
+let under = 0 
+let desperados = 0
 
-async function testClockTime(cmpName, position, targetMoveId, startClockTime) {
+async function testClockTime(cmpName, position, targetMoveId, startClockTime, decrement) {
+  if (decrement === undefined) decrement = 50
   const cmp = personalites.getSettings(cmpName)
   cmp.out.rnd = "0"
 
@@ -641,19 +672,24 @@ async function testClockTime(cmpName, position, targetMoveId, startClockTime) {
     move = await engineGetMove(settings)
     if (move.id == targetMoveId) {
       console.log(chalk.blue(`${move.id} ${targetMoveId} MATCH @ ${settings.clockTime}`))
+      matches++
       break
     }
     if (move.id < targetMoveId) {
       console.log(chalk.yellow(`${move.id} ${targetMoveId} LOW @ ${settings.clockTime}`))
+      under++
       break
     }
     if (move.eval < -500) {
       console.log(chalk.magenta(`${move.id} ${targetMoveId} DESPERATE @ ${settings.clockTime}`))
+      desperados++
       break
     }
 
     console.log(chalk.red(`${move.id} ${targetMoveId} TOO HIGH @ ${settings.clockTime}`))
-    settings.clockTime = settings.clockTime - 50
+    over++
+    if (decrement === 0) break
+    settings.clockTime = settings.clockTime - decrement
   } 
 
   return settings.clockTime
