@@ -38,19 +38,21 @@ async function getMove(settings) {
 
   // Wait for response, this seems conveluted to just get one message but at least
   // it's a short chucnk of code
-  const moveData = await new Promise((resolve) => {
+  const moveRes = await new Promise((resolve) => {
     (async () => {
       for await (const m of subscription) {
-        resolve(m.data) // assuming that m.data is the move response
+        resolve(m.data) 
       }
     })().then()
   })
-  console.log(chalk.green(`move data from stream: ${moveData}`))
   
+  // if moveRes doesn't parese error will throw automatically
+  const moveData = JSON.parse(moveRes)
+
   // the engine workers rejected the move request
   if (moveData.err) {
-    throw new Error(moveData.err)
-  }
+    throw new Error(moveRes.err)
+  }  
 
   return moveData
 }
