@@ -66,7 +66,8 @@ async function getNextMove(moves, wizPlayer, gameId) {
   const settings = { moves, pVals: cmp.out, clockTime, secondsPerMove, cmpName: cmp.name, gameId }
   
   err = null
-  moveMessages.pubMoveReq(settings).catch(e => err = e)
+  // moveMessages.pubMoveReq(settings).catch(e => err = e)
+  moveMessages.getMove(settings).catch(e => err = e) 
   if (err) {
     console.error(chalk.red(`error publishing move-req: ${err}`))
   }
