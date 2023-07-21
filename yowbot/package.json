@@ -16,7 +16,9 @@
     "chess.js": "^0.10.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "nats": "^2.15.1",
     "node-fetch": "^2.6.7",
+    "node-nats-streaming": "^0.3.2",
     "oboe": "^2.1.5"
   },
   "devDependencies": {

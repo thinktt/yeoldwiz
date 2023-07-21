@@ -1,7 +1,11 @@
 const chessTools = require("./chessTools.js")
 const { exec } = require('child_process')
 const chalk = require('chalk')
-const { moves } = require('chess-tools/opening-books/ctg/moves')
+
+module.exports = { 
+  getMove,
+  setLogLevel 
+}
 
 const defaultSettings = {
   moves: [],
@@ -293,4 +297,3 @@ function setLogLevel(logLevelToSet) {
   }
 }
 
-module.exports = { getMove, setLogLevel }
