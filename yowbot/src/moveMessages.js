@@ -15,7 +15,7 @@ async function init() {
   const done = nc.closed()
   const jsm = await nc.jetstreamManager()
   await jsm.streams.add({ name: 'move-req-stream', subjects: ['move-req'] })
-  await jsm.streams.add({ name: 'move-res-stream', subjects: ['move-res'] })
+  await jsm.streams.add({ name: 'move-res-stream', subjects: ['move-res.*'] })
   moveStream = nc.jetstream()
 
   // await nc.close()
