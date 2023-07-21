@@ -64,6 +64,13 @@ async function getNextMove(moves, wizPlayer, gameId) {
   }
 
   const settings = { moves, pVals: cmp.out, clockTime, secondsPerMove, cmpName: cmp.name, gameId }
+  
+  err = null
+  moveMessages.pubMoveReq(settings).catch(e => err = e)
+  if (err) {
+    console.error(chalk.red(`error publishing move-req: ${err}`))
+  }
+  
   err = null
   const moveData = await engine.getMove(settings).catch(e => err = e)
   if (err) {
@@ -71,12 +78,6 @@ async function getNextMove(moves, wizPlayer, gameId) {
     return 
   }
   if (!moveData) return 
-
-  err = null
-  moveMessages.pubMoveReq(settings).catch(e => err = e)
-  if (err) {
-    console.error(chalk.red(`error publishing move-req: ${err}`))
-  }
 
   console.log(chalk.blue(`engineMove: ${moveData.engineMove}`))
   return {move: moveData.engineMove, willAcceptDraw: moveData.willAcceptDraw}
