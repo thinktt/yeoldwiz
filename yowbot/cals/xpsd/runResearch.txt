@@ -1,0 +1,80 @@
+cool run, hot clocks
+  matches 326 
+  over 81 
+  under 19 
+  desperados 6
+  idAccuracy = 326/432 = 75%
+  underAccuracy = 345/432 = 80%
+
+cool run, cool clocks
+  matches 380 
+  over 16 
+  under 36 
+  desperados 0
+  idAccuracy = 380/432 = 88%
+  underAccuracy = 416/432 = 96%
+
+hot run, hot clocks
+   matches 370 
+   over 11 
+   under 51 
+   desperados 0
+   idAccuracy = 370/432 = 86%
+   underAccuracy = 421/432 = 97%
+
+hot run, cool clocks
+  matches 276 
+  over 8 
+  under 148 
+  desperados 0
+  idAccuracy = 276/432 = 64%
+  underAccuracy = 424/432 = 98%
+
+hot run, warm clocks
+  matches 319 
+  over 12 
+  under 101 
+  desperados 0
+  idAccuracy = 319/432 = 74%
+  underAccuracy = 420/432 = 97%
+  
+cool run, hot clocks, throttle @3700
+  matches 386 
+  over 25 
+  under 20 
+  desperados 1
+  idAccuracy = 386/432 = 89%
+  underAccuracy = 407/432 = 94%
+
+hot run, hot clocks, throttle @3700
+  matches 374 
+  over 10 
+  under 48 
+  desperados 0
+  idAccuracy 374/432 = 86%
+  underAccuracy = 422/432 = 97%
+
+
+
+
+........................
+hot clocks
+{
+  "Easy": 7650,
+  "Hard": 10900,
+  "GM": 14000
+}
+
+cool clocks
+{
+  "Easy": 6100,
+  "Hard": 8600,
+  "GM": 11900
+}
+
+warm clocks (averaged the above two)
+{
+  "Easy": 6875,
+  "Hard": 9750,
+  "GM": 12950
+}

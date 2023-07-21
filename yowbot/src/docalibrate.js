@@ -22,7 +22,8 @@ const groups = {
 
 let pipeBurst = 0
 engine.setLogLevel('silent')
-calibrateAllGroups()
+// calibrateAllGroups()
+runLoad(groups.Easy, 40000)
 
 async function calibrateAllGroups() {
   const easyClocks = await calibrateGroup('Easy')

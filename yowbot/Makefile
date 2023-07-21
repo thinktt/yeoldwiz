@@ -48,7 +48,7 @@ dodcal:
 
 runbook:
 	cd dist; \
-	pkg runbook.js -o runbook -t node18-linux-x64
+	pkg runbook.js -o runbook -t node18-alpine-x64  #node18-linux-x64
 
 
 push:
@@ -85,6 +85,7 @@ dist: books
 	node build/personalitiesBuilder.js
 	ln -rs node_modules dist/
 	ln src/*.js dist/
+	ln src/*.mjs dist/
 	ln .env dist/.env
 	ln src/testPositions.json dist/
 
