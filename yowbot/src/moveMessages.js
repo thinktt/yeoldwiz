@@ -7,13 +7,33 @@ module.exports = {
 
 
 init()
+
 let moveStream
 let nats 
 let nc
 
 async function init() {
+ 
+  const natsToken = process.env.NATS_TOKEN
+  let natsUrl = process.env.NATS_URL
+  if (!natsToken) {
+    console.error(chalk.red('NATS_TOKEN env variable not set'))
+    process.exit(1)
+  }
+  if (!natsUrl) {
+    natsUrl = 'localhost:4222'
+    console.error(chalk.yellow(`NATS_URL not set, using default: ${natsUrl}`))
+  }
+
   nats = await import('nats')
-  nc = await nats.connect({ servers: "localhost:4222" })
+
+  let err = null
+  nc = await nats.connect({ servers: "localhost:4222", token: natsToken }).catch(e => err = e)
+  if (err) {
+    console.error(`error connecting to nats: ${err}`)
+    process.exit(1)
+  }
+  
   console.log(`connected to move pub sub streams ${nc.getServer()}`)
   const done = nc.closed()
   const jsm = await nc.jetstreamManager()
