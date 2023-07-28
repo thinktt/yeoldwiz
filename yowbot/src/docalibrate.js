@@ -5,7 +5,7 @@ const engine = require('./engine')
 const personalites = require('./personalities.js')
 const positions = require('./testPositions.json')
 const fs = require('fs').promises
-const moveMessages = require('./moveMessages.js')
+const messageBus = require('./moveMessages.js')
 const crypto = require('crypto')
 let logData = ''
 
@@ -63,6 +63,7 @@ async function calibrateGroup(groupName) {
   return clockTime
 }
 
+
 async function getInitColckTime(cmpNames) {
    // initalize the calibration files and run the engine to the target stop ids
   // then find an average time to reach the targets for each player
@@ -76,6 +77,7 @@ async function getInitColckTime(cmpNames) {
   let clockTime = (Math.round((averageTimeSum / cmpNames.length) / 50) * 50 * 40) * 1.5
   return clockTime
 }
+
 
 async function getClockTime(groupName) {
   // check to see if we have clocks for this group already, if so no calibration needed
@@ -159,6 +161,7 @@ async function doRuns(cmpNames, clockTime, buildFile = true) {
   const runSum = getRunSum(runs) 
   return runSum
 }
+
 
 // I think the idea of this mess (since I've kind of forgotren) is to cross select
 // the most accurate (by id) with the most "under accuracy" which means it's
@@ -244,6 +247,7 @@ function getRunSum(runs) {
   return { clockTime, idAccuracy, realAccuracy, underAccuracy, highCount, lowCount, desperados }
 }
 
+
 async function getAccurayStats(moves, targetMoves) {
   let discrepencyCount = 0
   let highCount = 0
@@ -283,10 +287,6 @@ async function getAccurayStats(moves, targetMoves) {
   const underAccuracy = 
     Math.round((moves.length - (discrepencyCount - lowCount) ) / moves.length * 100)
   
-  // const noDesperateAccuracy =  Math.round(
-  //   ( moves.length - (discrepencyCount - lowCount - desperados) ) / moves.length * 100
-  // )
-
   return {
     averageTime,
     idAccuracy,
@@ -295,11 +295,9 @@ async function getAccurayStats(moves, targetMoves) {
     highCount,
     lowCount,
     desperados,
-    // noDesperateAccuracy,
-    // discrepencyCount,
-    // realMoveAccurate,
   }
 }
+
 
 // push each personality below it's move targets and average the clock times
 // seems to come out similar to strategy 1
@@ -339,6 +337,7 @@ async function clockCrankDown(cmpName, startClockTime, decrement) {
   return clockTime
 }
 
+
 async function doLog(...args) {
   logData = logData + args.join(' ') + '\n'
   // regEx = /\[..m/g
@@ -346,10 +345,12 @@ async function doLog(...args) {
   // console.log(...args)
 }
 
+
 async function showLog(groupName, clockTime) {
   const log = await fs.readFile(`./calibrations/logs/${groupName}${clockTime}.txt`, 'utf8')
   console.log(log)
 }
+
 
 async function logCalibrationSums(cmpNames, clockTime, groupName) {
   let idAccuracySum = 0
@@ -733,7 +734,7 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
 async function engineGetMove(settings) {
   const moves = await engine.getMove(settings)
   // settings.gameId = 'cal'
-  // const moves = await moveMessages.getMove(settings)
+  // const moves = await messageBus.getMove(settings)
   return moves
 }
 
