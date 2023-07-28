@@ -31,7 +31,7 @@ dorunbinbook: dist
 
 docal: dist
 	cd dist; \
-	./node docalibrate.js
+	node docalibrate.js
 
 export LOGICAL_PROCESSOR=4,5
 export CAL_NAME=cal45#${LOGICAL_PROCESSOR}
@@ -58,7 +58,12 @@ din:
 	docker run --rm -it -v calibrations:/opt/yeoldwiz/calibrations --name yeoldwiz ace:5000/yeoldwiz /bin/bash
 
 drun: dbuild
-	docker run -v calibrations:/opt/yeoldwiz/cals/xps --name yeoldwiz ace:5000/yeoldwiz
+	docker run \
+		-v calibrations:/opt/yeoldwiz/cals/xps \
+		--env-file envXps.env \
+		--name yeoldwiz \
+		--network=yow \
+		-d ace:5000/yeoldwiz
 
 dbuild: dist.tar
 	docker rm yeoldwiz || true
@@ -85,7 +90,6 @@ dist: books
 	node build/personalitiesBuilder.js
 	ln -rs node_modules dist/
 	ln src/*.js dist/
-	ln src/*.mjs dist/
 	ln .env dist/.env
 	ln src/testPositions.json dist/
 

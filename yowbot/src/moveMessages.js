@@ -6,14 +6,12 @@ module.exports = {
 }
 
 
-init()
-
 let moveStream
 let nats 
 let nc
+let initIsDone = false
 
 async function init() {
- 
   const natsToken = process.env.NATS_TOKEN
   let natsUrl = process.env.NATS_URL
   if (!natsToken) {
@@ -23,12 +21,14 @@ async function init() {
   if (!natsUrl) {
     natsUrl = 'localhost:4222'
     console.error(chalk.yellow(`NATS_URL not set, using default: ${natsUrl}`))
+  } else {
+    console.log(chalk.green(`NATS_URL: ${natsUrl}`))
   }
 
   nats = await import('nats')
 
   let err = null
-  nc = await nats.connect({ servers: "localhost:4222", token: natsToken }).catch(e => err = e)
+  nc = await nats.connect({ servers: natsUrl, token: natsToken }).catch(e => err = e)
   if (err) {
     console.error(`error connecting to nats: ${err}`)
     process.exit(1)
@@ -41,12 +41,25 @@ async function init() {
   await jsm.streams.add({ name: 'move-res-stream', subjects: ['move-res.*'] })
   moveStream = nc.jetstream()
   // consider using some code to close nc when node exits
+  initIsDone = true
 }
 
 
 async function getMove(settings) {
-  const {gameId, cmpName, moves } = settings
-  const moveReq = {gameId, cmpName, moves}
+  if (!initIsDone) await init()
+  console.log(settings)
+
+  const randomIsOff = settings.pVals?.rnd ? false : true
+  const { moves, cmpName, gameId, stopId, clockTime, shouldSkipBook } = settings
+  const moveReq = { 
+    moves, 
+    cmpName,
+    gameId, 
+    stopId, 
+    clockTime, 
+    randomIsOff, 
+    shouldSkipBook, 
+  }
 
   // Publish move request
   await moveStream.publish('move-req', nats.StringCodec().encode(JSON.stringify(moveReq)))

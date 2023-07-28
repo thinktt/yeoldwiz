@@ -5,7 +5,6 @@ const engine = require('./engine')
 const personalites = require('./personalities.js')
 const positions = require('./testPositions.json')
 const fs = require('fs').promises
-const moveMessages = require('./moveMessages.js')
 // const book = require('./book')
 // const crypto = require('crypto')
 // const { moves } = require('chess-tools/opening-books/ctg/moves.js')
@@ -957,7 +956,6 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
       clockTime, 
       stopId, 
       showPreviousMoves, 
-      cmpName,
     }
     let move = await engineGetMove(settings)
     move.gameNumber = position.gameNumber
@@ -1183,11 +1181,21 @@ async function expandPositions(positions) {
 }
 
 async function engineGetMove(settings) {
-  // const moves = await engine.getMove(settings)
-  settings.gameId = 'cal'
-  const moves = await moveMessages.getMove(settings)
-  // console.log(moves)
+  const moves = await engine.getMove(settings)
   return moves
 }
 
 
+
+
+  // let moves
+  // while(pipeBurst < 10) {
+  //   try {
+  //     moves = await engine.getMove(settings)
+  //     return moves
+  //   } catch (err) {
+  //     pipeBurst++
+  //     console.log(chalk.bgMagenta('Pipe Burst number', pipeBurst))
+  //   }
+  // }
+  // process.exit(1)
