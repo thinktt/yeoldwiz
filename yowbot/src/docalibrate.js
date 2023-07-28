@@ -15,7 +15,7 @@ const groups = {
   'GM': ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard'],
 }
 
-engine.setLogLevel('silent')
+// engine.setLogLevel('silent')
 // runLoad(groups.Easy, 4000)
 calibrateAllGroups()
 
@@ -530,10 +530,12 @@ async function testClockTime(cmpName, position, targetMoveId, startClockTime, de
 
   const settings = { 
     moves: position.uciMoves, 
-    pVals: cmp.out, 
+    cmpName,
+    gameId: 'cal',
     clockTime: startClockTime, 
     stopId: 0, 
     showPreviousMoves: false, 
+    pVals: cmp.out, 
   }
   
   let move
@@ -679,11 +681,12 @@ async function getStopMoves(cmpName, positions) {
 
   for (const position of positions) {
     const settings = { 
-      moves: position.uciMoves, 
-      pVals: cmp.out, 
-      clockTime: 60000, 
-      stopId: target.moves[i].id, 
+      moves: position.uciMoves,
       cmpName,
+      gameId : 'cal', 
+      stopId: target.moves[i].id, 
+      clockTime: 60000, 
+      pVals: cmp.out, 
     }
     let move = await engineGetMove(settings)
     move.gameNumber = position.gameNumber
@@ -709,11 +712,12 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
     if (target) stopId = target.moves[i].id
     const settings = { 
       moves: position.uciMoves, 
-      pVals: cmp.out, 
-      clockTime, 
-      stopId, 
-      showPreviousMoves, 
       cmpName,
+      gameId: 'cal',
+      stopId, 
+      clockTime, 
+      showPreviousMoves, 
+      pVals: cmp.out, 
     }
     let move = await engineGetMove(settings)
     move.gameNumber = position.gameNumber
@@ -739,69 +743,3 @@ async function engineGetMove(settings) {
 
 
 
-
-
-
-// async function runThroughMoves(cmp) {
-
-//   const movesSoFar = []
-//   const depths = []
-//   const times = []
-//   const evals = []
-//   const ids = []
-//   const algebraMoves = []
-//   const engineMoves = []
-//   const timeForMoves = []
-
-//   for (const move of moves) {
-//     movesSoFar.push(move) 
-//     const settings = { moves: movesSoFar, pVals: cmp.out, clockTime: 20000, 
-//       stopId : 1302341 
-//     }
-//     const moveData = await engineGetMove(settings)
-//     console.log(moveData)
-//     depths.push(moveData.depth)
-//     engineMoves.push(moveData.engineMove) 
-//     times.push(moveData.time) 
-//     evals.push(moveData.eval)
-//     ids.push(moveData.id) 
-//     algebraMoves.push(moveData.algebraMove)
-//   }
-
-//   // const averageTime = Math.round(
-//   //   timeForMoves.reduce((a, b) => a + b) / timeForMoves.length
-//   // )
-
-//   console.log(depths)
-//   console.log(evals)
-//   console.log(times)
-//   console.log(ids)
-//   console.log(engineMoves)
-//   console.log(algebraMoves)
-//   // console.log(averageTime)
-
-//   return { 
-//     depths,
-//     evals,
-//     times,
-//     engineMoves,
-//     timeForMoves,
-//     algebraMoves,
-//     // averageTime,
-//   }
-// }
-
-// async function runContinously() {
-//   const moveData = await engineGetMoveWithData({ moves, pVals: cmp.out })
-//   // console.log(moveData)
-//   moves.push(moveData.engineMove)
-//   const chess = new ChessUtils()
-//   chess.applyMoves(moveData.engineMove)
-//   console.log(chess.chess.ascii())
-//   // setTimeout(runContinously, 5000)
-//   runContinously()
-// }
-
-// async function runOnce(moves) {
-//   const moveData = await engineGetMoveWithData({ moves, pVals: cmp.out })
-// }
