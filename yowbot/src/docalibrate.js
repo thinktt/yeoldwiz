@@ -20,7 +20,6 @@ const groups = {
 calibrateAllGroups()
 
 
-
 async function calibrateAllGroups() {
   const easyClocks = await calibrateGroup('Easy')
   const hardClocks = await calibrateGroup('Hard')
@@ -518,53 +517,6 @@ function logMoves(moves, targetMoves) {
   }
 }
 
-let matches = 0
-let over = 0
-let under = 0 
-let desperados = 0
-
-async function testClockTime(cmpName, position, targetMoveId, startClockTime, decrement) {
-  if (decrement === undefined) decrement = 50
-  const cmp = personalites.getSettings(cmpName)
-  cmp.out.rnd = "0"
-
-  const settings = { 
-    moves: position.uciMoves, 
-    cmpName,
-    gameId: 'cal',
-    clockTime: startClockTime, 
-    stopId: 0, 
-    showPreviousMoves: false, 
-    pVals: cmp.out, 
-  }
-  
-  let move
-  while(true) {
-    move = await engineGetMove(settings)
-    if (move.id == targetMoveId) {
-      console.log(chalk.blue(`${move.id} ${targetMoveId} MATCH @ ${settings.clockTime}`))
-      matches++
-      break
-    }
-    if (move.id < targetMoveId) {
-      console.log(chalk.yellow(`${move.id} ${targetMoveId} LOW @ ${settings.clockTime}`))
-      under++
-      break
-    }
-    if (move.eval < -500) {
-      console.log(chalk.magenta(`${move.id} ${targetMoveId} DESPERATE @ ${settings.clockTime}`))
-      desperados++
-      break
-    }
-
-    console.log(chalk.red(`${move.id} ${targetMoveId} TOO HIGH @ ${settings.clockTime}`))
-    over++
-    if (decrement === 0) break
-    settings.clockTime = settings.clockTime - decrement
-  } 
-
-  return settings.clockTime
-}
 
 async function runLoad(cmpNames, clockTime) {
   console.log(chalk.green('running continous load'))
@@ -671,6 +623,55 @@ function getAverageMoveTime(moves) {
   return { averageTime, clockTimeEstimate }
 }
 
+let matches = 0
+let over = 0
+let under = 0 
+let desperados = 0
+
+async function testClockTime(cmpName, position, targetMoveId, startClockTime, decrement) {
+  if (decrement === undefined) decrement = 50
+  const cmp = personalites.getSettings(cmpName)
+  cmp.out.rnd = "0"
+
+  const settings = { 
+    moves: position.uciMoves, 
+    cmpName,
+    gameId: 'cal',
+    clockTime: startClockTime, 
+    stopId: 0, 
+    showPreviousMoves: false, 
+    pVals: cmp.out, 
+  }
+  
+  let move
+  while(true) {
+    move = await engineGetMove(settings)
+    if (move.id == targetMoveId) {
+      console.log(chalk.blue(`${move.id} ${targetMoveId} MATCH @ ${settings.clockTime}`))
+      matches++
+      break
+    }
+    if (move.id < targetMoveId) {
+      console.log(chalk.yellow(`${move.id} ${targetMoveId} LOW @ ${settings.clockTime}`))
+      under++
+      break
+    }
+    if (move.eval < -500) {
+      console.log(chalk.magenta(`${move.id} ${targetMoveId} DESPERATE @ ${settings.clockTime}`))
+      desperados++
+      break
+    }
+
+    console.log(chalk.red(`${move.id} ${targetMoveId} TOO HIGH @ ${settings.clockTime}`))
+    over++
+    if (decrement === 0) break
+    settings.clockTime = settings.clockTime - decrement
+  } 
+
+  return settings.clockTime
+}
+
+
 async function getStopMoves(cmpName, positions) {
   const target = await loadFile(`./targets/${cmpName}.json`)
   const cmp = personalites.getSettings(target.cmpName)
@@ -696,7 +697,6 @@ async function getStopMoves(cmpName, positions) {
   }
 
   return moves
-  // logMoves(moves, target.moves)
 }
 
 
