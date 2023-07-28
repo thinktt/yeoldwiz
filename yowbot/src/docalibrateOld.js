@@ -5,8 +5,8 @@ const engine = require('./engine')
 const personalites = require('./personalities.js')
 const positions = require('./testPositions.json')
 const fs = require('fs').promises
+const crypto = require('crypto')
 // const book = require('./book')
-// const crypto = require('crypto')
 // const { moves } = require('chess-tools/opening-books/ctg/moves.js')
 // const { time, group } = require('console')
 // const { start } = require('repl')
@@ -22,8 +22,8 @@ const groups = {
 
 let pipeBurst = 0
 engine.setLogLevel('silent')
-// calibrateAllGroups()
-runLoad(groups.Easy, 40000)
+calibrateAllGroups()
+// runLoad(groups.Easy, 40000)
 
 async function calibrateAllGroups() {
   const easyClocks = await calibrateGroup('Easy')

@@ -47,7 +47,6 @@ async function init() {
 
 async function getMove(settings) {
   if (!initIsDone) await init()
-  console.log(settings)
 
   const randomIsOff = settings.pVals?.rnd ? false : true
   const { moves, cmpName, gameId, stopId, clockTime, shouldSkipBook } = settings
