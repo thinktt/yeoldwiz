@@ -17,22 +17,22 @@ const groups = {
 
 // engine.setLogLevel('silent')
 // runLoad(groups.Easy, 4000)
-// calibrateAllGroups()
+calibrateAllGroups()
 
 
 async function calibrateAllGroups() {
-  const easyClocks = await calibrateGroup('Easy')
+  // const easyClocks = await calibrateGroup('Easy')
   const hardClocks = await calibrateGroup('Hard')
-  const gmClocks = await calibrateGroup('GM')
+  // const gmClocks = await calibrateGroup('GM')
 
-  matches = 0
-  over = 0
-  under = 0 
-  desperados = 0
+  // matches = 0
+  // over = 0
+  // under = 0 
+  // desperados = 0
 
-  await runClock('Easy', easyClocks)
-  await runClock('Hard', hardClocks)
-  await runClock('GM', gmClocks)
+  // await runClock('Easy', easyClocks)
+  // await runClock('Hard', hardClocks)
+  // await runClock('GM', gmClocks)
 
 }
 
@@ -560,8 +560,11 @@ async function buildCalibrationFile(cmpName, clockTime) {
   return run
 }
 
-// using the target stop ids we record run[0] in a calibration file using
-// the moves from this run we get average time used as start time for run[1]  
+// initCalibration is the first clock calibration strategy we use. We simply 
+// run through all our targets positions getting stopId moves, then we average
+// the reported times per move to get an initial average clock speed to work from 
+// engine.setLogLevel('silent')
+// initCalibrationFile('Josh7')
 async function initCalibrationFile(cmpName) {
   const previousCalibration = await loadFile(`./calibrations/${cmpName}.json`)
   if (previousCalibration) {
@@ -624,6 +627,44 @@ function getAverageMoveTime(moves) {
   return { averageTime, clockTimeEstimate }
 }
 
+// getStopMoves runs through a list of posistions and using a given cmp
+// it assumes these positions are the same as the target moves for that cmp
+// the move is returned when the stopId is hit, this is used to get an 
+// estimate time that it takes to make equivalent moves on the target machine
+// engine.setLogLevel('silent')
+// getStopMoves('Josh7', [positions[0]])
+async function getStopMoves(cmpName, positions) {
+  const target = await loadFile(`./targets/${cmpName}.json`)
+  const cmp = personalites.getSettings(target.cmpName)
+  cmp.out.rnd = "0"
+  
+  let i = 0
+  const moves = []
+
+  for (const position of positions) {
+    const stopId =  target.moves[i].id
+    // console.log('stopId', stopId)
+    const settings = { 
+      moves: position.uciMoves,
+      cmpName,
+      gameId : 'cal', 
+      stopId,
+      clockTime: 60000,
+      randomIsOff: true,
+      shouldSkipBook: true, 
+      pVals: cmp.out, 
+    }
+    let move = await engineGetMove(settings)
+    move.gameNumber = position.gameNumber
+    move.gameMoveNumber = position.moveNumber
+    moves.push(move)
+    i++
+  }
+
+  return moves
+}
+
+
 // these are used to capture counts from testClockTime, would be nice to 
 // encapuslate these so they don't live in global module space
 let matches = 0
@@ -684,43 +725,6 @@ async function testClockTime(cmpName, position, targetMoveId, startClockTime, de
   return settings.clockTime
 }
 
-// getStopMoves runs through a list of posistions and using a given cmp
-// it assumes these positions are the same as the target moves for that cmp
-// the move is returned when the stopId is hit, this is used to get an 
-// estimate time that it takes to make equivalent moves on the target machine
-engine.setLogLevel('silent')
-getStopMoves('Josh7', [positions[0]])
-async function getStopMoves(cmpName, positions) {
-  const target = await loadFile(`./targets/${cmpName}.json`)
-  const cmp = personalites.getSettings(target.cmpName)
-  cmp.out.rnd = "0"
-  
-  let i = 0
-  const moves = []
-
-  for (const position of positions) {
-    const stopId =  target.moves[i].id
-    console.log('stopId', stopId)
-    const settings = { 
-      moves: position.uciMoves,
-      cmpName,
-      gameId : 'cal', 
-      stopId: target.moves[i].id, 
-      clockTime: 60000,
-      randomIsOff: true,
-      shouldSkipBook: true, 
-      pVals: cmp.out, 
-    }
-    let move = await engineGetMove(settings)
-    move.gameNumber = position.gameNumber
-    move.gameMoveNumber = position.moveNumber
-    moves.push(move)
-    i++
-  }
-
-  return moves
-}
-
 
 // runPositions takes a list of positions, and a cmpName and clockTime
 // it runs through every position using the given clock time and returns all 
@@ -757,12 +761,11 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
 }
 
 async function engineGetMove(settings) {
-  const engineMoves = await engine.getMove(settings)
-  console.log('engineMove:', engineMoves)
+  // const engineMoves = await engine.getMove(settings)
+  // console.log('engineMove:', engineMoves)
 
   const busMove = await messageBus.getMove(settings)
-  console.log('busMove:', busMove)
-
+  // console.log('busMove:', busMove)
   
   return busMove
 }
