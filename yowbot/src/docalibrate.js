@@ -637,8 +637,8 @@ let desperados = 0
 // LOW this clock time came up with a move lower than the target move
 // DESPERATE highter than target, but eval is so low cmp was usually desperate
 // TOO HIGH this clock time looks to be to much, move was above target
-engine.setLogLevel('silent')
-testClockTime('Josh7', positions[0], 892913, 8000)
+// engine.setLogLevel('silent')
+// testClockTime('Josh7', positions[0], 892913, 8000)
 async function testClockTime(cmpName, position, targetMoveId, startClockTime, decrement) {
   if (decrement === undefined) decrement = 50
   const cmp = personalites.getSettings(cmpName)
@@ -684,7 +684,12 @@ async function testClockTime(cmpName, position, targetMoveId, startClockTime, de
   return settings.clockTime
 }
 
-
+// getStopMoves runs through a list of posistions and using a given cmp
+// it assumes these positions are the same as the target moves for that cmp
+// the move is returned when the stopId is hit, this is used to get an 
+// estimate time that it takes to make equivalent moves on the target machine
+engine.setLogLevel('silent')
+getStopMoves('Josh7', [positions[0]])
 async function getStopMoves(cmpName, positions) {
   const target = await loadFile(`./targets/${cmpName}.json`)
   const cmp = personalites.getSettings(target.cmpName)
@@ -694,6 +699,8 @@ async function getStopMoves(cmpName, positions) {
   const moves = []
 
   for (const position of positions) {
+    const stopId =  target.moves[i].id
+    console.log('stopId', stopId)
     const settings = { 
       moves: position.uciMoves,
       cmpName,
@@ -728,7 +735,6 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
   let stopId = 0
   let i = 0
   for (const position of positions) {
-    if (target) stopId = target.moves[i].id
     const settings = { 
       moves: position.uciMoves, 
       cmpName,
