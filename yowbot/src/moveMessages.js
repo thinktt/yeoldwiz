@@ -48,14 +48,14 @@ async function init() {
 async function getMove(settings) {
   if (!initIsDone) await init()
 
-  const randomIsOff = settings.pVals?.rnd ? false : true
-  const { moves, cmpName, gameId, stopId, clockTime, shouldSkipBook } = settings
+  const { moves, cmpName, gameId, stopId, clockTime, randomIsOff, 
+    shouldSkipBook } = settings
   const moveReq = { 
     moves, 
     cmpName,
     gameId, 
     stopId, 
-    clockTime, 
+    clockTime,
     randomIsOff, 
     shouldSkipBook, 
   }

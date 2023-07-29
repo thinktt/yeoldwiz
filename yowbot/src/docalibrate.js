@@ -17,7 +17,7 @@ const groups = {
 
 // engine.setLogLevel('silent')
 // runLoad(groups.Easy, 4000)
-calibrateAllGroups()
+// calibrateAllGroups()
 
 
 async function calibrateAllGroups() {
@@ -624,11 +624,21 @@ function getAverageMoveTime(moves) {
   return { averageTime, clockTimeEstimate }
 }
 
+// these are used to capture counts from testClockTime, would be nice to 
+// encapuslate these so they don't live in global module space
 let matches = 0
 let over = 0
 let under = 0 
 let desperados = 0
 
+// testClocktime given a a cmpName, position, and target move id and a clock
+// to wokr from it will test if the clock time hits is
+// MATCH a hit, the clock time achieved the target move
+// LOW this clock time came up with a move lower than the target move
+// DESPERATE highter than target, but eval is so low cmp was usually desperate
+// TOO HIGH this clock time looks to be to much, move was above target
+engine.setLogLevel('silent')
+testClockTime('Josh7', positions[0], 892913, 8000)
 async function testClockTime(cmpName, position, targetMoveId, startClockTime, decrement) {
   if (decrement === undefined) decrement = 50
   const cmp = personalites.getSettings(cmpName)
@@ -638,8 +648,10 @@ async function testClockTime(cmpName, position, targetMoveId, startClockTime, de
     moves: position.uciMoves, 
     cmpName,
     gameId: 'cal',
-    clockTime: startClockTime, 
     stopId: 0, 
+    clockTime: startClockTime,
+    randomIsOff: true,
+    shouldSkipBook: true, 
     showPreviousMoves: false, 
     pVals: cmp.out, 
   }
@@ -687,7 +699,9 @@ async function getStopMoves(cmpName, positions) {
       cmpName,
       gameId : 'cal', 
       stopId: target.moves[i].id, 
-      clockTime: 60000, 
+      clockTime: 60000,
+      randomIsOff: true,
+      shouldSkipBook: true, 
       pVals: cmp.out, 
     }
     let move = await engineGetMove(settings)
@@ -701,7 +715,11 @@ async function getStopMoves(cmpName, positions) {
 }
 
 
-// runPositions('Risa', positions, 60000, targets)
+// runPositions takes a list of positions, and a cmpName and clockTime
+// it runs through every position using the given clock time and returns all 
+// the move data from that run
+// engine.setLogLevel('silent')
+// runPositions('Risa', positions, 4500)
 async function runPositions(cmpName, positions, clockTime, target, showPreviousMoves) {
   const cmp = personalites.getSettings(cmpName)
   cmp.out.rnd = "0"
@@ -714,9 +732,11 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
     const settings = { 
       moves: position.uciMoves, 
       cmpName,
-      gameId: 'cal',
+      gameId: `position${i}`,
       stopId, 
-      clockTime, 
+      clockTime,
+      randomIsOff: true,
+      shouldSkipBook: true, 
       showPreviousMoves, 
       pVals: cmp.out, 
     }
@@ -728,14 +748,17 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
   }
   
   return moves
-
 }
 
 async function engineGetMove(settings) {
-  const moves = await engine.getMove(settings)
-  // settings.gameId = 'cal'
-  // const moves = await messageBus.getMove(settings)
-  return moves
+  const engineMoves = await engine.getMove(settings)
+  console.log('engineMove:', engineMoves)
+
+  const busMove = await messageBus.getMove(settings)
+  console.log('busMove:', busMove)
+
+  
+  return busMove
 }
 
 
