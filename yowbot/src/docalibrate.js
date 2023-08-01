@@ -10,6 +10,7 @@ const crypto = require('crypto')
 const Mutex = require('async-mutex').Mutex
 const mutex = new Mutex()
 
+
 let logData = ''
 
 const groups = {
@@ -19,9 +20,10 @@ const groups = {
   'GM': ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard'],
 }
 
+messageBus.init()
 // engine.setLogLevel('silent')
 // runLoad(groups.Easy, 4000)
-calibrateAllGroups()
+// calibrateAllGroups()
 // scaleCalibrate(5)
 
 async function scaleCalibrate(numberOfInstances) {
@@ -43,7 +45,6 @@ async function scaleCalibrate(numberOfInstances) {
 
 
 async function calibrateAllGroups() {
-  await messageBus.init()
   // const easyClocks = await calibrateGroup('Easy')
   // const hardClocks = await calibrateGroup('Hard')
   // const gmClocks = await calibrateGroup('GM')
@@ -770,15 +771,19 @@ async function testClockTime(cmpName, position, targetMoveId, startClockTime, de
 // runPositions takes a list of positions, and a cmpName and clockTime
 // it runs through every position using the given clock time and returns all 
 // the move data from that run
-// engine.setLogLevel('silent')
-// runPositions('Risa', positions, 4500)
+engine.setLogLevel('silent')
+runPositions('Risa', positions, 4500)
 async function runPositions(cmpName, positions, clockTime, target, showPreviousMoves) {
+
   const cmp = personalites.getSettings(cmpName)
   cmp.out.rnd = "0"
 
   const moves = []
   let stopId = 0
   let i = 0
+
+  const movePromises = []
+
   for (const position of positions) {
     const settings = { 
       moves: position.uciMoves, 
@@ -791,9 +796,17 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
       showPreviousMoves, 
       pVals: cmp.out, 
     }
-    let move = await engineGetMove(settings)
-    move.gameNumber = position.gameNumber
-    move.gameMoveNumber = position.moveNumber
+    let movePromise = engineGetMove(settings)
+    movePromises.push(movePromise)
+    i++
+  }
+
+  i = 0
+  for (const movePromise of movePromises) {
+    const move = await movePromise
+    // console.log(move.coordinateMove)
+    move.gameNumber = positions[i].gameNumber
+    move.gameMoveNumber = positions[i].moveNumber
     moves.push(move)
     i++
   }
@@ -804,8 +817,12 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
 async function engineGetMove(settings) {
   // const engineMoves = await engine.getMove(settings)
   // console.log('engineMove:', engineMoves)
-
-  const busMove = await messageBus.getMove(settings)
+  let err
+  const busMove = await messageBus.getMove(settings).catch(e => err = e)
+  if (err) {
+    console.log('error getting move', err)
+    return
+  }
   // console.log('busMove:', busMove)
   
   return busMove
