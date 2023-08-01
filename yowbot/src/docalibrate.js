@@ -565,6 +565,7 @@ async function runLoad(cmpNames, clockTime) {
 
   const runHanlder = {
     stopRun() {
+      console.log('stopping run')
       isRunning = false
     }
   }
@@ -584,7 +585,7 @@ async function buildCalibrationFile(cmpName, clockTime) {
     }
   }
   
-  const moves = await runPositions(cmpName, positions, clockTime)
+  const moves = await runPositionsMulti(cmpName, positions, clockTime, 5)
   const { movesHash, idMash } = getMovesHash(moves) 
   const { averageTime } = getAverageMoveTime(moves)
   calibration.movesHashMap[movesHash] = idMash
@@ -771,9 +772,44 @@ async function testClockTime(cmpName, position, targetMoveId, startClockTime, de
 // runPositions takes a list of positions, and a cmpName and clockTime
 // it runs through every position using the given clock time and returns all 
 // the move data from that run
-engine.setLogLevel('silent')
-runPositions('Risa', positions, 4500)
+// engine.setLogLevel('silent')
+// runPositions('Risa', positions, 4500)
 async function runPositions(cmpName, positions, clockTime, target, showPreviousMoves) {
+  const cmp = personalites.getSettings(cmpName)
+  cmp.out.rnd = "0"
+
+  const moves = []
+  let stopId = 0
+  let i = 0
+  for (const position of positions) {
+    const settings = { 
+      moves: position.uciMoves, 
+      cmpName,
+      gameId: `position${i}`,
+      stopId, 
+      clockTime,
+      randomIsOff: true,
+      shouldSkipBook: true, 
+      showPreviousMoves, 
+      pVals: cmp.out, 
+    }
+    let move = await engineGetMove(settings)
+    move.gameNumber = position.gameNumber
+    move.gameMoveNumber = position.moveNumber
+    moves.push(move)
+    i++
+  }
+  
+  return moves
+}
+
+// runPositionsMulti is just like runPositions except it sends all the moves to the bus
+// at once, also takes a loadNumber allowing you to specify how many workers there
+// are so load can be maintained
+engine.setLogLevel('silent')
+runPositionsMulti('Risa', positions, 4500)
+async function runPositionsMulti(cmpName, positions, clockTime, loadNumber = 5, showPreviousMoves) {
+  console.log('running multi', loadNumber)
 
   const cmp = personalites.getSettings(cmpName)
   cmp.out.rnd = "0"
@@ -801,16 +837,24 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
     i++
   }
 
+
   i = 0
   for (const movePromise of movePromises) {
     const move = await movePromise
-    // console.log(move.coordinateMove)
     move.gameNumber = positions[i].gameNumber
     move.gameMoveNumber = positions[i].moveNumber
     moves.push(move)
+    console.log(move.coordinateMove)
     i++
+
+    // if there's less pending moves than instances to load, add load runner
+    const movesLeft = positions.length - i
+    console.log(`${movesLeft} moves remaining`)
+    if (movesLeft < loadNumber) {
+      console.log('moves left is under load minimum of', loadNumber)
+    }
   }
-  
+ 
   return moves
 }
 
