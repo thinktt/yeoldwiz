@@ -2,7 +2,8 @@ const chalk = require('chalk')
 
 module.exports = {
   pubMoveReq,
-  getMove
+  getMove,
+  init,
 }
 
 
@@ -10,6 +11,7 @@ let moveStream
 let nats 
 let nc
 let initIsDone = false
+
 
 async function init() {
   const natsToken = process.env.NATS_TOKEN
@@ -46,7 +48,10 @@ async function init() {
 
 
 async function getMove(settings) {
-  if (!initIsDone) await init()
+  // if (!initIsDone) await init()
+  while (!initIsDone) {
+    await new Promise(resolve => setTimeout(resolve, 100))
+  }
 
   const { moves, cmpName, gameId, stopId, clockTime, randomIsOff, 
     shouldSkipBook } = settings

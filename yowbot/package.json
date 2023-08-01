@@ -10,6 +10,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "async-mutex": "^0.4.0",
     "axios": "^0.19.2",
     "chalk": "^4.1.0",
     "chess-tools": "git+https://github.com/thinktt/chess-tools.git",

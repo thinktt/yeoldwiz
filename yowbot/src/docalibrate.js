@@ -10,6 +10,7 @@ const crypto = require('crypto')
 let logData = ''
 
 const groups = {
+  'Test': ['Mark', 'Marius'],
   'Easy': ['Joey', 'Marius', 'Sam', 'Willow', 'Risa', 'Mark'],
   'Hard': ['Orin', 'Josh7', 'Mariah', 'Ginger', "Mateo", 'Queenie'],
   'GM': ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard'],
@@ -18,21 +19,42 @@ const groups = {
 // engine.setLogLevel('silent')
 // runLoad(groups.Easy, 4000)
 calibrateAllGroups()
+// scaleCalibrate(5)
+
+async function scaleCalibrate(numberOfInstances) {
+  const loadRunners = []
+  console.log(`starting ${numberOfInstances-1} load runners`)
+  for (i=0; i < numberOfInstances-1; i++) {
+    const loadRunner = runLoad(groups.Easy, 4000)
+    loadRunners.push(loadRunner)
+  }
+
+  console.log('startig calibrations')
+  await calibrateAllGroups()
+  
+  for (const loadRunner of loadRunners) {
+    console.log('stopping load runner')
+    loadRunner.stopRun()
+  }
+}
 
 
 async function calibrateAllGroups() {
+  await messageBus.init()
   // const easyClocks = await calibrateGroup('Easy')
-  const hardClocks = await calibrateGroup('Hard')
+  // const hardClocks = await calibrateGroup('Hard')
   // const gmClocks = await calibrateGroup('GM')
+  const testClocks = await calibrateGroup('Test')
 
-  // matches = 0
-  // over = 0
-  // under = 0 
-  // desperados = 0
+  matches = 0
+  over = 0
+  under = 0 
+  desperados = 0
 
   // await runClock('Easy', easyClocks)
   // await runClock('Hard', hardClocks)
   // await runClock('GM', gmClocks)
+  await runClock('Test', testClocks)
 
 }
 
@@ -520,16 +542,29 @@ function logMoves(moves, targetMoves) {
 
 
 async function runLoad(cmpNames, clockTime) {
-  console.log(chalk.green('running continous load'))
-  while(true) {
-    for (const cmpName of cmpNames) {
-      const target = await loadFile(`./targets/${cmpName}.json`)
-      // process.stdout.write(chalk.green(`Running ${cmpName} @ ${clockTime} `))
-      const moves = await runPositions(cmpName, positions, clockTime)
-      const accuracyStats = await getAccurayStats(moves, target.moves)
-      // console.log(accuracyStats)
+ let isRunning = true
+
+ const startRun = async () => {
+    console.log(chalk.green('running continous load'))
+    while(isRunning) {
+      for (const cmpName of cmpNames) {
+        const target = await loadFile(`./targets/${cmpName}.json`)
+        // process.stdout.write(chalk.green(`Running ${cmpName} @ ${clockTime} `))
+        const moves = await runPositions(cmpName, positions, clockTime)
+        const accuracyStats = await getAccurayStats(moves, target.moves)
+        // console.log(accuracyStats)
+      }
     }
   }
+
+  startRun()
+
+  const runHanlder = {
+    stopRun() {
+      isRunning = false
+    }
+  }
+  return runHanlder
 }
 
 
@@ -673,7 +708,7 @@ let under = 0
 let desperados = 0
 
 // testClocktime given a a cmpName, position, and target move id and a clock
-// to wokr from it will test if the clock time hits is
+// to work from it will test if the clock time hits is
 // MATCH a hit, the clock time achieved the target move
 // LOW this clock time came up with a move lower than the target move
 // DESPERATE highter than target, but eval is so low cmp was usually desperate
