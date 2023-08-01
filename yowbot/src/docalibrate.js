@@ -7,10 +7,13 @@ const positions = require('./testPositions.json')
 const fs = require('fs').promises
 const messageBus = require('./moveMessages.js')
 const crypto = require('crypto')
+const Mutex = require('async-mutex').Mutex
+const mutex = new Mutex()
+
 let logData = ''
 
 const groups = {
-  'Test': ['Mark', 'Marius'],
+  'Test': ['Sam', 'Risa'],
   'Easy': ['Joey', 'Marius', 'Sam', 'Willow', 'Risa', 'Mark'],
   'Hard': ['Orin', 'Josh7', 'Mariah', 'Ginger', "Mateo", 'Queenie'],
   'GM': ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard'],
@@ -587,11 +590,14 @@ async function buildCalibrationFile(cmpName, clockTime) {
   const accuracyStats = await getAccurayStats(moves, target.moves)
   
   const run = { averageTime, movesHash, clockTime, ...accuracyStats }
-  calibration.runs.push(run) 
-  calibration.moves = moves
-  
 
-  await fs.writeFile(`./calibrations/${cmpName}.json`, JSON.stringify(calibration, null, 2))
+  await mutex.runExclusive(async () => {
+    calibration = await loadFile(`./calibrations/${cmpName}.json`)
+    calibration.runs.push(run) 
+    calibration.moves = moves
+    await fs.writeFile(`./calibrations/${cmpName}.json`, JSON.stringify(calibration, null, 2))
+  })
+  
   return run
 }
 
