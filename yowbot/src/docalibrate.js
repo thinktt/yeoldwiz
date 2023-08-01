@@ -807,7 +807,7 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
 // at once, also takes a loadNumber allowing you to specify how many workers there
 // are so load can be maintained
 engine.setLogLevel('silent')
-runPositionsMulti('Risa', positions, 4500)
+runPositionsMulti('Risa', positions, 30000)
 async function runPositionsMulti(cmpName, positions, clockTime, loadNumber = 5, showPreviousMoves) {
   console.log('running multi', loadNumber)
 
@@ -837,6 +837,25 @@ async function runPositionsMulti(cmpName, positions, clockTime, loadNumber = 5, 
     i++
   }
 
+  // add moves to the bus to keep load up after moves fall below loadNumber
+  // this will make sure there is continous load on all workers
+  const loadMovePromises = []
+  for (let i = 0; i < loadNumber; i++) {
+    const settings = { 
+      moves: positions[0].uciMoves, 
+      cmpName,
+      gameId: `position${0}ForLoad`,
+      stopId, 
+      clockTime,
+      randomIsOff: true,
+      shouldSkipBook: true, 
+      showPreviousMoves, 
+      pVals: cmp.out, 
+    }
+    let movePromise = engineGetMove(settings)
+    loadMovePromises.push(movePromise)
+  }
+
 
   i = 0
   for (const movePromise of movePromises) {
@@ -854,8 +873,18 @@ async function runPositionsMulti(cmpName, positions, clockTime, loadNumber = 5, 
       console.log('moves left is under load minimum of', loadNumber)
     }
   }
+
+  for (const loadMovePromise of loadMovePromises) {
+    const move = await loadMovePromise
+    console.log('load move:', move.coordinateMove)
+  }
  
   return moves
+}
+
+
+async function addLoad(instanceNumber) {
+  
 }
 
 async function engineGetMove(settings) {
