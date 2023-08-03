@@ -6,8 +6,12 @@ BINS := $(JS_FILES:%.txt=%)
 	dopushdcal calclean
 
 calclean:
-	rm dist/calibrations/*.json
-	rm dist/calibrations/logs/*
+	rm -rf dist/calibrations/*
+	mkdir dist/calibrations/single
+	mkdir dist/calibrations/single/logs
+	mkdir dist/calibrations/load/
+	mkdir dist/calibrations/load/logs
+
 
 dopushdcal:
 	# scp dist/docalibrate.js yowking:/home/toby/

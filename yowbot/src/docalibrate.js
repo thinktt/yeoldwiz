@@ -20,6 +20,10 @@ const groups = {
   'GM': ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard'],
 }
 
+// const calName = 'load'
+const calName = 'single'
+
+
 // messageBus.init()
 // engine.setLogLevel('silent')
 // runLoad(groups.Easy, 4000)
@@ -99,7 +103,7 @@ async function getInitColckTime(cmpNames) {
 
 async function getClockTime(groupName) {
   // check to see if we have clocks for this group already, if so no calibration needed
-  let doneClocks = await loadFile(`./calibrations/clockTimes.json`)
+  let doneClocks = await loadFile(`./calibrations/${calName}/clockTimes.json`)
   if (doneClocks && doneClocks[groupName]) {
     console.log(chalk.magentaBright(`Found ${groupName} clock time: ${doneClocks[groupName]}`))
     return doneClocks[groupName]
@@ -110,7 +114,7 @@ async function getClockTime(groupName) {
 async function crankDown(cmpNames, groupName, initClockTime) {
   let clockTime = initClockTime
   // Load or any previous calibration run summaries, or create the run file
-  let runSums = await loadFile(`./calibrations/runSums${groupName}.json`)
+  let runSums = await loadFile(`./calibrations/${calName}/runSums${groupName}.json`)
   if (!runSums) {
     console.log(chalk.green('Finding  intitial clock calibration time'))
     console.log(chalk.green('cranking down from', clockTime))
@@ -119,7 +123,7 @@ async function crankDown(cmpNames, groupName, initClockTime) {
     console.log(chalk.green(`Intitializing runSums${groupName}.json file`))
     console.log(chalk.green('Setting init clock time to', clockTime))
     runSums = runSums || { initTime: clockTime, runs : [] }
-    await fs.writeFile(`./calibrations/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
+    await fs.writeFile(`./calibrations/${calName}/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
   } else {
     console.log(chalk.green('previous runSums loaded'))
   }
@@ -129,7 +133,7 @@ async function crankDown(cmpNames, groupName, initClockTime) {
 
 async function doCalibrations(cmpNames, groupName, clockTime) {
   // Load or any previous calibration run summaries, or create the run file
-  let runSums = await loadFile(`./calibrations/runSums${groupName}.json`)
+  let runSums = await loadFile(`./calibrations/${calName}/runSums${groupName}.json`)
   
   let lastRun
   if (runSums.runs.length) {
@@ -149,7 +153,7 @@ async function doCalibrations(cmpNames, groupName, clockTime) {
     await logCalibrationSums(cmpNames, clockTime, groupName)
     
     runSums.runs.push(runSum)
-    await fs.writeFile(`./calibrations/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
+    await fs.writeFile(`./calibrations/${calName}/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
 
     // id accuracy is ver low and under accuracy is high, consider stopping
     if (runSum.idAccuracy < 80 && runSum.underAccuracy > 90) {
@@ -192,7 +196,7 @@ async function doRuns(cmpNames, clockTime, buildFile = true) {
 // less strong than the original move ids
 async function doBestAccurateClocks(groupName) {
     // find the best run from our pool of all runs
-    let runSums = await loadFile(`./calibrations/runSums${groupName}.json`) 
+    let runSums = await loadFile(`./calibrations/${calName}/runSums${groupName}.json`) 
     const runs = runSums.runs
     
     // get the top 4 most accurate runs
@@ -207,12 +211,12 @@ async function doBestAccurateClocks(groupName) {
     const finalClockTime = winningRun[0].clockTime
 
     // load any previous clock times
-    let clockTimes = await loadFile('./calibrations/clockTimes.json')
+    let clockTimes = await loadFile('./calibrations/${calName}/clockTimes.json')
     if (!clockTimes) clockTimes = {}
 
     // add clock time to previous clock times and save
     clockTimes[groupName] = finalClockTime
-    await fs.writeFile(`./calibrations/clockTimes.json`, JSON.stringify(clockTimes, null, 2))
+    await fs.writeFile(`./calibrations/${calName}/clockTimes.json`, JSON.stringify(clockTimes, null, 2))
     console.log(chalk.yellow(JSON.stringify(topAccurateByUnder, null, 2)))
     console.log(chalk.yellow('picked clockTime: ', finalClockTime))
     return finalClockTime
@@ -238,12 +242,12 @@ async function doBestAccurateClocks(groupName) {
     // const finalClockTime = topAccurateByUnder.slice(-1).pop().clockTime
 
     // // runSums = { ...runSums, topAccurateRuns, topAccurateByUnder }
-    // // await fs.writeFile(`./calibrations/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
+    // // await fs.writeFile(`./calibrations/${calName}/runSums${groupName}.json`, JSON.stringify(runSums, null, 2))
     
-    // let clockTimes = await loadFile('./calibrations/clockTimes.json')
+    // let clockTimes = await loadFile('./calibrations/${calName}/clockTimes.json')
     // if (!clockTimes) clockTimes = {}
     // clockTimes[groupName] = finalClockTime
-    // await fs.writeFile(`./calibrations/clockTimes.json`, JSON.stringify(clockTimes, null, 2))
+    // await fs.writeFile(`./calibrations/${calName}/clockTimes.json`, JSON.stringify(clockTimes, null, 2))
 }
 
 
@@ -340,7 +344,7 @@ async function clockStrategy2(cmpNames, startTime) {
 
 // clockCrankDown('Risa', 4000)
 async function clockCrankDown(cmpName, startClockTime, decrement) {
-  const calibration = await loadFile(`./calibrations/${cmpName}.json`)
+  const calibration = await loadFile(`./calibrations/${calName}/${cmpName}.json`)
   if (!calibration) {
     console.log('Error loading calibration')
     return
@@ -371,7 +375,7 @@ async function doLog(...args) {
 
 
 async function showLog(groupName, clockTime) {
-  const log = await fs.readFile(`./calibrations/logs/${groupName}${clockTime}.txt`, 'utf8')
+  const log = await fs.readFile(`./calibrations/${calName}/logs/${groupName}${clockTime}.txt`, 'utf8')
   console.log(log)
 }
 
@@ -388,7 +392,7 @@ async function logCalibrationSums(cmpNames, clockTime, groupName) {
   let targetDepthSum = 0
 
   for (const cmpName of cmpNames) {
-    const calibration = await loadFile(`./calibrations/${cmpName}.json`)
+    const calibration = await loadFile(`./calibrations/${calName}/${cmpName}.json`)
     const target = await loadFile(`./targets/${cmpName}.json`)
 
     doLog(chalk.green(`............${cmpName}............`))
@@ -409,7 +413,7 @@ async function logCalibrationSums(cmpNames, clockTime, groupName) {
     const run = calibration.runs[calibration.runs.length - 1]
     const newRun = { ...run, idAccuracy, realAccuracy, underAccuracy }
     calibration.runs[calibration.runs.length - 1] = newRun
-    // await fs.writeFile(`./calibrations/${cmpName}.json`, JSON.stringify(calibration, null, 2))
+    // await fs.writeFile(`./calibrations/${calName}/${cmpName}.json`, JSON.stringify(calibration, null, 2))
   }
   
   doLog('.........Totals...........')
@@ -425,7 +429,7 @@ async function logCalibrationSums(cmpNames, clockTime, groupName) {
   doLog('Clock Time', clockTime)
 
   if (groupName) {
-    await fs.writeFile(`./calibrations/logs/${groupName}${clockTime}.txt`, logData)
+    await fs.writeFile(`./calibrations/${calName}/logs/${groupName}${clockTime}.txt`, logData)
     logData = ''
   }
 }
@@ -612,7 +616,7 @@ async function runLoad(cmpNames, clockTime) {
 
 
 async function buildCalibrationFile(cmpName, clockTime) {
-  let calibration = await loadFile(`./calibrations/${cmpName}.json`)
+  let calibration = await loadFile(`./calibrations/${calName}/${cmpName}.json`)
   const target = await loadFile(`./targets/${cmpName}.json`)
 
   // check if this clock time run has already been done
@@ -632,10 +636,10 @@ async function buildCalibrationFile(cmpName, clockTime) {
   const run = { averageTime, movesHash, clockTime, ...accuracyStats }
 
   await mutex.runExclusive(async () => {
-    calibration = await loadFile(`./calibrations/${cmpName}.json`)
+    calibration = await loadFile(`./calibrations/${calName}/${cmpName}.json`)
     calibration.runs.push(run) 
     calibration.moves = moves
-    await fs.writeFile(`./calibrations/${cmpName}.json`, JSON.stringify(calibration, null, 2))
+    await fs.writeFile(`./calibrations/${calName}/${cmpName}.json`, JSON.stringify(calibration, null, 2))
   })
   
   return run
@@ -647,7 +651,7 @@ async function buildCalibrationFile(cmpName, clockTime) {
 // engine.setLogLevel('silent')
 // initCalibrationFile('Josh7')
 async function initCalibrationFile(cmpName) {
-  const previousCalibration = await loadFile(`./calibrations/${cmpName}.json`)
+  const previousCalibration = await loadFile(`./calibrations/${calName}/${cmpName}.json`)
   if (previousCalibration) {
     const averageTime = previousCalibration.runs[0].averageTime
     console.log(chalk.green(
@@ -655,7 +659,7 @@ async function initCalibrationFile(cmpName) {
     )
     return averageTime
   }
-  process.stdout.write(chalk.green(`Intializing ${cmpName}.json `))
+  process.stdout.write(chalk.green(`Initializing ${cmpName}.json `))
 
   const moves = await getStopMoves(cmpName, positions) 
   const { movesHash, idMash } = getMovesHash(moves) 
@@ -666,7 +670,7 @@ async function initCalibrationFile(cmpName) {
   calibration.runs.push(run) 
   calibration.movesHashMap[movesHash] = idMash
 
-  await fs.writeFile(`./calibrations/${cmpName}.json`, JSON.stringify(calibration, null, 2))
+  await fs.writeFile(`./calibrations/${calName}/${cmpName}.json`, JSON.stringify(calibration, null, 2))
   console.log(chalk.blue(averageTime, averageTime * 40))
   return averageTime
 }
