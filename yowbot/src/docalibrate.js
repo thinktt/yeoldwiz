@@ -28,10 +28,14 @@ const groups = {
 
 calibrateAllGroups()
 async function calibrateAllGroups() {
+  const groupName = 'Test'
   await messageBus.init()
-  const loadRunners = await startLoad(5)
-  await loadRunners.stop()
-  getInitColckTime(groups['Test'])
+  // const loadRunners = await startLoad(5)
+  // await loadRunners.stop()
+  const initClockTime = await getInitColckTime(groups[groupName])
+  const crankDownClockTime = await crankDown(groups[groupName], groupName, initClockTime)
+  await doCalibrations(groups[groupName], groupName, crankDownClockTime)
+
 
 
   // const easyClocks = await calibrateGroup('Easy')
@@ -103,10 +107,8 @@ async function getClockTime(groupName) {
   return false
 }
 
-
-async function doCalibrations(cmpNames, groupName, initClockTime) {
+async function crankDown(cmpNames, groupName, initClockTime) {
   let clockTime = initClockTime
-
   // Load or any previous calibration run summaries, or create the run file
   let runSums = await loadFile(`./calibrations/runSums${groupName}.json`)
   if (!runSums) {
@@ -121,6 +123,13 @@ async function doCalibrations(cmpNames, groupName, initClockTime) {
   } else {
     console.log(chalk.green('previous runSums loaded'))
   }
+  return clockTime
+}
+
+
+async function doCalibrations(cmpNames, groupName, clockTime) {
+  // Load or any previous calibration run summaries, or create the run file
+  let runSums = await loadFile(`./calibrations/runSums${groupName}.json`)
   
   let lastRun
   if (runSums.runs.length) {
@@ -168,8 +177,9 @@ async function doRuns(cmpNames, clockTime, buildFile = true) {
   for (const cmpName of cmpNames) {
     process.stdout.write(chalk.green(`Running ${cmpName} @ ${clockTime} `))
     const run = await buildCalibrationFile(cmpName, clockTime)
+    process.stdout.write(chalk.green(`\rRunning ${cmpName} @ ${clockTime} `))
     console.log(chalk.blue(run.idAccuracy, run.realAccuracy, run.underAccuracy, run.highCount, 
-      run.lowCount, run.desperados))
+      run.lowCount, run.desperados, '         '))
     runs.push(run) 
   }
   const runSum = getRunSum(runs) 
@@ -885,31 +895,19 @@ async function runPositionsMulti(cmpName, positions, clockTime, loadNumber = 5, 
     loadMovePromises.push(movePromise)
   }
 
-
   i = 0
   for (const movePromise of movePromises) {
     const move = await movePromise
     move.gameNumber = positions[i].gameNumber
     move.gameMoveNumber = positions[i].moveNumber
     moves.push(move)
-    process.stdout.write(`${move.coordinateMove} `)
+    process.stdout.write(chalk.yellow('*'))
     i++
-
-    // if there's less pending moves than instances to load, add load runner
-    // const movesLeft = positions.length - i
-    // console.log(`${movesLeft} moves remaining`)
-    // if (movesLeft < loadNumber) {
-    //   console.log('moves left is under load minimum of', loadNumber)
-    // }
   }
-  process.stdout.write('\nload moves:')
 
   for (const loadMovePromise of loadMovePromises) {
     const move = await loadMovePromise
-    process.stdout.write( ` ${move.coordinateMove}`)
-  }
-  process.stdout.write('\n')
- 
+  } 
   return moves
 }
 
