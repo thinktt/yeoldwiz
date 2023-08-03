@@ -31,6 +31,7 @@ async function calibrateAllGroups() {
   await messageBus.init()
   const loadRunners = await startLoad(5)
   await loadRunners.stop()
+  getInitColckTime(groups['Test'])
 
 
   // const easyClocks = await calibrateGroup('Easy')
@@ -38,10 +39,10 @@ async function calibrateAllGroups() {
   // const gmClocks = await calibrateGroup('GM')
   // const testClocks = await calibrateGroup('Test')
 
-  matches = 0
-  over = 0
-  under = 0 
-  desperados = 0
+  // matches = 0
+  // over = 0
+  // under = 0 
+  // desperados = 0
 
   // await runClock('Easy', easyClocks)
   // await runClock('Hard', hardClocks)
@@ -543,7 +544,7 @@ async function startLoad(numberOfInstances) {
   const stop = async () => {
     console.log('stopping load runners')
     for (const loadRunner of loadRunners) {
-      loadRunner.stopRun()
+      await loadRunner.stopRun()
     }
   }
   return { stop }
@@ -553,6 +554,7 @@ async function startLoad(numberOfInstances) {
 
 async function runLoad(cmpNames, clockTime) {
  let isRunning = true
+ let isDone = false
 
  // create a bunch of moves request to send as load
  const moveReqs = []
@@ -582,17 +584,20 @@ async function runLoad(cmpNames, clockTime) {
         if (!isRunning) break
       }
     }
-    console.log(chalk.green('load run has stopped'))
+    isDone = true
   }
 
   startRun()
 
-  const runHanlder = {
-    stopRun() {
-      isRunning = false
-    }
+  const stopRun = async () => {
+    isRunning = false
+    while(!isDone) {
+      await new Promise(resolve => setTimeout(resolve, 100))
+    } 
+    console.log(chalk.green('load runner has stopped'))
   }
-  return runHanlder
+
+  return { stopRun }
 }
 
 
