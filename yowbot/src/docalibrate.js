@@ -20,35 +20,23 @@ const groups = {
   'GM': ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard'],
 }
 
-messageBus.init()
+// messageBus.init()
 // engine.setLogLevel('silent')
 // runLoad(groups.Easy, 4000)
-// calibrateAllGroups()
 // scaleCalibrate(5)
 
-async function scaleCalibrate(numberOfInstances) {
-  const loadRunners = []
-  console.log(`starting ${numberOfInstances-1} load runners`)
-  for (i=0; i < numberOfInstances-1; i++) {
-    const loadRunner = runLoad(groups.Easy, 4000)
-    loadRunners.push(loadRunner)
-  }
 
-  console.log('startig calibrations')
-  await calibrateAllGroups()
-  
-  for (const loadRunner of loadRunners) {
-    console.log('stopping load runner')
-    loadRunner.stopRun()
-  }
-}
-
-
+calibrateAllGroups()
 async function calibrateAllGroups() {
+  await messageBus.init()
+  const loadRunners = await startLoad(5)
+  await loadRunners.stop()
+
+
   // const easyClocks = await calibrateGroup('Easy')
   // const hardClocks = await calibrateGroup('Hard')
   // const gmClocks = await calibrateGroup('GM')
-  const testClocks = await calibrateGroup('Test')
+  // const testClocks = await calibrateGroup('Test')
 
   matches = 0
   over = 0
@@ -58,8 +46,7 @@ async function calibrateAllGroups() {
   // await runClock('Easy', easyClocks)
   // await runClock('Hard', hardClocks)
   // await runClock('GM', gmClocks)
-  await runClock('Test', testClocks)
-
+  // await runClock('Test', testClocks)
 }
 
 
@@ -545,27 +532,63 @@ function logMoves(moves, targetMoves) {
 }
 
 
+async function startLoad(numberOfInstances) {
+  const loadRunners = []
+  console.log(`starting ${numberOfInstances-1} load runners`)
+  for (i=0; i < numberOfInstances-1; i++) {
+    const loadRunner = await runLoad(groups.Easy, 4000)
+    loadRunners.push(loadRunner)
+  }
+
+  const stop = async () => {
+    console.log('stopping load runners')
+    for (const loadRunner of loadRunners) {
+      loadRunner.stopRun()
+    }
+  }
+  return { stop }
+}
+
+
+
 async function runLoad(cmpNames, clockTime) {
  let isRunning = true
 
+ // create a bunch of moves request to send as load
+ const moveReqs = []
+ for (const cmpName of cmpNames)  {
+  const cmp = personalites.getSettings(cmpName)
+  for (const position of positions) {
+     const settings = { 
+       moves: position.uciMoves, 
+       cmpName,
+       gameId: `position${i}`,
+       stopId: null, 
+       clockTime,
+       randomIsOff: true,
+       shouldSkipBook: true, 
+       showPreviousMoves: null, 
+       pVals: cmp.out, 
+     }
+     moveReqs.push(settings)
+   }
+ }
+
  const startRun = async () => {
-    console.log(chalk.green('running continous load'))
+    console.log(chalk.green('load runner has started'))
     while(isRunning) {
-      for (const cmpName of cmpNames) {
-        const target = await loadFile(`./targets/${cmpName}.json`)
-        // process.stdout.write(chalk.green(`Running ${cmpName} @ ${clockTime} `))
-        const moves = await runPositions(cmpName, positions, clockTime)
-        const accuracyStats = await getAccurayStats(moves, target.moves)
-        // console.log(accuracyStats)
+      for (const moveReq of moveReqs) {
+        await engineGetMove(moveReq)
+        if (!isRunning) break
       }
     }
+    console.log(chalk.green('load run has stopped'))
   }
 
   startRun()
 
   const runHanlder = {
     stopRun() {
-      console.log('stopping run')
       isRunning = false
     }
   }
@@ -806,10 +829,10 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
 // runPositionsMulti is just like runPositions except it sends all the moves to the bus
 // at once, also takes a loadNumber allowing you to specify how many workers there
 // are so load can be maintained
-engine.setLogLevel('silent')
-runPositionsMulti('Risa', positions, 30000)
+// engine.setLogLevel('silent')
+// runPositionsMulti('Risa', positions, 30000)
 async function runPositionsMulti(cmpName, positions, clockTime, loadNumber = 5, showPreviousMoves) {
-  console.log('running multi', loadNumber)
+  // console.log('running multi', loadNumber)
 
   const cmp = personalites.getSettings(cmpName)
   cmp.out.rnd = "0"
@@ -841,10 +864,11 @@ async function runPositionsMulti(cmpName, positions, clockTime, loadNumber = 5, 
   // this will make sure there is continous load on all workers
   const loadMovePromises = []
   for (let i = 0; i < loadNumber; i++) {
+    const rnd = Math.floor(Math.random() * positions.length)
     const settings = { 
-      moves: positions[0].uciMoves, 
+      moves: positions[rnd].uciMoves, 
       cmpName,
-      gameId: `position${0}ForLoad`,
+      gameId: `position${rnd}ForLoad`,
       stopId, 
       clockTime,
       randomIsOff: true,
@@ -863,29 +887,27 @@ async function runPositionsMulti(cmpName, positions, clockTime, loadNumber = 5, 
     move.gameNumber = positions[i].gameNumber
     move.gameMoveNumber = positions[i].moveNumber
     moves.push(move)
-    console.log(move.coordinateMove)
+    process.stdout.write(`${move.coordinateMove} `)
     i++
 
     // if there's less pending moves than instances to load, add load runner
-    const movesLeft = positions.length - i
-    console.log(`${movesLeft} moves remaining`)
-    if (movesLeft < loadNumber) {
-      console.log('moves left is under load minimum of', loadNumber)
-    }
+    // const movesLeft = positions.length - i
+    // console.log(`${movesLeft} moves remaining`)
+    // if (movesLeft < loadNumber) {
+    //   console.log('moves left is under load minimum of', loadNumber)
+    // }
   }
+  process.stdout.write('\nload moves:')
 
   for (const loadMovePromise of loadMovePromises) {
     const move = await loadMovePromise
-    console.log('load move:', move.coordinateMove)
+    process.stdout.write( ` ${move.coordinateMove}`)
   }
+  process.stdout.write('\n')
  
   return moves
 }
 
-
-async function addLoad(instanceNumber) {
-  
-}
 
 async function engineGetMove(settings) {
   // const engineMoves = await engine.getMove(settings)
@@ -900,7 +922,6 @@ async function engineGetMove(settings) {
   
   return busMove
 }
-
 
 
 
