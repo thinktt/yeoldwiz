@@ -7,6 +7,7 @@ const positions = require('./testPositions.json')
 const fs = require('fs').promises
 const messageBus = require('./moveMessages.js')
 const crypto = require('crypto')
+const { load } = require('dotenv')
 const Mutex = require('async-mutex').Mutex
 const mutex = new Mutex()
 
@@ -20,13 +21,24 @@ const groups = {
   'GM': ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard'],
 }
 
+// calName configures the folder where the calibrations are stores, the name
+// placed here will store all the calibrations in ./calibrations/<calName>
+// this allows testing different calibration settings and keeping all the results
 // const calName = 'single'
-const calName = 'test'
-instanceNumber = 5
+const calName = 'noload'
 
+// instanceNumber configures how much load is put on the engine workers
+// it should match the number of engine workers in the system if it is set
+// to 0 the calibration will run in a syncronous way simulating that there is 
+// no load on the system
+instanceNumber = 0
+
+// setting the engine log level to silent is only necessary if you are running
+// the local engine, if we are using the bus this is essentially ingored
 // engine.setLogLevel('silent')
-runCalibrations()
 
+
+runCalibrations()
 async function runCalibrations() {
   await initCalFolder()
   await messageBus.init()
@@ -41,10 +53,17 @@ async function runCalibrations() {
   // under = 0 
   // desperados = 0
   
+  let loadNumber
+  if (instanceNumber > 0) loadNumber = instanceNumber - 1
+    else loadNumber = 0
+
+  const loadRunners = await startLoad(loadNumber)
+  await runClock('Test', testClocks)
   // await runClock('Easy', easyClocks)
   // await runClock('Hard', hardClocks)
   // await runClock('GM', gmClocks)
-  // await runClock('Test', testClocks)
+  loadRunners.stop()
+  
   messageBus.close()
 }
 
@@ -62,6 +81,13 @@ async function runClock(groupName, clockTime) {
       chalk.magenta('desperados', desperados)
     )
   }
+  const totalMoves = cmpNames.length * positions.length
+  const idAccuracy = Math.round((matches / totalMoves) * 100) 
+  const underAccuracy = Math.round(((matches + under) / totalMoves) * 100) 
+  
+  console.log(chalk.blue('idAccuracy:', idAccuracy))
+  console.log(chalk.yellow('underAccuracy:',  underAccuracy))
+
 }
 
 
@@ -556,7 +582,7 @@ async function startLoad(numberOfInstances) {
   const loadRunners = []
   console.log(`starting ${numberOfInstances} load runners`)
   for (i=0; i < numberOfInstances; i++) {
-    const loadRunner = await runLoad(groups.Easy, 4000)
+    const loadRunner = await runLoad(groups.Easy, 20000)
     loadRunners.push(loadRunner)
   }
 
@@ -632,7 +658,15 @@ async function buildCalibrationFile(cmpName, clockTime) {
     }
   }
   
-  const moves = await runPositionsMulti(cmpName, positions, clockTime)
+  let moves
+  if (instanceNumber > 0) {
+    moves = await runPositionsMulti(cmpName, positions, clockTime)
+  } else {
+    moves = await runPositions(cmpName, positions, clockTime)
+  }
+
+
+
   const { movesHash, idMash } = getMovesHash(moves) 
   const { averageTime } = getAverageMoveTime(moves)
   calibration.movesHashMap[movesHash] = idMash
@@ -665,8 +699,14 @@ async function initCalibrationFile(cmpName) {
     return averageTime
   }
   process.stdout.write(chalk.green(`Initializing ${cmpName}.json `))
-  // const moves = await getStopMoves(cmpName, positions) 
-  const moves = await runPositionsMulti(cmpName, positions, 20000, true)
+  
+  let moves
+  if (instanceNumber > 0) {
+    moves = await runPositionsMulti(cmpName, positions, 20000, true)
+  } else {
+    moves = await getStopMoves(cmpName, positions) 
+  }
+
   const { movesHash, idMash } = getMovesHash(moves) 
   const { averageTime } = getAverageMoveTime(moves)
   
@@ -852,6 +892,7 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
     move.gameNumber = position.gameNumber
     move.gameMoveNumber = position.moveNumber
     moves.push(move)
+    process.stdout.write(chalk.yellow('*'))
     i++
   }
   
