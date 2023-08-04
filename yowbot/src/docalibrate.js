@@ -25,28 +25,29 @@ const calName = 'test'
 instanceNumber = 5
 
 // engine.setLogLevel('silent')
-calibrateAllGroups()
+runCalibrations()
 
-async function calibrateAllGroups() {
+async function runCalibrations() {
   await initCalFolder()
   await messageBus.init()
-  // runPositionsMulti('Risa', positions, 4500, true)
   
   const testClocks = await calibrateGroup('Test')
   // const easyClocks = await calibrateGroup('Easy')
   // const hardClocks = await calibrateGroup('Hard')
   // const gmClocks = await calibrateGroup('GM')
-
+  
   // matches = 0
   // over = 0
   // under = 0 
   // desperados = 0
-
+  
   // await runClock('Easy', easyClocks)
   // await runClock('Hard', hardClocks)
   // await runClock('GM', gmClocks)
   // await runClock('Test', testClocks)
+  messageBus.close()
 }
+
 
 async function runClock(groupName, clockTime) {
   const cmpNames = groups[groupName]
@@ -84,6 +85,7 @@ async function calibrateGroup(groupName) {
   await loadRunners.stop()
 
   await doCalibrations(groups[groupName], groupName, crankDownClockTime)
+  doBestAccurateClocks(groupName)
 
   return clockTime
 }

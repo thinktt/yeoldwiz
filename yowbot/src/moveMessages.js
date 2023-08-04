@@ -4,6 +4,7 @@ module.exports = {
   pubMoveReq,
   getMove,
   init,
+  close,
 }
 
 
@@ -11,6 +12,12 @@ let moveStream
 let nats 
 let nc
 let initIsDone = false
+
+
+function close() {
+  console.log('closing nats connection')
+  if (nc) nc.close()
+}
 
 
 async function init() {
@@ -35,7 +42,7 @@ async function init() {
     console.error(`error connecting to nats: ${err}`)
     process.exit(1)
   }
-  
+
   console.log(`connected to move pub sub streams ${nc.getServer()}`)
   const done = nc.closed()
   const jsm = await nc.jetstreamManager()
