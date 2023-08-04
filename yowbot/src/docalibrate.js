@@ -1,16 +1,50 @@
+#! /usr/bin/env node
+
 require('dotenv').config()
-const chessTools = require("./chessTools.js")
-const chalk = require('chalk')
-const engine = require('./engine')
 const personalites = require('./personalities.js')
 const positions = require('./testPositions.json')
-const fs = require('fs').promises
 const messageBus = require('./moveMessages.js')
+const chalk = require('chalk')
+const fs = require('fs').promises
 const crypto = require('crypto')
-const { load } = require('dotenv')
 const Mutex = require('async-mutex').Mutex
 const mutex = new Mutex()
+require('dotenv')
 
+const args = process.argv.slice(2)
+console.log(args)
+
+
+const cmd = args[0]
+
+// calName configures the folder where the calibrations are stores, the name
+// placed here will store all the calibrations in ./calibrations/<calName>
+// this allows testing different calibration settings and keeping all the results
+// const calName = 'single'
+const calName = args[1] 
+
+// instanceNumber configures how much load is put on the engine workers
+// it should match the number of engine workers in the system if it is set
+// to 0 the calibration will run in a syncronous way simulating that there is 
+// no load on the system
+const instanceNumber = args[2]
+
+if (cmd === 'cal') {
+  runCalibrations()
+} else if (cmd === 'test') {
+  runClockTests()
+} else {
+  console.log('must specify cal or test')
+  console.log('docalibrate cal <calName> <instanceNumber>')
+  console.log('docalibrate test <calName> <instanceNumber>')
+  process.exit(1)
+}
+
+if (!calName) {
+  console.log('must specify calibration folder name and instance number')
+  console.log('docalibrate <cmd> <calName> <instanceNumber>')
+  process.exit(1)
+}
 
 let logData = ''
 
@@ -21,50 +55,51 @@ const groups = {
   'GM': ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard'],
 }
 
-// calName configures the folder where the calibrations are stores, the name
-// placed here will store all the calibrations in ./calibrations/<calName>
-// this allows testing different calibration settings and keeping all the results
-// const calName = 'single'
-const calName = 'noload'
-
-// instanceNumber configures how much load is put on the engine workers
-// it should match the number of engine workers in the system if it is set
-// to 0 the calibration will run in a syncronous way simulating that there is 
-// no load on the system
-instanceNumber = 0
-
 // setting the engine log level to silent is only necessary if you are running
 // the local engine, if we are using the bus this is essentially ingored
 // engine.setLogLevel('silent')
 
-
-runCalibrations()
+// runCalibrations()
 async function runCalibrations() {
   await initCalFolder()
   await messageBus.init()
   
-  const testClocks = await calibrateGroup('Test')
+  // const testClocks = await calibrateGroup('Test')
   // const easyClocks = await calibrateGroup('Easy')
-  // const hardClocks = await calibrateGroup('Hard')
+  const hardClocks = await calibrateGroup('Hard')
   // const gmClocks = await calibrateGroup('GM')
   
-  // matches = 0
-  // over = 0
-  // under = 0 
-  // desperados = 0
+  messageBus.close()
+}
+
+
+async function runClockTests() {
   
+  const hardClocks =  await getClockTime('Hard')
+  if (!hardClocks) {
+    console.log('No clock times found, run calibrations first')
+    process.exit(1)
+  }
+
+  await messageBus.init()
+  
+  matches = 0
+  over = 0
+  under = 0 
+  desperados = 0
+
   let loadNumber
   if (instanceNumber > 0) loadNumber = instanceNumber - 1
     else loadNumber = 0
 
   const loadRunners = await startLoad(loadNumber)
-  await runClock('Test', testClocks)
+  // await runClock('Test', testClocks)
   // await runClock('Easy', easyClocks)
-  // await runClock('Hard', hardClocks)
+  await runClock('Hard', hardClocks)
   // await runClock('GM', gmClocks)
   loadRunners.stop()
   
-  messageBus.close()
+  messageBus.close()  
 }
 
 
@@ -579,6 +614,7 @@ function logMoves(moves, targetMoves) {
 
 
 async function startLoad(numberOfInstances) {
+
   const loadRunners = []
   console.log(`starting ${numberOfInstances} load runners`)
   for (i=0; i < numberOfInstances; i++) {
