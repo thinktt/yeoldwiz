@@ -677,7 +677,7 @@ async function initCalibrationFile(cmpName) {
   
   process.stdout.write(chalk.green(`\rInitializing ${cmpName}.json `)) 
   process.stdout.write(chalk.blue(`${averageTime} ${averageTime * 40}`))
-  process.stdout.write('                   \n')
+  process.stdout.write('                        \n')
   return averageTime
 }
 
@@ -862,7 +862,7 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
 // engine.setLogLevel('silent')
 // runPositionsMulti('Risa', positions, 4500, true)
 async function runPositionsMulti(cmpName, positions, clockTime, isInStopMode) {
-  loadNumber = instanceNumber || 0
+  const loadNumber = instanceNumber || 0
 
   let target
 
