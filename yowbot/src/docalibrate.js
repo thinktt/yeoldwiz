@@ -81,6 +81,8 @@ async function runClockTests() {
     process.exit(1)
   }
 
+  console.log(hardClocks)
+
   await messageBus.init()
   
   matches = 0
@@ -100,6 +102,7 @@ async function runClockTests() {
   loadRunners.stop()
   
   messageBus.close()  
+  process.exit(0)
 }
 
 
