@@ -20,32 +20,22 @@ const groups = {
   'GM': ['Fischer', 'Tal', 'Karpov', 'Capablanca', 'Morphy', 'Wizard'],
 }
 
-// const calName = 'load'
-const calName = 'single'
+// const calName = 'single'
+const calName = 'test'
+instanceNumber = 5
 
-
-// messageBus.init()
 // engine.setLogLevel('silent')
-// runLoad(groups.Easy, 4000)
-// scaleCalibrate(5)
-
-
 calibrateAllGroups()
+
 async function calibrateAllGroups() {
-  const groupName = 'Test'
+  await initCalFolder()
   await messageBus.init()
-  // const loadRunners = await startLoad(5)
-  // await loadRunners.stop()
-  const initClockTime = await getInitColckTime(groups[groupName])
-  const crankDownClockTime = await crankDown(groups[groupName], groupName, initClockTime)
-  await doCalibrations(groups[groupName], groupName, crankDownClockTime)
-
-
-
+  // runPositionsMulti('Risa', positions, 4500, true)
+  
+  const testClocks = await calibrateGroup('Test')
   // const easyClocks = await calibrateGroup('Easy')
   // const hardClocks = await calibrateGroup('Hard')
   // const gmClocks = await calibrateGroup('GM')
-  // const testClocks = await calibrateGroup('Test')
 
   // matches = 0
   // over = 0
@@ -57,7 +47,6 @@ async function calibrateAllGroups() {
   // await runClock('GM', gmClocks)
   // await runClock('Test', testClocks)
 }
-
 
 async function runClock(groupName, clockTime) {
   const cmpNames = groups[groupName]
@@ -77,11 +66,25 @@ async function runClock(groupName, clockTime) {
 
 async function calibrateGroup(groupName) {
   let clockTime = await getClockTime(groupName)
-  if (!clockTime) {
-    let initClocktime = await getInitColckTime(groups[groupName])
-    await doCalibrations(groups[groupName], groupName, initClocktime)
-    clockTime = await doBestAccurateClocks(groupName)
+  if (clockTime) {
+    return clockTime
   }
+
+  // add load if we are doing a load calibration
+  if(instanceNumber) {
+    loadNumber = instanceNumber - 1
+  } else {
+    loadNumber = 0
+  }
+
+  const initClockTime = await getInitColckTime(groups[groupName])
+
+  const loadRunners = await startLoad(loadNumber)
+  const crankDownClockTime = await crankDown(groups[groupName], groupName, initClockTime)
+  await loadRunners.stop()
+
+  await doCalibrations(groups[groupName], groupName, crankDownClockTime)
+
   return clockTime
 }
 
@@ -549,8 +552,8 @@ function logMoves(moves, targetMoves) {
 
 async function startLoad(numberOfInstances) {
   const loadRunners = []
-  console.log(`starting ${numberOfInstances-1} load runners`)
-  for (i=0; i < numberOfInstances-1; i++) {
+  console.log(`starting ${numberOfInstances} load runners`)
+  for (i=0; i < numberOfInstances; i++) {
     const loadRunner = await runLoad(groups.Easy, 4000)
     loadRunners.push(loadRunner)
   }
@@ -627,7 +630,7 @@ async function buildCalibrationFile(cmpName, clockTime) {
     }
   }
   
-  const moves = await runPositionsMulti(cmpName, positions, clockTime, 5)
+  const moves = await runPositionsMulti(cmpName, positions, clockTime)
   const { movesHash, idMash } = getMovesHash(moves) 
   const { averageTime } = getAverageMoveTime(moves)
   calibration.movesHashMap[movesHash] = idMash
@@ -660,8 +663,8 @@ async function initCalibrationFile(cmpName) {
     return averageTime
   }
   process.stdout.write(chalk.green(`Initializing ${cmpName}.json `))
-
-  const moves = await getStopMoves(cmpName, positions) 
+  // const moves = await getStopMoves(cmpName, positions) 
+  const moves = await runPositionsMulti(cmpName, positions, 20000, true)
   const { movesHash, idMash } = getMovesHash(moves) 
   const { averageTime } = getAverageMoveTime(moves)
   
@@ -671,7 +674,10 @@ async function initCalibrationFile(cmpName) {
   calibration.movesHashMap[movesHash] = idMash
 
   await fs.writeFile(`./calibrations/${calName}/${cmpName}.json`, JSON.stringify(calibration, null, 2))
-  console.log(chalk.blue(averageTime, averageTime * 40))
+  
+  process.stdout.write(chalk.green(`\rInitializing ${cmpName}.json `)) 
+  process.stdout.write(chalk.blue(`${averageTime} ${averageTime * 40}`))
+  process.stdout.write('                   \n')
   return averageTime
 }
 
@@ -712,42 +718,7 @@ function getAverageMoveTime(moves) {
   return { averageTime, clockTimeEstimate }
 }
 
-// getStopMoves runs through a list of posistions and using a given cmp
-// it assumes these positions are the same as the target moves for that cmp
-// the move is returned when the stopId is hit, this is used to get an 
-// estimate time that it takes to make equivalent moves on the target machine
-// engine.setLogLevel('silent')
-// getStopMoves('Josh7', [positions[0]])
-async function getStopMoves(cmpName, positions) {
-  const target = await loadFile(`./targets/${cmpName}.json`)
-  const cmp = personalites.getSettings(target.cmpName)
-  cmp.out.rnd = "0"
-  
-  let i = 0
-  const moves = []
 
-  for (const position of positions) {
-    const stopId =  target.moves[i].id
-    // console.log('stopId', stopId)
-    const settings = { 
-      moves: position.uciMoves,
-      cmpName,
-      gameId : 'cal', 
-      stopId,
-      clockTime: 60000,
-      randomIsOff: true,
-      shouldSkipBook: true, 
-      pVals: cmp.out, 
-    }
-    let move = await engineGetMove(settings)
-    move.gameNumber = position.gameNumber
-    move.gameMoveNumber = position.moveNumber
-    moves.push(move)
-    i++
-  }
-
-  return moves
-}
 
 
 // these are used to capture counts from testClockTime, would be nice to 
@@ -811,6 +782,46 @@ async function testClockTime(cmpName, position, targetMoveId, startClockTime, de
 }
 
 
+// getStopMoves runs through a list of posistions and using a given cmp
+// it assumes these positions are the same as the target moves for that cmp
+// the move is returned when the stopId is hit, this is used to get an 
+// estimate time that it takes to make equivalent moves on the target machine
+// engine.setLogLevel('silent')
+// getStopMoves('Josh7', [positions[0]])
+async function getStopMoves(cmpName, positions) {
+  const target = await loadFile(`./targets/${cmpName}.json`)
+  const cmp = personalites.getSettings(cmpName)
+  cmp.out.rnd = "0"
+  
+  let i = 0
+  const moves = []
+
+  for (const position of positions) {
+    const stopId =  target.moves[i].id
+    // console.log('stopId', stopId)
+    const settings = { 
+      moves: position.uciMoves,
+      cmpName,
+      gameId : 'cal', 
+      stopId,
+      clockTime: 60000,
+      randomIsOff: true,
+      shouldSkipBook: true, 
+      pVals: cmp.out, 
+    }
+    let move = await engineGetMove(settings)
+    move.gameNumber = position.gameNumber
+    move.gameMoveNumber = position.moveNumber
+    moves.push(move)
+    process.stdout.write(chalk.yellow('*'))
+    i++
+  }
+
+  return moves
+}
+
+
+
 // runPositions takes a list of positions, and a cmpName and clockTime
 // it runs through every position using the given clock time and returns all 
 // the move data from that run
@@ -849,9 +860,19 @@ async function runPositions(cmpName, positions, clockTime, target, showPreviousM
 // at once, also takes a loadNumber allowing you to specify how many workers there
 // are so load can be maintained
 // engine.setLogLevel('silent')
-// runPositionsMulti('Risa', positions, 30000)
-async function runPositionsMulti(cmpName, positions, clockTime, loadNumber = 5, showPreviousMoves) {
-  // console.log('running multi', loadNumber)
+// runPositionsMulti('Risa', positions, 4500, true)
+async function runPositionsMulti(cmpName, positions, clockTime, isInStopMode) {
+  loadNumber = instanceNumber || 0
+
+  let target
+
+  // if we are in stop mode load the target stopIds for the positions
+  // set the clock to super long to make sure we always run until the stop
+  // workers will not actually run this long it will hit the stopId and stop
+  if (isInStopMode) {
+    target = await loadFile(`./targets/${cmpName}.json`)
+    clockTime = 60000
+  }
 
   const cmp = personalites.getSettings(cmpName)
   cmp.out.rnd = "0"
@@ -863,6 +884,7 @@ async function runPositionsMulti(cmpName, positions, clockTime, loadNumber = 5, 
   const movePromises = []
 
   for (const position of positions) {
+    if (target) stopId =  target.moves[i].id
     const settings = { 
       moves: position.uciMoves, 
       cmpName,
@@ -871,7 +893,7 @@ async function runPositionsMulti(cmpName, positions, clockTime, loadNumber = 5, 
       clockTime,
       randomIsOff: true,
       shouldSkipBook: true, 
-      showPreviousMoves, 
+      showPreviousMoves: null, 
       pVals: cmp.out, 
     }
     let movePromise = engineGetMove(settings)
@@ -879,8 +901,14 @@ async function runPositionsMulti(cmpName, positions, clockTime, loadNumber = 5, 
     i++
   }
 
+  // before we push the load moves if we are in stop mode then manually set
+  // the clock back down to lower than 60000 so the stop moves don't take 
+  // forever to run
+  if (isInStopMode) clockTime = 30000
+
   // add moves to the bus to keep load up after moves fall below loadNumber
-  // this will make sure there is continous load on all workers
+  // this will make sure there is continous  on all workers while as the
+  // regular moves fall off
   const loadMovePromises = []
   for (let i = 0; i < loadNumber; i++) {
     const rnd = Math.floor(Math.random() * positions.length)
@@ -892,13 +920,14 @@ async function runPositionsMulti(cmpName, positions, clockTime, loadNumber = 5, 
       clockTime,
       randomIsOff: true,
       shouldSkipBook: true, 
-      showPreviousMoves, 
+      showPreviousMoves: null, 
       pVals: cmp.out, 
     }
     let movePromise = engineGetMove(settings)
     loadMovePromises.push(movePromise)
   }
 
+  
   i = 0
   for (const movePromise of movePromises) {
     const move = await movePromise
@@ -906,11 +935,13 @@ async function runPositionsMulti(cmpName, positions, clockTime, loadNumber = 5, 
     move.gameMoveNumber = positions[i].moveNumber
     moves.push(move)
     process.stdout.write(chalk.yellow('*'))
+    // console.log(target.moves[i].id, move.id)
     i++
   }
 
   for (const loadMovePromise of loadMovePromises) {
     const move = await loadMovePromise
+    process.stdout.write(chalk.green('*'))
   } 
   return moves
 }
@@ -930,7 +961,22 @@ async function engineGetMove(settings) {
   return busMove
 }
 
+async function initCalFolder() {
+  try {
+    await fs.access(`./calibrations/${calName}/logs`);
+    console.log(chalk.green(`calibrations/${calName} folder found`));
+    return;
+  } catch (e) {
+    console.log(chalk.green(`creating folder: calibration/${calName}`));
+  }
 
+  try {
+    await fs.mkdir(`./calibrations/${calName}/logs`, { recursive: true });
+  } catch (err) {
+    console.log(chalk.red(err.message));
+    process.exit(1);
+  }
+}
 
 
 

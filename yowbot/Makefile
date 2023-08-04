@@ -7,10 +7,6 @@ BINS := $(JS_FILES:%.txt=%)
 
 calclean:
 	rm -rf dist/calibrations/*
-	mkdir dist/calibrations/single
-	mkdir dist/calibrations/single/logs
-	mkdir dist/calibrations/load/
-	mkdir dist/calibrations/load/logs
 
 
 dopushdcal:
