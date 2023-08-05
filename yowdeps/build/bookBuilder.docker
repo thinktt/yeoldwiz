@@ -1,0 +1,24 @@
+FROM i386/alpine
+
+RUN apk update
+RUN apk add wine
+RUN apk add nodejs
+RUN apk add vim
+RUN winecfg
+RUN apk add xvfb
+RUN apk add bash
+# RUN apk add time
+
+ENV WINEDEBUG=-all
+ENV DISPLAY=:0.0
+
+WORKDIR /opt
+COPY assets/cm/books/ books/
+COPY assets/tools/obk2bin.exe books/
+COPY build/books2bin.sh books/
+COPY build/normalizeBooks.js books/
+
+
+WORKDIR /opt/books
+
+CMD ["./books2bin.sh"]

@@ -1,0 +1,14 @@
+node_modules
+*.env
+stdioTester
+stdioTester.exe
+enginewrap
+bot-o-tron/.git
+chess-tools/.git
+service.json
+sa.json
+dist
+*.tar
+/books
+runbook
+cm

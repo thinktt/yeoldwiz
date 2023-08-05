@@ -80,22 +80,24 @@ dist.tar: dist
 	# cp envXps.env ./dist/.env
 	tar -cvhf dist.tar -C dist/ .
 
-dist: books
+	# docker cp bookbuilder:opt/binbooks/. dist/books/
+	# build/buildKing.sh
+	# GOOS=windows GOARCH=386 go build -o dist/enginewrap.exe  src/main.go
+	# cp assets/enginewrap.exe dist/enginewrap.exe
+	# GOOS=linux go build -o dist/enginewrap  src/main.go
+
+
+dist:
 	mkdir dist
 	mkdir dist/calibrations
 	mkdir dist/calibrations/logs
 	cp -r cals/targets dist/targets
-	docker cp bookbuilder:opt/binbooks/. dist/books/
-	build/buildKing.sh
-	# GOOS=windows GOARCH=386 go build -o dist/enginewrap.exe  src/main.go
-	cp assets/enginewrap.exe dist/enginewrap.exe
-	GOOS=linux go build -o dist/enginewrap  src/main.go
-
+	ln src/testPositions.json dist/
 	node build/personalitiesBuilder.js
 	ln -rs node_modules dist/
 	ln src/*.js dist/
 	ln .env dist/.env
-	ln src/testPositions.json dist/
+
 
 books:
 	docker rm bookbuilder || true
@@ -128,10 +130,10 @@ reset:
 	rm dist.tar || true
 
 clean:
+	rm -rf dist
 	# rm books
 	# rm dist.tar
-	rm -rf dist
-	make dist
+	# make dist
 
 rmbooks:
 	rm -rf books
