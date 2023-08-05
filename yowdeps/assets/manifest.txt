@@ -12,7 +12,6 @@ c53785627a776a5667386f716228244a  assets/cm/personalities/Andy.CMP
 33b011b766ad44461b4c9e79f453660d  assets/cm/personalities/Argyle.CMP
 f72f62c0c1d71ef11656ee125f0922ad  assets/cm/personalities/Ash.CMP
 a7b269c8b06eca5bd0411b8f760398e8  assets/cm/personalities/Audrey.CMP
-a1ed8be3c4f7730425315aeef0c51f08  assets/cm/personalities/Bambi.CMP
 5b958bef517d07fbc11b644b47bd7954  assets/cm/personalities/Ben.CMP
 ac9d5366b313be1555b4cfdb849c3772  assets/cm/personalities/Berry.CMP
 8815ab8283bd1b3c0fa1cb3e5b82d5b8  assets/cm/personalities/Bird.CMP

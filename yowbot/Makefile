@@ -93,7 +93,7 @@ dist:
 	mkdir dist/calibrations/logs
 	cp -r cals/targets dist/targets
 	ln src/testPositions.json dist/
-	node build/personalitiesBuilder.js
+	cp ../yowdeps/dist/personalities.json dist/
 	ln -rs node_modules dist/
 	ln src/*.js dist/
 	ln .env dist/.env

@@ -2,25 +2,17 @@
   "name": "yeoldwiz",
   "version": "0.1.0",
   "description": "Bring back the Chess Wiz",
-  "main": "src/main.js",
+  "main": "src/runbook.js",
   "scripts": {
     "start": "cd dist; node main.js"
   },
   "keywords": [],
   "author": "",
-  "license": "MIT",
+  "license": "GNU GPLv3",
   "dependencies": {
-    "async-mutex": "^0.4.0",
-    "axios": "^0.19.2",
     "chalk": "^4.1.0",
     "chess-tools": "git+https://github.com/thinktt/chess-tools.git",
-    "chess.js": "^0.10.3",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "nats": "^2.15.1",
-    "node-fetch": "^2.6.7",
-    "node-nats-streaming": "^0.3.2",
-    "oboe": "^2.1.5"
+    "chess.js": "^0.10.3"
   },
   "devDependencies": {
     "prettier": "2.2.1"

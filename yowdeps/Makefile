@@ -4,7 +4,7 @@ include .env
 	rmbooks  reset eep testengine cpbadbooks push dorunbook dorunbinbook \
 	dopushdcal calclean
 
-dist: books runbook
+dist: books runbook 
 	mkdir dist || true
 	docker cp bookbuilder:opt/binbooks/. dist/books/
 	node build/personalitiesBuilder.js
@@ -32,13 +32,6 @@ dorunbinbook: dist
 	./runbook '{"moves": ["d2d4"], "book": "EarlyQueen.bin"}'; \
 	echo
 
-clean:
-	# rm dist/runbook
-	rm dist/TheKing350noOpk.exe || true
-	rm -rf books || true
-	rm personalities.json || true
-	rm -r assets/cm || true
-
 rmbooks:
 	rm -rf books
 	rm -rf dist/books
@@ -63,6 +56,22 @@ assets/cm:
 	echo "correct hash: d3ef7f9453b372e094bac18ce262b442"; \
 	echo "actual hash : $$hash"
 
+cleandist:
+	rm dist/TheKing350noOpk.exe || true
+	rm -rf books || true
+	rm personalities.json || true
+	rm -r assets/cm || true
+
+cleanrunbook:
+	rm dist/runbook || true
+
+cleanassets:
+	rm -rf assets/cm || true
+
+clean-all:
+	make cleanrunbook
+	make cleanassets
+	make cleandist
 
 # din:
 # 	docker run --rm -it -v calibrations:/opt/yeoldwiz/calibrations --name yeoldwiz ace:5000/yeoldwiz /bin/bash
