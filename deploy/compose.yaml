@@ -20,7 +20,19 @@ services:
       - yow
     depends_on:
       - nats
-
+  yowcal:
+    image: ace:5000/yeoldwiz
+    container_name: yowcal
+    env_file:
+      - yowbot.env
+    networks:
+      - yow
+    depends_on:
+      - nats
+    volumes:
+      - cal45:/opt/yeoldwiz/calibrations
+    command: ["sleep", "infinity"]
+    
 
 networks: 
   yow: 
