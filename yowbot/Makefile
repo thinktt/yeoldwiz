@@ -3,11 +3,14 @@ BINS := $(JS_FILES:%.txt=%)
 
 .PHONY: run docal getclocks dbuild drun din dodcal clean books2bin \
 	rmbooks  reset eep testengine cpbadbooks push dorunbook dorunbinbook \
-	dopushdcal calclean
+	dopushdcal calclean kingup
 
 calclean:
 	rm -rf dist/calibrations/*
 
+
+kingup: 
+	cd ../deploy; make kingup
 
 dopushdcal:
 	# scp dist/docalibrate.js yowking:/home/toby/

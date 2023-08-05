@@ -280,7 +280,7 @@ async function doBestAccurateClocks(groupName) {
     const finalClockTime = winningRun[0].clockTime
 
     // load any previous clock times
-    let clockTimes = await loadFile('./calibrations/${calName}/clockTimes.json')
+    let clockTimes = await loadFile(`./calibrations/${calName}/clockTimes.json`)
     if (!clockTimes) clockTimes = {}
 
     // add clock time to previous clock times and save
