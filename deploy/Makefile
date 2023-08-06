@@ -37,8 +37,8 @@ kingdown:
 
 # this command requires you add CPU_START=<num> CPU_END=<num> at th end
 compose-yowking.yaml:
-	# node buildKingYaml.mjs
-	docker exec -e CPU_START=$(CPU_START) -e CPU_END=$(CPU_END) yowcal node buildKingYaml.mjs
-	docker cp yowcal:/opt/yeoldwiz/compose-yowking.yaml .
-	docker cp yowcal:/opt/yeoldwiz/compose-yowking.yaml .
+	node buildKingYaml.mjs
+	# docker exec -e CPU_START=$(CPU_START) -e CPU_END=$(CPU_END) yowcal node buildKingYaml.mjs
+	# docker cp yowcal:/opt/yeoldwiz/compose-yowking.yaml .
+	# docker cp yowcal:/opt/yeoldwiz/compose-yowking.yaml .
 
