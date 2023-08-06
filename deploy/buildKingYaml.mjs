@@ -30,7 +30,7 @@ for (let i = 0; i < cpuSets.length; i+=2) {
       volumes:
         - cal45:/opt/yowking/calibrations
       env_file: 
-        - docker.env
+        - env/king.env
       container_name: yowking${cpu1}${cpu2}
       networks:
         - yow`

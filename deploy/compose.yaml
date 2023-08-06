@@ -10,12 +10,12 @@ services:
       - "4222:4222"
       - "8222:8222"
     env_file:
-      - nats.env
+      - env/nats.env
   yowbot: 
     image: ace:5000/yeoldwiz
     container_name: yowbot
     env_file:
-      - yowbot.env
+      - env/yowbot.env
     networks:
       - yow
     depends_on:
@@ -24,7 +24,7 @@ services:
     image: ace:5000/yeoldwiz
     container_name: yowcal
     env_file:
-      - yowbot.env
+      - env/yowbot.env
     networks:
       - yow
     depends_on:
