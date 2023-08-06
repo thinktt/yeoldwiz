@@ -8,7 +8,7 @@ export VOL_NAME=cal45
 export CPU_START=2
 export CPU_END=11
 
-.PHONY: calclean up down kingup kingdown botdown
+.PHONY: calclean up down kingup kingdown botdown resources
 
 calex:
 	docker exec -it yowcal /bin/ash
@@ -18,6 +18,10 @@ botdown:
 
 calclean:
 	rm -rf dist/calibrations/*
+
+resources:
+	docker network create yow
+	docker volume create cal45
 
 up:
 	docker compose -f compose.yaml -f compose-yowking.yaml up -d
