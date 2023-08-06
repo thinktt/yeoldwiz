@@ -3,12 +3,18 @@ SHELL := /bin/bash
 export CPU1=10
 export CPU2=11
 export LOGICAL_PROCESSOR=${CPU1},${CPU2}
-export NAME=yowkingdp${CPU1}${CPU2}
+export NAME=yowking${CPU1}${CPU2}
 export VOL_NAME=cal45
 export CPU_START=2
 export CPU_END=11
 
-.PHONY: calclean up down kingup kingdown
+.PHONY: calclean up down kingup kingdown botdown
+
+calex:
+	docker exec -it yowcal /bin/ash
+
+botdown:
+	docker compose down yowbot
 
 calclean:
 	rm -rf dist/calibrations/*

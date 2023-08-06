@@ -7,6 +7,7 @@ const messageBus = require('./moveMessages.js')
 const chalk = require('chalk')
 const fs = require('fs').promises
 const crypto = require('crypto')
+const { get } = require('http')
 const Mutex = require('async-mutex').Mutex
 const mutex = new Mutex()
 require('dotenv')
@@ -90,6 +91,7 @@ async function runClockTests() {
   over = 0
   under = 0 
   desperados = 0
+  total = 0
 
   let loadNumber
   if (instanceNumber > 0) loadNumber = instanceNumber - 1
@@ -100,9 +102,27 @@ async function runClockTests() {
   await runClock('Hard', hardClocks)
   await runClock('GM', gmClocks)
   loadRunners.stop()
+
+  // log the filal averages
+  const idAccuracy = getAverage(matches, total)
+  const underAccuracy = getAverage(matches + under, total)
+  const log = `
+    instanceNumber: ${instanceNumber} 
+    matches: ${matches}
+    over: ${over}
+    under: ${under}
+    desperados: ${desperados}
+    idAccuracy: ${idAccuracy}
+    underAccuracy: ${underAccuracy}
+  `
+  await fs.appendFile(`./calibrations/${calName}/testlogs.txt`, log, 'utf8')
   
   messageBus.close()  
   process.exit(0)
+}
+
+function getAverage(itmes, of) {
+  return Math.round((itmes / of) * 100) 
 }
 
 
@@ -111,21 +131,19 @@ async function runClock(groupName, clockTime) {
   for (const cmpName of cmpNames) {
     console.log(chalk.green(`............${cmpName}............`))
     await clockCrankDown(cmpName, clockTime, 0)
+    console.log(chalk.green('totals so far:'))
     console.log(
-      chalk.green('totals so far:'),
       chalk.blue('matches', matches),
       chalk.red('over', over), 
       chalk.yellow('under', under), 
       chalk.magenta('desperados', desperados)
     )
   }
-  const totalMoves = cmpNames.length * positions.length
-  const idAccuracy = Math.round((matches / totalMoves) * 100) 
-  const underAccuracy = Math.round(((matches + under) / totalMoves) * 100) 
+  const idAccuracy = getAverage(matches, total)
+  const underAccuracy = getAverage(matches + under, total)
   
   console.log(chalk.blue('idAccuracy:', idAccuracy))
   console.log(chalk.yellow('underAccuracy:',  underAccuracy))
-
 }
 
 
@@ -805,14 +823,15 @@ function getAverageMoveTime(moves) {
 }
 
 
-
-
 // these are used to capture counts from testClockTime, would be nice to 
-// encapuslate these so they don't live in global module space
+// encapuslate these so they don't live in global module space, this is 
+// bad programming but because of all the functional drilling mess that is  
+// this script counting them globally is a simple solution
 let matches = 0
 let over = 0
 let under = 0 
 let desperados = 0
+let total = 0
 
 // testClocktime given a a cmpName, position, and target move id and a clock
 // to work from it will test if the clock time hits is
@@ -841,6 +860,7 @@ async function testClockTime(cmpName, position, targetMoveId, startClockTime, de
   
   let move
   while(true) {
+    total++
     move = await engineGetMove(settings)
     if (move.id == targetMoveId) {
       console.log(chalk.blue(`${move.id} ${targetMoveId} MATCH @ ${settings.clockTime}`))

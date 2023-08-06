@@ -15,11 +15,12 @@ kingup:
 dopushdcal:
 	# scp dist/docalibrate.js yowking:/home/toby/
 	# ssh yowking 'sudo docker cp /home/toby/docalibrate.js cal1:/opt/yeoldwiz/'
-	docker cp dist/docalibrate.js cal23:/opt/yeoldwiz/docalibrate.js
-	docker cp dist/docalibrate.js cal45:/opt/yeoldwiz/docalibrate.js
-	docker cp dist/docalibrate.js cal67:/opt/yeoldwiz/docalibrate.js
-	docker cp dist/docalibrate.js cal89:/opt/yeoldwiz/docalibrate.js
-	docker cp dist/docalibrate.js cal1011:/opt/yeoldwiz/docalibrate.js
+	# docker cp dist/docalibrate.js cal23:/opt/yeoldwiz/docalibrate.js
+	# docker cp dist/docalibrate.js cal45:/opt/yeoldwiz/docalibrate.js
+	# docker cp dist/docalibrate.js cal67:/opt/yeoldwiz/docalibrate.js
+	# docker cp dist/docalibrate.js cal89:/opt/yeoldwiz/docalibrate.js
+	# docker cp dist/docalibrate.js cal1011:/opt/yeoldwiz/docalibrate.js
+	docker cp dist/docalibrate.js yowcal:/opt/yeoldwiz/docalibrate.js
 
 dopushengine:
 	scp dist/engine.js 
