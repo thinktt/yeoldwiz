@@ -101,6 +101,7 @@ dist:
 	ln -rs node_modules dist/
 	ln src/*.js dist/
 	ln .env dist/.env
+	ln ../deploy/buildKingYaml.mjs dist/
 
 
 books:

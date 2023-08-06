@@ -1,58 +1,14 @@
 version: '3'
 services:
-    yowking23:
+    yowking12:
       image: ace:5000/yowking
       cpus: 2
-      cpuset: "2,3"
+      cpuset: "1,2"
       volumes:
         - cal45:/opt/yowking/calibrations
       env_file: 
         - docker.env
-      container_name: yowking23
-      networks:
-        - yow
-    yowking45:
-      image: ace:5000/yowking
-      cpus: 2
-      cpuset: "4,5"
-      volumes:
-        - cal45:/opt/yowking/calibrations
-      env_file: 
-        - docker.env
-      container_name: yowking45
-      networks:
-        - yow
-    yowking67:
-      image: ace:5000/yowking
-      cpus: 2
-      cpuset: "6,7"
-      volumes:
-        - cal45:/opt/yowking/calibrations
-      env_file: 
-        - docker.env
-      container_name: yowking67
-      networks:
-        - yow
-    yowking89:
-      image: ace:5000/yowking
-      cpus: 2
-      cpuset: "8,9"
-      volumes:
-        - cal45:/opt/yowking/calibrations
-      env_file: 
-        - docker.env
-      container_name: yowking89
-      networks:
-        - yow
-    yowking1011:
-      image: ace:5000/yowking
-      cpus: 2
-      cpuset: "10,11"
-      volumes:
-        - cal45:/opt/yowking/calibrations
-      env_file: 
-        - docker.env
-      container_name: yowking1011
+      container_name: yowking12
       networks:
         - yow
 
