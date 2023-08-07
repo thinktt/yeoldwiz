@@ -32,10 +32,37 @@ services:
     volumes:
       - cal45:/opt/yeoldwiz/calibrations
     command: ["sleep", "infinity"]
-    
+  
+  yowapi:
+    image: ace:5000/yowapi:latest
+    container_name: yowapi
+    environment:
+      - MONGO_HOST=mongodb
+    networks:
+      - mongonet
+      - proxynet
+    ports:
+      - "64355:64355"
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    networks:
+      - mongonet
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb:/data/db
+    restart: unless-stopped
 
 networks: 
   yow: 
+    external: true
+  mongonet:
+    external: true
+  proxynet:
     external: true
 
 volumes:
