@@ -71,5 +71,6 @@ cpurestart:
 
 offturbo: 
 	echo "0" | tee /sys/devices/system/cpu/cpufreq/boost
+	cp rc.local /etc/rc.local
 
 
