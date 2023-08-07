@@ -13,6 +13,7 @@ services:
       - env/nats.env
     restart: 
       unless-stopped
+  
   yowbot: 
     image: ace:5000/yeoldwiz
     container_name: yowbot
@@ -23,6 +24,7 @@ services:
     depends_on:
       - nats
     restart: unless-stopped
+  
   yowcal:
     image: ace:5000/yeoldwiz
     container_name: yowcal
@@ -44,11 +46,14 @@ services:
     networks:
       - mongonet
       - proxynet
-    ports:
-      - "64355:64355"
     depends_on:
       - mongodb
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.yowapi.entrypoints=yowapi"
+      - "traefik.http.routers.yowapi.rule=Host(`api.yeoldwizard.com`) || Host(`xps`)"
+
   mongodb:
     image: mongo:latest
     container_name: mongodb
