@@ -68,4 +68,6 @@ networks:
 volumes:
   cal45:
     external: true
+  mongodb:
+    external: true
 

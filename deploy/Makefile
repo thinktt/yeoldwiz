@@ -9,7 +9,7 @@ SHELL := /bin/bash
 # export CPU_END=11
 
 .PHONY: calclean up down kingup kingdown botdown resources cpuf cput dexcal \
-	cpusee cpurestart cpuseegov cpuseemax offturbo
+	cpusee cpurestart cpuseegov cpuseemax offturbo botup botdown
 
 dexcal:
 	docker exec -it yowcal /bin/ash
@@ -38,6 +38,12 @@ kingup:
 
 kingdown:
 	docker compose -f compose-yowking.yaml down
+
+botup:
+	docker compose up bot -d
+
+botdown:
+	docker compose down bot
 
 # this command requires you add CPU_START=<num> CPU_END=<num> at th end
 compose-yowking.yaml:
