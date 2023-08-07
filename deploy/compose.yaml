@@ -11,6 +11,8 @@ services:
       - "8222:8222"
     env_file:
       - env/nats.env
+    restart: 
+      unless-stopped
   yowbot: 
     image: ace:5000/yeoldwiz
     container_name: yowbot
@@ -20,6 +22,7 @@ services:
       - yow
     depends_on:
       - nats
+    restart: unless-stopped
   yowcal:
     image: ace:5000/yeoldwiz
     container_name: yowcal
@@ -43,9 +46,9 @@ services:
       - proxynet
     ports:
       - "64355:64355"
-    restart: unless-stopped
     depends_on:
       - mongodb
+    restart: unless-stopped
   mongodb:
     image: mongo:latest
     container_name: mongodb
