@@ -8,9 +8,10 @@ SHELL := /bin/bash
 # export CPU_START=2
 # export CPU_END=11
 
-.PHONY: calclean up down kingup kingdown botdown resources cpuf cput
+.PHONY: calclean up down kingup kingdown botdown resources cpuf cput dexcal \
+	cpusee cpurestart
 
-calex:
+dexcal:
 	docker exec -it yowcal /bin/ash
 
 botdown:
@@ -20,8 +21,11 @@ calclean:
 	rm -rf dist/calibrations/*
 
 resources:
-	docker network create yow
-	docker volume create cal45
+	docker network create proxynet || true
+	docker network create mongonet || true
+	docker network create yow || true
+	docker volume create mongodb || true
+	docker volume create cal45 || true
 
 up:
 	docker compose -f compose.yaml -f compose-yowking.yaml up -d
@@ -47,5 +51,16 @@ cpuf:
 
 cput:
 	watch -n 1 sensors
+
+cpusee:
+	cat /etc/default/cpufrequtils
+	cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
+
+
+cpurestart:
+	# sudo systemctl restart cpufrequtils	
+	/etc/init.d/cpufrequtils restart
+
+
 
 
