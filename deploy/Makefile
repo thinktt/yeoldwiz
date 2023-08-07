@@ -8,7 +8,7 @@ SHELL := /bin/bash
 # export CPU_START=2
 # export CPU_END=11
 
-.PHONY: calclean up down kingup kingdown botdown resources
+.PHONY: calclean up down kingup kingdown botdown resources cpuf cput
 
 calex:
 	docker exec -it yowcal /bin/ash
@@ -41,4 +41,11 @@ compose-yowking.yaml:
 	# docker exec -e CPU_START=$(CPU_START) -e CPU_END=$(CPU_END) yowcal node buildKingYaml.mjs
 	# docker cp yowcal:/opt/yeoldwiz/compose-yowking.yaml .
 	# docker cp yowcal:/opt/yeoldwiz/compose-yowking.yaml .
+
+cpuf:
+	watch -n1 "grep \"^[c]pu MHz\" /proc/cpuinfo"
+
+cput:
+	watch -n 1 sensors
+
 
