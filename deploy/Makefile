@@ -40,10 +40,10 @@ kingdown:
 	docker compose -f compose-yowking.yaml down
 
 botup:
-	docker compose up bot -d
+	docker compose up yowbot -d
 
 botdown:
-	docker compose down bot
+	docker compose down yowbot
 
 # this command requires you add CPU_START=<num> CPU_END=<num> at th end
 compose-yowking.yaml:
