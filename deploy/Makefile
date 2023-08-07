@@ -9,7 +9,7 @@ SHELL := /bin/bash
 # export CPU_END=11
 
 .PHONY: calclean up down kingup kingdown botdown resources cpuf cput dexcal \
-	cpusee cpurestart
+	cpusee cpurestart cpuseegov cpuseemax offturbo
 
 dexcal:
 	docker exec -it yowcal /bin/ash
@@ -50,17 +50,26 @@ cpuf:
 	watch -n1 "grep \"^[c]pu MHz\" /proc/cpuinfo"
 
 cput:
-	watch -n 1 sensors
+	watch -n .1 sensors
 
 cpusee:
-	cat /etc/default/cpufrequtils
+	# cat /etc/default/cpufrequtils
+	cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies
+	cat /sys/devices/system/cpu/cpu2/cpufreq/scaling_available_governors
+	cat /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq
+	cat /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq
+	cat /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor
+
+cpuseemax:
 	cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
 
+cpuseegov:
+	cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 
 cpurestart:
-	# sudo systemctl restart cpufrequtils	
-	/etc/init.d/cpufrequtils restart
+	systemctl restart cpufrequtils	
 
-
+offturbo: 
+	echo "0" | tee /sys/devices/system/cpu/cpufreq/boost
 
 
