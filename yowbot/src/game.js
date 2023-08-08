@@ -130,7 +130,7 @@ async function create(gameId) {
       if (err && !game.isOver) {
         console.error(chalk.red(`Failed to make move for ${game.id}, restarting stream`))
         // game.stream.abort('forReset')
-        game.stream.restart()
+        game.stream.restart('failedToMove')
       }
       game.isMoving = false
     }
@@ -188,7 +188,7 @@ async function create(gameId) {
         await game.playNextMove().catch(e => err = e)
         if (err && !game.isOver) {
           console.error(chalk.red(`Failed to make move for ${game.id}, restarting stream`))
-          game.stream.restart()
+          game.stream.restart('failedToMove')
         }
         
       }
