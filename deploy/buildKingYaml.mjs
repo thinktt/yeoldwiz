@@ -33,7 +33,8 @@ for (let i = 0; i < cpuSets.length; i+=2) {
         - env/king.env
       container_name: yowking${cpu1}${cpu2}
       networks:
-        - yow`
+        - yow
+      restart: always`
 }
 
 data += `\n\nnetworks:\n  yow:\n    external: true\n`;
