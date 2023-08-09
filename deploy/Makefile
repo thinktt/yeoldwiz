@@ -62,12 +62,16 @@ cpusee:
 	cat /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq
 	cat /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq
 	cat /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor
+	cat /sys/devices/system/cpu/cpufreq/boost
 
 cpuseemax:
 	cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
 
 cpuseegov:
 	cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+
+cpuseetrubo:
+	cat /sys/devices/system/cpu/cpufreq/boost
 
 cpurestart:
 	systemctl restart cpufrequtils	
