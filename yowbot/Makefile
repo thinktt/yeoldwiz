@@ -68,10 +68,11 @@ din:
 drun: dbuild
 	docker run \
 		-v calibrations:/opt/yeoldwiz/cals/xps \
-		--env-file envXps.env \
-		--name yeoldwiz \
+		--env-file envAce.env \
+		--name yowbot \
 		--network=yow \
-		-d zen:5000/yeoldwiz
+		--rm -it zen:5000/yeoldwiz /bin/ash
+		# zen:5000/yeoldwiz
 
 dbuild: dist.tar
 	docker rm yeoldwiz || true
