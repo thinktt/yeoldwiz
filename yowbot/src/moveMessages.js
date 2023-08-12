@@ -62,11 +62,19 @@ async function getMove(settings) {
     await new Promise(resolve => setTimeout(resolve, 100))
   }
 
+  // change JW to Josh as yowking only knows Josh from personality.json
+  // better solutions might be to just dump the JW alias but it's currently
+  // littered throughout the system
+  
   const { moves, cmpName, gameId, stopId, clockTime, randomIsOff, 
     shouldSkipBook } = settings
+  
+  let cmpRealName = cmpName
+  if ( cmpName.includes('JW') ) cmpRealName = cmpName.replace('JW', 'Josh')
+  
   const moveReq = { 
     moves, 
-    cmpName,
+    cmpName: cmpRealName,
     gameId, 
     stopId, 
     clockTime,
