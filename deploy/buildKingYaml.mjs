@@ -24,7 +24,7 @@ for (let i = 0; i < cpuSets.length; i+=2) {
   const cpu2 = cpuSets[i+1]
   data += `
     yowking${cpu1}${cpu2}:
-      image: ace:5000/yowking
+      image: zen:5000/yowking
       cpus: 2
       cpuset: "${cpu1},${cpu2}"
       volumes:

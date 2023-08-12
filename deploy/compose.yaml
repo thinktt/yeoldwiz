@@ -15,7 +15,7 @@ services:
       unless-stopped
   
   yowbot: 
-    image: ace:5000/yeoldwiz
+    image: zen:5000/yeoldwiz
     container_name: yowbot
     env_file:
       - env/yowbot.env
@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
   
   yowcal:
-    image: ace:5000/yeoldwiz
+    image: zen:5000/yeoldwiz
     container_name: yowcal
     env_file:
       - env/yowbot.env
@@ -39,7 +39,7 @@ services:
     command: ["sleep", "infinity"]
   
   yowapi:
-    image: ace:5000/yowapi:latest
+    image: zen:5000/yowapi:latest
     container_name: yowapi
     environment:
       - MONGO_HOST=mongodb
