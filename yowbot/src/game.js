@@ -258,9 +258,14 @@ async function create(gameId) {
 
   function sayWizPlayer() {
     const cmp = personalites.fuzzySearch(game.wizPlayer)
+    
+    let cmpName = game.wizPlayer
+    if ( cmpName.includes('Josh') ) cmpName = cmpName.replace('Josh', 'JW')
+
+
     api.chat(game.id, 'player', 
-      `Playing as ${game.wizPlayer}. Wiz Rating ${cmp.rating}. ${cmp.summary}`)
-    api.chat(game.id, 'spectator', `Playing as ${game.wizPlayer}`)
+      `Playing as ${cmpName}. Wiz Rating ${cmp.rating}. ${cmp.summary}`)
+    api.chat(game.id, 'spectator', `Playing as ${cmpName}`)
   }
 
   async function getWizPlayerFromChat() {

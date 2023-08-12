@@ -50,9 +50,9 @@ dodcal:
 	docker run --cpus=1 --cpuset-cpus=${LOGICAL_PROCESSOR} \
 		--platform linux/386 \
 		-v ${CAL_NAME}:/opt/yeoldwiz/calibrations \
-		--name ${CAL_NAME} -it ace:5000/yeoldwiz \
+		--name ${CAL_NAME} -it zen:5000/yeoldwiz \
 		/bin/sh
-		# ace:5000/yeoldwiz ./node docalibrate.js
+		# zen:5000/yeoldwiz ./node docalibrate.js
 
 runbook:
 	cd dist; \
@@ -60,10 +60,10 @@ runbook:
 
 
 push:
-	docker push ace:5000/yeoldwiz
+	docker push zen:5000/yeoldwiz
 
 din:
-	docker run --rm -it -v calibrations:/opt/yeoldwiz/calibrations --name yeoldwiz ace:5000/yeoldwiz /bin/bash
+	docker run --rm -it -v calibrations:/opt/yeoldwiz/calibrations --name yeoldwiz zen:5000/yeoldwiz /bin/bash
 
 drun: dbuild
 	docker run \
@@ -71,12 +71,12 @@ drun: dbuild
 		--env-file envXps.env \
 		--name yeoldwiz \
 		--network=yow \
-		-d ace:5000/yeoldwiz
+		-d zen:5000/yeoldwiz
 
 dbuild: dist.tar
 	docker rm yeoldwiz || true
-	docker image rm ace:5000/yeoldwiz:latest || true
-	docker build -t ace:5000/yeoldwiz .
+	docker image rm zen:5000/yeoldwiz:latest || true
+	docker build -t zen:5000/yeoldwiz .
 
 dist.tar: dist
 	rm ./dist/clockTimes.json || true

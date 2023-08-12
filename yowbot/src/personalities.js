@@ -1,5 +1,11 @@
 const cmps = require('./personalities.json')
 
+module.exports = {
+  getSettings,
+  getProperName,
+  fuzzySearch,
+}
+
 // Map the CMP Object to an array, sort them by rating, reverse them 
 // for top to bottom flow when building layout
 let cmpsArr = Object.entries(cmps).map(e => e[1])
@@ -117,14 +123,8 @@ function getProperName(name) {
   
   // replace Chessmaster and Josh wtih their aliases
   if ( properName === 'Chessmaster') properName = 'Wizard'
-  if ( properName.includes('Josh')) properName = properName.replace('Josh', 'JW')
+  // if ( properName.includes('Josh') ) properName = properName.replace('Josh', 'JW')
   return properName
-}
-
-module.exports = {
-  getSettings,
-  getProperName,
-  fuzzySearch,
 }
 
 function testFuzzySearch() {
