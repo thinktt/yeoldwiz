@@ -6,6 +6,7 @@ const api = require('./lichessApi.js')
 // const { json } = require('express')
 
 start()
+console.log(process.env.BOTS_ARE_OK)
 
 async function  start() {
   let err = null
@@ -75,7 +76,11 @@ async function handleChallenge(challenge) {
   const isValidVariatn = validVariants.includes(challenge.variant.key)
   const isValidSpeed = validSpeeds.includes(challenge.speed)
   const isValidUser = gameManager.checkIsValidUser(challenge.challenger.id)
-  const isValidPlayerType = challenge.challenger.title !== 'BOT'
+  
+  let isValidPlayerType = true
+  if (challenge.challenger.title === 'BOT' && process.env.BOTS_ARE_OK !== 'true') {
+    isValidPlayerType = false
+  }
   const isRated = challenge.rated
 
   console.log(
