@@ -10,6 +10,8 @@ dist: books runbook
 	node build/personalitiesBuilder.js
 	cp runbook dist/
 	build/buildKing.sh
+	@echo "Testing runbook"
+	make dorunbinbook
 
 books: assets/cm
 	docker rm bookbuilder || true
@@ -18,16 +20,15 @@ books: assets/cm
 	touch books
 
 runbook:
+	npm install
 	pkg src/runbook.js -o runbook -t node18-alpine-x64
 
-
-dorunbook: dist
+dorunbook:
 	cd dist; \
-	node runbook.js '{"moves": ["d2d4", "c7c5", "c2c4", "c5d4"], "book": "EarlyQueen.bin"}'; \
-	echo
+	node runbook.js '{"moves": ["d2d4", "c7c5", "c2c4", "c5d4"], "book": "EarlyQueen.bin"}'
 	# node runbook.js '{"moves": [], "book": "EarlyQueen.bin"}'
 
-dorunbinbook: dist
+dorunbinbook:
 	cd dist; \
 	./runbook '{"moves": ["d2d4"], "book": "EarlyQueen.bin"}'; \
 	echo

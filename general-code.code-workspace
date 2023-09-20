@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"name": "Notes",
+			"path": "../../../../mnt/c/Users/Toby/My Drive/Notes"
+		},
+		{
+			"name": "chessg",
+			"path": "../chessg"
+		},
+		{
+			"name": "local",
+			"path": "../../../../mnt/c/Users/Toby/My Drive/local"
+		},
+		{
+			"name": "yeoldwiz",
+			"path": "."
+		},
+		{
+			"name": "yowfront",
+			"path": "../yowfront"
+		},
+		{
+			"name": "yowking",
+			"path": "../yowking"
+		}
+	]
+}
