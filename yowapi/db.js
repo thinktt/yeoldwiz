@@ -4,15 +4,26 @@ const uri = `mongodb://${mongoHost}/?maxPoolSize=20&w=majority`
 const client = new MongoClient(uri)
 
 module.exports =  {
-  get,
-  create,
+  getGame,
+  createGame,
   getUser,
   createUser,
   getAllUsers,
+  deleteUser,
   client, 
 }
+async function createGame(game) {
+  // create the entry if it doesn't exist already
+  const res = await client.db("yow").collection('games').updateOne(  
+    {id : game.id}, 
+    {$setOnInsert: game},
+    {upsert: true},
+  )
+  // throw new Error('Bad stuff')
+  return res
+}
 
-async function get(id) {
+async function getGame(id) {
   const res = await client.db('yow').collection('games').findOne({ 'id': id }) 
   
   // clear the mongodb id, as the game id is all we need
@@ -21,14 +32,13 @@ async function get(id) {
   return res
 }
 
-async function create(game) {
+async function createUser(user) {
   // create the entry if it doesn't exist already
-  const res = await client.db("yow").collection('games').updateOne(  
-    {id : game.id}, 
-    {$setOnInsert: game},
+  const res = await client.db("yow").collection('users').updateOne(
+    {id: user.id},
+    {$setOnInsert: user},
     {upsert: true},
   )
-  // throw new Error('Bad stuff')
   return res
 }
 
@@ -44,26 +54,31 @@ async function getUser(id) {
 async function getAllUsers() {
   //get count of all users
   let err = null
-  const count = await client
+  const users = await client
     .db('yow')
     .collection('users')
-    .countDocuments({})
-    .catch((e) => err = e)
-
+    .find({}, { projection: {id: 1, _id: 0} })
+    .toArray()
+    .catch((e) => err = e);
+  
+  const ids = users.map(user => user.id)
+  
   if(err) {
     throw err
   }
 
-  return { count }
+  return { count: ids.length, ids }
+}
+
+async function deleteUser(userId) {
+  const res = await client
+    .db("yow")
+    .collection('users')
+    .deleteOne({id: userId})
+  return res;
 }
 
 
-async function createUser(user) {
-  // create the entry if it doesn't exist already
-  const res = await client.db("yow").collection('users').updateOne(
-    {id: user.id},
-    {$setOnInsert: user},
-    {upsert: true},
-  )
-  return res
-}
+
+
+
