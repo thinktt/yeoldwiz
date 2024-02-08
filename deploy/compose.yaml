@@ -63,6 +63,8 @@ services:
     container_name: kingapi
     environment:
       - MONGO_HOST=mongodb
+      - GIN_MODE=debug
+      - PORT=8080
     env_file:
       - env/nats.env
       - env/yowbot.env
