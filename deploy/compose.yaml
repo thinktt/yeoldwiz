@@ -43,7 +43,11 @@ services:
     container_name: yowapi
     environment:
       - MONGO_HOST=mongodb
+    env_file:
+      - env/nats.env
+      - env/yowbot.env
     networks:
+      - yow
       - mongonet
       - proxynet
     depends_on:
@@ -53,6 +57,24 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.yowapi.entrypoints=yowapi"
       - "traefik.http.routers.yowapi.rule=Host(`api.yeoldwizard.com`) || Host(`xps`)"
+
+  kingapi:
+    image: zen:5000/kingapi:latest
+    container_name: kingapi
+    environment:
+      - MONGO_HOST=mongodb
+    env_file:
+      - env/nats.env
+      - env/yowbot.env
+    networks:
+      - yow
+      - mongonet
+      - proxynet
+    depends_on:
+      - mongodb
+      - nats
+    restart: unless-stopped
+
 
   mongodb:
     image: mongo:latest

@@ -33,6 +33,9 @@ up:
 down:
 	docker compose -f compose.yaml -f compose-yowking.yaml down
 
+kingoneup:
+	docker compose -f compose-yowking.yaml up yowking45 -d
+
 kingup:
 	docker compose -f compose-yowking.yaml up -d
 
