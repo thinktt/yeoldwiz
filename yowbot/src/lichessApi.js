@@ -5,7 +5,7 @@ let token = process.env.API_TOKEN
 
 const baseURL = "https://lichess.org/"
 const headers = { "Authorization": `Bearer ${token}` }
-const axiosConfig = { baseURL, headers }
+const axiosConfig = { baseURL, headers, timeout: 5000 }
 
 module.exports = {
   setToken,

@@ -328,7 +328,8 @@ async function create(gameId) {
     }
 
     // logger(game.lichessBotName + " as " + game.color + " to move " + move)
-    await api.makeMove(game.id, move)
+    const res = await api.makeMove(game.id, move)
+    // console.log('res data: ', res.data)
   }
 
   function playingAs(event) {
