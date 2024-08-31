@@ -76,6 +76,8 @@ services:
       - mongodb
       - nats
     restart: unless-stopped
+    ports: 
+      - 8443:8080
 
 
   mongodb:

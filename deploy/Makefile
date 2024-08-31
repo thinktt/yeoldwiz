@@ -84,3 +84,11 @@ offturbo:
 	cp rc.local /etc/rc.local
 
 
+natsreqinfo:
+	nats --server localhost:4222 str info move-req-stream --json
+
+natsresinfo: 
+	nats --server localhost:4222 str info move-res-stream --json
+
+natsstreams: 
+	nats --server localhost:4222 str ls
