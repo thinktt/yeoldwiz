@@ -90,5 +90,14 @@ natsreqinfo:
 natsresinfo: 
 	nats --server localhost:4222 str info move-res-stream --json
 
-natsstreams: 
+natsls: 
 	nats --server localhost:4222 str ls
+
+natsconreq:
+	nats --server localhost:4222 con ls move-req-stream
+
+natsconres:
+	nats --server localhost:4222 con ls move-res-stream
+
+natsconking:
+	nats --server localhost:4222 con info move-req-stream kingworkers
