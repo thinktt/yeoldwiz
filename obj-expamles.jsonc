@@ -1,0 +1,87 @@
+
+// yowApi
+[
+  {
+    "id": "ko2iPjrH",
+    "opponent": "JW8",
+    "user": "texorama"
+  },
+  
+  // yowApi new
+  {
+    "id": "ko2iPjrH",
+    "lichessId:": "", 
+    "createdAt": 1720214044538,
+    "lastMoveAt": 1720214343998,
+    "status": "mate", // "created" "started" "mate" "resign" "stalemate"  "draw"
+    "winner": "black", // "white", "black"
+    "moves": "Nc3 d5 h4 e5 e4 d4 a3 dxc3 bxc3 Nf6 a4 Nxe4 Qh5 Nf6 Qd1 Nc6 Rb1 Bc5 Rh2 Bb6 h5 h6 Rb3 Be6 Rb1 O-O Rh1 Ba2 Rb5 Bc4 Nh3 Bxb5 axb5 Ne7 Rh2 Qd6 Rh1 Qc5 c4 g5 Rg1 g4 d4 Qxd4 Qe2 gxh3 Bxh6 Rfd8 Bf4 exf4 gxh3+ Kf8 Rg8+ Kxg8 Qd3 Qe5+ Be2 Rxd3 cxd3 Rd8 c5 Rxd3 Kf1 Rd2 Bd3 Rxd3 Kg2 Qe4+ Kh2 Qf3 cxb6 Qxh3+ Kg1 Rd1#",
+    "whitePlayer": {
+      "id": "JW8",
+      "type": "cmp"
+    },
+    "blackPlayer": {
+      "id": "soirat",
+      "type": "lichess"
+    }
+  },
+
+  // yowfront
+  {
+    "id": "B0k5nMj5",
+    "createdAt": 1720214044538,
+    "lastMoveAt": 1720214343998,
+    "status": "mate", // "created" "started" "mate" "resign" "stalemate"  "draw"
+    "conclusion": "won",
+    "drawType": null, //material, stalemate, threefold, fiftyMove
+    "opponent": "Sabrina",
+    "playedAs": "black",
+
+    "wasForwardedToYowApi": true
+  },
+  
+  
+  // lichess
+  {
+    "id": "B0k5nMj5",
+    "rated": false,
+    "variant": "standard",
+    "speed": "correspondence",
+    "perf": "correspondence",
+    "createdAt": 1720214044538,
+    "lastMoveAt": 1720214343998,
+    "status": "mate", // "created" "started" "aborted" "mate" "resign" "stalemate" "timeout" "draw" "outoftime" "cheat" "noStart" "unknownFinish" "variantEnd"
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "yeoldwiz",
+          "title": "BOT",
+          "id": "yeoldwiz"
+        },
+        "rating": 1850
+      },
+      "black": {
+        "user": {
+          "name": "soirat",
+          "id": "soirat"
+        },
+        "rating": 1500,
+        "provisional": true
+      }
+    },
+    "fullId": "B0k5nMj53roX",
+    "winner": "black",
+    "opening": {
+      "eco": "A00",
+      "name": "Van Geet Opening",
+      "ply": 1
+    },
+    "moves": "Nc3 d5 h4 e5 e4 d4 a3 dxc3 bxc3 Nf6 a4 Nxe4 Qh5 Nf6 Qd1 Nc6 Rb1 Bc5 Rh2 Bb6 h5 h6 Rb3 Be6 Rb1 O-O Rh1 Ba2 Rb5 Bc4 Nh3 Bxb5 axb5 Ne7 Rh2 Qd6 Rh1 Qc5 c4 g5 Rg1 g4 d4 Qxd4 Qe2 gxh3 Bxh6 Rfd8 Bf4 exf4 gxh3+ Kf8 Rg8+ Kxg8 Qd3 Qe5+ Be2 Rxd3 cxd3 Rd8 c5 Rxd3 Kf1 Rd2 Bd3 Rxd3 Kg2 Qe4+ Kh2 Qf3 cxb6 Qxh3+ Kg1 Rd1#",
+    "division": {
+      "middle": 36,
+      "end": 59
+    }
+  }
+  
+]

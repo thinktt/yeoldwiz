@@ -1,0 +1,55 @@
+{
+    "id": "OwP5W5kp",
+    "createdAt": 1706853294082,
+    "lastMoveAt": 1706883756823,
+    "status": "mate",
+    "conclusion": "won",
+    "drawType": null,
+    "opponent": "Ash",
+    "playedAs": "white",
+    "whiteId": "thinktt",
+    "blackId": "Ash",
+    "whitePlayerType: "lichess",
+    "blackPlayerType:"cmp",
+    "moves": [
+        "d4", "d5", "Nc3", "Nf6", "Bf4", "a6", "e3", "e5", "dxe5", "Bb4", "a3", "Ba5", "exf6", "Qxf6", "Qd4", "Qxd4", "exd4", "g5", "Bxg5", "f6", "Bxf6", "O-O", "Be5", "Nc6", "Nf3", "Nxe5", "Nxe5", "c5", "b4", "cxb4", "axb4", "Bxb4", "Kd2", "Rxf2+", "Be2", "Bxc3+", "Kxc3", "Rxe2", "Rhe1", "Rxe1", "Rxe1", "Bf5", "Rf1", "Rc8+", "Kd2", "Rxc2+", "Ke3", "Be4", "g3", "Rc3+", "Kf4", "Rc8", "Re1", "Rf8+", "Ke3", "b5", "Nc6", "Rf3+", "Ke2", "Kf8", "Rf1", "Rxf1", "Kxf1", "a5", "Nxa5", "Bd3+", "Kf2", "b4", "Nb3", "Bb5", "Nd2", "Bc4", "Ke1", "Bd3", "Kd1", "Ke7", "Kc1", "h5", "Kb2", "Ba6", "Kb3", "Bc8", "Nf3", "Bg4", "Ne5", "Kd6", "Kxb4", "Be6", "Kc3", "Kc7", "Kd3", "Kb6", "Ke3", "Kb7", "Kf4", "Bh3", "Kg5", "Bf1", "Kxh5", "Bg2", "Kg5", "Kc7", "Kf6", "Be4", "h4", "Bc2", "g4", "Kb6", "g5", "Kb5", "h5", "Kb4", "h6", "Kc3", "g6", "Bxg6", "Kxg6", "Kxd4", "Nc6+", "Kc5", "Ne5", "Kd4", "Ng4", "Kc4", "h7", "d4", "Nf2", "Kb3", "h8=Q", "Kc4", "Qc8+", "Kb5", "Qb7+", "Kc5", "Qa6", "d3", "Nxd3+", "Kd4", "Qb5", "Ke4", "Nf2+", "Ke3", "Ng4+", "Kd4", "Kf5", "Kc3", "Ne5", "Kc2", "Qd3+", "Kc1", "Qe2", "Kb1", "Nc4", "Kc1", "Kg5", "Kb1", "Qb2#"
+    ], ForwardedToYowApi": true
+}
+
+{
+    "id":"eHi3XR67",
+    "rated":false,
+    "variant":"standard",
+    "speed":"correspondence",
+    "perf":"correspondence",
+    "createdAt":1616558689264,
+    "lastMoveAt":1616648978287,
+    "status":"resign",
+    "source":"friend",
+    "players":{
+        "white":{
+            "user":{
+                "name":"thinktt",
+                "patron":true,
+                "id":"thinktt"
+            },
+      "rating":1745,
+      "provisional":true
+    },
+    "black":{
+      "user": {
+          "name":"yeoldwiz",
+          "title":"BOT",
+          "id":"yeoldwiz"
+        },
+        "rating":1805
+      }
+    },
+    "fullId":"eHi3XR67xPRy",
+    "winner":"black",
+    "opening":{"eco":"B20",
+    "name":"Sicilian Defense: Bowdler Attack",
+    "ply":3},
+    "moves":"e4 c5 Bc4 e6 b3 d5 exd5 exd5 Bb5+ Bd7 Bxd7+ Nxd7 Bb2 Ngf6 c4 dxc4",
+    "division":{}
+    }
