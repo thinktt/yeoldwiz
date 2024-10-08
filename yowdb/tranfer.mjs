@@ -1,29 +1,63 @@
 import { MongoClient } from 'mongodb'
 import lichessApi from './lichessApi.mjs'
-import { serializePath } from 'whatwg-url'
 
 
-const gameIds = await getGameIds(5)
-console.log(gameIds)
+const gameIds = await getGameIds(5000)
+console.log('games found to process: ', gameIds.length)
 
-let err 
-const gameReader = await lichessApi.getGamesByIds(gameIds).catch(e => err = e)
-if (err) {
-  console.error("error: ", err)
+// let games = await getLichessGames(gameIds) 
+// console.log('lichess games found: ', games.length)
+
+// let missingIds = findMissingGameIds(gameIds, games)
+// console.log('number of missing gamesIds: ', missingIds.length)
+// console.log('missing games:', missingIds)
+
+// console.log('........pass 2....') 
+// games = await(getLichessGames(missingIds))
+// console.log('lichess games found: ', games.length)
+// missingIds = findMissingGameIds(missingIds, games)
+// console.log('number of missing gamesIds: ', missingIds.length)
+// console.log('missing games:', missingIds)
+
+
+function mergeGames(lichessGames, yowGames) {
+  const yowGamesMap = new Map(yowGames.map(game => [game.id, game]))
+  const missingGames = []
+
+  lichessGames.forEach(game => {
+    const yowGame = yowGamesMap.get(game.id)
+    if (yowGame) {
+      game.cmp = yowGame.opponent
+    } else {
+      missingGames.push(game.id)
+    }
+  })
+
+  return { mergedGames: lichessGames, missingGames }
 }
 
-let game
-let i = 0
-const games = []
-while ((game = await gameReader()) !== null) {
-  console.log(game)
-  games.push(game)
+
+function findMissingGameIds(gameIds, games) {
+  const gameIdsSet = new Set(games.map(game => game.id))
+  return gameIds.filter(id => !gameIdsSet.has(id))
 }
 
-console.log(games.length)
-
-
-
+async function getLichessGames(ids) {
+  let err 
+  const gameReader = await lichessApi.getGamesByIds(ids).catch(e => err = e)
+  if (err) {
+    console.error("error: ", err)
+  }
+  
+  let game
+  let i = 0
+  const games = []
+  while ((game = await gameReader()) !== null) {
+    // console.log(game)
+    games.push(game)
+  }
+  return games
+} 
 
 
 async function getGameIds(count) {
@@ -48,7 +82,7 @@ async function getGameIds(count) {
   // fetch the games
   let games = await collection
     .find({})
-    .limit(count)
+    // .limit(count)
     .toArray()
     .catch(e => err = e)
 
