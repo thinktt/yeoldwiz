@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb'
-import Chess from "./chess.js"
+import { Chess } from "./chess.js"
 
 const games = await getAllLichessGames()
 console.log('Total games:', games.length)
@@ -7,10 +7,17 @@ console.log('Total games:', games.length)
 
 const humanGames = []
 const botGames = []
+const devGames = []
 const humanMap = {}
 const botMap = {}
 
 for (const game of games) {
+  if (isDevGame(game)) {
+    devGames.push(game)
+    continue
+  }
+
+
   if (isHumanGame(game)) {
     humanGames.push(game)
     updateUserMap(humanMap, game) 
@@ -21,22 +28,104 @@ for (const game of games) {
   updateUserMap(botMap, game)
 }
 
-
+console.log('Dev games:', devGames.length)
 console.log('Human games:', humanGames.length)
 console.log('Bot games:', botGames.length)
+
+for (const game of humanGames) {
+  translateToYowGame(game)
+}
+
+
+// const yowGame = translateToYowGame(humanGames[0])
+// const testGame = humanGames[0]
+// console.log(testGame)
+// console.log(testGame.players)
+// console.log(yowGame)
 
 // printSortedUsersByGameCount(humanMap)
 // printSortedUsersByLastMove(humanMap) 
 // printSortedUsersByGameCount(botMap)
 // const { statusMap, winnerMap } = generateGameStats(humanGames)
+// console.log(statusMap)
+
+
+// const drawMap = generateDrawMap(humanGames)
+// console.log(drawMap)
 
 
 
 
 
+function translateToYowGame(game) {
+  const yowGame = {
+    id: game.id,
+    lichessId: game.id,
+    createdAt: game.createdAt,
+    lastMoveAt: game.lastMoveAt,
+    winner: undefined,
+    method: undefined,
+    moves: game.moves,
+    whitePlayer: {},
+    blackPlayer: {},
+    whiteWillDraw : false,
+    blackWillDraw : false
+  }
 
+  const whiteUser = game.players.white.user 
+  const blackUser = game.players.black.user
 
+  // map the players to their correct locations replacing lichesss bot with cmp
+  if (whiteUser.name === 'yeoldwiz') {
+    yowGame.whitePlayer = { id: game.cmp, type: 'cmp' }
+    yowGame.blackPlayer = { id: blackUser.name.toLowerCase(), type: 'lichess'} 
+  } else if (blackUser.name === 'yeoldwiz') {
+    yowGame.blackPlayer = { id: game.cmp, type: 'cmp' }
+    yowGame.whitePlayer = { id: whiteUser.name.toLowerCase(), type: 'lichess'} 
+  } else {
+    console.error('yeoldwiz not found in game')
+    return null
+  }
 
+  if (!game.winner) yowGame.winner = "draw"
+  else yowGame.winner = game.winner
+
+  const validWinnerStates = ['white', 'black', 'draw']
+  if (!validWinnerStates.includes(yowGame.winner)) {
+    console.error(`${yowGame.winner} is not a valid winner state`)
+    return null
+  }
+
+  if (yowGame.winner === 'draw') {
+    yowGame.method = getDrawType(game) 
+  } else {
+    yowGame.method = game.status
+  }
+
+  const validMethods = [
+    'mate', 'resign', 'mutual', 'stalemate', 'material', 'threefold', 
+    'fiftyMove'
+  ]
+
+  if (!validMethods.includes(yowGame.method)) {
+    console.error(`${yowGame.method} is not a valid method`)
+    return null
+  }
+
+  return yowGame
+}
+
+function generateDrawMap(games) {
+  const drawMap = {} 
+  for (const game of games) {
+    if (!game.winner) {
+      const drawType = getDrawType(game)
+      if (!drawMap[drawType]) drawMap[drawType] = 1
+      else drawMap[drawType]++
+    }
+  }
+  return drawMap
+}
 
 function generateGameStats(games) {
   const winnerMap = {}
@@ -56,8 +145,10 @@ function generateGameStats(games) {
 }
 
 
-function getDrawType(conclusion, moves) {
-  if (conclusion !== 'draw') return null
+function getDrawType(game) {
+  if (game.winner) return null
+  const moves = game.moves.split(' ')
+
   const chess = new Chess() 
   for (const move of moves) {
     chess.move(move, { sloppy: true }) 
@@ -113,6 +204,17 @@ function updateUserMap(userMap, game) {
     userMap[name].lastMoveAt = game.lastMoveAt
   }  
   return userMap 
+}
+
+function isDevGame(game) {
+  const whitePlayer = game.players.white.user 
+  const blackPlayer = game.players.black.user
+
+  if (whitePlayer.name === 'yowCapablanca' || blackPlayer.name === 'yowCapablanca') {
+    return true
+  }
+
+  return false
 }
 
 
