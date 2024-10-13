@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb'
+import Chess from "./chess.js"
 
 const games = await getAllLichessGames()
 console.log('Total games:', games.length)
@@ -10,7 +11,7 @@ const humanMap = {}
 const botMap = {}
 
 for (const game of games) {
-  if (isHumanGame(game) /*&& game.rated == true*/) {
+  if (isHumanGame(game)) {
     humanGames.push(game)
     updateUserMap(humanMap, game) 
     continue
@@ -27,6 +28,46 @@ console.log('Bot games:', botGames.length)
 // printSortedUsersByGameCount(humanMap)
 // printSortedUsersByLastMove(humanMap) 
 // printSortedUsersByGameCount(botMap)
+// const { statusMap, winnerMap } = generateGameStats(humanGames)
+
+
+
+
+
+
+
+
+
+function generateGameStats(games) {
+  const winnerMap = {}
+  const statusMap = {}
+
+  for (const game of games) {
+    const { winner, status } = game
+
+    if (!winnerMap[winner]) winnerMap[winner] = 1
+    else winnerMap[winner]++
+
+    if (!statusMap[status]) statusMap[status] = 1
+    else statusMap[status]++
+  }
+
+  return { winnerMap, statusMap }
+}
+
+
+function getDrawType(conclusion, moves) {
+  if (conclusion !== 'draw') return null
+  const chess = new Chess() 
+  for (const move of moves) {
+    chess.move(move, { sloppy: true }) 
+  }
+  if (chess.insufficient_material()) return "material"
+  if (chess.in_stalemate()) return "stalemate"
+  if (chess.in_threefold_repetition()) return "threefold"
+  if (chess.in_draw()) return "fiftyMove"
+  return "mutual"
+}
 
 function printSortedUsersByGameCount(userMap) {
   const sortedUsers = Object.entries(userMap)
