@@ -1,10 +1,11 @@
 import { MongoClient } from 'mongodb'
 import lichessApi from './lichessApi.mjs'
+import { writeFileSync, readFileSync } from 'fs'
 
 
-const yowGames = await getGames(5)
-// const gameIds = await getGameIds(5)
 
+const yowGames = await getGames(100)
+// const yowGames = JSON.parse(readFileSync('missingGames.json'))
 
 const gameIds = []
 const yowGameMap = {}
@@ -15,11 +16,14 @@ for (const game of yowGames) {
 
 
 console.log('games found to process: ', gameIds.length)
-console.log(gameIds)
 
-let games = await getLichessGames(gameIds, yowGameMap) 
+const games = await getLichessGames(gameIds, yowGameMap) 
 console.log('lichess games found: ', games.length)
-console.log(games) 
+
+const missingGames = findMissingGameIds(gameIds, games, yowGameMap)
+console.log(`storing ${missingGames.length} yow game in missingGames.json`)
+
+writeFileSync('missingGames.json', JSON.stringify(missingGames, null, 2))
 
 
 
@@ -50,19 +54,27 @@ async function getLichessGames(ids, yowGameMap) {
   }
   
   let game
-  let i = 0
+  let i = 1
   const games = []
   while ((game = await gameReader()) !== null) {
     game.cmp = yowGameMap[game.id].opponent
     games.push(game)
+    process.stdout.write(`\r${i}`)
+    i++
   }
+  console.log()
   return games
 } 
 
 
-function findMissingGameIds(gameIds, games) {
+function findMissingGameIds(gameIds, games, yowGameMap) {
   const gameIdsSet = new Set(games.map(game => game.id))
-  return gameIds.filter(id => !gameIdsSet.has(id))
+  const missingIds =  gameIds.filter(id => !gameIdsSet.has(id))
+  const missingGames = []
+  for (const id of missingIds) {
+    missingGames.push(yowGameMap[id])
+  }
+  return missingGames
 }
 
 async function sleep(ms) {
