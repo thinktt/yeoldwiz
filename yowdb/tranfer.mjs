@@ -5,7 +5,7 @@ import { writeFileSync, readFileSync } from 'fs'
 
 
 // const yowGames = JSON.parse(readFileSync('missingGames.json'))
-const yowGames = await getGames(20000)
+const yowGames = await getGames(350)
 
 const gameIds = []
 const yowGameMap = {}
@@ -50,22 +50,28 @@ async function getGames(count) {
 }
 
 
-async function getLichessGames(ids, yowGameMap) {
+async function getLichessGames(gameIds, yowGameMap) {
   let err 
-  const gameReader = await lichessApi.getGamesByIds(ids).catch(e => err = e)
-  if (err) {
-    console.error("error: ", err)
-  }
-  
-  let game
   let i = 1
   const games = []
-  while ((game = await gameReader()) !== null) {
-    game.cmp = yowGameMap[game.id].opponent
-    games.push(game)
-    process.stdout.write(`\r${i}`)
-    i++
+  const ids = [...gameIds]
+
+  // chunk the ids 300 at a time and pull them from lichess
+  while (ids.length > 0) {
+    const chunkOfIds = ids.splice(0, 300)
+    const gameReader = await lichessApi.getGamesByIds(chunkOfIds).catch(e => err = e)
+    if (err) {
+      console.error("error: ", err)
+    }
+    let game
+    while ((game = await gameReader()) !== null) {
+      game.cmp = yowGameMap[game.id].opponent
+      games.push(game)
+      process.stdout.write(`\r${i}`)
+      i++
+    }
   }
+
   console.log()
   return games
 } 
