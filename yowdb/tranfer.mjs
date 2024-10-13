@@ -5,26 +5,28 @@ import { writeFileSync, readFileSync } from 'fs'
 
 
 // const yowGames = JSON.parse(readFileSync('missingGames.json'))
-const yowGames = await getGames(350)
+// // const yowGames = await getGames(20000)
 
-const gameIds = []
-const yowGameMap = {}
-for (const game of yowGames) {
-  gameIds.push(game.id) 
-  yowGameMap[game.id] = game
-}
+// const gameIds = []
+// const yowGameMap = {}
+// for (const game of yowGames) {
+//   gameIds.push(game.id) 
+//   yowGameMap[game.id] = game
+// }
 
 
-console.log('games found to process: ', gameIds.length)
+// console.log('games found to process: ', gameIds.length)
 
-const games = await getLichessGames(gameIds, yowGameMap) 
-console.log('lichess games found: ', games.length)
+// const games = await getLichessGames(gameIds, yowGameMap) 
+// console.log('lichess games found: ', games.length)
 
-const missingGames = findMissingGameIds(gameIds, games, yowGameMap)
-console.log(`storing ${missingGames.length} yow game in missingGames.json`)
+// const missingGames = findMissingGameIds(gameIds, games, yowGameMap)
+// console.log(`storing ${missingGames.length} yow game in missingGames.json`)
 
-writeFileSync('missingGames.json', JSON.stringify(missingGames, null, 2))
-await insertLichessGames(games)
+// if (games.length == 0) process.exit()
+// writeFileSync('missingGames.json', JSON.stringify(missingGames, null, 2))
+// await insertLichessGames(games)
+
 const { count, sizeKB}  = await getTotalLichessGames() 
 console.log(`${count} lichess games stored in db using ${sizeKB}KB`)
 
