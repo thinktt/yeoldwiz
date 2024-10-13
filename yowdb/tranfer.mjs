@@ -5,7 +5,7 @@ import { writeFileSync, readFileSync } from 'fs'
 
 
 // const yowGames = JSON.parse(readFileSync('missingGames.json'))
-const yowGames = await getGames(100)
+const yowGames = await getGames(20000)
 
 const gameIds = []
 const yowGameMap = {}
@@ -25,9 +25,8 @@ console.log(`storing ${missingGames.length} yow game in missingGames.json`)
 
 writeFileSync('missingGames.json', JSON.stringify(missingGames, null, 2))
 await insertLichessGames(games)
-const total = await getTotalLichessGames() 
-console.log(total, " lichess games stored in db")
-
+const { count, sizeKB}  = await getTotalLichessGames() 
+console.log(`${count} lichess games stored in db using ${sizeKB}KB`)
 
 
 
@@ -109,27 +108,27 @@ async function insertLichessGames(games) {
 async function getTotalLichessGames() {
   const uri = "mongodb://localhost:27017"
   const client = new MongoClient(uri)
-  
+
   await client.connect().catch(e => {
     console.error("error connecting client: ", e)
     process.exit(1)
   })
-  
-  const collection = client.db('yow').collection('lichessGames')
-  const count = await collection.countDocuments().catch(e => {
-    console.error("error counting games: ", e)
+
+  const db = client.db('yow')
+  const stats = await db.command({ collStats: 'lichessGames' }).catch(e => {
+    console.error("error getting stats: ", e)
     process.exit(1)
   })
-  
+
   await client.close().catch(e => {
     console.error("error closing client: ", e)
     process.exit(1)
   })
-  
-  return count
 
-
+  return { count: stats.count, sizeKB: Math.floor(stats.totalSize / 1024) }
 }
+
+
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
