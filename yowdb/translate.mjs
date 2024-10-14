@@ -1,5 +1,6 @@
 import { MongoClient } from 'mongodb'
 import { Chess } from "./chess.js"
+import yowApi from "./yowApi.mjs"
 
 const games = await getAllLichessGames()
 console.log('Total games:', games.length)
@@ -32,9 +33,21 @@ console.log('Dev games:', devGames.length)
 console.log('Human games:', humanGames.length)
 console.log('Bot games:', botGames.length)
 
-for (const game of humanGames) {
-  translateToYowGame(game)
+const yowGame = translateToYowGame(humanGames[0])
+console.log(yowGame)
+
+// for (const game of humanGames) {
+//   translateToYowGame(game)
+// }
+
+const lichessToken = process.env.TOKEN
+if (!lichessToken) {
+  console.error('TOKEN not found in environment. Please source .env.')
+  process.exit(1)
 }
+
+await yowApi.getToken(lichessToken)
+await yowApi.addHistoricalGame(yowGame)
 
 
 // const yowGame = translateToYowGame(humanGames[0])
@@ -102,9 +115,13 @@ function translateToYowGame(game) {
     yowGame.method = game.status
   }
 
+  if (yowGame.method === 'outoftime') {
+    yowGame.method = 'time'
+  }
+
   const validMethods = [
     'mate', 'resign', 'mutual', 'stalemate', 'material', 'threefold', 
-    'fiftyMove'
+    'fiftyMove', 'time'
   ]
 
   if (!validMethods.includes(yowGame.method)) {
