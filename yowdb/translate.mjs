@@ -11,6 +11,7 @@ const botGames = []
 const devGames = []
 const humanMap = {}
 const botMap = {}
+const userDuplicateGames = {}
 
 for (const game of games) {
   if (isDevGame(game)) {
@@ -55,19 +56,7 @@ console.log('Duplicate Human Games:', totalDuplicates)
 
 
 
-
-
-// for (const game of humanGames) {
-//   translateToYowGame(game)
-// }
-
-// const yowGame = translateToYowGame(humanGames[0])
-// const testGame = humanGames[0]
-// console.log(testGame)
-// console.log(testGame.players)
-// console.log(yowGame)
-
-// printSortedUsersByGameCount(humanMap)
+printSortedUsersByGameCount(humanMap)
 // printSortedUsersByLastMove(humanMap) 
 // printSortedUsersByGameCount(botMap)
 // const { statusMap, winnerMap } = generateGameStats(humanGames)
@@ -248,7 +237,13 @@ function printSortedUsersByLastMove(userMap) {
   })
 }
 
+
+
 function updateUserMap(userMap, game) {
+  // if we've processed this game before then just return
+  if (userDuplicateGames[game.id]) return userMap
+
+
   const whitePlayer = game.players.white.user 
   const blackPlayer = game.players.black.user
   let user
