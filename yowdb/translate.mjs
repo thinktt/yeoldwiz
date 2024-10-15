@@ -28,45 +28,38 @@ for (const game of games) {
   botGames.push(game) 
   updateUserMap(botMap, game)
 }
+const yowGames = await getAllYowGames() 
+
 
 console.log('Dev games:', devGames.length)
 console.log('Human games:', humanGames.length)
 console.log('Bot games:', botGames.length)
+console.log('New YOW games:', yowGames.length)
+
+const duplicateMap = {}
+const duplicates = {}
+
+for (const game of humanGames) {
+  if (duplicateMap[game.id]) duplicateMap[game.id] ++
+  else duplicateMap[game.id] = 1
+  if (duplicateMap[game.id] > 1) duplicates[game.id] = duplicateMap[game.id]
+}
+
+// console.log(duplicates)
+
+let totalDuplicates = 0
+for (const key in duplicates) {
+  totalDuplicates += duplicates[key] - 1
+}
+console.log('Duplicate Human Games:', totalDuplicates)
+
+
+
 
 
 // for (const game of humanGames) {
 //   translateToYowGame(game)
 // }
-
-const lichessToken = process.env.TOKEN
-if (!lichessToken) {
-  console.error('TOKEN not found in environment. Please source .env.')
-  process.exit(1)
-}
-
-await yowApi.getToken(lichessToken)
-
-let i = 1
-let err
-for (const game of humanGames) {
-  const yowGame = translateToYowGame(game)
-
-  
-  await yowApi.addHistoricalGame(yowGame).catch(e => err = e)
-  if (err) {
-    console.error(`\n${game.id} failed to upload: ${err}`)
-    console.log(game)
-    console.log(yowGame)
-    err = null
-    continue
-  }
-
-  process.stdout.write(`\r${i}`)
-  i++
-}
-
-console.log('done')
-
 
 // const yowGame = translateToYowGame(humanGames[0])
 // const testGame = humanGames[0]
@@ -84,8 +77,48 @@ console.log('done')
 // const drawMap = generateDrawMap(humanGames)
 // console.log(drawMap)
 
+async function getAllYowGames() {
+  const uri = "mongodb://localhost:27017"
+  const client = new MongoClient(uri)
 
+  await client.connect()
+  const collection = client.db('yow').collection('games2')
+  const games = await collection.find({}).toArray()
 
+  await client.close()
+  return games
+}
+
+async function sendGamesToYowApi(humanGames) {
+  const lichessToken = process.env.TOKEN
+  if (!lichessToken) {
+    console.error('TOKEN not found in environment. Please source .env.')
+    process.exit(1)
+  }
+
+  await yowApi.getToken(lichessToken)
+
+  let i = 1
+  let err
+  for (const game of humanGames) {
+    const yowGame = translateToYowGame(game)
+
+    
+    await yowApi.addHistoricalGame(yowGame).catch(e => err = e)
+    if (err) {
+      console.error(`\n${game.id} failed to upload: ${err}`)
+      console.log(game)
+      console.log(yowGame)
+      err = null
+      continue
+    }
+
+    process.stdout.write(`\r${i}`)
+    i++
+  }
+
+  console.log('done')
+}
 
 
 function translateToYowGame(game) {
