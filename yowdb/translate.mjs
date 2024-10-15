@@ -33,8 +33,6 @@ console.log('Dev games:', devGames.length)
 console.log('Human games:', humanGames.length)
 console.log('Bot games:', botGames.length)
 
-const yowGame = translateToYowGame(humanGames[0])
-console.log(yowGame)
 
 // for (const game of humanGames) {
 //   translateToYowGame(game)
@@ -47,7 +45,27 @@ if (!lichessToken) {
 }
 
 await yowApi.getToken(lichessToken)
-await yowApi.addHistoricalGame(yowGame)
+
+let i = 1
+let err
+for (const game of humanGames) {
+  const yowGame = translateToYowGame(game)
+
+  
+  await yowApi.addHistoricalGame(yowGame).catch(e => err = e)
+  if (err) {
+    console.error(`\n${game.id} failed to upload: ${err}`)
+    console.log(game)
+    console.log(yowGame)
+    err = null
+    continue
+  }
+
+  process.stdout.write(`\r${i}`)
+  i++
+}
+
+console.log('done')
 
 
 // const yowGame = translateToYowGame(humanGames[0])

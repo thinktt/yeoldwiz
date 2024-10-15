@@ -117,7 +117,6 @@ async function getToken(lichessToken) {
 
 async function addHistoricalGame(game) {
   const token = getYowToken()
-  console.log(token) 
   const res = await fetch(`${yowApiUrl}/games2/historical`, {
     method: 'POST',
     headers: {
