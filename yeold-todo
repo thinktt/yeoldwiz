@@ -1,5 +1,34 @@
 ...Today...
-  
+load games directry from yowApi
+  games.loadGames
+
+
+replace the following yowapi:  
+  lichessApi.makeMove(gameId, move)
+  lichessApi.resign(gameId)
+  lichessApi.offerDraw(gameId) 
+  lichessApi.abortGame(gameId)
+  lichessApi.createChallenge(colorToPlay)
+  lichessApi.getGameStream(gameId, callback)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ......Launch Version......
 .....launch ideas backlog...........
 
