@@ -6,37 +6,37 @@ services:
     networks: 
       - yow
     command: ["-js", "-auth", "${NATS_TOKEN}"]
-    ports:
-      - "4222:4222"
-      - "8222:8222"
+    # ports:
+    #   - "4222:4222"
+    #   - "8222:8222"
     env_file:
       - env/nats.env
     restart: 
       unless-stopped
   
-  yowbot: 
-    image: zen:5000/yeoldwiz
-    container_name: yowbot
-    env_file:
-      - env/yowbot.env
-    networks:
-      - yow
-    depends_on:
-      - nats
-    restart: unless-stopped
+  # yowbot: 
+  #   image: zen:5000/yeoldwiz
+  #   container_name: yowbot
+  #   env_file:
+  #     - env/yowbot.env
+  #   networks:
+  #     - yow
+  #   depends_on:
+  #     - nats
+  #   restart: unless-stopped
   
-  yowcal:
-    image: zen:5000/yeoldwiz
-    container_name: yowcal
-    env_file:
-      - env/yowbot.env
-    networks:
-      - yow
-    depends_on:
-      - nats
-    volumes:
-      - cal45:/opt/yeoldwiz/calibrations
-    command: ["sleep", "infinity"]
+  # yowcal:
+  #   image: zen:5000/yeoldwiz
+  #   container_name: yowcal
+  #   env_file:
+  #     - env/yowbot.env
+  #   networks:
+  #     - yow
+  #   depends_on:
+  #     - nats
+  #   volumes:
+  #     - cal45:/opt/yeoldwiz/calibrations
+  #   command: ["sleep", "infinity"]
   
   yowapi:
     image: zen:5000/yowapi:latest
@@ -65,8 +65,8 @@ services:
     container_name: mongodb
     networks:
       - mongonet
-    ports:
-      - "27017:27017"
+    # ports:
+    #   - "27017:27017"
     volumes:
       - mongodb:/data/db
     restart: unless-stopped
